@@ -35,8 +35,10 @@ public class Interractor : MonoBehaviour {
 
         foreach (RaycastHit hit in hitInfo) {
             float objectDistance = (hit.transform.position.normalized - transform.position.normalized).sqrMagnitude;
-            if (characterDistance < objectDistance)
+            if (characterDistance < objectDistance) {
                 SetBehavioOfItemsInFront(hit);
+                return;
+            }
             else
                 Debug.Log("Item " + hit.transform.name + " between player and camera");
             //SetItemsBehindOfPlayerBehavior -> Feature to develop in the future
