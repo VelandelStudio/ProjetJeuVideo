@@ -41,21 +41,31 @@ public class Interractor : MonoBehaviour {
             Debug.DrawLine(transform.position, hit.point, Color.red);
 
             if (characterDistance < objectDistance) {
-                SetBehavioOfItemsInFront(hit);
+                SetBehavioOfObjectsInFront(hit);
                 return;
             }
-            else
+            else {
                 Debug.Log("Item " + hit.transform.name + " between player and camera");
-            //SetItemsBehindOfPlayerBehavior -> Feature to develop in the future
+                SetBehavioOfObjectsBehind(hit);
+            }
         }
     }
 
-    private void SetBehavioOfItemsInFront (RaycastHit hit) {
+    private void SetBehavioOfObjectsInFront (RaycastHit hit) {
         if (hit.transform.GetComponent<MechanismBase>()) {
             MechanismBase mechanism = hit.transform.GetComponent<MechanismBase>();
             mechanism.DisplayTextOfMechanism();
             if (Input.GetButton("Fire2"))
                 mechanism.ActivateMechanism();
         }
+    }
+
+    private void SetBehavioOfObjectsBehind(RaycastHit hit) {
+        GameObject objectsBehindPlayer = hit.transform.gameObject;
+        MakeGameObjectTransparent scriptExisting = objectsBehindPlayer.GetComponent<MakeGameObjectTransparent>();
+        if (scriptExisting == null)
+            objectsBehindPlayer.AddComponent<MakeGameObjectTransparent>();
+        else
+            scriptExisting.BeTransparent();
     }
 }
