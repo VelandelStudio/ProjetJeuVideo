@@ -22,19 +22,24 @@ public class Interractor : MonoBehaviour {
     }
 
     /** FixedUpdate Method 
-     * Get the distance between the camera and the player eyes ther draw a DebugRay from the center of the camera to a position forward.
-     * The maxDistance of the ray was fixed arbitrary to characterDistance+3. In that way, if the players dezoom the camera, the max distance remains the same.
+     * Get the distance between the camera and the player eyes then draw a DebugRay from the center of the camera to a position forward.
+     * The maxDistance of the ray was fixed arbitrary to characterDistance*1.5f. In that way, if the players dezoom the camera, the max distance remains the same.
      * Afer that, the method launches a RayCastAll and collect all colliders on its way to a table named hitInfo.
      * The hitInfo table is parsed to determine if each collider is in front of the character or between the camera and the character.
      **/
     private void FixedUpdate() {
-        float characterDistance = (eyes.transform.position.normalized - transform.position.normalized).sqrMagnitude;
-        Debug.DrawRay(transform.position, transform.forward * (characterDistance + 3.0f), Color.green);
+        Vector3 vPlayer = eyes.transform.position - transform.position;
+        Vector3 vPlayerProjected = Vector3.Project(vPlayer, transform.forward);
 
-        hitInfo = Physics.RaycastAll(mainCamera.transform.position, transform.forward, characterDistance + 3.0f);
-
+        float characterDistance = vPlayerProjected.magnitude;
+        float rayCastMaxRange = (vPlayerProjected * (1.5f)).magnitude;
+        Debug.DrawRay(transform.position, vPlayerProjected * (1.5f), Color.green);
+        
+        hitInfo = Physics.RaycastAll(transform.position, transform.forward, rayCastMaxRange);
         foreach (RaycastHit hit in hitInfo) {
-            float objectDistance = (hit.transform.position.normalized - transform.position.normalized).sqrMagnitude;
+            float objectDistance =(hit.point - transform.position).magnitude;
+            Debug.DrawLine(transform.position, hit.point, Color.red);
+
             if (characterDistance < objectDistance) {
                 SetBehavioOfItemsInFront(hit);
                 return;
