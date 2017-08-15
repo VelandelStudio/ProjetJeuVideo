@@ -20,6 +20,4 @@ public class DungeonLauncher : MechanismBase {
         }
         Destroy(this);
     }
-
-    // this comment is awesome
 }
