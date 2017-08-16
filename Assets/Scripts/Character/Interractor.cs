@@ -50,7 +50,12 @@ public class Interractor : MonoBehaviour {
             }
         }
     }
-
+    
+    /** SetBehavioOfObjectsInFront Method 
+     * @Params : RaycastHit
+     * Set the behavior of Objects detected in front of the player. 
+     * The method tries to get the type of the object (Mechanism, pickable etc...) if it has one and apply its behavior.
+     **/
     private void SetBehavioOfObjectsInFront (RaycastHit hit) {
         if (hit.transform.GetComponent<MechanismBase>()) {
             MechanismBase mechanism = hit.transform.GetComponent<MechanismBase>();
@@ -59,7 +64,13 @@ public class Interractor : MonoBehaviour {
                 mechanism.ActivateMechanism();
         }
     }
-
+    
+    /** SetBehavioOfObjectsBehind Method 
+     * @Params : RaycastHit
+     * Set the behavior of Objects detected behind the player. 
+     * The method add an instance of MakeGameObjectTransparent script on the gameObject and launch the method BeTransparent of that script.
+     * This will change the transparency of all the gameobjects behind the character allowing a better visibility for the player.
+     **/
     private void SetBehavioOfObjectsBehind(RaycastHit hit) {
         GameObject objectsBehindPlayer = hit.transform.gameObject;
         MakeGameObjectTransparent scriptExisting = objectsBehindPlayer.GetComponent<MakeGameObjectTransparent>();
