@@ -4,7 +4,7 @@
  * @Inherits MechanismBase
  * This Script should only be attached to the RoomGate Prefab.
  **/
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Collider))]
 public class GateOpener : MechanismBase {
 
     public Animator animGate1; //The left side of the door with inside room point of view
