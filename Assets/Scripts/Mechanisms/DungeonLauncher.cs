@@ -5,7 +5,8 @@
  * This Mecanism allows the player to launch a dunjon.
  * This Script should only be attached to the DungeonLauncher Prefab.
  **/
-public class DungeonLauncher : MechanismBase {
+public class DungeonLauncher : MechanismBase
+{
 
     /** ActivateMechanism Method
      * This Method overrides the parent one.
@@ -13,8 +14,10 @@ public class DungeonLauncher : MechanismBase {
      * After activation it launches the dunjon and then Destroyes itself to provide multiple launches.
      * Warning ! Only the script will be Destroyed, not the GameObject
      */
-    public override void ActivateMechanism() {
-        if (!isActivated) {
+    public override void ActivateMechanism()
+    {
+        if (!isActivated)
+        {
             Debug.Log("Launching new Dunjon");
             base.ActivateMechanism();
         }
