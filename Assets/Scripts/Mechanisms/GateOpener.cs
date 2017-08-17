@@ -4,19 +4,20 @@
  * @Inherits MechanismBase
  * This Script should only be attached to the RoomGate Prefab.
  **/
+[RequireComponent(typeof(Rigidbody))]
 public class GateOpener : MechanismBase {
 
     public Animator animGate1; //The left side of the door with inside room point of view
     public Animator animGate2; //The left side of the door with inside room point of view
 
-    private BoxCollider box; // The attached boxCollider of the assembly object
+    Collider col; // The attached boxCollider of the assembly object
 
     /** Start Method
      * Just here to grab the boxCollider of the gameobject
      **/
     private void Start()
     {
-        box = GetComponent<BoxCollider>();
+        col = GetComponent<Collider>();
     }
 
     /** ActivateMechanism Method
@@ -33,7 +34,7 @@ public class GateOpener : MechanismBase {
             Debug.Log("Open the Door");
             animGate1.SetTrigger("OpenLeftDoor");
             animGate2.SetTrigger("OpenRightDoor");
-            box.enabled = false;
+            col.enabled = false;
             base.ActivateMechanism();
         }
         Destroy(this);
