@@ -11,10 +11,11 @@ public class MakeGameObjectTransparent : MonoBehaviour {
     private Color newColor;
 
     /** Start Method
-     * The start method is used to get the Renderer instance of the gameObject attached.
+     * The start method is used to get the Renderer instance of the gameObject attached and then launch the first BeTransparent Method
      **/
     private void Start() {
         objectRenderer = GetComponent<Renderer>();
+        BeTransparent();
     }
     
     /** FixedUpdate Method
