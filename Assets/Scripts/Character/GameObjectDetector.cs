@@ -67,7 +67,7 @@ public class GameObjectDetector : MonoBehaviour
         {
             MechanismBase mechanism = hit.transform.GetComponent<MechanismBase>();
             mechanism.DisplayTextOfMechanism();
-            if (Input.GetButton("Fire2"))
+            if (Input.GetKey(InputsProperties.activate))
                 mechanism.ActivateMechanism();
         }
     }
