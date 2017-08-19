@@ -24,6 +24,7 @@ public abstract class MechanismBase : MonoBehaviour {
     public virtual void ActivateMechanism() {
         Debug.Log("Mechanism base activated");
         isActivated = true;
+        Destroy(this);
     }
 
     /** DisplayTextOfMechanism Method
