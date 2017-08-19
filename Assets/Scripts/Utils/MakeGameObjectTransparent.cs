@@ -1,5 +1,11 @@
 using UnityEngine;
 
+/** MakeGameObjectTransparent class
+ * This script should only be ato-attached by another script on GameObjects.
+ * It allows gameObject to fade during 0.1sec after that, this script is destroyed.
+ * In order to properly use this script, you should always launche the method BeTransparent from another script. In this way, the gameObject will stay transparent.
+ * Please note that if the gameObjecte associated does not have a Renderer, this script does NOTHING.
+ **/
 public class MakeGameObjectTransparent : MonoBehaviour
 {
     private const float m_TargetTransparancy = 0.2f;
@@ -31,6 +37,9 @@ public class MakeGameObjectTransparent : MonoBehaviour
      **/
     private void FixedUpdate()
     {
+        if (objectRenderer == null)
+            return;
+
         if (m_Transparency < 1.0f)
         {
             newColor = objectRenderer.material.color;
@@ -52,6 +61,9 @@ public class MakeGameObjectTransparent : MonoBehaviour
      **/
     public void BeTransparent()
     {
+        if (objectRenderer == null)
+            return;
+
         m_Transparency = m_TargetTransparancy;
         if (m_OldShader == null)
         {

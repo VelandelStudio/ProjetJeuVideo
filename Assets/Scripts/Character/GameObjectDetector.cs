@@ -1,27 +1,16 @@
 ﻿using UnityEngine;
 
 /** GameObjectDetector Script
- * @Requires Camera
- * Get the Camera on Start and launch a RayCastAll from this Camera to the center of the screen.
+ * Launch a RayCastAll from the GameObject to the forward direction of this GameObject.
  * The RayCastAll is a short distance ray made to represent if the player is close enough to something interractable.
  * Only use with the player fps cam is recommended.
  **/
-[RequireComponent(typeof(Camera))] 
 public class GameObjectDetector : MonoBehaviour
 {
     [SerializeField]
     private GameObject eyes;
 
-    private Camera mainCamera;
     private RaycastHit[] hitInfo;
-
-    /** Start Method 
-     * Get the MainCamera of the game.
-     **/
-    private void Start()
-    {
-        mainCamera = GetComponent<Camera>();
-    }
 
     /** FixedUpdate Method 
      * Get the distance between the camera and the player eyes then draw a DebugRay from the center of the camera to a position forward.
@@ -50,7 +39,6 @@ public class GameObjectDetector : MonoBehaviour
             }
             else
             {
-                Debug.Log("Item " + hit.transform.name + " between player and camera");
                 SetBehaviorOfObjectsBehind(hit);
             }
         }
@@ -75,16 +63,20 @@ public class GameObjectDetector : MonoBehaviour
     /** SetBehaviorOfObjectsBehind Method 
      * @Params : RaycastHit
      * Set the behavior of Objects detected behind the player. 
+     * When an object is detected, all of its children is parsed.
      * The method add an instance of MakeGameObjectTransparent script on the gameObject and launch the method BeTransparent of that script.
      * This will change the transparency of all the gameobjects behind the character allowing a better visibility for the player.
      **/
     private void SetBehaviorOfObjectsBehind(RaycastHit hit)
     {
-        GameObject objectsBehindPlayer = hit.transform.gameObject;
-        MakeGameObjectTransparent scriptExisting = objectsBehindPlayer.GetComponent<MakeGameObjectTransparent>();
-        if (scriptExisting == null)
-            objectsBehindPlayer.AddComponent<MakeGameObjectTransparent>();
-        else
-            scriptExisting.BeTransparent();
+        Transform[] objects = hit.transform.GetComponentsInChildren<Transform>();
+        foreach (Transform objectBehindPlayer in objects)
+        {
+            MakeGameObjectTransparent scriptExisting = objectBehindPlayer.GetComponent<MakeGameObjectTransparent>();
+            if (scriptExisting == null)
+                objectBehindPlayer.gameObject.AddComponent<MakeGameObjectTransparent>();
+            else
+                scriptExisting.BeTransparent();
+        }
     }
 }
