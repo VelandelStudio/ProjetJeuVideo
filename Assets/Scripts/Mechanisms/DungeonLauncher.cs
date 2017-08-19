@@ -21,5 +21,6 @@ public class DungeonLauncher : MechanismBase
             Debug.Log("Launching new Dunjon");
             base.ActivateMechanism();
         }
+        Destroy(this);
     }
 }
