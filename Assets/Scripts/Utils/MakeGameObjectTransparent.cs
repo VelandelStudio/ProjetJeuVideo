@@ -44,7 +44,6 @@ public class MakeGameObjectTransparent : MonoBehaviour
             Destroy(this);
         }
         m_Transparency += ((1.0f - m_TargetTransparancy) * Time.deltaTime) / m_TimeToFallOffInSec;
-        
     }
     
     /** BeTransparent Method
