@@ -24,8 +24,8 @@ public class GameObjectDetector : MonoBehaviour
         Vector3 vPlayerProjected = Vector3.Project(vPlayer, transform.forward);
 
         float characterDistance = vPlayerProjected.magnitude;
-        float rayCastMaxRange = (vPlayerProjected * (2f)).magnitude;
-        Debug.DrawRay(transform.position, vPlayerProjected * (2f), Color.green);
+        float rayCastMaxRange = (vPlayerProjected).magnitude +5f;
+        Debug.DrawRay(transform.position, transform.forward * rayCastMaxRange, Color.green);
         
         hitInfo = Physics.RaycastAll(transform.position, transform.forward, rayCastMaxRange);
         foreach (RaycastHit hit in hitInfo) {
@@ -53,8 +53,16 @@ public class GameObjectDetector : MonoBehaviour
     {
         if (hit.transform.GetComponent<MechanismBase>())
         {
+            GameObject objectInFrontOfPlayer = hit.transform.gameObject;
             MechanismBase mechanism = hit.transform.GetComponent<MechanismBase>();
             mechanism.DisplayTextOfMechanism();
+
+            MakeGameObjectHighlighted scriptExisting = hit.transform.GetComponent<MakeGameObjectHighlighted>();
+            if (scriptExisting == null)
+                objectInFrontOfPlayer.AddComponent<MakeGameObjectHighlighted>();
+            else
+                scriptExisting.BeHighLighted();
+
             if (Input.GetKey(InputsProperties.activate))
                 mechanism.ActivateMechanism();
         }

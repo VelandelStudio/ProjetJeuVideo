@@ -33,7 +33,7 @@ public abstract class MechanismBase : MonoBehaviour {
      * FEATURE TO ADD -> A.T.M. Displays the text in the DebugConsole - SOON : Displays the text on a GUI Screen
      **/
     public virtual void DisplayTextOfMechanism() {
-        if(!isActivated)
-            Debug.Log("Press "+InputsProperties.activate.ToString()+" to activate.");
+        if (!isActivated)
+            Debug.Log("Press " + InputsProperties.activate.ToString() + " to activate.");
     }
 }
