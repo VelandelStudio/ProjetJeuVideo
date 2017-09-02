@@ -33,6 +33,6 @@ public abstract class MechanismBase : MonoBehaviour {
      **/
     public virtual void DisplayTextOfMechanism() {
         if(!isActivated)
-            Debug.Log("Press right click to activate.");
+            Debug.Log("Press "+InputsProperties.activate.ToString()+" to activate.");
     }
 }
