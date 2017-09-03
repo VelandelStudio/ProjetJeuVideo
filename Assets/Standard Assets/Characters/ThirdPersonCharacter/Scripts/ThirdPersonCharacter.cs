@@ -15,8 +15,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
+        [SerializeField] Transform playerCamera;
 
-		Rigidbody m_Rigidbody;
+        Rigidbody m_Rigidbody;
 		Animator m_Animator;
 		bool m_IsGrounded;
 		float m_OrigGroundCheckDistance;
@@ -45,11 +46,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
-
-			// convert the world relative moveInput vector into a local-relative
-			// turn amount and forward amount required to head in the desired
-			// direction.
-			if (move.magnitude > 1f) move.Normalize();
+            // convert the world relative moveInput vector into a local-relative
+            // turn amount and forward amount required to head in the desired
+            // direction.
+            if (move.magnitude > 1f) move.Normalize();
 			move = transform.InverseTransformDirection(move);
 			CheckGroundStatus();
 			move = Vector3.ProjectOnPlane(move, m_GroundNormal);
@@ -120,6 +120,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// update the animator parameters
 			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
 			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+            Debug.Log(m_TurnAmount);
 			m_Animator.SetBool("Crouch", m_Crouching);
 			m_Animator.SetBool("OnGround", m_IsGrounded);
 			if (!m_IsGrounded)
@@ -178,9 +179,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void ApplyExtraTurnRotation()
 		{
-			// help the character turn faster (this is in addition to root rotation in the animation)
-			float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
-			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+            Vector3 cameraRotation = playerCamera.rotation.eulerAngles;
+            transform.rotation = Quaternion.Euler(new Vector3(0, cameraRotation.y, 0));/*
+            // help the character turn faster (this is in addition to root rotation in the animation)
+            float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
+			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);*/
 		}
 
 
