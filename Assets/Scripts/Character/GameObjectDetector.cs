@@ -33,16 +33,18 @@ public class GameObjectDetector : MonoBehaviour
         foreach (RaycastHit hit in hitInfo) {
             float objectDistance =(hit.point - transform.position).magnitude;
             Debug.DrawLine(transform.position, hit.point, Color.red);
+            Debug.Log("characterDistance : " + characterDistance);
+            Debug.Log("objectDistance : " + objectDistance);
 
-            if (characterDistance < objectDistance)
+            if (characterDistance < objectDistance+1)
             {
                 SetBehaviorOfObjectsInFront(hit);
                 return;
             }
             else
             {
-                Debug.Log("Item " + hit.transform.name + " between player and camera");
-                SetBehaviorOfObjectsBehind(hit);
+                if (hit.transform.tag != "Player" && !hit.collider.isTrigger)
+                    SetBehaviorOfObjectsBehind(hit);
             }
         }
     }
@@ -80,10 +82,8 @@ public class GameObjectDetector : MonoBehaviour
     private void SetBehaviorOfObjectsBehind(RaycastHit hit)
     {
         GameObject objectsBehindPlayer = hit.transform.gameObject;
-        if (objectsBehindPlayer.tag == "Player")
-            return;
-
         MakeGameObjectTransparent scriptExisting = objectsBehindPlayer.GetComponent<MakeGameObjectTransparent>();
+
         if (scriptExisting == null)
             objectsBehindPlayer.AddComponent<MakeGameObjectTransparent>();
         else
