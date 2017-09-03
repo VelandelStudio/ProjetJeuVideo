@@ -12,16 +12,7 @@ public class GameObjectDetector : MonoBehaviour
     [SerializeField]
     private GameObject eyes;
 
-    private Camera mainCamera;
     private RaycastHit[] hitInfo;
-
-    /** Start Method 
-     * Get the MainCamera of the game.
-     **/
-    private void Start()
-    {
-        mainCamera = GetComponent<Camera>();
-    }
 
     /** FixedUpdate Method 
      * Get the distance between the camera and the player eyes then draw a DebugRay from the center of the camera to a position forward.
@@ -63,11 +54,11 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void SetBehaviorOfObjectsInFront (RaycastHit hit)
     {
-        if (hit.transform.GetComponent<MechanismBase>())
+        if (hit.transform.GetComponent<IInterractableEntity>() != null)
         {
             GameObject objectInFrontOfPlayer = hit.transform.gameObject;
-            MechanismBase mechanism = hit.transform.GetComponent<MechanismBase>();
-            mechanism.DisplayTextOfMechanism();
+            IInterractableEntity interractable = hit.transform.GetComponent<IInterractableEntity>();
+            interractable.DisplayTextOfInterractable();
 
             MakeGameObjectHighlighted scriptExisting = hit.transform.GetComponent<MakeGameObjectHighlighted>();
             if (scriptExisting == null)
@@ -75,8 +66,8 @@ public class GameObjectDetector : MonoBehaviour
             else
                 scriptExisting.BeHighLighted();
 
-            if (Input.GetKey(InputsProperties.activate))
-                mechanism.ActivateMechanism();
+            if (Input.GetKeyDown(InputsProperties.activate))
+                interractable.ActivateInterractable();
         }
     }
     
@@ -89,6 +80,9 @@ public class GameObjectDetector : MonoBehaviour
     private void SetBehaviorOfObjectsBehind(RaycastHit hit)
     {
         GameObject objectsBehindPlayer = hit.transform.gameObject;
+        if (objectsBehindPlayer.tag == "Player")
+            return;
+
         MakeGameObjectTransparent scriptExisting = objectsBehindPlayer.GetComponent<MakeGameObjectTransparent>();
         if (scriptExisting == null)
             objectsBehindPlayer.AddComponent<MakeGameObjectTransparent>();

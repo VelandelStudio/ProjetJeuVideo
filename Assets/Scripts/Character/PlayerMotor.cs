@@ -11,16 +11,13 @@ public class PlayerMotor : MonoBehaviour {
 
     private Vector3 velocity = Vector3.zero;
     private Vector3 horizontalRotation = Vector3.zero;
-    private Vector3 verticalRotation = Vector3.zero;
 
     private Rigidbody rb;
-    private CapsuleCollider capsuleCollider;
 	private bool unableToMove = false;
 	
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     private void FixedUpdate()
