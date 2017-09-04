@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using UnityEngine;
 
+/** MapGenerator : Class
+ *  @Inherits : Monobehavior
+ *  This script is here to generate un dungeon whitch is sqarre or rectangle.
+ **/
 public class MapGenerator : MonoBehaviour {
 
     public Transform[] rooms;
-    public int seed = 0;
-    public int min = 2;
+
+    // room[0] need to be with 4 corridors
+    // room[1] need to be with 3 corridors
+    // room[2] need to be with 2 corridors in an Elbow shape
+
+    public int seed = 0;        // for the random generation
+    public int min = 2;         // define the shape of the dungeon.
     public int max = 5;
 
     private Vector2 sizeMap;
@@ -17,9 +26,14 @@ public class MapGenerator : MonoBehaviour {
         GenerationMap();
     }
 
+    /** generation map Method
+     *  the idea is to place the rooms
+     **/
     public void GenerationMap()
     {
         randSizeDungeon(seed);
+
+        // to build th dungeon inside a empty GameObject
 
         string holderName = "Generated Dungeon";
         if (transform.FindChild(holderName))
@@ -30,6 +44,7 @@ public class MapGenerator : MonoBehaviour {
         Transform dungeonHolder = new GameObject(holderName).transform;
         dungeonHolder.parent = transform;
 
+        // The grid to place the rooms
         for (int x = 0; x < sizeMap.x; x+=100)
         {
             for (int y = 0; y < sizeMap.y; y+=100)
@@ -40,6 +55,10 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
+    /** randSizeDungeon Method
+     *  This is the random size of the map
+     *  We can multiply by 100 cause of the size of our prefab rooms
+     **/
     private void randSizeDungeon (int seed)
     {
         System.Random prng = new System.Random(seed);
@@ -48,10 +67,15 @@ public class MapGenerator : MonoBehaviour {
         sizeMap.y = prng.Next(min, max) * 100;
     }
 
+    /** placementRoom Method
+     *  Here to place the good prefab at the good place
+     **/
     private Transform placementRoom(int x, int y)
     {
         Vector3 roomPosition = new Vector3(-sizeMap.x / 2 + 100f + x, 0, -sizeMap.y / 2 + 100f + y);
         Transform newRoom = null ;
+
+        // Check all the possibility of a room placement
 
         if (x == 0 && y == 0)
             newRoom = Instantiate(rooms[2], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
