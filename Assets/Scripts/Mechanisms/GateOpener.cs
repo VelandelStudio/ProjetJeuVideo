@@ -20,14 +20,14 @@ public class GateOpener : MechanismBase {
         col = GetComponent<Collider>();
     }
 
-    /** ActivateMechanism Method
+    /** ActivateInterractable Method
      * This Method overrides the parent one
      * It detects if the mechanism as not been activated yet
      * When it's activated it open the doors
      * it set the collider to false in order to pass trought the door.
      * It destroy the script also because the door need to be open just once
      **/
-    public override void ActivateMechanism()
+    public override void ActivateInterractable()
     {
         if (!isActivated)
         {
@@ -35,7 +35,7 @@ public class GateOpener : MechanismBase {
             animGate1.SetTrigger("OpenLeftDoor");
             animGate2.SetTrigger("OpenRightDoor");
             col.enabled = false;
-            base.ActivateMechanism();
+            base.ActivateInterractable();
         }
         Destroy(this);
     }
