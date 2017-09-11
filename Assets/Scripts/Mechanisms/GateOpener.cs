@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 /** GateOpener Class
  * @Inherits MechanismBase
@@ -9,6 +10,7 @@ public class GateOpener : MechanismBase {
 
     public Animator animGate1; //The left side of the door with inside room point of view
     public Animator animGate2; //The left side of the door with inside room point of view
+    public Animator animHandler; //To move the lever
 
     Collider col; // The attached boxCollider of the assembly object
 
@@ -32,11 +34,29 @@ public class GateOpener : MechanismBase {
         if (!isActivated)
         {
             Debug.Log("Open the Door");
-            animGate1.SetTrigger("OpenLeftDoor");
-            animGate2.SetTrigger("OpenRightDoor");
-            col.enabled = false;
-            base.ActivateMechanism();
+            animHandler.SetTrigger("MoveLever");
+
+            StartCoroutine(CoroutineOneSec());
         }
+    }
+
+    private void OpenDoor()
+    {
+        animGate1.SetTrigger("OpenLeftDoor");
+        animGate2.SetTrigger("OpenRightDoor");
+
+        col.enabled = false;
+        base.ActivateMechanism();
+
         Destroy(this);
+    }
+
+    IEnumerator CoroutineOneSec()
+    {
+        Debug.Log("Start Coroutine");
+
+        yield return new WaitForSeconds(1f);
+
+        OpenDoor();
     }
 }
