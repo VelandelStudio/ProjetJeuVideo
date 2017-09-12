@@ -29,12 +29,10 @@ public class GameObjectDetector : MonoBehaviour
         float rayCastMaxRange = (vPlayerProjected).magnitude +5f;
         Debug.DrawRay(transform.position, transform.forward * rayCastMaxRange, Color.green);
         
-        hitInfo = Physics.RaycastAll(transform.position, transform.forward, rayCastMaxRange);
+        hitInfo = Physics.RaycastAll(transform.position, transform.forward, rayCastMaxRange, Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore);
         foreach (RaycastHit hit in hitInfo) {
             float objectDistance =(hit.point - transform.position).magnitude;
             Debug.DrawLine(transform.position, hit.point, Color.red);
-            Debug.Log("characterDistance : " + characterDistance);
-            Debug.Log("objectDistance : " + objectDistance);
 
             if (characterDistance < objectDistance+1)
             {
@@ -42,10 +40,7 @@ public class GameObjectDetector : MonoBehaviour
                 return;
             }
             else
-            {
-                if (hit.transform.tag != "Player" && !hit.collider.isTrigger)
-                    SetBehaviorOfObjectsBehind(hit);
-            }
+                SetBehaviorOfObjectsBehind(hit);
         }
     }
     
