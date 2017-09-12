@@ -10,7 +10,8 @@ public class GateOpener : MechanismBase {
 
     public Animator animGate1; //The left side of the door with inside room point of view
     public Animator animGate2; //The left side of the door with inside room point of view
-    public Animator animHandler; //To move the lever
+
+    public Animator[] animHandlers; //To move the levers
 
     Collider col; // The attached boxCollider of the assembly object
 
@@ -25,21 +26,27 @@ public class GateOpener : MechanismBase {
     /** ActivateMechanism Method
      * This Method overrides the parent one
      * It detects if the mechanism as not been activated yet
-     * When it's activated it open the doors
-     * it set the collider to false in order to pass trought the door.
-     * It destroy the script also because the door need to be open just once
+     * When it's activated it put down the lever and call OpenDoor() Method
      **/
     public override void ActivateMechanism()
     {
         if (!isActivated)
         {
             Debug.Log("Open the Door");
-            animHandler.SetTrigger("MoveLever");
+
+            foreach (Animator anim in animHandlers)
+                anim.SetTrigger("MoveLever");
 
             StartCoroutine(CoroutineOneSec());
         }
     }
 
+    /** OpenDoor Method
+     * This Method is called during the Coroutine : CoroutineOneSec() below
+     * this method open the doors
+     * it set the collider to false in order to pass trought the door.
+     * It destroy the script also because the door need to be open just once
+     **/
     private void OpenDoor()
     {
         animGate1.SetTrigger("OpenLeftDoor");
@@ -51,6 +58,10 @@ public class GateOpener : MechanismBase {
         Destroy(this);
     }
 
+    /** IEnumerator CoroutineOneSec
+     *  IEnumerator is needed to be called in a coroutine.
+     *  Wait 1 sec and lauch others animations
+     **/
     IEnumerator CoroutineOneSec()
     {
         Debug.Log("Start Coroutine");
