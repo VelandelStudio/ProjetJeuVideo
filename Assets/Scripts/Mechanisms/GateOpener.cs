@@ -32,6 +32,8 @@ public class GateOpener : MechanismBase {
     {
         if (!isActivated)
         {
+            base.ActivateMechanism();
+
             Debug.Log("Open the Door");
 
             foreach (Animator anim in animHandlers)
@@ -53,7 +55,7 @@ public class GateOpener : MechanismBase {
         animGate2.SetTrigger("OpenRightDoor");
 
         col.enabled = false;
-        base.ActivateMechanism();
+        // base.ActivateMechanism();
 
         Destroy(this);
     }
