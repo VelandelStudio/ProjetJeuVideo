@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(PlayerMotor))]
 
@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private float moveSpeed = 6f;
     [SerializeField]
-    private float mouseSensitivity = 3f;
 
     private PlayerMotor playerMotor;
 
