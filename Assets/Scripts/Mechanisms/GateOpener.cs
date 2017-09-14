@@ -23,16 +23,16 @@ public class GateOpener : MechanismBase {
         col = GetComponent<Collider>();
     }
 
-    /** ActivateMechanism Method
+    /** ActivateInterractable Method
      * This Method overrides the parent one
      * It detects if the mechanism as not been activated yet
      * When it's activated it put down the lever and call OpenDoor() Method
      **/
-    public override void ActivateMechanism()
+    public override void ActivateInterractable()
     {
         if (!isActivated)
         {
-            base.ActivateMechanism();
+            base.ActivateInterractable();
 
             Debug.Log("Open the Door");
 
@@ -55,7 +55,7 @@ public class GateOpener : MechanismBase {
         animGate2.SetTrigger("OpenRightDoor");
 
         col.enabled = false;
-        // base.ActivateMechanism();
+        // base.ActivateInterractable();
 
         Destroy(this);
     }
