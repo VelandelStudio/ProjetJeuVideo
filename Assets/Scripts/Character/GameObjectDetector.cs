@@ -12,16 +12,7 @@ public class GameObjectDetector : MonoBehaviour
     [SerializeField]
     private GameObject eyes;
 
-    private Camera mainCamera;
     private RaycastHit[] hitInfo;
-
-    /** Start Method 
-     * Get the MainCamera of the game.
-     **/
-    private void Start()
-    {
-        mainCamera = GetComponent<Camera>();
-    }
 
     /** FixedUpdate Method 
      * Get the distance between the camera and the player eyes then draw a DebugRay from the center of the camera to a position forward.
@@ -35,24 +26,21 @@ public class GameObjectDetector : MonoBehaviour
         Vector3 vPlayerProjected = Vector3.Project(vPlayer, transform.forward);
 
         float characterDistance = vPlayerProjected.magnitude;
-        float rayCastMaxRange = (vPlayerProjected * (2f)).magnitude;
-        Debug.DrawRay(transform.position, vPlayerProjected * (2f), Color.green);
+        float rayCastMaxRange = (vPlayerProjected).magnitude +5f;
+        Debug.DrawRay(transform.position, transform.forward * rayCastMaxRange, Color.green);
         
-        hitInfo = Physics.RaycastAll(transform.position, transform.forward, rayCastMaxRange);
+        hitInfo = Physics.RaycastAll(transform.position, transform.forward, rayCastMaxRange, Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore);
         foreach (RaycastHit hit in hitInfo) {
             float objectDistance =(hit.point - transform.position).magnitude;
             Debug.DrawLine(transform.position, hit.point, Color.red);
 
-            if (characterDistance < objectDistance)
+            if (characterDistance < objectDistance+1)
             {
                 SetBehaviorOfObjectsInFront(hit);
                 return;
             }
             else
-            {
-                Debug.Log("Item " + hit.transform.name + " between player and camera");
                 SetBehaviorOfObjectsBehind(hit);
-            }
         }
     }
     
@@ -63,12 +51,20 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void SetBehaviorOfObjectsInFront (RaycastHit hit)
     {
-        if (hit.transform.GetComponent<MechanismBase>())
+        if (hit.transform.GetComponent<IInterractableEntity>() != null)
         {
-            MechanismBase mechanism = hit.transform.GetComponent<MechanismBase>();
-            mechanism.DisplayTextOfMechanism();
-            if (Input.GetKey(InputsProperties.activate))
-                mechanism.ActivateMechanism();
+            GameObject objectInFrontOfPlayer = hit.transform.gameObject;
+            IInterractableEntity interractable = hit.transform.GetComponent<IInterractableEntity>();
+            interractable.DisplayTextOfInterractable();
+
+            MakeGameObjectHighlighted scriptExisting = hit.transform.GetComponent<MakeGameObjectHighlighted>();
+            if (scriptExisting == null)
+                objectInFrontOfPlayer.AddComponent<MakeGameObjectHighlighted>();
+            else
+                scriptExisting.BeHighLighted();
+
+            if (Input.GetKeyDown(InputsProperties.activate))
+                interractable.ActivateInterractable();
         }
     }
     
@@ -82,6 +78,7 @@ public class GameObjectDetector : MonoBehaviour
     {
         GameObject objectsBehindPlayer = hit.transform.gameObject;
         MakeGameObjectTransparent scriptExisting = objectsBehindPlayer.GetComponent<MakeGameObjectTransparent>();
+
         if (scriptExisting == null)
             objectsBehindPlayer.AddComponent<MakeGameObjectTransparent>();
         else
