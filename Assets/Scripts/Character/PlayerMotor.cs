@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /** PlayerMotor Class
  * This class is always attached to a Player.
