@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 /** PlayerController class
  * This class should always be attacjed to the player character 
