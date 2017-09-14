@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-/** PNJBehaviour class
+/** SimpleNPC class
  * This script should be attached to every PNJ in the game. As a matter of fact, we consider that a PNJ in a neutral Entity.
  * It does not attack the player and does not run away from him.
- * The PNJBehaviour extends the abstract class EntityLivingBase and implements the IInterractableEntity.
+ * The SimpleNPC extends the abstract class EntityLivingBase and implements the IInterractableEntity.
  * In this way, a PNJ can be killed or healed (in Escort quest for example) and the player can interract whith him (for shops, quests etc..). 
  * Finally, a PNJ Requires a Component SphereCollider to detect the nearest player. 
  **/
 [RequireComponent(typeof(SphereCollider))]
-public class PNJBehaviour : EntityLivingBase, IInterractableEntity {
+public class SimpleNPC : EntityLivingBase, IInterractableEntity {
 
     /** Awake private method
     * Before everything starts, we ensure that the SphereCollider is a trigger. 
