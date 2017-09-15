@@ -9,39 +9,46 @@
 [RequireComponent(typeof(Camera))] 
 public class GameObjectDetector : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject eyes;
+    [SerializeField] private GameObject eyes;
+    [SerializeField] private GameObject frontDetector;
 
-    private RaycastHit[] hitInfo;
+    [SerializeField] private float rayCastMaxRange = 5f;
 
+	private int layerMask;
+	
+	private void Start() {
+		layerMask = LayerMask.NameToLayer("TriggerInterractableEntity");
+	}
+	
     /** FixedUpdate Method 
      * Get the distance between the camera and the player eyes then draw a DebugRay from the center of the camera to a position forward.
      * The maxDistance of the ray was fixed arbitrary to characterDistance*1.5f. In that way, if the players dezoom the camera, the max distance remains the same.
      * Afer that, the method launches a RayCastAll and collect all colliders on its way to a table named hitInfo.
      * The hitInfo table is parsed to determine if each collider is in front of the character or between the camera and the character.
      **/
-    private void FixedUpdate()
-    {
-        Vector3 vPlayer = eyes.transform.position - transform.position;
-        Vector3 vPlayerProjected = Vector3.Project(vPlayer, transform.forward);
-
-        float characterDistance = vPlayerProjected.magnitude;
-        float rayCastMaxRange = (vPlayerProjected).magnitude +5f;
-        Debug.DrawRay(transform.position, transform.forward * rayCastMaxRange, Color.green);
-        
-        hitInfo = Physics.RaycastAll(transform.position, transform.forward, rayCastMaxRange, Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore);
-        foreach (RaycastHit hit in hitInfo) {
-            float objectDistance =(hit.point - transform.position).magnitude;
-            Debug.DrawLine(transform.position, hit.point, Color.red);
-
-            if (characterDistance < objectDistance+1)
+	private void FixedUpdate()
+	{
+		Vector3 vPlayerProjected = Vector3.Project(frontDetector.transform.position - transform.position, transform.forward);
+		float offSet = Vector3.Distance(eyes.transform.position, transform.position);
+		Vector3 originPoint = transform.position+vPlayerProjected;
+					
+		Debug.DrawRay(originPoint, transform.forward * rayCastMaxRange, Color.green);
+		Debug.DrawRay(transform.position, (eyes.transform.position - transform.position), Color.yellow);
+		
+		RaycastHit[] hitInFront;
+        hitInFront = Physics.RaycastAll(originPoint, transform.forward, rayCastMaxRange);
+        foreach (RaycastHit hitFront in hitInFront)
+            if (isElligibleForDetection(hitFront))
             {
-                SetBehaviorOfObjectsInFront(hit);
-                return;
+                SetBehaviorOfObjectsInFront(hitFront);
+                break;
             }
-            else
+				
+		RaycastHit[] hitsBehind;
+		hitsBehind = Physics.RaycastAll(transform.position, eyes.transform.position - transform.position,offSet);
+        foreach (RaycastHit hit in hitsBehind)
+            if(hit.transform.tag != "Player")
                 SetBehaviorOfObjectsBehind(hit);
-        }
     }
     
     /** SetBehaviorOfObjectsInFront Method 
@@ -51,22 +58,25 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void SetBehaviorOfObjectsInFront (RaycastHit hit)
     {
-        if (hit.transform.GetComponent<IInterractableEntity>() != null)
-        {
-            GameObject objectInFrontOfPlayer = hit.transform.gameObject;
-            IInterractableEntity interractable = hit.transform.GetComponent<IInterractableEntity>();
-            interractable.DisplayTextOfInterractable();
-
-            MakeGameObjectHighlighted scriptExisting = hit.transform.GetComponent<MakeGameObjectHighlighted>();
-            if (scriptExisting == null)
-                objectInFrontOfPlayer.AddComponent<MakeGameObjectHighlighted>();
-            else
-                scriptExisting.BeHighLighted();
-
-            if (Input.GetKeyDown(InputsProperties.activate))
-                interractable.ActivateInterractable();
-        }
-    }
+		if (hit.transform.GetComponent<IInterractableEntity>() != null)
+		{
+			GameObject objectInFrontOfPlayer = hit.transform.gameObject;
+			IInterractableEntity interractable = hit.transform.GetComponent<IInterractableEntity>();
+			interractable.DisplayTextOfInterractable();
+			
+			if(objectInFrontOfPlayer.GetComponent<Renderer>() == null) 
+				objectInFrontOfPlayer = objectInFrontOfPlayer.GetComponentsInChildren<Renderer>()[0].gameObject;
+				
+			MakeGameObjectHighlighted scriptExisting = objectInFrontOfPlayer.GetComponent<MakeGameObjectHighlighted>();
+			if (scriptExisting == null)
+				objectInFrontOfPlayer.AddComponent<MakeGameObjectHighlighted>();
+			else
+				scriptExisting.BeHighLighted();
+			
+			if (Input.GetKeyDown(InputsProperties.activate))
+				interractable.ActivateInterractable();
+		}
+	}
     
     /** SetBehaviorOfObjectsBehind Method 
      * @Params : RaycastHit
@@ -76,12 +86,23 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void SetBehaviorOfObjectsBehind(RaycastHit hit)
     {
-        GameObject objectsBehindPlayer = hit.transform.gameObject;
-        MakeGameObjectTransparent scriptExisting = objectsBehindPlayer.GetComponent<MakeGameObjectTransparent>();
-
-        if (scriptExisting == null)
-            objectsBehindPlayer.AddComponent<MakeGameObjectTransparent>();
-        else
-            scriptExisting.BeTransparent();
+        Transform[] objectsBehindPlayer = hit.transform.gameObject.GetComponentsInChildren<Transform>();
+		GameObject obj;
+		foreach (Transform tr in objectsBehindPlayer) {
+			obj = tr.gameObject;
+			if(obj.GetComponent<Renderer>() == null)
+				continue;
+				
+			MakeGameObjectTransparent scriptExisting = obj.GetComponent<MakeGameObjectTransparent>();
+			
+			if (scriptExisting == null)
+				obj.AddComponent<MakeGameObjectTransparent>();
+			else
+				scriptExisting.BeTransparent();
+		}
     }
+	
+	private bool isElligibleForDetection(RaycastHit hit) {
+		return (!hit.collider.isTrigger || hit.collider.gameObject.layer == layerMask);
+	}
 }
