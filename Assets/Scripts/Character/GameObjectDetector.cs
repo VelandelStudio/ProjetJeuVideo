@@ -9,7 +9,7 @@
 [RequireComponent(typeof(Camera))] 
 public class GameObjectDetector : MonoBehaviour
 {
-    [SerializeField] private GameObject eyes;
+    [SerializeField] private GameObject backDetector;
     [SerializeField] private GameObject frontDetector;
 
     [SerializeField] private float rayCastMaxRange = 5f;
@@ -29,11 +29,11 @@ public class GameObjectDetector : MonoBehaviour
 	private void FixedUpdate()
 	{
 		Vector3 vPlayerProjected = Vector3.Project(frontDetector.transform.position - transform.position, transform.forward);
-		float offSet = Vector3.Distance(eyes.transform.position, transform.position);
+		float offSet = Vector3.Distance(backDetector.transform.position, transform.position);
 		Vector3 originPoint = transform.position+vPlayerProjected;
 					
 		Debug.DrawRay(originPoint, transform.forward * rayCastMaxRange, Color.green);
-		Debug.DrawRay(transform.position, (eyes.transform.position - transform.position), Color.yellow);
+		Debug.DrawRay(transform.position, (backDetector.transform.position - transform.position), Color.yellow);
 		
 		RaycastHit[] hitInFront;
         hitInFront = Physics.RaycastAll(originPoint, transform.forward, rayCastMaxRange);
@@ -45,7 +45,7 @@ public class GameObjectDetector : MonoBehaviour
             }
 				
 		RaycastHit[] hitsBehind;
-		hitsBehind = Physics.RaycastAll(transform.position, eyes.transform.position - transform.position,offSet);
+		hitsBehind = Physics.RaycastAll(transform.position, backDetector.transform.position - transform.position,offSet);
         foreach (RaycastHit hit in hitsBehind)
             if(hit.transform.tag != "Player")
                 SetBehaviorOfObjectsBehind(hit);
