@@ -23,3 +23,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Binaries
+*.unity binary
+*.prefab binary
+*.asset binary
