@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 
 /** GameObjectDetector Script
- * @Requires Camera
- * Get the Camera on Start and launch a RayCastAll from this Camera to the center of the screen.
- * The RayCastAll is a short distance ray made to represent if the player is close enough to something interractable.
- * Only use with the player fps cam is recommended.
+ * The GameObjectDetector class is used to detect object in front of and behind the player in his environnement.
+ * This script has two main aims : Detect if items in front of the player are interractable and MakeTransparent items behind the player.
+ * In order to shoot Raycast properly, we are using 2 empty GameObjects (backDetector and frontDetector) attached to the player.
+ * These gameObjects are used as "origin" of both of the raycasts.
  **/
-[RequireComponent(typeof(Camera))]
 public class GameObjectDetector : MonoBehaviour
 {
     [SerializeField] private GameObject backDetector;
@@ -16,35 +15,51 @@ public class GameObjectDetector : MonoBehaviour
 
     private int layerMask;
 
+    /** Start, private void method.
+	 * The start Method is used the get the layerMask TriggerInterractableEntity as an integer.
+	 * This layer is used for Interractable gameObjects launched by trigers only.
+	 **/
     private void Start()
     {
         layerMask = LayerMask.NameToLayer("TriggerInterractableEntity");
     }
 
     /** FixedUpdate Method 
-     * Get the distance between the camera and the player eyes then draw a DebugRay from the center of the camera to a position forward.
-     * The maxDistance of the ray was fixed arbitrary to characterDistance*1.5f. In that way, if the players dezoom the camera, the max distance remains the same.
-     * Afer that, the method launches a RayCastAll and collect all colliders on its way to a table named hitInfo.
-     * The hitInfo table is parsed to determine if each collider is in front of the character or between the camera and the character.
+     * This method to fire both of the Rayasts.
+	 *
+	 * First of all, we launch the RayCast in front off the player.
+	 * The Origin point of the raycast is the projected vector of the frontDetector + the distance between the player and the camera in the projected plan.
+	 * Then, we shoot this raycast towards the camera transfmorm.forward direction. In this way, the player (irl person) can aim with the mouse.
+	 * Please note that this Raycast is a RaycastAll, so we collect ALL of the gameObjects in front of the player. So we need to check if theses elements are elligible for a detection.
+	 * in a foreach loop, we try to get if the element is an obstacle (break the loop) and if it is not, we check if the element can be highlighted (intterractable). If it his, we also break the loop.
+	 * Please note that this method looks like a little bit touchy, but it is the only way to pass through triggers and hilight interractable triggers and non triggers. 
+	 * The breaks are here to ensure that only the frist interractable detected is activable.
+	 * 
+	 * After that, we launch the behind the player, from the camera, to the backDetector.
+	 * Then, we collect all of the GameObjects and make them Transparent if they are elligible for that.
      **/
     private void FixedUpdate()
     {
         Vector3 vPlayerProjected = Vector3.Project(frontDetector.transform.position - transform.position, transform.forward);
+        Vector3 originPointFront = transform.position + vPlayerProjected;
         float offSet = Vector3.Distance(backDetector.transform.position, transform.position);
-        Vector3 originPoint = transform.position + vPlayerProjected;
 
-        Debug.DrawRay(originPoint, transform.forward * rayCastMaxRange, Color.green);
-        Debug.DrawRay(transform.position, (backDetector.transform.position - transform.position), Color.yellow);
-
+        Debug.DrawRay(originPointFront, transform.forward * rayCastMaxRange, Color.green);
         RaycastHit[] hitInFront;
-        hitInFront = Physics.RaycastAll(originPoint, transform.forward, rayCastMaxRange);
+        hitInFront = Physics.RaycastAll(originPointFront, transform.forward, rayCastMaxRange);
         foreach (RaycastHit hitFront in hitInFront)
+        {
+            if (ObstacleDetectedInFront(hitFront))
+                break;
+
             if (IsElligibleForHighlight(hitFront))
             {
                 SetBehaviorOfObjectsInFront(hitFront);
                 break;
             }
+        }
 
+        Debug.DrawRay(transform.position, (backDetector.transform.position - transform.position), Color.yellow);
         RaycastHit[] hitsBehind;
         hitsBehind = Physics.RaycastAll(transform.position, backDetector.transform.position - transform.position, offSet);
         foreach (RaycastHit hit in hitsBehind)
@@ -104,14 +119,33 @@ public class GameObjectDetector : MonoBehaviour
         }
     }
 
+    /** ObstacleDetectedInFront private bool Method 
+     * @Params : RaycastHit
+     * This method is used to detect if the player is aiming at an obstacle. 
+	 * This method should be used in order to not detect interractable if they are hidden by a wall or an obstacle.
+     **/
+    private bool ObstacleDetectedInFront(RaycastHit hit)
+    {
+        return (!hit.collider.isTrigger && hit.transform.GetComponent<IInterractableEntity>() == null && hit.collider.gameObject.layer != layerMask);
+    }
+
+    /** IsElligibleForHighlight private bool Method 
+     * @Params : RaycastHit
+     * This method is used to detect if the player is aiming at an interractable. 
+	 * It ensures a good way to detect Colliders AND interractable Triggers with the layerMask.
+     **/
     private bool IsElligibleForHighlight(RaycastHit hit)
     {
         return (!hit.collider.isTrigger || hit.collider.gameObject.layer == layerMask);
     }
 
-
+    /** IsElligibleForTransparency private bool Method 
+     * @Params : RaycastHit
+     * This method is used to detect if a gameobject, detected by a raycast, is Elligible For Transparency.
+	 * It ensures a good way to detect only colliders and not triggers inettractable or not.
+     **/
     private bool IsElligibleForTransparency(RaycastHit hit)
     {
-        return !(hit.collider.isTrigger && hit.transform.GetComponent<IInterractableEntity>() != null && hit.collider.gameObject.layer != layerMask);   
+        return !(hit.collider.isTrigger && hit.transform.GetComponent<IInterractableEntity>() != null && hit.collider.gameObject.layer != layerMask);
     }
 }
