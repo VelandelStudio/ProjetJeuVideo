@@ -24,6 +24,11 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+<<<<<<< HEAD
+=======
+
+# Binaries
+>>>>>>> refs/remotes/origin/master
 *.unity binary
 *.prefab binary
 *.asset binary
