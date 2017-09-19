@@ -99,6 +99,7 @@ public class GameObjectDetector : MonoBehaviour
      * Set the behavior of Objects detected behind the player. 
      * The method add an instance of MakeGameObjectTransparent script on the gameObject and launch the method BeTransparent of that script.
      * This will change the transparency of all the gameobjects behind the character allowing a better visibility for the player.
+	 * The method will check for all the children GameObjects of the detected one. It will next test if the children is INSIDE the parent.
      **/
     private void SetBehaviorOfObjectsBehind(RaycastHit hit)
     {
@@ -107,11 +108,10 @@ public class GameObjectDetector : MonoBehaviour
         foreach (Transform tr in objectsBehindPlayer)
         {
             obj = tr.gameObject;
-            if (obj.GetComponent<Renderer>() == null)
+            if (obj.GetComponent<Renderer>() == null || !hit.collider.bounds.Intersects(obj.GetComponent<Renderer>().bounds))
                 continue;
 
             MakeGameObjectTransparent scriptExisting = obj.GetComponent<MakeGameObjectTransparent>();
-
             if (scriptExisting == null)
                 obj.AddComponent<MakeGameObjectTransparent>();
             else
