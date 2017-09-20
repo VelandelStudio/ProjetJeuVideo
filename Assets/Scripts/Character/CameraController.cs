@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour {
     Rigidbody rb;
     float distanceMin = 2.5f;
     float distance = 5.0f;
-    float distanceMax = 10.0f;
+    float distanceMax = 6.0f;
 
     float xSpeed = 250.0f;
     float ySpeed = 120.0f;

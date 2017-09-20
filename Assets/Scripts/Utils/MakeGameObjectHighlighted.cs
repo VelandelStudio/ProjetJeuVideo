@@ -43,7 +43,7 @@ public class MakeGameObjectHighlighted : MonoBehaviour
     /** BeHighLighted Method
      * This public method is used to save the initial state of the gameObject before it is set to highlighted.
      * Then it applies the highlight Shader to the gameObject. 
-     * It also increases the count of m_TimeToFallOffInSec by fixedDeltaTime.
+     * It also set the count of m_TimeToFallOffInSec by fixedDeltaTime.
      **/
     public void BeHighLighted()
     {
@@ -55,6 +55,6 @@ public class MakeGameObjectHighlighted : MonoBehaviour
             m_OldShader = objectRenderer.material.shader;
             objectRenderer.material.shader = Shader.Find("Outlined/Diffuse");
         }
-        m_TimeToFallOffInSec += Time.fixedDeltaTime;
+        m_TimeToFallOffInSec = Time.fixedDeltaTime;
     }
 }

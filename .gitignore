@@ -28,3 +28,4 @@ sysinfo.txt
 *.unity binary
 *.prefab binary
 *.asset binary
+.vs/ProjetJeuVideo/v15/sqlite3/storage.ide
