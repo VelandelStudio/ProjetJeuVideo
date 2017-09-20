@@ -4,7 +4,7 @@
  * The GameObjectDetector class is used to detect object in front of and behind the player in his environnement.
  * This script has two main aims : Detect if items in front of the player are interractable and MakeTransparent items behind the player.
  * In order to shoot Raycast properly, we are using 2 empty GameObjects (backDetector and frontDetector) attached to the player.
- * These gameObjects are used as "origin" of both of the raycasts.
+ * These gameObjects are used as "origin" of all of the raycasts.
  **/
 public class GameObjectDetector : MonoBehaviour
 {
@@ -25,15 +25,13 @@ public class GameObjectDetector : MonoBehaviour
     }
 
     /** FixedUpdate Method 
-     * This method to fire both of the Rayasts.
+     * This method to fire all of the Raycasts.
 	 *
 	 * First of all, we launch the RayCast in front off the player.
 	 * The Origin point of the raycast is the projected vector of the frontDetector + the distance between the player and the camera in the projected plan.
 	 * Then, we shoot this raycast towards the camera transfmorm.forward direction. In this way, the player (irl person) can aim with the mouse.
-	 * Please note that this Raycast is a RaycastAll, so we collect ALL of the gameObjects in front of the player. So we need to check if theses elements are elligible for a detection.
-	 * in a foreach loop, we try to get if the element is an obstacle (break the loop) and if it is not, we check if the element can be highlighted (intterractable). If it his, we also break the loop.
-	 * Please note that this method looks like a little bit touchy, but it is the only way to pass through triggers and hilight interractable triggers and non triggers. 
-	 * The breaks are here to ensure that only the frist interractable detected is activable.
+	 * Please note that there are two Raycasts : one to detect solid interractables and one to detect triggers interractable.
+     * When an interractable is detected, we check is he is elligible for the detection (in order to not highlight a trigger instead of a collider for example).
 	 * 
 	 * After that, we launch the behind the player, from the camera, to the backDetector.
 	 * Then, we collect all of the GameObjects and make them Transparent if they are elligible for that.
@@ -45,19 +43,16 @@ public class GameObjectDetector : MonoBehaviour
         float offSet = Vector3.Distance(backDetector.transform.position, transform.position);
 
         Debug.DrawRay(originPointFront, transform.forward * rayCastMaxRange, Color.green);
-        RaycastHit[] hitInFront;
-        hitInFront = Physics.RaycastAll(originPointFront, transform.forward, rayCastMaxRange);
-        foreach (RaycastHit hitFront in hitInFront)
-        {
-            if (ObstacleDetectedInFront(hitFront))
-                break;
+ 
+        RaycastHit hitInFrontCollider;
+        bool InterractableCollider = Physics.Raycast(originPointFront, transform.forward, out hitInFrontCollider, rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        if (InterractableCollider && IsElligibleForHighlight(hitInFrontCollider))
+            SetBehaviorOfObjectsInFront(hitInFrontCollider);
 
-            if (IsElligibleForHighlight(hitFront))
-            {
-                SetBehaviorOfObjectsInFront(hitFront);
-                break;
-            }
-        }
+        RaycastHit hitInFrontTrigger;
+        bool InterractableTrigger  = Physics.Raycast(originPointFront, transform.forward, out hitInFrontTrigger, rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
+        if (InterractableTrigger && IsElligibleForHighlight(hitInFrontTrigger))
+            SetBehaviorOfObjectsInFront(hitInFrontTrigger);
 
         Debug.DrawRay(transform.position, (backDetector.transform.position - transform.position), Color.yellow);
         RaycastHit[] hitsBehind;
