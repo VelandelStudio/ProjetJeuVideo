@@ -114,16 +114,6 @@ public class GameObjectDetector : MonoBehaviour
         }
     }
 
-    /** ObstacleDetectedInFront private bool Method 
-     * @Params : RaycastHit
-     * This method is used to detect if the player is aiming at an obstacle. 
-	 * This method should be used in order to not detect interractable if they are hidden by a wall or an obstacle.
-     **/
-    private bool ObstacleDetectedInFront(RaycastHit hit)
-    {
-        return (!hit.collider.isTrigger && hit.transform.GetComponent<IInterractableEntity>() == null && hit.collider.gameObject.layer != layerMask);
-    }
-
     /** IsElligibleForHighlight private bool Method 
      * @Params : RaycastHit
      * This method is used to detect if the player is aiming at an interractable. 
