@@ -1,19 +1,15 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Abstract class for Item
+/// </summary>
 public abstract class Item : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+    #region Enum
     /// <summary>
     /// Represent the power and the rarity of an Item
     /// TODO: maybe add or remove some rarity
@@ -27,7 +23,6 @@ public abstract class Item : MonoBehaviour {
         Legendary       //extra
     }
 
-
     /// <summary>
     /// Represents the name of existing characteristic
     /// TODO: Create a class characteristic
@@ -40,17 +35,89 @@ public abstract class Item : MonoBehaviour {
         Strength,
 
     }
+    #endregion
 
-    private Dictionary<ERarity, double> _coefficientDueToRarity;
-    private Dictionary<ECharacteristic, int> _characteristics;
-
+    #region private Data
     /// <summary>
     /// The item level
     /// More the level is high, more the item has mark  
     /// </summary>
-    private readonly int _itemLevel;
+    private int _itemLevel;
 
-    private readonly ERarity _rarity;
+    /// <summary>
+    /// The rarity of Item
+    /// </summary>
+    private ERarity _rarity;
+    #endregion
+
+    // Use this for initialization
+    void Start (int itemLevel,ERarity rarity) {
+        _itemLevel = itemLevel;
+        _rarity = rarity;
+        _coefficientDueToRarity = new Dictionary<ERarity, double>();
+        InitCoefficient();
+        _characteristics = new Dictionary<ECharacteristic, int>();
+    }
+	
+    private Dictionary<ERarity, double> _coefficientDueToRarity;
+    private Dictionary<ECharacteristic, int> _characteristics;
+    
+    #region Public property
+    /// <summary>
+    /// Property readonly
+    /// Get the level of Item
+    /// </summary>
+    public int ItemLevel
+    {
+        get
+        {
+            return _itemLevel;
+        }
+
+    }
+
+    /// <summary>
+    /// Get the number of mark of an item.
+    /// Each mark can be converted into characteristic
+    /// </summary>
+    public int NumberOfMark
+    {
+        get
+        {
+            var totalMark = MarkDueToLevel(ItemLevel) * _coefficientDueToRarity[Rarity];
+
+            return Convert.ToInt32(Math.Round(totalMark));
+        }
+    }
+
+    /// <summary>
+    /// Represents the number of mark which can be converted into characteristic.
+    /// </summary>
+    protected int RestantMark
+    {
+        get
+        {
+            return NumberOfMark - AttribuatedMark;
+        }
+    }
+
+    /// <summary>
+    /// Represents the number of mark ever converted into characteristic.
+    /// </summary>
+    protected int AttribuatedMark
+    {
+        get
+        {
+            var attribuatedMark = 0;
+            foreach (var keyValue in Characteristics)
+            {
+                attribuatedMark = keyValue.Value;
+            }
+
+            return attribuatedMark;
+        }
+    }
+    #endregion
 
 
     /// <summary>
@@ -77,51 +144,7 @@ public abstract class Item : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Property readonly
-    /// Get the level of Item
-    /// </summary>
-    public int ItemLevel
-    {
-        get
-        {
-            return _itemLevel;
-        }
-
-    }
-
-    /// <summary>
-    /// abstract constructor to create an Item
-    /// </summary>
-    /// <param name="itemLevel">The level of Item</param>
-    /// <param name="rarity">The rarity of Item</param>
-    protected Item(int itemLevel, ERarity rarity)
-    {
-        _itemLevel = itemLevel;
-        _rarity = rarity;
-        _coefficientDueToRarity = new Dictionary<ERarity, double>();
-        InitCoefficient();
-        _characteristics = new Dictionary<ECharacteristic, int>();
-    }
-
-
-    protected Item RandomItem(int itemLevel)
-    {
-        //TODO : get random piece
-        //TODO : get random rarity
-        return new Item(25, ERarity.Common);
-    }
-
-    public int NumberOfMark
-    {
-        get
-        {
-            var totalMark = MarkDueToLevel(ItemLevel) * _coefficientDueToRarity[Rarity];
-
-            return Convert.ToInt32(Math.Round(totalMark));
-        }
-    }
-
+   
     abstract protected int MarkDueToLevel(int level);
 
     private void InitCoefficient()
@@ -133,28 +156,13 @@ public abstract class Item : MonoBehaviour {
         _coefficientDueToRarity.Add(ERarity.Legendary, 1.6);
     }
 
-    protected int RestantMark
-    {
-        get
-        {
-            return NumberOfMark - AttribuatedMark;
-        }
-    }
+   
 
-    protected int AttribuatedMark
-    {
-        get
-        {
-            var attribuatedMark = 0;
-            foreach (var keyValue in Characteristics)
-            {
-                attribuatedMark = keyValue.Value;
-            }
-
-            return attribuatedMark;
-        }
-    }
-
+    /// <summary>
+    /// Convert mark from Item into characteristic for this Item.
+    /// </summary>
+    /// <param name="characteristic"></param>
+    /// <param name="mark"></param>
     protected void SetCharacteristic(ECharacteristic characteristic, int mark)
     {
         if (mark > RestantMark)
@@ -172,6 +180,12 @@ public abstract class Item : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Return the number of mark convert into the <param name="characteristic"/>
+    /// </summary>
+    /// <param name="characteristic">The characteristic.</param>
+    /// TODO : rename method
+    /// <returns></returns>
     protected int ValueOfCharacteristic(ECharacteristic characteristic)
     {
         var value = 0;

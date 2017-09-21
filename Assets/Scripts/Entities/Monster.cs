@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-
+/// Represents the abstract Class of Monster
+/// A monster has a target and can switch target
 /// </summary>
 [RequireComponent(typeof(SphereCollider))]
 public class Monster : EntityLivingBase
 {
-    private bool _isPlayerDetected = false;
-    private Transform _targetTransform;
+
     private GameObject _target;
 
     private void Start()
@@ -17,6 +17,10 @@ public class Monster : EntityLivingBase
        
     }
 
+    /// <summary>
+    /// Called when [trigger enter].
+    /// </summary>
+    /// <param name="other">The collider of another object.</param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag != "Player")
@@ -25,6 +29,7 @@ public class Monster : EntityLivingBase
         }
 
         Target = other.gameObject;
+        GoOnRangeToAttack();
     }
 
     /// <summary>
@@ -37,14 +42,18 @@ public class Monster : EntityLivingBase
     {
         get
         {
-            return _targetTransform;
+            return Target.transform;
         }
-        set
-        {
-            _targetTransform = value;
-        }
+
     }
 
+    public bool IsPlayerDetected
+    {
+        get
+        {
+            return !(_target == null);
+        }
+    }
     /// <summary>
     /// Resets the target.
     /// There is no target.
@@ -54,6 +63,12 @@ public class Monster : EntityLivingBase
         Target = null;
     }
 
+    /// <summary>
+    /// Gets or sets the target.
+    /// </summary>
+    /// <value>
+    /// The target.
+    /// </value>
     public GameObject Target
     {
         get
@@ -65,4 +80,9 @@ public class Monster : EntityLivingBase
             _target = value;
         }
     }
+
+    public void GoOnRangeToAttack()
+    {
+        
+    } 
 }
