@@ -1233,6 +1233,7 @@ GameObject:
   - component: {fileID: 114492807798479660}
   - component: {fileID: 114565153173093192}
   - component: {fileID: 114006411595484000}
+  - component: {fileID: 114780624256381432}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -2648,10 +2649,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1790399854728024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ba717b4bd32fd547a49b98fd762c609, type: 3}
+  m_Script: {fileID: 11500000, guid: df0931fe64be22b468765f2257af84ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4152902285362922}
+  CameraControlled: 0
 --- !u!114 &114492807798479660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2690,6 +2692,21 @@ MonoBehaviour:
   backDetector: {fileID: 1125447867874340}
   frontDetector: {fileID: 1215929220857822}
   rayCastMaxRange: 5
+--- !u!114 &114780624256381432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1932928055813464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c057595ad88971d4db0749670d2f5f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoAttackClassName: AutoAttackWarrior
+  spellClassNames:
+  - FireBallSpell
+  - ConflagrationSpell
 --- !u!124 &124149258760629704
 Behaviour:
   m_ObjectHideFlags: 1

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-
 public class CameraController : MonoBehaviour {
 
     public Transform target;
+	public bool CameraControlled = false;
     Rigidbody rb;
     float distanceMin = 2.5f;
     float distance = 5.0f;
@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour {
 
     private void LateUpdate()
     {
-        if (target == null)
+        if (target == null || CameraControlled)
             return;
 
         x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
@@ -60,4 +60,20 @@ public class CameraController : MonoBehaviour {
         transform.rotation = Quaternion.Euler(y, x, 0);
         transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -distance) + target.position;
     }
+	
+	public void ControlCamera(float x, float y) {
+		this.x = x;
+        this.y = y;
+
+        HandleCameraZoom();
+        HandleCameraTransform();
+	}
+	
+	public float GetCameraX() {
+		return x;
+	}
+	
+	public float GetCameraY() {
+		return y;
+	}
 }
