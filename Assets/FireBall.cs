@@ -20,7 +20,6 @@ public class FireBall : MonoBehaviour {
             ignite = entityHit.gameObject.AddComponent<IgniteStatus>();
             transform.parent.GetComponent<ConflagrationSpell>().targets.Add(ignite);
         }
-		
 		Destroy(this.gameObject);
     }
 }

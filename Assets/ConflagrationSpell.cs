@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConflagrationSpell : Spell {
+public class ConflagrationSpell : Spell
+{
 
     public List<IgniteStatus> targets = new List<IgniteStatus>();
+    public List<Collider> targetsExploded = new List<Collider>();
+
     public bool CritSuccess = false;
-    protected override void Start () {
+    protected override void Start()
+    {
         SpellCD = 12.0f;
         base.Start();
     }
@@ -25,14 +29,15 @@ public class ConflagrationSpell : Spell {
             return;
 
         List<IgniteStatus> targetsToAdd = new List<IgniteStatus>();
+
         foreach (IgniteStatus target in targets)
         {
             EntityLivingBase entity = target.GetComponent<EntityLivingBase>();
             entity.DamageFor(20);
-            Collider[] cols = Physics.OverlapSphere(entity.transform.position, 4f);
+            Collider[] cols = Physics.OverlapSphere(entity.transform.position, 10f);
             foreach (Collider col in cols)
             {
-                if (col.gameObject.GetComponent<EntityLivingBase>() && col.gameObject != target.gameObject && !col.isTrigger)
+                if (col.gameObject.GetComponent<EntityLivingBase>() && col.gameObject != target.gameObject && !col.isTrigger && !targetsExploded.Contains(col) && !targets.Contains(col.GetComponent<IgniteStatus>()))
                 {
                     if (Random.Range(0, 100) < 50 || CritSuccess)
                     {
@@ -44,8 +49,10 @@ public class ConflagrationSpell : Spell {
                     }
                 }
             }
+            targetsExploded.Add(target.GetComponent<Collider>());
             Destroy(target);
         }
+        targetsExploded.Clear();
         targets.Clear();
         targets = targetsToAdd;
         CritSuccess = false;

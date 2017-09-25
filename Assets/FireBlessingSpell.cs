@@ -25,7 +25,7 @@ public class FireBlessingSpell : Spell {
         tick += Time.deltaTime;
         if(tick >= DurationOfCritSuccess)
         {
-            Debug.Log("Conflagrationtion CritSuccess ended !");
+            Debug.Log("Conflagration CritSuccess ended !");
             Conflagration.CritSuccess = false;
         }
     }
