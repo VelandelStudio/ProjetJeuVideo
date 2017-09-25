@@ -42,20 +42,23 @@ public abstract class Item : MonoBehaviour {
     /// The item level
     /// More the level is high, more the item has mark  
     /// </summary>
-    private int _itemLevel;
+    [SerializeField] private int _itemLevel;
 
     /// <summary>
     /// The rarity of Item
     /// </summary>
-    private ERarity _rarity;
+    [SerializeField]  private ERarity _rarity;
+
+    [SerializeField] protected int _markCoefficient;
     #endregion
 
     // Use this for initialization
-    void Start (int itemLevel,ERarity rarity) {
+    protected void Start (int itemLevel,ERarity rarity,int markCoefficient) {
         _itemLevel = itemLevel;
         _rarity = rarity;
         _coefficientDueToRarity = new Dictionary<ERarity, double>();
         InitCoefficient();
+        _markCoefficient = markCoefficient;
         _characteristics = new Dictionary<ECharacteristic, int>();
     }
 	
@@ -84,7 +87,7 @@ public abstract class Item : MonoBehaviour {
     {
         get
         {
-            var totalMark = MarkDueToLevel(ItemLevel) * _coefficientDueToRarity[Rarity];
+            var totalMark = ItemLevel * MarkCoefficient * _coefficientDueToRarity[Rarity];
 
             return Convert.ToInt32(Math.Round(totalMark));
         }
@@ -144,10 +147,15 @@ public abstract class Item : MonoBehaviour {
         }
     }
 
+    public int MarkCoefficient
+    {
+        get
+        {
+            return _markCoefficient;
+        }
+    }
    
-    abstract protected int MarkDueToLevel(int level);
-
-    private void InitCoefficient()
+   private void InitCoefficient()
     {
         _coefficientDueToRarity.Add(ERarity.Common, 1);
         _coefficientDueToRarity.Add(ERarity.Magic, 1.1);
