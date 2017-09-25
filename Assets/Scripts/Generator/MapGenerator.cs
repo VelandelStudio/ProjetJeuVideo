@@ -55,9 +55,9 @@ public class MapGenerator : MonoBehaviour {
 
         // to build th dungeon inside a empty GameObject
         string holderName = "Generated Dungeon";
-        if (transform.FindChild(holderName))
+        if (transform.Find(holderName))
         {
-            DestroyImmediate(transform.FindChild(holderName).gameObject);
+            DestroyImmediate(transform.Find(holderName).gameObject);
         }
 
         Transform dungeonHolder = new GameObject(holderName).transform;

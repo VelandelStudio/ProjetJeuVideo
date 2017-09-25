@@ -55,8 +55,11 @@ public class MakeGameObjectTransparent : MonoBehaviour
         m_Transparency = m_TargetTransparancy;
         if (m_OldShader == null)
         {
-            m_OldShader = objectRenderer.material.shader;
-            m_OldColor = objectRenderer.material.color;
+            if (objectRenderer != null)
+            {
+                m_OldShader = objectRenderer.material.shader;
+                m_OldColor = objectRenderer.material.color;
+            }
             objectRenderer.material.shader = Shader.Find("Legacy Shaders/Transparent/Diffuse");
         }
     }
