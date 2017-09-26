@@ -37,7 +37,8 @@ public class ConflagrationSpell : Spell
             Collider[] cols = Physics.OverlapSphere(entity.transform.position, 10f);
             foreach (Collider col in cols)
             {
-                if (col.gameObject.GetComponent<EntityLivingBase>() && col.gameObject != target.gameObject && !col.isTrigger && !targetsExploded.Contains(col) && !targets.Contains(col.GetComponent<IgniteStatus>()))
+                if (col.gameObject.GetComponent<EntityLivingBase>() && col.gameObject != target.gameObject && !col.isTrigger
+                    && !targetsExploded.Contains(col) && !targets.Contains(col.GetComponent<IgniteStatus>()))
                 {
                     if (Random.Range(0, 100) < 50 || CritSuccess)
                     {
@@ -45,6 +46,7 @@ public class ConflagrationSpell : Spell
                             Destroy(col.gameObject.GetComponent<IgniteStatus>());
 
                         IgniteStatus ignite = col.gameObject.AddComponent<IgniteStatus>();
+                        col.gameObject.GetComponent<EntityLivingBase>().DamageFor(10);
                         targetsToAdd.Add(ignite);
                     }
                 }

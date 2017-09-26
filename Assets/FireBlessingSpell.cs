@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBlessingSpell : Spell {
+public class FireBlessingSpell : Spell
+{
 
     private ConflagrationSpell Conflagration;
     private float DurationOfCritSuccess = 5.0f;
@@ -23,7 +24,7 @@ public class FireBlessingSpell : Spell {
             return;
 
         tick += Time.deltaTime;
-        if(tick >= DurationOfCritSuccess)
+        if (tick >= DurationOfCritSuccess)
         {
             Debug.Log("Conflagration CritSuccess ended !");
             Conflagration.CritSuccess = false;
@@ -36,6 +37,7 @@ public class FireBlessingSpell : Spell {
 
         if (!IsSpellLauncheable())
             return;
+
         tick = 0;
         Conflagration.CritSuccess = true;
         Debug.Log("Conflagration CritSuccess 100% for 5 sec !");
