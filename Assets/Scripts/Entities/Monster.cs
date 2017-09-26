@@ -16,6 +16,7 @@ public abstract class Monster : EntityLivingBase
     /// The maximum distance of target before reset target
     /// </summary>
     [SerializeField] private double maxDistanceTarget;
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="Monster"/> class.
     /// </summary>
@@ -55,6 +56,12 @@ public abstract class Monster : EntityLivingBase
 
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this instance has detected a player.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> if this instance has detected a player; otherwise, <c>false</c>.
+    /// </value>
     public bool IsPlayerDetected
     {
         get
@@ -107,11 +114,7 @@ public abstract class Monster : EntityLivingBase
     {
         get
         {
-            var X = TargetTransform.position.x - this.transform.position.x;
-            var Y = TargetTransform.position.y - this.transform.position.y;
-            var Z = TargetTransform.position.z - this.transform.position.z;
-
-            return Mathf.Sqrt((Mathf.Pow(X,2))+ (Mathf.Pow(Y, 2)) + (Mathf.Pow(Z, 2)));
+            return Vector3.Distance(this.transform.position, TargetTransform.position);
         }
     }
 

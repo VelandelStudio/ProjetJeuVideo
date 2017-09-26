@@ -49,23 +49,47 @@ public abstract class Item : MonoBehaviour {
     /// </summary>
     [SerializeField]  private ERarity _rarity;
 
-    [SerializeField] protected int _markCoefficient;
+    /// <summary>
+    /// Represents the number of mark delivered by this type of Item.
+    /// </summary>
+    [SerializeField] private int _markCoefficient;
     #endregion
 
-    // Use this for initialization
-    protected void Start (int itemLevel,ERarity rarity,int markCoefficient) {
-        _itemLevel = itemLevel;
-        _rarity = rarity;
+    /// <summary>
+    /// Use this method to instanciate and initialise an Item.
+    /// </summary>
+    protected void Start()
+    {
+        _characteristics = new Dictionary<ECharacteristic, int>();
         _coefficientDueToRarity = new Dictionary<ERarity, double>();
         InitCoefficient();
-        _markCoefficient = markCoefficient;
-        _characteristics = new Dictionary<ECharacteristic, int>();
     }
+
 	
     private Dictionary<ERarity, double> _coefficientDueToRarity;
     private Dictionary<ECharacteristic, int> _characteristics;
-    
+
     #region Public property
+    /// <summary>
+    /// Property readonly
+    /// Get the rarity of Item
+    /// </summary>
+    protected ERarity Rarity
+    {
+        get
+        {
+            return _rarity;
+        }
+    }
+
+    public int MarkCoefficient
+    {
+        get
+        {
+            return _markCoefficient;
+        }
+    }
+
     /// <summary>
     /// Property readonly
     /// Get the level of Item
@@ -135,25 +159,7 @@ public abstract class Item : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Property readonly
-    /// Get the rarity of Item
-    /// </summary>
-    protected ERarity Rarity
-    {
-        get
-        {
-            return _rarity;
-        }
-    }
-
-    public int MarkCoefficient
-    {
-        get
-        {
-            return _markCoefficient;
-        }
-    }
+   
    
    private void InitCoefficient()
     {
