@@ -78,24 +78,42 @@ public class MapGenerator : MonoBehaviour {
 
         // Check all the possibility of a room placement
 
-        if (x == 0 && y == 0)
-            return newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
-        else if (x == sizeMap.x - 100 && y == sizeMap.y - 100)
-            return newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.identity) as Transform;
-        else if (x == 0 && y == sizeMap.y - 100)
-            return newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
-        else if (x == sizeMap.x - 100 && y == 0)
-            return newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
-        else if ((x != 0 && x != sizeMap.x - 100) && y == 0)
-            return newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
-        else if ((x != 0 && x != sizeMap.x - 100) && y == sizeMap.y - 100)
-            return newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
-        else if (x == 0  && (y != 0 && y != sizeMap.y - 100))
-            return newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
-        else if (x == sizeMap.x - 100 && (y != 0 && y != sizeMap.y - 100))
-            return newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.identity) as Transform;
-        else if (x != 0 && y != 0 && y != sizeMap.y - 100 && x != 0 && x != sizeMap.x)
-            return newRoom = Instantiate(roomTypes[0], roomPosition, Quaternion.identity) as Transform;
+        var line = y == 0 ? 0 : (y == sizeMap.y - 100 ? 2 : 1);
+        var col = x == 0 ? 0 : (x == sizeMap.x - 100 ? 2 : 1);
+
+        switch (line + " | " + col)
+        {
+            case "0 | 0":
+                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
+                break;
+            case "0 | 1":
+                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
+                break;
+            case "0 | 2":
+                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
+                break;
+            case "1 | 0":
+                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
+                break;
+            case "1 | 1":
+                newRoom = Instantiate(roomTypes[0], roomPosition, Quaternion.identity) as Transform;
+                break;
+            case "1 | 2":
+                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.identity) as Transform;
+                break;
+            case "2 | 0":
+                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
+                break;
+            case "2 | 1":
+                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
+                break;
+            case "2 | 2":
+                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.identity) as Transform;
+                break;
+            default:
+                newRoom = null;
+                break;
+        }
 
         return newRoom;
     }
