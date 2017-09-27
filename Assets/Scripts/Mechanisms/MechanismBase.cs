@@ -14,7 +14,7 @@ public abstract class MechanismBase : MonoBehaviour, IInterractableEntity
     /** Start Method
      * Set the mechanism activable and not activated yet.
      **/
-    private void Start() {
+    protected virtual void Start() {
         isActivated = false;
     }
 
