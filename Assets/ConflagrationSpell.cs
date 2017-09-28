@@ -42,17 +42,19 @@ public class ConflagrationSpell : Spell
                 {
                     if (Random.Range(0, 100) < 50 || CritSuccess)
                     {
-                        if (col.gameObject.GetComponent<IgniteStatus>() != null)
-                            Destroy(col.gameObject.GetComponent<IgniteStatus>());
+                        IgniteStatus ignite = col.gameObject.GetComponent<IgniteStatus>();
+                        if (ignite != null)
+                            ignite.ResetStatus();
+                        else
+                            ignite = col.gameObject.AddComponent<IgniteStatus>();
 
-                        IgniteStatus ignite = col.gameObject.AddComponent<IgniteStatus>();
                         col.gameObject.GetComponent<EntityLivingBase>().DamageFor(10);
                         targetsToAdd.Add(ignite);
                     }
                 }
             }
             targetsExploded.Add(target.GetComponent<Collider>());
-            Destroy(target);
+            target.EndStatus();
         }
         targetsExploded.Clear();
         targets.Clear();

@@ -13,12 +13,13 @@ public class FireBall : MonoBehaviour
             entityHit.DamageFor(100);
             IgniteStatus ignite = entityHit.gameObject.GetComponent<IgniteStatus>();
             if (ignite != null)
-                Destroy(ignite);
-
-            ignite = entityHit.gameObject.AddComponent<IgniteStatus>();
-            transform.parent.GetComponent<ConflagrationSpell>().targets.Add(ignite);
+                ignite.ResetStatus();
+            else
+            {
+                ignite = entityHit.gameObject.AddComponent<IgniteStatus>();
+                transform.parent.GetComponent<ConflagrationSpell>().targets.Add(ignite);
+            }
         }
-
         Destroy(this.gameObject);
     }
 }

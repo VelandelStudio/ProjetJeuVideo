@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class IgniteStatus : MonoBehaviour
 {
-    private float MaxDuration = 5;
+    private float MaxDuration = 500;
     private float TickInterval = 1;
     private float Tick = 0;
 
     private EntityLivingBase entity;
-    public GameObject obj;
+    private GameObject particles;
     private void Start()
     {
-        obj = (GameObject)Resources.Load("FireComplex", typeof(GameObject));
+        GameObject obj = (GameObject)Resources.Load("SpellPrefabs/IgniteStatus", typeof(GameObject));
+        particles = Instantiate(obj, transform.position, transform.rotation, transform);
 
         entity = GetComponent<EntityLivingBase>();
-        Destroy(this, MaxDuration);
+        Invoke("EndStatus", (int)MaxDuration);
     }
 
     private void Update()
@@ -27,4 +28,19 @@ public class IgniteStatus : MonoBehaviour
             entity.DamageFor(5);
         }
     }
+
+    public void ResetStatus()
+    {
+        CancelInvoke("EndStatus");
+        Tick = 0;
+        Invoke("EndStatus", (int)MaxDuration);
+    }
+
+
+    public void EndStatus()
+    {
+        Destroy(particles);
+        Destroy(this);
+    }
+
 }
