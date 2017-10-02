@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 136168674238682404}
   - component: {fileID: 23519612947878298}
   - component: {fileID: 114807142394413018}
+  - component: {fileID: 114602124374477282}
   m_Layer: 0
   m_Name: Dunjon generator
   m_TagString: Untagged
@@ -37,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1428087923469884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.48, y: 2.3, z: -0.43}
+  m_LocalPosition: {x: -110, y: 2, z: -193}
   m_LocalScale: {x: 0.50784355, y: 2.6107185, z: 0.50784343}
   m_Children: []
   m_Father: {fileID: 0}
@@ -82,6 +83,24 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1428087923469884}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114602124374477282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1428087923469884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2ca9e2c33d606429f082dcf9a60628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rooms: []
+  roomTypes:
+  - {fileID: 4689384437946484, guid: 07422990a956da54db9c32fd580f794e, type: 2}
+  - {fileID: 4859342343778554, guid: 0861c5360ffaeaf4895560342e4f230b, type: 2}
+  - {fileID: 4286368265891932, guid: 66c3af08eaf61b349b519e06800a50cf, type: 2}
+  min: 2
+  max: 5
 --- !u!114 &114807142394413018
 MonoBehaviour:
   m_ObjectHideFlags: 1
