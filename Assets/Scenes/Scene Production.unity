@@ -27254,11 +27254,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c057595ad88971d4db0749670d2f5f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PassiveClassName: PassiveFireMage
   AutoAttackClassName: AutoAttackFireMage
   spellClassNames:
   - FireBallSpell
   - ConflagrationSpell
   - FireBlessingSpell
+  - SolarBurnSpell
 --- !u!1 &931921828
 GameObject:
   m_ObjectHideFlags: 0
