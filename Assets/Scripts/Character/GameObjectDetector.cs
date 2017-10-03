@@ -13,6 +13,7 @@ public class GameObjectDetector : MonoBehaviour
 
     [SerializeField] private float rayCastMaxRange = 5f;
 
+    public Vector3 OriginPoint;
     private int layerMask;
 
     /** Start, private void method.
@@ -43,14 +44,15 @@ public class GameObjectDetector : MonoBehaviour
         float offSet = Vector3.Distance(backDetector.transform.position, transform.position);
 
         Debug.DrawRay(originPointFront, transform.forward * rayCastMaxRange, Color.green);
- 
+
         RaycastHit hitInFrontCollider;
+        OriginPoint = originPointFront;
         bool InterractableCollider = Physics.Raycast(originPointFront, transform.forward, out hitInFrontCollider, rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
         if (InterractableCollider && IsElligibleForHighlight(hitInFrontCollider))
             SetBehaviorOfObjectsInFront(hitInFrontCollider);
 
         RaycastHit hitInFrontTrigger;
-        bool InterractableTrigger  = Physics.Raycast(originPointFront, transform.forward, out hitInFrontTrigger, rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
+        bool InterractableTrigger = Physics.Raycast(originPointFront, transform.forward, out hitInFrontTrigger, rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
         if (InterractableTrigger && IsElligibleForHighlight(hitInFrontTrigger))
             SetBehaviorOfObjectsInFront(hitInFrontTrigger);
 
