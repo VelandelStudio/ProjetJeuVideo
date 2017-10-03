@@ -9,55 +9,32 @@ using UnityEngine;
  **/
 public class MapGenerator : MonoBehaviour {
 
-    public Transform[] rooms;
+    public int Seed { get; set; }                               // for the random generation Map
+    public List<GameObject> rooms = new List<GameObject>();     // List of all rooms in the game
+    public Transform[] roomTypes;
 
     // room[0] need to be with 4 corridors
     // room[1] need to be with 3 corridors
     // room[2] need to be with 2 corridors in an Elbow shape
 
     [SerializeField]
-    private int seed = 0;        // for the random generation
-
+    private int min = 2;            // define the shape of the dungeon with a minimum number of rows and columns
     [SerializeField]
-    private int min = 2;         // define the shape of the dungeon with a minimum for a 
-
-    [SerializeField]
-    private int max = 5;
-
-    private Vector2 sizeMap;
-
-    //gets and sets
-    public int Seed { get; set; }
-    public int Min { get; set; }
-    public int Max { get; set; }
-
-    /** Simple constructor of MapGenerator
-     *  This is to set the seed and the number of rooms
-     **/
-    public MapGenerator (int seed, int min, int max)
-    {
-        this.seed = seed;
-        this.min = min;
-        this.max = max;
-    }
-
-    private void Start()
-    {
-        GenerationMap();
-    }
+    private int max = 5;            // define the shape of the dungeon with a minimum number of rows and columns    
+    private Vector2 sizeMap;        // Vector2 that define the width and length of the dungeon
 
     /** generation map Method
      *  the idea is to place the rooms
      **/
     public void GenerationMap()
     {
-        randSizeDungeon(seed);
+        RandSizeDungeon(Seed);
 
         // to build th dungeon inside a empty GameObject
         string holderName = "Generated Dungeon";
-        if (transform.FindChild(holderName))
+        if (transform.Find(holderName))
         {
-            DestroyImmediate(transform.FindChild(holderName).gameObject);
+            DestroyImmediate(transform.Find(holderName).gameObject);
         }
 
         Transform dungeonHolder = new GameObject(holderName).transform;
@@ -68,18 +45,22 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int y = 0; y < sizeMap.y; y+=100)
             {
-                Transform newRoom = placementRoom(x, y);
+                Transform newRoom = PlacementRoom(x, y);
+                rooms.Add(newRoom.gameObject);
+
                 // And make the new room being a child of dungeonHolder
                 newRoom.parent = dungeonHolder;
             }
         }
+
+        Debug.Log(rooms.Count);
     }
 
     /** randSizeDungeon Method
      *  This is the random size of the map
      *  We can multiply by 100 cause of the size of our prefab rooms
      **/
-    private void randSizeDungeon (int seed)
+    private void RandSizeDungeon (int seed)
     {
         System.Random prng = new System.Random(seed);
 
@@ -90,31 +71,49 @@ public class MapGenerator : MonoBehaviour {
     /** placementRoom Method
      *  Here to place the good prefab at the good place
      **/
-    private Transform placementRoom(int x, int y)
+    private Transform PlacementRoom(int x, int y)
     {
         Vector3 roomPosition = new Vector3(-sizeMap.x / 2 + 100f + x, 0, -sizeMap.y / 2 + 100f + y);
         Transform newRoom = null ;
 
         // Check all the possibility of a room placement
 
-        if (x == 0 && y == 0)
-            return newRoom = Instantiate(rooms[2], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
-        else if (x == sizeMap.x - 100 && y == sizeMap.y - 100)
-            return newRoom = Instantiate(rooms[2], roomPosition, Quaternion.identity) as Transform;
-        else if (x == 0 && y == sizeMap.y - 100)
-            return newRoom = Instantiate(rooms[2], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
-        else if (x == sizeMap.x - 100 && y == 0)
-            return newRoom = Instantiate(rooms[2], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
-        else if ((x != 0 && x != sizeMap.x - 100) && y == 0)
-            return newRoom = Instantiate(rooms[1], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
-        else if ((x != 0 && x != sizeMap.x - 100) && y == sizeMap.y - 100)
-            return newRoom = Instantiate(rooms[1], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
-        else if (x == 0  && (y != 0 && y != sizeMap.y - 100))
-            return newRoom = Instantiate(rooms[1], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
-        else if (x == sizeMap.x - 100 && (y != 0 && y != sizeMap.y - 100))
-            return newRoom = Instantiate(rooms[1], roomPosition, Quaternion.identity) as Transform;
-        else if (x != 0 && y != 0 && y != sizeMap.y - 100 && x != 0 && x != sizeMap.x)
-            return newRoom = Instantiate(rooms[0], roomPosition, Quaternion.identity) as Transform;
+        var line = y == 0 ? 0 : (y == sizeMap.y - 100 ? 2 : 1);
+        var col = x == 0 ? 0 : (x == sizeMap.x - 100 ? 2 : 1);
+
+        switch (line + " | " + col)
+        {
+            case "0 | 0":
+                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
+                break;
+            case "0 | 1":
+                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
+                break;
+            case "0 | 2":
+                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
+                break;
+            case "1 | 0":
+                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
+                break;
+            case "1 | 1":
+                newRoom = Instantiate(roomTypes[0], roomPosition, Quaternion.identity) as Transform;
+                break;
+            case "1 | 2":
+                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.identity) as Transform;
+                break;
+            case "2 | 0":
+                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
+                break;
+            case "2 | 1":
+                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
+                break;
+            case "2 | 2":
+                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.identity) as Transform;
+                break;
+            default:
+                newRoom = null;
+                break;
+        }
 
         return newRoom;
     }
