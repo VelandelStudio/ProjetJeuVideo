@@ -56,7 +56,7 @@ public abstract class EntityLivingBase : MonoBehaviour
     /** Update protected method.
      * This method only count time ticks. Every seconds, it calls the HealFor Method in order to apply a RegenHpPerSec
      **/
-	protected void Update() {
+	protected virtual void Update() {
 		if(!IsDead) {
 			tick += Time.deltaTime;
 			if(tick >= 1) {
