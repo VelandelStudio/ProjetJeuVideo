@@ -8,7 +8,7 @@
 public class CursorBehaviour : MonoBehaviour
 {
 
-    private CameraController playerCameraController;
+    private CameraController _playerCameraController;
 
     /** Start private void
 	 * The method is used to set the cursor locked at the begining of the Game.
@@ -17,8 +17,7 @@ public class CursorBehaviour : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        playerCameraController = GetComponentInChildren<Camera>().GetComponent<CameraController>();
-        playerCameraController.CameraControlled = true;
+        _playerCameraController = GetComponentInChildren<Camera>().GetComponent<CameraController>();
     }
 
     /** Start private void
@@ -27,11 +26,10 @@ public class CursorBehaviour : MonoBehaviour
 	 **/
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
-            Cursor.lockState = Cursor.lockState == CursorLockMode.None ? CursorLockMode.Locked : CursorLockMode.None;	
-            playerCameraController.CameraControlled = !playerCameraController.CameraControlled;
+            Cursor.lockState = Cursor.lockState == CursorLockMode.None ? CursorLockMode.Locked : CursorLockMode.None;
+            _playerCameraController.CameraControlled = !_playerCameraController.CameraControlled;
         }
     }
 }
