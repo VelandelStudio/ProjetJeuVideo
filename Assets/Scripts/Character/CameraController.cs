@@ -8,39 +8,40 @@
 public class CameraController : MonoBehaviour
 {
 
-    public Transform target;					//The player transform.
-    public bool CameraControlled = true;        //Boolean to enable/Disable when another script is controlling the camera.
-	
-	//Speed and sensitivity of the Camera.
-    private float xSpeed = 250.0f;
-    private float ySpeed = 120.0f;
-	private float Sensitivity = 0.02f;
-	
-	//Clamp vertical values of rotation : the player can not see under his own foot.
-    private float yMinLimit = -10f;
-    private float yMaxLimit = 80f;
+    [SerializeField] private Transform _target;					//The player transform.
+    public bool CameraControlled;        //Boolean to enable/Disable when another script is controlling the camera.
 
-	//Clamp zoom values of the camera
-	private float distanceMin = 2.5f;
-    private float distance = 5.0f;
-    private float distanceMax = 6.0f;
-    private float zoomRate = 20f;
+    //Speed and sensitivity of the Camera.
+    private float _xSpeed = 250.0f;
+    private float _ySpeed = 120.0f;
+    private float _sensitivity = 0.02f;
 
-    private float x;
-    private float y;
+    //Clamp vertical values of rotation : the player can not see under his own foot.
+    private float _yMinLimit = -10f;
+    private float _yMaxLimit = 80f;
 
-	/** Start, private void
+    //Clamp zoom values of the camera
+    private float _distanceMin = 2.5f;
+    private float _distance = 5.0f;
+    private float _distanceMax = 6.0f;
+    private float _zoomRate = 20f;
+
+    public float X { get; private set; }
+    public float Y { get; private set; }
+
+    /** Start, private void
 	 * This Method get the eulerAgnles of the transform Target (player).
 	 * Then it sets the x and y values to the camera's one.
 	 **/
     private void Start()
     {
-        Vector2 angles = transform.eulerAngles;
-        x = angles.y;
-        y = angles.x;
-	}
+        var angles = transform.eulerAngles;
+        X = angles.y;
+        Y = angles.x;
+        CameraControlled = true;
+    }
 
-	/** LateUpdate, private void
+    /** LateUpdate, private void
 	 * This method is called to set the new values of X and Y of the camera.
 	 * It is called in a LateUpdate because the camera should always be ajusted after all other elements (As it is said on unity Documentation).
 	 * We first test if the Camera is controlled by the player or by another script.
@@ -48,44 +49,43 @@ public class CameraController : MonoBehaviour
 	 **/
     private void LateUpdate()
     {
-        if (target == null)
-            return;		
-		
-		if(CameraControlled) {
-			x += Input.GetAxis("Mouse X") * xSpeed * Sensitivity;
-			y -= Input.GetAxis("Mouse Y") * ySpeed * Sensitivity;
-		}
-		else {
-			x += 0;
-			y += 0;
-		}
-		
-		HandleCameraZoom();
-		HandleCameraTransform();
+        if (_target == null)
+        {
+            return;
+        }
+
+        if (CameraControlled)
+        {
+            X += Input.GetAxis("Mouse X") * _xSpeed * _sensitivity;
+            Y -= Input.GetAxis("Mouse Y") * _ySpeed * _sensitivity;
+        }
+
+        HandleCameraZoom();
+        HandleCameraTransform();
     }
-	
-	/** HandleCameraZoom, private void
+
+    /** HandleCameraZoom, private void
 	 * This method is called in every LateUpdate. It get the InputAxis ScrollWheel and modify the zoom value.
 	 * Then this value is Clamped between distanceMin and distanceMax.
 	 **/
     private void HandleCameraZoom()
     {
-        distance += -(Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime) * zoomRate * Mathf.Abs(distance);
-        distance = distance < distanceMin ? distanceMin : (distance > distanceMax ? distanceMax : distance);
+        _distance += -(Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime) * _zoomRate * Mathf.Abs(_distance);
+        _distance = _distance < _distanceMin ? _distanceMin : (_distance > _distanceMax ? _distanceMax : _distance);
     }
-	
-	/** HandleCameraTransform, private void
+
+    /** HandleCameraTransform, private void
 	 * This method is called in every LateUpdate. First at all, we clamp the angle value.
 	 * Then this position and rotation of the camera are modified by the mouse Axis x and y.
 	 **/
     private void HandleCameraTransform()
     {
-        y = ClampAngle(y, yMinLimit, yMaxLimit);
-        transform.rotation = Quaternion.Euler(y, x, 0);
-        transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -distance) + target.position;
+        Y = ClampAngle(Y, _yMinLimit, _yMaxLimit);
+        transform.rotation = Quaternion.Euler(Y, X, 0);
+        transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -_distance) + _target.position;
     }
-	
-	/** ClampAngle, private float
+
+    /** ClampAngle, private float
 	 * This method is used to clamp the angle of the camera in order to  turn around the player on the horizontal axis.
 	 **/
     private float ClampAngle(float angle, float min, float max)
@@ -93,29 +93,13 @@ public class CameraController : MonoBehaviour
         angle = angle < -360 ? angle + 360 : (angle > 360 ? angle - 360 : angle);
         return Mathf.Clamp(angle, min, max);
     }
-	
-	/** ControlCamera, public void
+
+    /** ControlCamera, public void
 	 * This method is used to clamp the angle of the camera in order to  turn around the player on the horizontal axis.
 	 **/
     public void ControlCamera(float x, float y)
     {
-        this.x = x;
-        this.y = y;
-    }
-	
-	/** GetCameraX, public float
-	 * Getter for the X value.
-	 **/
-    public float GetCameraX()
-    {
-        return x;
-    }
-	
-	/** GetCameraY, public float
-	 * Getter for the Y value.
-	 **/
-    public float GetCameraY()
-    {
-        return y;
+        X = x;
+        Y = y;
     }
 }

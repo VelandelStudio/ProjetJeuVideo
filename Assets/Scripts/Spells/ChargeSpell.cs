@@ -23,7 +23,7 @@ public class ChargeSpell : Spell
 
         directionOfCharge = transform.forward;
         cameraPlayer.CameraControlled = false;
-        cameraPlayer.ControlCamera(cameraPlayer.GetCameraX(), 0.5f);
+        cameraPlayer.ControlCamera(cameraPlayer.X, 0.5f);
     }
 
     protected override void Update()
