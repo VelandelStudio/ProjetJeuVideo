@@ -2689,9 +2689,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb8e6b46a87703c43862938d7e7663cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backDetector: {fileID: 1125447867874340}
-  frontDetector: {fileID: 1215929220857822}
-  rayCastMaxRange: 5
+  _backDetector: {fileID: 1125447867874340}
+  _frontDetector: {fileID: 1215929220857822}
+  _rayCastMaxRange: 5
   OriginPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &114780624256381432
 MonoBehaviour:
@@ -2709,12 +2709,8 @@ MonoBehaviour:
   spellClassNames:
   - FireBallSpell
   - ConflagrationSpell
-  - FireBlessingSpell
+  - ConflagrationSpell
   - SolarBurnSpell
-  _backDetector: {fileID: 1125447867874340}
-  _frontDetector: {fileID: 1215929220857822}
-  _rayCastMaxRange: 5
-  OriginPoint: {x: 0, y: 0, z: 0}
 --- !u!124 &124149258760629704
 Behaviour:
   m_ObjectHideFlags: 1
