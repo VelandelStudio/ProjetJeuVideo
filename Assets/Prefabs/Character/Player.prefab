@@ -2711,6 +2711,10 @@ MonoBehaviour:
   - ConflagrationSpell
   - FireBlessingSpell
   - SolarBurnSpell
+  _backDetector: {fileID: 1125447867874340}
+  _frontDetector: {fileID: 1215929220857822}
+  _rayCastMaxRange: 5
+  OriginPoint: {x: 0, y: 0, z: 0}
 --- !u!124 &124149258760629704
 Behaviour:
   m_ObjectHideFlags: 1
