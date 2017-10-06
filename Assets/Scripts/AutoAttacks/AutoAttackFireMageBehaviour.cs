@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AutoAttackFireMageBehaviour : MonoBehaviour {
+/** AutoAttackFireMageBehaviour public class.
+ * This script is associated with a AutoAttackFireMage instance prefab.
+ **/
+public class AutoAttackFireMageBehaviour : MonoBehaviour
+{
 
-private void OnCollisionEnter(Collision collision)
+    /** OnCollisionEnter private void.
+	 * When the AutoAttackFireMage prefabs hits a collider, if it is an EntityLivingBase, the script will notify the AutoAttackFireMage by launching its OnAttackHit method
+	 * Then the prefab is destroyed.
+	 **/
+    private void OnCollisionEnter(Collision collision)
     {
-		EntityLivingBase entityHit = collision.gameObject.GetComponent<EntityLivingBase>();
+        EntityLivingBase entityHit = collision.gameObject.GetComponent<EntityLivingBase>();
         if (entityHit != null && entityHit.gameObject.tag != "Player")
         {
-			transform.parent.GetComponent<AutoAttackFireMage>().OnAttackHit();
+            entityHit.DamageFor(5);
+            transform.parent.GetComponent<AutoAttackFireMage>().OnAttackHit();
         }
-		
-		Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }
