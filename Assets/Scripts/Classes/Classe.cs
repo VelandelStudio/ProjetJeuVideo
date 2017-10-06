@@ -14,7 +14,7 @@ public abstract class Classe : MonoBehaviour
 {
     public string PassiveClassName;
     public string AutoAttackClassName;
-    public List<string> spellClassNames = new List<string>();
+    public List<string> SpellClassNames = new List<string>();
     protected List<Spell> spells = new List<Spell>();
     protected AutoAttackBase autoAttack;
 
@@ -43,16 +43,25 @@ public abstract class Classe : MonoBehaviour
         }
 
         if (Input.GetMouseButton(0))
+        {
             AutoAttack();
-
+        }
         if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
             LaunchSpell(0);
+        }
         if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
             LaunchSpell(1);
+        }
         if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
             LaunchSpell(2);
+        }
         if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
             LaunchSpell(3);
+        }
     }
 
     /** AutoAttack protected virtual void Method.
@@ -108,14 +117,14 @@ public abstract class Classe : MonoBehaviour
     }
 
     /** AttributeSpellsToClass protected virtual void Method.
-	 * This method is called by the Start method. The Objective of the method is to get the spell names in the spellClassNames List.
+	 * This method is called by the Start method. The Objective of the method is to get the spell names in the SpellClassNames List.
 	 * Then, it get all of the script in the scripts library and attach it to the player.
 	 * If one of the scripts is not found or mispelled, the HandleException(3) is launched.
 	 **/
     protected virtual void AttributeSpellsToClass()
     {
         Type t;
-        foreach (string SpellName in spellClassNames)
+        foreach (string SpellName in SpellClassNames)
         {
             t = Type.GetType(SpellName.ToString());
             if (t == null)

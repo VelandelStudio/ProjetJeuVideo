@@ -7,14 +7,14 @@ using UnityEngine;
 public abstract class AutoAttackBase : MonoBehaviour
 {
     protected float GCD;
-    protected float CurrentGCD;
+    protected float currentGCD;
 
     /** Start protected virtual void Method,
 	 * The Start method initializes the CD of the auto-attack.
 	 **/
     protected virtual void Start()
     {
-        CurrentGCD = GCD;
+        currentGCD = GCD;
     }
 
     /** Update protected virtual void Method,
@@ -23,7 +23,9 @@ public abstract class AutoAttackBase : MonoBehaviour
     protected virtual void Update()
     {
         if (!AutoAttackIsReady())
-            CurrentGCD = Mathf.Clamp(CurrentGCD + Time.deltaTime, 0, GCD);
+        {
+            currentGCD = Mathf.Clamp(currentGCD + Time.deltaTime, 0, GCD);
+        }
     }
 
     /** AutoAttackIsReady protected bool Method,
@@ -31,7 +33,7 @@ public abstract class AutoAttackBase : MonoBehaviour
 	 **/
     protected bool AutoAttackIsReady()
     {
-        return (CurrentGCD == GCD);
+        return (currentGCD == GCD);
     }
 
     /** AutoAttack public virtual void Method,
@@ -42,6 +44,6 @@ public abstract class AutoAttackBase : MonoBehaviour
 	 **/
     public virtual void AutoAttack()
     {
-        CurrentGCD = 0;
+        currentGCD = 0;
     }
 }

@@ -6,9 +6,9 @@ using UnityEngine;
  **/
 public abstract class Spell : MonoBehaviour
 {
-    protected float SpellCD;
-    protected float CurrentCD;
-    protected bool SpellInUse = false;
+    protected float spellCD;
+    protected float currentCD;
+    protected bool spellInUse = false;
 
     /** Start protected virtual void Method,
 	 * The Start method first display the name of the spell whe he is created by the Classe.
@@ -17,7 +17,7 @@ public abstract class Spell : MonoBehaviour
     protected virtual void Start()
     {
         DisplaySpellCreation(this);
-        CurrentCD = SpellCD;
+        currentCD = spellCD;
     }
 
     /** Update protected virtual void Method,
@@ -26,19 +26,25 @@ public abstract class Spell : MonoBehaviour
     protected virtual void Update()
     {
         if (!IsSpellLauncheable())
-            CurrentCD = Mathf.Clamp(CurrentCD + Time.deltaTime, 0, SpellCD);
+        {
+            currentCD = Mathf.Clamp(currentCD + Time.deltaTime, 0, spellCD);
+        }
     }
 
     /** LaunchSpell public virtual void Method,
 	 * This public Method should always be called by the Classe script. It first checks if the spell is Launcheable.
-	 * If it is, it switched the boolean SpellInUse to true. This Method should always be used with OnSpellLaunched, to reset the SpellInUse to false.
+	 * If it is, it switched the boolean spellInUse to true. This Method should always be used with OnSpellLaunched, to reset the spellInUse to false.
 	 **/
     public virtual void LaunchSpell()
     {
         if (!IsSpellLauncheable())
+        {
             DisplaySpellNotLauncheable(this);
+        }
         else
-            SpellInUse = true;
+        {
+            spellInUse = true;
+        }
     }
 
     /** OnSpellLaunched protected virtual void Method,
@@ -47,8 +53,8 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual void OnSpellLaunched()
     {
-        CurrentCD = 0;
-        SpellInUse = false;
+        currentCD = 0;
+        spellInUse = false;
     }
 
     /** IsSpellLauncheable protected virtual bool Method,
@@ -57,7 +63,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual bool IsSpellLauncheable()
     {
-        return (SpellCD == CurrentCD);
+        return (spellCD == currentCD);
     }
 
     /** IsSpellInUse public bool Method,
@@ -65,7 +71,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     public bool IsSpellInUse()
     {
-        return SpellInUse;
+        return spellInUse;
     }
 
     /** DisplaySpellNotLauncheable protected void Method,
