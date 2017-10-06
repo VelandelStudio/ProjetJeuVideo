@@ -78,10 +78,10 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void SetBehaviorOfObjectsInFront(RaycastHit hit)
     {
-        if (hit.transform.GetComponentInParent<IInterractableEntity>() != null)
+        if (hit.transform.GetComponent<IInterractableEntity>() != null)
         {
             GameObject objectInFrontOfPlayer = hit.transform.gameObject;
-            IInterractableEntity interractable = hit.transform.GetComponentInParent<IInterractableEntity>();
+            IInterractableEntity interractable = hit.transform.GetComponent<IInterractableEntity>();
             interractable.DisplayTextOfInterractable();
             Debug.Log(hit.collider.name);
             if (objectInFrontOfPlayer.GetComponent<Renderer>() == null)
