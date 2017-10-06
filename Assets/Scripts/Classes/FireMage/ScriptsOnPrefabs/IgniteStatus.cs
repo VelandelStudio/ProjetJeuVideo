@@ -21,7 +21,7 @@ public class IgniteStatus : MonoBehaviour
 	 **/
     private void Start()
     {
-        GameObject obj = (GameObject)Resources.Load("SpellPrefabs/IgniteStatus", typeof(GameObject));
+        GameObject obj = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
         _particles = Instantiate(obj, transform.position, transform.rotation, transform);
 
         _entity = GetComponent<EntityLivingBase>();

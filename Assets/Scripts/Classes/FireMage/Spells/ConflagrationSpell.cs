@@ -21,7 +21,7 @@ public class ConflagrationSpell : Spell
 	 **/
     protected override void Start()
     {
-        SpellCD = 12.0f;
+        spellCD = 12.0f;
         base.Start();
     }
 

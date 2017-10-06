@@ -18,7 +18,7 @@ public class FireBlessingSpell : Spell
 	 **/
     protected override void Start()
     {
-        SpellCD = 30.0f;
+        spellCD = 30.0f;
         _conflagration = GetComponent<ConflagrationSpell>();
         base.Start();
     }

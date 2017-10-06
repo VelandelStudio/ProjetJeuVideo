@@ -10,7 +10,7 @@ public class ChargeSpell : Spell
     private Collider obstacle;
     protected override void Start()
     {
-        SpellCD = 10.0f;
+        spellCD = 10.0f;
         cameraPlayer = gameObject.GetComponentInChildren<Camera>().GetComponent<CameraController>();
         base.Start();
     }
@@ -29,7 +29,7 @@ public class ChargeSpell : Spell
     protected override void Update()
     {
         base.Update();
-        if (SpellInUse)
+        if (spellInUse)
         {
             tick += Time.deltaTime;
             transform.position = transform.position + (directionOfCharge * 20f * Time.deltaTime * (tick * 50 / 100));

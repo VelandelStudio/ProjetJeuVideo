@@ -18,7 +18,7 @@ public class SolarBurnSpell : Spell
     protected override void Start()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
-        SpellCD = 7f;
+        spellCD = 7f;
         base.Start();
     }
 
@@ -48,7 +48,7 @@ public class SolarBurnSpell : Spell
             return;
         }
 
-        GameObject throwable = (GameObject)Resources.Load("SpellPRefabs/FireBall", typeof(GameObject));
+        GameObject throwable = (GameObject)Resources.Load("FireMage/FireBall", typeof(GameObject));
 
         Vector2 pointInCircle = Random.insideUnitCircle.normalized * 8;
         Vector3 v = new Vector3(target.x + pointInCircle.x, target.y + 10, target.z + pointInCircle.y);

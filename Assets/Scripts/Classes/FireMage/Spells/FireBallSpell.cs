@@ -18,7 +18,7 @@ public class FireBallSpell : Spell
     protected override void Start()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
-        _throwable = (GameObject)Resources.Load("SpellPrefabs/FireBall", typeof(GameObject));
+        _throwable = (GameObject)Resources.Load("FireMage/FireBall", typeof(GameObject));
         Transform[] transformTab = this.gameObject.GetComponentsInChildren<Transform>();
         foreach (Transform tr in transformTab)
         {
@@ -28,7 +28,7 @@ public class FireBallSpell : Spell
                 break;
             }
         }
-        SpellCD = 3.0f;
+        spellCD = 3.0f;
         base.Start();
     }
 

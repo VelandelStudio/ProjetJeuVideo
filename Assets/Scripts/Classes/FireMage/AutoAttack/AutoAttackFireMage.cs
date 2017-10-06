@@ -24,7 +24,7 @@ public class AutoAttackFireMage : AutoAttackBase
     {
         GCD = _fireMageGCD;
         _cameraPlayer = this.GetComponentInChildren<Camera>();
-        _throwable = (GameObject)Resources.Load("AutoAttackFireMage", typeof(GameObject));
+        _throwable = (GameObject)Resources.Load("FireMage/AutoAttackFireMage", typeof(GameObject));
         Transform[] transformTab = this.gameObject.GetComponentsInChildren<Transform>();
         foreach (Transform tr in transformTab)
         {
