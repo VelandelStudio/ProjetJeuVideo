@@ -5,23 +5,12 @@ using System.Collections;
  * @Inherits MechanismBase
  * This Script should only be attached to the RoomGate Prefab.
  **/
-[RequireComponent(typeof(Collider))]
 public class GateOpener : MechanismBase {
 
     public Animator animGate1; //The left side of the door with inside room point of view
     public Animator animGate2; //The left side of the door with inside room point of view
 
     public Animator[] animHandlers; //To move the levers
-
-    Collider col; // The attached boxCollider of the assembly object
-
-    /** Start Method
-     * Just here to grab the boxCollider of the gameobject
-     **/
-    private void Start()
-    {
-        col = GetComponent<Collider>();
-    }
 
     /** ActivateInterractable Method
      * This Method overrides the parent one
@@ -53,11 +42,11 @@ public class GateOpener : MechanismBase {
     {
         animGate1.SetTrigger("OpenLeftDoor");
         animGate2.SetTrigger("OpenRightDoor");
-
-        col.enabled = false;
-        // base.ActivateInterractable();
-
-        Destroy(this);
+        MechanismBase[] AllMechanisms = transform.parent.GetComponentsInChildren<MechanismBase>();
+        foreach (MechanismBase machanism in AllMechanisms)
+        {
+            Destroy(machanism);
+        }
     }
 
     /** IEnumerator CoroutineOneSec
