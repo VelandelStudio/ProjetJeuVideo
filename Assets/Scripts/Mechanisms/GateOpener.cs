@@ -42,8 +42,11 @@ public class GateOpener : MechanismBase {
     {
         animGate1.SetTrigger("OpenLeftDoor");
         animGate2.SetTrigger("OpenRightDoor");
-
-        Destroy(this);
+        MechanismBase[] AllMechanisms = transform.parent.GetComponentsInChildren<MechanismBase>();
+        foreach (MechanismBase machanism in AllMechanisms)
+        {
+            Destroy(machanism);
+        }
     }
 
     /** IEnumerator CoroutineOneSec

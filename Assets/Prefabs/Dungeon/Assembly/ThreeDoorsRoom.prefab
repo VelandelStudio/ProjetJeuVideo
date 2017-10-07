@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4394661352699062}
-  - component: {fileID: 114608998479304580}
   m_Layer: 8
   m_Name: RoomGate (2)
   m_TagString: Untagged
@@ -129,7 +128,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4757333643943124}
-  - component: {fileID: 114378485098533416}
   m_Layer: 8
   m_Name: RoomGate (1)
   m_TagString: Untagged
@@ -263,6 +261,7 @@ GameObject:
   - component: {fileID: 33747876455802850}
   - component: {fileID: 23207362951470940}
   - component: {fileID: 65717373902321056}
+  - component: {fileID: 114840199633443218}
   m_Layer: 8
   m_Name: LeverInside
   m_TagString: Untagged
@@ -496,6 +495,7 @@ GameObject:
   - component: {fileID: 33621387392996684}
   - component: {fileID: 23688925543899554}
   - component: {fileID: 65562175814122994}
+  - component: {fileID: 114320329534680864}
   m_Layer: 8
   m_Name: LeverInside
   m_TagString: Untagged
@@ -656,6 +656,7 @@ GameObject:
   - component: {fileID: 33728734560804048}
   - component: {fileID: 23042585438384152}
   - component: {fileID: 65356389428834538}
+  - component: {fileID: 114715817425351588}
   m_Layer: 8
   m_Name: LeverOutside
   m_TagString: Untagged
@@ -726,6 +727,7 @@ GameObject:
   - component: {fileID: 33987865093722444}
   - component: {fileID: 23768138711321358}
   - component: {fileID: 65314651840583386}
+  - component: {fileID: 114303577406348428}
   m_Layer: 8
   m_Name: LeverInside
   m_TagString: Untagged
@@ -923,7 +925,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4891989936744440}
-  - component: {fileID: 114972626687570898}
   m_Layer: 8
   m_Name: RoomGate
   m_TagString: Untagged
@@ -942,6 +943,7 @@ GameObject:
   - component: {fileID: 33034109253841248}
   - component: {fileID: 23472060371692768}
   - component: {fileID: 65905361415040902}
+  - component: {fileID: 114253332836750042}
   m_Layer: 8
   m_Name: LeverOutside
   m_TagString: Untagged
@@ -976,6 +978,7 @@ GameObject:
   - component: {fileID: 33906094442955108}
   - component: {fileID: 23540058721298312}
   - component: {fileID: 65462849126923746}
+  - component: {fileID: 114366390881242440}
   m_Layer: 8
   m_Name: LeverOutside
   m_TagString: Untagged
@@ -1693,8 +1696,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1105864786467706}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 50.000008, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000004, y: 1, z: 1.0000006}
+  m_LocalPosition: {x: -94.9243, y: 1.0747657, z: 75.467064}
+  m_LocalScale: {x: 1.0000004, y: 1, z: 1}
   m_Children:
   - {fileID: 4143873791693952}
   - {fileID: 4877187611764150}
@@ -4088,12 +4091,12 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114378485098533416
+--- !u!114 &114253332836750042
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1100782723824758}
+  m_GameObject: {fileID: 1885356272104002}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
@@ -4104,12 +4107,12 @@ MonoBehaviour:
   animHandlers:
   - {fileID: 95103525520710022}
   - {fileID: 95041195903716316}
---- !u!114 &114608998479304580
+--- !u!114 &114303577406348428
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1008514305630812}
+  m_GameObject: {fileID: 1654541117602128}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
@@ -4120,12 +4123,12 @@ MonoBehaviour:
   animHandlers:
   - {fileID: 95293485379052292}
   - {fileID: 95679952675273340}
---- !u!114 &114972626687570898
+--- !u!114 &114320329534680864
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1870785805761418}
+  m_GameObject: {fileID: 1339789214599398}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
@@ -4136,3 +4139,51 @@ MonoBehaviour:
   animHandlers:
   - {fileID: 95130128827451042}
   - {fileID: 95602979684794392}
+--- !u!114 &114366390881242440
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1909343778672776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animGate1: {fileID: 95046410938186352}
+  animGate2: {fileID: 95345535850442060}
+  animHandlers:
+  - {fileID: 95103525520710022}
+  - {fileID: 95041195903716316}
+--- !u!114 &114715817425351588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543608519662858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animGate1: {fileID: 95046410938186352}
+  animGate2: {fileID: 95345535850442060}
+  animHandlers:
+  - {fileID: 95103525520710022}
+  - {fileID: 95041195903716316}
+--- !u!114 &114840199633443218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1185582507752606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animGate1: {fileID: 95046410938186352}
+  animGate2: {fileID: 95345535850442060}
+  animHandlers:
+  - {fileID: 95103525520710022}
+  - {fileID: 95041195903716316}
