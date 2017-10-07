@@ -8,12 +8,13 @@
  **/
 public class GameObjectDetector : MonoBehaviour
 {
-    [SerializeField] private GameObject backDetector;
-    [SerializeField] private GameObject frontDetector;
+    [SerializeField] private GameObject _backDetector;
+    [SerializeField] private GameObject _frontDetector;
 
-    [SerializeField] private float rayCastMaxRange = 5f;
+    [SerializeField] private float _rayCastMaxRange = 5f;
 
-    private int layerMask;
+    public Vector3 OriginPoint;
+    private int _layerMask;
 
     /** Start, private void method.
 	 * The start Method is used the get the layerMask TriggerInterractableEntity as an integer.
@@ -21,7 +22,7 @@ public class GameObjectDetector : MonoBehaviour
 	 **/
     private void Start()
     {
-        layerMask = LayerMask.NameToLayer("TriggerInterractableEntity");
+        _layerMask = LayerMask.NameToLayer("TriggerInterractableEntity");
     }
 
     /** FixedUpdate Method 
@@ -38,28 +39,36 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void FixedUpdate()
     {
-        Vector3 vPlayerProjected = Vector3.Project(frontDetector.transform.position - transform.position, transform.forward);
+        Vector3 vPlayerProjected = Vector3.Project(_frontDetector.transform.position - transform.position, transform.forward);
         Vector3 originPointFront = transform.position + vPlayerProjected;
-        float offSet = Vector3.Distance(backDetector.transform.position, transform.position);
+        float offSet = Vector3.Distance(_backDetector.transform.position, transform.position);
 
-        Debug.DrawRay(originPointFront, transform.forward * rayCastMaxRange, Color.green);
- 
+        Debug.DrawRay(originPointFront, transform.forward * _rayCastMaxRange, Color.green);
+
         RaycastHit hitInFrontCollider;
-        bool InterractableCollider = Physics.Raycast(originPointFront, transform.forward, out hitInFrontCollider, rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
-        if (InterractableCollider && IsElligibleForHighlight(hitInFrontCollider))
+        OriginPoint = originPointFront;
+        bool interractableCollider = Physics.Raycast(originPointFront, transform.forward, out hitInFrontCollider, _rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        if (interractableCollider && IsElligibleForHighlight(hitInFrontCollider))
+        {
             SetBehaviorOfObjectsInFront(hitInFrontCollider);
+        }
 
         RaycastHit hitInFrontTrigger;
-        bool InterractableTrigger  = Physics.Raycast(originPointFront, transform.forward, out hitInFrontTrigger, rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
-        if (InterractableTrigger && IsElligibleForHighlight(hitInFrontTrigger))
+        bool interractableTrigger = Physics.Raycast(originPointFront, transform.forward, out hitInFrontTrigger, _rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
+        if (interractableTrigger && IsElligibleForHighlight(hitInFrontTrigger))
+        {
             SetBehaviorOfObjectsInFront(hitInFrontTrigger);
-
-        Debug.DrawRay(transform.position, (backDetector.transform.position - transform.position), Color.yellow);
+        }
+        Debug.DrawRay(transform.position, (_backDetector.transform.position - transform.position), Color.yellow);
         RaycastHit[] hitsBehind;
-        hitsBehind = Physics.RaycastAll(transform.position, backDetector.transform.position - transform.position, offSet);
+        hitsBehind = Physics.RaycastAll(transform.position, _backDetector.transform.position - transform.position, offSet);
         foreach (RaycastHit hit in hitsBehind)
+        {
             if (hit.transform.tag != "Player" && IsElligibleForTransparency(hit))
+            {
                 SetBehaviorOfObjectsBehind(hit);
+            }
+        }
     }
 
     /** SetBehaviorOfObjectsInFront Method 
@@ -69,23 +78,31 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void SetBehaviorOfObjectsInFront(RaycastHit hit)
     {
-        if (hit.transform.GetComponent<IInterractableEntity>() != null)
+        if (hit.transform.GetComponentInParent<IInterractableEntity>() != null)
         {
             GameObject objectInFrontOfPlayer = hit.transform.gameObject;
-            IInterractableEntity interractable = hit.transform.GetComponent<IInterractableEntity>();
+            IInterractableEntity interractable = hit.transform.GetComponentInParent<IInterractableEntity>();
             interractable.DisplayTextOfInterractable();
-
+            Debug.Log(hit.collider.name);
             if (objectInFrontOfPlayer.GetComponent<Renderer>() == null)
+            {
                 objectInFrontOfPlayer = objectInFrontOfPlayer.GetComponentsInChildren<Renderer>()[0].gameObject;
+            }
 
             MakeGameObjectHighlighted scriptExisting = objectInFrontOfPlayer.GetComponent<MakeGameObjectHighlighted>();
             if (scriptExisting == null)
+            {
                 objectInFrontOfPlayer.AddComponent<MakeGameObjectHighlighted>();
+            }
             else
+            {
                 scriptExisting.BeHighLighted();
+            }
 
             if (Input.GetKeyDown(InputsProperties.activate))
+            {
                 interractable.ActivateInterractable();
+            }
         }
     }
 
@@ -104,13 +121,19 @@ public class GameObjectDetector : MonoBehaviour
         {
             obj = tr.gameObject;
             if (obj.GetComponent<Renderer>() == null || !hit.collider.bounds.Intersects(obj.GetComponent<Renderer>().bounds))
+            {
                 continue;
+            }
 
             MakeGameObjectTransparent scriptExisting = obj.GetComponent<MakeGameObjectTransparent>();
             if (scriptExisting == null)
+            {
                 obj.AddComponent<MakeGameObjectTransparent>();
+            }
             else
+            {
                 scriptExisting.BeTransparent();
+            }
         }
     }
 
@@ -121,7 +144,7 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private bool IsElligibleForHighlight(RaycastHit hit)
     {
-        return (!hit.collider.isTrigger || hit.collider.gameObject.layer == layerMask);
+        return (!hit.collider.isTrigger || hit.collider.gameObject.layer == _layerMask);
     }
 
     /** IsElligibleForTransparency private bool Method 
@@ -131,6 +154,6 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private bool IsElligibleForTransparency(RaycastHit hit)
     {
-        return !(hit.collider.isTrigger && hit.transform.GetComponent<IInterractableEntity>() != null && hit.collider.gameObject.layer != layerMask);
+        return !(hit.collider.isTrigger && hit.transform.GetComponent<IInterractableEntity>() != null && hit.collider.gameObject.layer != _layerMask);
     }
 }
