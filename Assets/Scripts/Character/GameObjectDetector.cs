@@ -15,7 +15,7 @@ public class GameObjectDetector : MonoBehaviour
 
     public Vector3 OriginPoint;
     private int _layerMask;
-
+    private Transform _cameraTransform;
     /** Start, private void method.
 	 * The start Method is used the get the layerMask TriggerInterractableEntity as an integer.
 	 * This layer is used for Interractable gameObjects launched by trigers only.
@@ -23,6 +23,7 @@ public class GameObjectDetector : MonoBehaviour
     private void Start()
     {
         _layerMask = LayerMask.NameToLayer("TriggerInterractableEntity");
+        _cameraTransform = GetComponentInChildren<Camera>().transform;
     }
 
     /** FixedUpdate Method 
@@ -39,29 +40,29 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void FixedUpdate()
     {
-        Vector3 vPlayerProjected = Vector3.Project(_frontDetector.transform.position - transform.position, transform.forward);
-        Vector3 originPointFront = transform.position + vPlayerProjected;
-        float offSet = Vector3.Distance(_backDetector.transform.position, transform.position);
+        Vector3 vPlayerProjected = Vector3.Project(_frontDetector.transform.position - _cameraTransform.position, _cameraTransform.forward);
+        Vector3 originPointFront = _cameraTransform.position + vPlayerProjected;
+        float offSet = Vector3.Distance(_backDetector.transform.position, _cameraTransform.position);
 
-        Debug.DrawRay(originPointFront, transform.forward * _rayCastMaxRange, Color.green);
+        Debug.DrawRay(originPointFront, _cameraTransform.forward * _rayCastMaxRange, Color.green);
 
         RaycastHit hitInFrontCollider;
         OriginPoint = originPointFront;
-        bool interractableCollider = Physics.Raycast(originPointFront, transform.forward, out hitInFrontCollider, _rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        bool interractableCollider = Physics.Raycast(originPointFront, _cameraTransform.forward, out hitInFrontCollider, _rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
         if (interractableCollider && IsElligibleForHighlight(hitInFrontCollider))
         {
             SetBehaviorOfObjectsInFront(hitInFrontCollider);
         }
 
         RaycastHit hitInFrontTrigger;
-        bool interractableTrigger = Physics.Raycast(originPointFront, transform.forward, out hitInFrontTrigger, _rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
+        bool interractableTrigger = Physics.Raycast(originPointFront, _cameraTransform.forward, out hitInFrontTrigger, _rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
         if (interractableTrigger && IsElligibleForHighlight(hitInFrontTrigger))
         {
             SetBehaviorOfObjectsInFront(hitInFrontTrigger);
         }
-        Debug.DrawRay(transform.position, (_backDetector.transform.position - transform.position), Color.yellow);
+        Debug.DrawRay(_cameraTransform.position, (_backDetector.transform.position - _cameraTransform.position), Color.yellow);
         RaycastHit[] hitsBehind;
-        hitsBehind = Physics.RaycastAll(transform.position, _backDetector.transform.position - transform.position, offSet);
+        hitsBehind = Physics.RaycastAll(_cameraTransform.position, _backDetector.transform.position - _cameraTransform.position, offSet);
         foreach (RaycastHit hit in hitsBehind)
         {
             if (hit.transform.tag != "Player" && IsElligibleForTransparency(hit))
@@ -78,16 +79,12 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private void SetBehaviorOfObjectsInFront(RaycastHit hit)
     {
-        if (hit.transform.GetComponentInParent<IInterractableEntity>() != null)
+        if (hit.transform.GetComponent<IInterractableEntity>() != null)
         {
             GameObject objectInFrontOfPlayer = hit.transform.gameObject;
-            IInterractableEntity interractable = hit.transform.GetComponentInParent<IInterractableEntity>();
+            IInterractableEntity interractable = hit.transform.GetComponent<IInterractableEntity>();
             interractable.DisplayTextOfInterractable();
             Debug.Log(hit.collider.name);
-            if (objectInFrontOfPlayer.GetComponent<Renderer>() == null)
-            {
-                objectInFrontOfPlayer = objectInFrontOfPlayer.GetComponentsInChildren<Renderer>()[0].gameObject;
-            }
 
             MakeGameObjectHighlighted scriptExisting = objectInFrontOfPlayer.GetComponent<MakeGameObjectHighlighted>();
             if (scriptExisting == null)
