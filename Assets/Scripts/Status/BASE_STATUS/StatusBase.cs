@@ -7,7 +7,8 @@ using UnityEngine;
  * This class is the mother class of most of the buffs/debuffs/Status in our game.
  * It aims to simplify the creation of Status, using the Template pattern.
  **/
-public abstract class StatusBase : MonoBehaviour, IStatus {
+public abstract class StatusBase : MonoBehaviour, IStatus
+{
 
     protected int maxDuration;
     protected float tickInterval;

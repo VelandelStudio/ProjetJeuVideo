@@ -5,7 +5,8 @@ using UnityEngine;
 /** IStatus public interface
  * Interface that contains alkl methods to apply a buff/debuff to a target.
  **/
-public interface IStatus {
+public interface IStatus
+{
 
     void OnStatusApplied();
     void StatusTickBehaviour();
