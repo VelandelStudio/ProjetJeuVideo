@@ -1696,7 +1696,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1105864786467706}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -94.9243, y: 1.0747657, z: 75.467064}
+  m_LocalPosition: {x: 143.49205, y: 21.519154, z: 81.49007}
   m_LocalScale: {x: 1.0000004, y: 1, z: 1}
   m_Children:
   - {fileID: 4143873791693952}
@@ -4102,11 +4102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animGate1: {fileID: 95046410938186352}
-  animGate2: {fileID: 95345535850442060}
+  animGate1: {fileID: 95515723990754010}
+  animGate2: {fileID: 95924802051277278}
   animHandlers:
-  - {fileID: 95103525520710022}
-  - {fileID: 95041195903716316}
+  - {fileID: 95293485379052292}
+  - {fileID: 95679952675273340}
 --- !u!114 &114303577406348428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4150,11 +4150,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animGate1: {fileID: 95046410938186352}
-  animGate2: {fileID: 95345535850442060}
+  animGate1: {fileID: 95807675155849416}
+  animGate2: {fileID: 95854957827746364}
   animHandlers:
-  - {fileID: 95103525520710022}
-  - {fileID: 95041195903716316}
+  - {fileID: 95130128827451042}
+  - {fileID: 95602979684794392}
 --- !u!114 &114715817425351588
 MonoBehaviour:
   m_ObjectHideFlags: 1

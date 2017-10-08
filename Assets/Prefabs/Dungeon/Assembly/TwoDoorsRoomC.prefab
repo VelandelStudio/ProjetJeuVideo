@@ -965,7 +965,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1757245970679430}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000004371139}
-  m_LocalPosition: {x: 124.34537, y: 0.8130491, z: 4.0530744}
+  m_LocalPosition: {x: 152.2241, y: 26.767035, z: 91.556526}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1}
   m_Children:
   - {fileID: 4251617078002330}
@@ -2961,11 +2961,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c8a3914bde27841a05fcdc81857094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animGate1: {fileID: 95094032616401254}
-  animGate2: {fileID: 95949654852481140}
+  animGate1: {fileID: 95052007394315564}
+  animGate2: {fileID: 95905429277790452}
   animHandlers:
-  - {fileID: 95696920833352462}
-  - {fileID: 95495502962452922}
+  - {fileID: 95818605606042280}
+  - {fileID: 95664089982725716}
 --- !u!114 &114862370343509652
 MonoBehaviour:
   m_ObjectHideFlags: 1
