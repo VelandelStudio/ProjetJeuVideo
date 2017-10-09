@@ -7,7 +7,7 @@ using UnityEngine;
 /// A monster has a target and can switch target    
 /// </summary>
 [RequireComponent(typeof(SphereCollider))]
-public abstract class Monster : EntityLivingBase
+public abstract class Monster : EntityLivingBase, IMonster
 {
     //Save the target of monster as a GameObject.
     private GameObject _target;
@@ -16,7 +16,7 @@ public abstract class Monster : EntityLivingBase
     /// The maximum distance of target before reset target
     /// </summary>
     [SerializeField] private double maxDistanceTarget;
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Monster"/> class.
     /// </summary>
@@ -39,21 +39,6 @@ public abstract class Monster : EntityLivingBase
 
         Target = other.gameObject;
         OnTargetSelected();
-    }
-
-    /// <summary>
-    /// Gets or sets the target transform.
-    /// </summary>
-    /// <value>
-    /// The target transform.
-    /// </value>
-    private Transform TargetTransform
-    {
-        get
-        {
-            return Target.transform;
-        }
-
     }
 
     /// <summary>
@@ -110,23 +95,41 @@ public abstract class Monster : EntityLivingBase
     /// </summary>
     public abstract void OnLoseTarget();
 
+    /// <summary>
+    /// When the target is acquiered, this method calcul the distance
+    /// between itself and the target.
+    /// </summary>
     public double DistanceToTarget
     {
         get
         {
-            return Vector3.Distance(this.transform.position, TargetTransform.position);
+            if (IsPlayerDetected)
+            {
+                return Vector3.Distance(this.transform.position, Target.transform.position);
+            }
+
+            return Mathf.Infinity;
         }
     }
-
 
     /// <summary>
     /// Updates this instance.
     /// </summary>
-    private void Update()
+    protected override void Update()
     {
-        if (DistanceToTarget > maxDistanceTarget)
+        base.Update();
+
+        if (IsPlayerDetected && DistanceToTarget > maxDistanceTarget)
         {
             ResetTarget();
         }
     }
+
+    // Implements IMonster...
+
+    public virtual void MonsterMove() { }
+
+    public virtual void MonsterAutoAttack() { }
+
+    public virtual void MonsterLaunchSpell() { }
 }
