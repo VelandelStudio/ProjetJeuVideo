@@ -6,7 +6,7 @@
  * Mechanisms are GameObjects that can be activated only once such as lever, doors, whatever...
  * This class must be inherited by a class attached to a GameObject with a collider to intercept Raycasts launches by the GameObjectDetector class attached to player.
  **/
-[RequireComponent(typeof(Collider))]
+ [RequireComponent(typeof(Collider))]
 public abstract class MechanismBase : MonoBehaviour, IInterractableEntity
 {
     protected bool isActivated;
