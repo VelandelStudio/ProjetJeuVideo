@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Warrior : Classe {
+public class Warrior : Character {
 
 	protected override void Start() 
 	{
