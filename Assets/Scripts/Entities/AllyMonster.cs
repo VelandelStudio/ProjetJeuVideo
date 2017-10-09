@@ -58,8 +58,19 @@ public class AllyMonster : Monster, IInterractableEntity
     /// </summary>
     public void ActivateInterractable()
     {
-        Debug.Log("Sir ! I'm at your service !");
-        _follow = true;
+        if (Target != null && _follow)      // The Ally is following you
+        {
+            Debug.Log("I'm already at your service Sir !");
+        } 
+        else if (Target == null)            // First interaction with the
+        {
+            Debug.Log("Come closer");
+        }
+        else
+        {
+            Debug.Log("Sir ! I'm at your service !");
+            _follow = true;
+        }
     }
 
     /// <summary>
@@ -68,7 +79,7 @@ public class AllyMonster : Monster, IInterractableEntity
     /// </summary>
     public void DisplayTextOfInterractable()
     {
-        Debug.Log("Press " + InputsProperties.activate.ToString() + " and i'll follow you sir");
+        Debug.Log("Hello Sir !");
     }
 
     /// <summary>
@@ -98,10 +109,8 @@ public class AllyMonster : Monster, IInterractableEntity
     {
         if (Target != null && _follow)
         {
-            _agent.SetDestination(new Vector3(
-                Target.transform.position.x - 2.5f,
-                Target.transform.position.y,
-                Target.transform.position.z - 2.5f));
+            Vector3 destination = Target.transform.position - new Vector3(2.5f, 0, 2.5f);
+            _agent.SetDestination(destination);
         }
     }
 
@@ -121,5 +130,6 @@ public class AllyMonster : Monster, IInterractableEntity
     public override void OnTargetSelected()
     {
         Debug.Log("New target acquired !");
+        Debug.Log("Press " + InputsProperties.activate.ToString() + " and i'll follow you sir");
     }
 }
