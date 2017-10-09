@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireMage : Classe {
+public class FireMage : Character {
 
     protected override void Start() 
 	{
