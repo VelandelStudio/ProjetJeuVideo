@@ -12,6 +12,6 @@ public static class PosHelper
 	 **/
     public static Vector3 GetOriginOfDetector(Transform player)
     {
-        return player.gameObject.GetComponentInChildren<Camera>().GetComponent<GameObjectDetector>().OriginPoint;
+        return player.position + new Vector3(0f, 1.8f, 0f);
     }
 }

@@ -62,6 +62,6 @@ public class SimpleNPC : EntityLivingBase, IInterractableEntity {
     **/
     public void DisplayTextOfInterractable()
     {
-        Debug.Log("Press " + InputsProperties.activate.ToString() + " to activate.");
+        Debug.Log("Press " + InputsProperties.Activate.ToString() + " to activate.");
     }
 }
