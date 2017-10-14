@@ -25,7 +25,7 @@ public class SimpleNPC : EntityLivingBase, IInterractableEntity {
      **/
     private void Start()
     {
-        InitializeLivingEntity(100, 100);
+        InitializeLivingEntity(100000, 100000);
     }
 
     /** OnTriggerStay private method
