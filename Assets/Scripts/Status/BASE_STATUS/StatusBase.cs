@@ -9,20 +9,26 @@ using UnityEngine;
  **/
 public abstract class StatusBase : MonoBehaviour, IStatus
 {
-
-    protected int maxDuration;
+    protected float maxDuration;
     protected float tickInterval;
     protected float delay;
+    protected bool isTickable = true;
 
     /** Start protected virtual void
      * The method is here to launch the method OnStatusApplied.
-     * Then, it lanches an InvokeRepeating on StatusTickBehaviour to make the status tick every tickInterval;
+     * Then, it lanches an InvokeRepeating on StatusTickBehaviour to make the status tick every tickInterval.
+	 * Please note that, by default, a Status is considered as tickable.
      * Finally, it lanches an Invoke on DestroyStatus that will occurs in maxDuration seconds.
      **/
     protected virtual void Start()
     {
         OnStatusApplied();
-        InvokeRepeating("StatusTickBehaviour", delay, tickInterval);
+
+        if (isTickable)
+        {
+            InvokeRepeating("StatusTickBehaviour", delay, tickInterval);
+        }
+
         Invoke("DestroyStatus", maxDuration);
     }
 
@@ -46,10 +52,14 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     public virtual void ResetStatus()
     {
         OnStatusApplied();
-        CancelInvoke("StatusTickBehaviour");
         CancelInvoke("DestroyStatus");
-        InvokeRepeating("StatusTickBehaviour", delay, tickInterval);
         Invoke("DestroyStatus", maxDuration);
+
+        if (isTickable)
+        {
+            CancelInvoke("StatusTickBehaviour");
+            InvokeRepeating("StatusTickBehaviour", delay, tickInterval);
+        }
     }
 
     /** DestroyStatus public virtual void
