@@ -108,6 +108,54 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 1
   m_NavMeshData: {fileID: 23800000, guid: 410022f10ef6d8f46a8bbe76fe2748e5, type: 2}
+--- !u!1 &65944586 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1125447867874340, guid: fe50c9fd1e5a5564c822196f44be15f3,
+    type: 2}
+  m_PrefabInternal: {fileID: 802966637}
+--- !u!1 &311344227 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1932928055813464, guid: fe50c9fd1e5a5564c822196f44be15f3,
+    type: 2}
+  m_PrefabInternal: {fileID: 802966637}
+--- !u!114 &311344229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 311344227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c057595ad88971d4db0749670d2f5f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PassiveClassName: PassiveFireMage
+  AutoAttackClassName: AutoAttackFireMage
+  SpellClassNames:
+  - FireBallSpell
+  - ConflagrationSpell
+  - FireBlessingSpell
+  - SolarBurnSpell
+--- !u!1 &559359045 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1790399854728024, guid: fe50c9fd1e5a5564c822196f44be15f3,
+    type: 2}
+  m_PrefabInternal: {fileID: 802966637}
+--- !u!114 &559359048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 559359045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb8e6b46a87703c43862938d7e7663cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _backDetector: {fileID: 65944586}
+  _frontDetector: {fileID: 1879201805}
+  _rayCastMaxRange: 5
+  OriginPoint: {x: -200, y: 2.0849164, z: -197.55952}
 --- !u!1001 &577292302
 Prefab:
   m_ObjectHideFlags: 0
@@ -345,7 +393,9 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114780624256381432, guid: fe50c9fd1e5a5564c822196f44be15f3, type: 2}
+    - {fileID: 114620330247252078, guid: fe50c9fd1e5a5564c822196f44be15f3, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: fe50c9fd1e5a5564c822196f44be15f3, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &840533721
@@ -655,6 +705,11 @@ MonoBehaviour:
   - {fileID: 4286368265891932, guid: 66c3af08eaf61b349b519e06800a50cf, type: 2}
   min: 2
   max: 5
+--- !u!1 &1879201805 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1215929220857822, guid: fe50c9fd1e5a5564c822196f44be15f3,
+    type: 2}
+  m_PrefabInternal: {fileID: 802966637}
 --- !u!1 &2053793266
 GameObject:
   m_ObjectHideFlags: 0
