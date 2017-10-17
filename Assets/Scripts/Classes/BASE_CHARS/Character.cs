@@ -4,38 +4,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+
 /** Character abstract class.
  * This abstract class is the mother class of all classes in our game. It ensures that the class is well constructed with all of the spells, passive and auto-attack.
  * This script also detects the input keys of the player, and launches the spells.
- * In order to build correctly a class, you have to write the names of all your spells in the editor in the correct fields.
- * Please note for the future :
- * This way to build a classe is not really easy to use at the moment, but the main aim his to make this script evolve in a way to use JSON Libraries.
- * In this way, we will have to write all elements we need for each classes in one single JSON File, then the script will be able to read this file and construct the classe itself.
+ * In order to build correctly a class, you have to write the names of all your spells in the CharacterData.json
+ * This script ensure that a class can be self constructed with informations you give in the JSON file.
  **/
 public abstract class Character : MonoBehaviour
 {
     protected List<Spell> spells = new List<Spell>();
     protected AutoAttackBase autoAttack;
-    protected CharacterData characterData;
+	protected CharacterData characterData;
     /** Start protected virtual void Method.
 	 * The Start methos is here to construct the class, attributing the spells passive and auto-attack.
+	 * First at all, we try to read the CharacterData.json file. After that, we collect every CharacterData declared in the JSON file.
+	 * Then, we parse the Array of CharacterData and try to find the one corresponding to the Character name.
+	 * If we find one, we construct the class.
 	 * These elements are constructed in three separated methods.
 	 **/
     protected virtual void Start()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "CharacterData.json");
-        if (File.Exists(filePath))
+		string filePath = Path.Combine(Application.streamingAssetsPath, "CharacterData.json");
+		if(File.Exists(filePath))
         {
-            string jsonFile = File.ReadAllText(filePath);
-            CharacterData[] data = JsonHelper.getJsonArray<CharacterData>(jsonFile);
-            foreach (CharacterData character in data)
-            {
-                if (character.Name == this.GetType().ToString())
-                {
-                    characterData = character;
-                    break;
-                }
-            }
+            string jsonFile = File.ReadAllText(filePath); 
+			CharacterData[] data = JsonHelper.getJsonArray<CharacterData> (jsonFile);
+			foreach(CharacterData character in data) 
+			{
+				if(character.Name == this.GetType().ToString())
+				{
+					characterData = character;
+					break;
+				}
+			}
         }
         else
         {
@@ -102,7 +104,7 @@ public abstract class Character : MonoBehaviour
     }
 
     /** AttributePassiveToClass protected virtual void Method.
-	 * This method is called by the Start method. The Objective of the method is to get the Passive spell name in the PassiveClassName field.
+	 * This method is called by the Start method. The Objective of the method is to get the Passive spell name in the characterData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, the HandleException(1) is launched.
 	 **/
@@ -118,7 +120,7 @@ public abstract class Character : MonoBehaviour
     }
 
     /** AttributeAutoAttackToClass protected virtual void Method.
-	 * This method is called by the Start method. The Objective of the method is to get the AutoAttack spell name in the AutoAttackClassName field.
+	 * This method is called by the Start method. The Objective of the method is to get the AutoAttack spell name in the characterData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, the HandleException(2) is launched.
 	 **/
@@ -134,7 +136,7 @@ public abstract class Character : MonoBehaviour
     }
 
     /** AttributeSpellsToClass protected virtual void Method.
-	 * This method is called by the Start method. The Objective of the method is to get the spell names in the SpellClassNames List.
+	 * This method is called by the Start method. The Objective of the method is to get the spell names in the characterData instance.
 	 * Then, it get all of the script in the scripts library and attach it to the player.
 	 * If one of the scripts is not found or mispelled, the HandleException(3) is launched.
 	 **/
@@ -171,13 +173,17 @@ public abstract class Character : MonoBehaviour
         }
         UnityEditor.EditorApplication.isPlaying = false;
     }
-
-    [System.Serializable]
-    public class CharacterData
-    {
-        public string Name;
-        public string Passive;
-        public string AutoAttack;
-        public string[] ActiveSpells;
-    }
+	
+	/** CharacterData protected Serializable class.
+	 * This class were designed to be at the service of the Character class.
+	 * It is used as a JSON Object to stock every variables read from the JSON file.
+	 **/
+	[System.Serializable]
+	protected class CharacterData
+	{
+		public string Name;
+		public string Passive;
+		public string AutoAttack;
+		public string[] ActiveSpells;
+	}
 }
