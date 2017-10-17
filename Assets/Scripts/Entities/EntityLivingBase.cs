@@ -93,11 +93,16 @@ public abstract class EntityLivingBase : MonoBehaviour
 
     /** EntityDies protected method.
      * This method is called when HP reaches 0.
-     * When launched, this method should launch the death animation of the element.
+     * When launched, this method should launch the death animation of the element and clear all Status present on the entity.
      * Then it starts the coroutine DespawnEntity.
      **/
     protected void EntityDies()
     {
+		IStatus[] status = GetComponentsInChildren<IStatus>();
+		foreach(IStatus s in status) 
+		{
+			s.DestroyStatus();
+		}
         /// TODO : We need to add HERE the death Animation.
         StartCoroutine(DespawnEntity());
     }
