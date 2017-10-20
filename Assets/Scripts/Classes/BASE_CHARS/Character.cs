@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,6 +46,7 @@ public abstract class Character : MonoBehaviour
         {
             AutoAttack();
         }
+
         if (Input.GetKeyDown(InputsProperties.ActiveSpell1))
         {
             LaunchSpell(0);
