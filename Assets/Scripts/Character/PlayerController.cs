@@ -6,45 +6,44 @@ using UnityEngine;
  * This class detects every movements done by the player (real person) with his keyboard.
  * Then, it transmits the results of its calculations to the PlayerMotor.
  **/
-[RequireComponent(typeof(PlayerMotor))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Collider))]
 public class PlayerController : MonoBehaviour {
-
-    [SerializeField] private float moveSpeed = 6f;
-	
-    private Vector3 horizontalMovement;
-	private Vector3 verticalMovement;
-	private PlayerMotor playerMotor;
-	private Vector3 velocity;
-	
-	/** Start, private void method
-	 * The Start method is used to get the PlayerMotor of the Character. 
-	 * This class has a [RequireComponent(typeof(PlayerMotor))] so the PlayerMotor can not be null.
-	 **/
-    private void Start () {
-        playerMotor = GetComponent<PlayerMotor>();
-    }
-	
-	/** Update, private void method
-	 * The Update method is used to aggregate all of the private method associated to the player movement.
-	 * At this moment, only CalculateMovement is launched
-	 **/
-    private void Update () {
-        CalculateMovement();
-    }
-	
-	/** CalculateMovement, private void method
-	 * The CalculateMovement is used in two ways. First at all, it is getting the horizontalMovement and the verticalMovement.
-	 * In order to the that, it is watching both of the input.Axis (Horizontal and Vertical).
-	 * Then, it calculates the velocity of the player, which is the normal vector of horizontalMovement and verticalMovement.
-	 * In order the modify, in the future, the speed of our player, the velocity is multiplied by a variable movespeed.
-	 * After that, the method passes the velocity value to the MovePlayer method in the PlayerMotor.
-	 **/
-    private void CalculateMovement()
+    private Animator _anim;
+    private Transform _camera;
+    private float _sensitivity = 1.2f;
+    private bool _isWalking = false;
+    private Rigidbody _rb;
+    private void Awake()
     {
-        horizontalMovement = Input.GetAxis("Horizontal") * transform.right;
-        verticalMovement = Input.GetAxis("Vertical") * transform.forward;
-        velocity = (horizontalMovement + verticalMovement).normalized * moveSpeed;
+        _anim = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody>();
+        _camera = GetComponentInChildren<Camera>().transform;
+    }
 
-        playerMotor.MovePlayer(velocity);
+    private void Update()
+    {
+        Turning();
+        Walking();
+        Run();
+    }
+
+    private void Turning()
+    {
+        //_anim.SetFloat("Turn", Input.GetAxis("Mouse X"));
+    }
+
+    private void Walking()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _isWalking = !_isWalking;
+            _anim.SetBool("Walk", _isWalking);
+        }
+    }
+    private void Run()
+    {
+        _anim.SetFloat("Forward", Input.GetAxis("Vertical"));
     }
 }
