@@ -17,8 +17,8 @@ public class CameraController : MonoBehaviour
     private float _sensitivity = 0.02f;
 
     //Clamp vertical values of rotation : the player can not see under his own foot.
-    private float _yMinLimit = -10f;
-    private float _yMaxLimit = 80f;
+    private float _xMinLimit = -10f;
+    private float _xMaxLimit = 80f;
 
     //Clamp zoom values of the camera
     private float _distanceMin = 2.5f;
@@ -80,8 +80,9 @@ public class CameraController : MonoBehaviour
 	 **/
     private void HandleCameraTransform()
     {
-        Y = ClampAngle(Y, _yMinLimit, _yMaxLimit);
-        transform.rotation = Quaternion.Euler(Y, X, 0);
+        Y = ClampAngle(Y, _xMinLimit, _xMaxLimit);
+        transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse Y"), Vector3.right);
+        transform.rotation = ClampRotationAroundXAxis(transform.rotation);
         transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -_distance) + _target.position;
     }
 
@@ -101,5 +102,19 @@ public class CameraController : MonoBehaviour
     {
         X = x;
         Y = y;
+    }
+
+    Quaternion ClampRotationAroundXAxis(Quaternion q)
+    {
+        q.x /= q.w;
+        q.y /= q.w;
+        q.z /= q.w;
+        q.w = 1.0f;
+
+        float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.x);
+        angleX = Mathf.Clamp(angleX, _xMinLimit, _xMaxLimit);
+        q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
+
+        return q;
     }
 }
