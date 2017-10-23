@@ -1,0 +1,14 @@
+[
+	{
+		"Name":"FireMage",
+		"Passive":"PassiveFireMage",
+		"AutoAttack":"AutoAttackFireMage",
+		"ActiveSpells":["FireBallSpell", "ConflagrationSpell", "FireBlessingSpell", "SolarBurnSpell"]
+	},
+	{
+		"Name":"Test",
+		"Passive":"PassiveTest",
+		"AutoAttack":"AutoAttackTest",
+		"ActiveSpells":["TestSpell1", "TestSpell2", "TestSpell3", "TestSpell4"]
+	}
+]
