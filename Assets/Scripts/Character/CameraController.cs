@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        if (CameraControlled)
+        if (CameraControlled && !GetComponentInParent<CursorBehaviour>().CursorIsVisible)
         {
             X += Input.GetAxis("Mouse X") * _xSpeed * _sensitivity;
             Y -= Input.GetAxis("Mouse Y") * _ySpeed * _sensitivity;
