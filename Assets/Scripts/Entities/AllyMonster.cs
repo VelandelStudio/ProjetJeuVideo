@@ -130,6 +130,6 @@ public class AllyMonster : Monster, IInterractableEntity
     public override void OnTargetSelected()
     {
         Debug.Log("New target acquired !");
-        Debug.Log("Press " + InputsProperties.activate.ToString() + " and i'll follow you sir");
+        Debug.Log("Press " + InputsProperties.Activate.ToString() + " and i'll follow you sir");
     }
 }

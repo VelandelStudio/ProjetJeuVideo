@@ -65,19 +65,20 @@ public abstract class Character : MonoBehaviour
         {
             AutoAttack();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+
+        if (Input.GetKeyDown(InputsProperties.ActiveSpell1))
         {
             LaunchSpell(0);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(InputsProperties.ActiveSpell2))
         {
             LaunchSpell(1);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(InputsProperties.ActiveSpell3))
         {
             LaunchSpell(2);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(InputsProperties.ActiveSpell4))
         {
             LaunchSpell(3);
         }
@@ -172,7 +173,6 @@ public abstract class Character : MonoBehaviour
         }
         UnityEditor.EditorApplication.isPlaying = false;
     }
-	
 	/** CharacterData protected Serializable class.
 	 * This class were designed to be at the service of the Character class.
 	 * It is used as a JSON Object to stock every variables read from the JSON file.

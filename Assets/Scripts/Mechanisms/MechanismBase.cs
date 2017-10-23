@@ -34,6 +34,6 @@ public abstract class MechanismBase : MonoBehaviour, IInterractableEntity
      **/
     public virtual void DisplayTextOfInterractable() {
         if (!isActivated)
-            Debug.Log("Press " + InputsProperties.activate.ToString() + " to activate.");
+            Debug.Log("Press " + InputsProperties.Activate.ToString() + " to activate.");
     }
 }
