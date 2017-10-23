@@ -14,9 +14,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class LinearProjectile : MonoBehaviour, IProjectile {
 
-    protected Transform launcher;       // To get the GameObject whitch launch the projectile
-    protected float timeOfFly = 2f;     // Time before Destruction of the Projectile (refacto later)
+    protected Transform launcher;  
     protected EntityLivingBase eHit;
+
+    protected float timeOfFly;
+    protected float spellRange = 2000f;
+    protected float projectileSpeed = 1000f;
 
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
@@ -32,6 +35,8 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
         transform.parent = null;
 
         LaunchProjectile();
+
+        timeOfFly = CalculTimeOfFly(projectileSpeed, spellRange);
         Destroy(gameObject, timeOfFly);
     }
 
@@ -41,7 +46,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     /// In this case it launches the applyEffect implemented in the child Class
     /// In any type of collision the projectile will be destroyed at the end
     /// </summary>
-    /// <param name="col"></param>
+    /// <param name="col">is the collider touch by the projectile</param>
     protected void OnTriggerEnter(Collider col)
     {
         if (!col.isTrigger)
@@ -62,7 +67,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     /// This method describe the effects applied to the target
     /// It can also apply effect to the Launcher gameObject in some cases
     /// </summary>
-    /// <param name="col"></param>
+    /// <param name="col">is the collider touch by the projectile</param>
     public abstract void ApplyEffect(Collider col);
 
     /// <summary>
@@ -91,12 +96,24 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
         }
 
         transform.LookAt(target);
-        GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+        GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
         ParticleSystem particles = GetComponent<ParticleSystem>();
 
         if (particles != null)
         {
             particles.Play();
         }
+    }
+
+    /// <summary>
+    /// CalculTimeOfFly method calculates automatically at the instanciation of a projectile the time of fly
+    /// depending on speed and the distance
+    /// </summary>
+    /// <param name="speed">float value used also to apply force to the bullet</param>
+    /// <param name="distance">float value, length that a projectile can travel </param>
+    /// <returns>the time that travel a projectile before autodestuction</returns>
+    protected float CalculTimeOfFly (float speed, float distance)
+    {
+        return distance / speed;
     }
 }
