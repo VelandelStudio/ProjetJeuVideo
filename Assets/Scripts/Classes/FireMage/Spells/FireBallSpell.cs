@@ -43,29 +43,10 @@ public class FireBallSpell : Spell
     {
         base.LaunchSpell();
 
-        if (!IsSpellLauncheable())
+        if (IsSpellLauncheable())
         {
-            return;
+            Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
+            base.OnSpellLaunched();
         }
-
-        RaycastHit hit;
-        bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
-        Vector3 target;
-        if (hasFoundHitPoint)
-        {
-            target = hit.point;
-        }
-        else
-        {
-            target = _launcherTransform.position + _cameraPlayer.transform.forward * 10;
-        }
-
-        GameObject throwableInstance = Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
-
-        throwableInstance.transform.LookAt(target);
-        throwableInstance.GetComponent<Rigidbody>().AddForce(throwableInstance.transform.forward * 1000);
-        ParticleSystem particles = throwableInstance.GetComponent<ParticleSystem>();
-        particles.Play();
-        base.OnSpellLaunched();
     }
 }

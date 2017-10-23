@@ -16,6 +16,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
 
     protected Transform launcher;       // To get the GameObject whitch launch the projectile
     protected float timeOfFly = 2f;     // Time before Destruction of the Projectile (refacto later)
+    protected EntityLivingBase eHit;
 
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
@@ -43,13 +44,16 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     /// <param name="col"></param>
     protected void OnTriggerEnter(Collider col)
     {
-        EntityLivingBase eHit = col.gameObject.GetComponent<EntityLivingBase>();
-
-        if (eHit != null && eHit.gameObject.tag != "player")
+        if (!col.isTrigger)
         {
-            ApplyEffect(col);
+            eHit = col.gameObject.GetComponent<EntityLivingBase>();
+
+            if (eHit != null && eHit.gameObject.tag != "player")
+            {
+                ApplyEffect(col);
+            }
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 
     /// <summary>
@@ -68,18 +72,14 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     /// After that, we instantiate a Projectile, make it look at the target
     /// Apply a force to it and launch the particle system associated to the prefab (if exists)
     /// </summary>
-    public void LaunchProjectile()
+    public virtual void LaunchProjectile()
     {
         Camera cameraPlayer = launcher.GetComponentInChildren<Camera>();
         Vector3 target;
         RaycastHit hit;
 
-        bool hasFoundHitPoint = Physics.Raycast(cameraPlayer.GetComponent<GameObjectDetector>().OriginPoint,
-                                                cameraPlayer.transform.forward,
-                                                out hit,
-                                                Mathf.Infinity,
-                                                Physics.DefaultRaycastLayers,
-                                                QueryTriggerInteraction.Ignore);
+        bool hasFoundHitPoint = Physics.Raycast(cameraPlayer.GetComponent<GameObjectDetector>().OriginPoint, cameraPlayer.transform.forward, 
+                                                out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
 
         if (hasFoundHitPoint)
         {
@@ -92,7 +92,6 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
 
         transform.LookAt(target);
         GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
-
         ParticleSystem particles = GetComponent<ParticleSystem>();
 
         if (particles != null)

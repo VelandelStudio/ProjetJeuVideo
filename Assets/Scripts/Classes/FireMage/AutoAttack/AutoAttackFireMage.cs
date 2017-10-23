@@ -48,41 +48,27 @@ public class AutoAttackFireMage : AutoAttackBase
     {
         if (AutoAttackIsReady())
         {
-            RaycastHit hit;
-            bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
-            Vector3 target;
-            if (hasFoundHitPoint)
-            {
-                target = hit.point;
-            }
-            else
-            {
-                target = _launcherTransform.position + _cameraPlayer.transform.forward * 10;
-            }
-
-            GameObject throwableInstance = Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
-            throwableInstance.transform.LookAt(target);
-            throwableInstance.GetComponent<Rigidbody>().AddForce(throwableInstance.transform.forward * 1000);
-
-            Debug.Log("AutoAttackFireMage Launched");
             base.AutoAttack();
+            Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
         }
     }
 
     /** OnAttackHit : public void Method
-	 * The OnAttackHit Method should be called by every AutoAttackFireMage prefabs when they collide an EntityLivingBase.
-	 * When this method is launched, we cancel the RemoveShield invoke in order to reset the timer of the shield associated to the entity.
-	 * Then, we add a shield to the FireMage and increase the shield value. Please note that the value should be increased by 5 points every hit, with a maximum of _maxValueShield.
-	 * After that, we re-invoke the RemoveShield method that will occurs in _maxDurationShield seconds.
-	 **/
+    * The OnAttackHit Method should be called by every AutoAttackFireMage prefabs when they collide an EntityLivingBase.
+    * When this method is launched, we cancel the RemoveShield invoke in order to reset the timer of the shield associated to the entity.
+    * Then, we add a shield to the FireMage and increase the shield value. Please note that the value should be increased by 5 points every hit, with a maximum of _maxValueShield.
+    * After that, we re-invoke the RemoveShield method that will occurs in _maxDurationShield seconds.
+    **/
     public void OnAttackHit()
     {
         CancelInvoke("RemoveShield");
+
         _shield = GetComponent<Shield>();
         if (_shield == null)
         {
             _shield = gameObject.AddComponent<Shield>();
         }
+
         _shield.AddShieldValue(Mathf.Clamp(5, 0, _maxValueShield - _shield.ShieldValue));
         Invoke("RemoveShield", _maxDurationShield);
     }

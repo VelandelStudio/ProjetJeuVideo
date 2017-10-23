@@ -10,6 +10,7 @@ using UnityEngine;
 public class SolarBurnSpell : Spell
 {
     private Camera _cameraPlayer;
+    private GameObject throwable;
 
     /** Start : protected override void Method
 	 * The Start Method is used here to get the camera and the transform associated to the player.
@@ -18,6 +19,7 @@ public class SolarBurnSpell : Spell
     protected override void Start()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
+        throwable = (GameObject)Resources.Load("FireMage/SolarBall", typeof(GameObject));
         spellCD = 7f;
         base.Start();
     }
@@ -48,14 +50,12 @@ public class SolarBurnSpell : Spell
             return;
         }
 
-        GameObject throwable = (GameObject)Resources.Load("FireMage/FireBall", typeof(GameObject));
-
         Vector2 pointInCircle = Random.insideUnitCircle.normalized * 8;
         Vector3 v = new Vector3(target.x + pointInCircle.x, target.y + 10, target.z + pointInCircle.y);
         GameObject throwableInstance = Instantiate(throwable, v, new Quaternion(), this.transform);
 
         throwableInstance.transform.LookAt(target);
-        throwableInstance.GetComponent<Rigidbody>().AddForce(throwableInstance.transform.forward * 1000);
+        throwableInstance.GetComponent<Rigidbody>().AddForce(throwableInstance.transform.forward * 20);
         ParticleSystem particles = throwableInstance.GetComponent<ParticleSystem>();
         particles.Play();
 

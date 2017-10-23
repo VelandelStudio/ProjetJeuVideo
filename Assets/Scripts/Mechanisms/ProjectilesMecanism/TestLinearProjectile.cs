@@ -15,6 +15,6 @@ public class TestLinearProjectile : LinearProjectile
     /// <param name="col">is the collider touch by the projectile</param>
     public override void ApplyEffect(Collider col)
     {
-        Debug.Log("Touché " + col.name + " from " + launcher.name);
+        Debug.Log("Touché " + col.gameObject.name + " from " + launcher.name);
     }
 }
