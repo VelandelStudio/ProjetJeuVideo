@@ -4930,15 +4930,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114675807715682806, guid: f17d772a150df014a8d89fca564c3424,
-        type: 2}
-      propertyPath: _backDetector
-      value: 
+    - target: {fileID: 4424516528085964, guid: f17d772a150df014a8d89fca564c3424, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 114675807715682806, guid: f17d772a150df014a8d89fca564c3424,
+    - target: {fileID: 4424516528085964, guid: f17d772a150df014a8d89fca564c3424, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424516528085964, guid: f17d772a150df014a8d89fca564c3424, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114091128741565504, guid: f17d772a150df014a8d89fca564c3424,
         type: 2}
-      propertyPath: _frontDetector
-      value: 
+      propertyPath: _rayCastMaxRange
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f17d772a150df014a8d89fca564c3424, type: 2}

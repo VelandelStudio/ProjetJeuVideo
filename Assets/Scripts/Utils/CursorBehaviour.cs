@@ -7,9 +7,6 @@
  **/
 public class CursorBehaviour : MonoBehaviour
 {
-
-    private CameraController _playerCameraController;
-    private PlayerController _playerController;
     public bool CursorIsVisible
     {
         get
@@ -19,7 +16,6 @@ public class CursorBehaviour : MonoBehaviour
         set { }
     }
 
-
     /** Start private void
 	 * The method is used to set the cursor locked at the begining of the Game.
 	 * It also gets the the CameraController of the player.
@@ -27,8 +23,6 @@ public class CursorBehaviour : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        _playerCameraController = GetComponentInChildren<Camera>().GetComponent<CameraController>();
-        _playerController = GetComponent<PlayerController>();
     }
 
     /** Start private void

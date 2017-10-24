@@ -41,8 +41,8 @@ public class PlayerController : MonoBehaviour
     [System.Serializable]
     public class MovementSettings
     {
-        public float JumpSpeed = 6f;
-        public float JumpTime = 0.25f;
+        public float JumpSpeed = 5f;
+        public float JumpTime = 1f;
     }
 
     private void Start()
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
                 _gravity = Physics.ResetGravityValue;
                 _resetGravity = true;
             }
-            _gravity += Time.deltaTime + Physics.GravityModifier;
+            _gravity += Time.deltaTime * Physics.GravityModifier;
         }
         else
         {
@@ -99,7 +99,14 @@ public class PlayerController : MonoBehaviour
         {
             gravityVector.y = Movement.JumpSpeed;
         }
-        _characterController.Move(gravityVector * Time.deltaTime);
+
+        /*if(_characterController.isGrounded)
+        {
+            gravityVector.y = 0;
+        }*/
+        Vector3 moveDirection = 5 * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        moveDirection.y = gravityVector.y;
+        _characterController.Move(moveDirection * Time.deltaTime);
     }
 
     public void Jump()

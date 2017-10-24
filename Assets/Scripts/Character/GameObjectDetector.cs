@@ -11,6 +11,7 @@ public class GameObjectDetector : MonoBehaviour
     private int _layerMask;
     private Transform _cameraTransform;
     private Ray _cameraAim;
+    private float _playerHeight;
 
     /** Start, private void method.
 	 * The start Method is used the get the layerMask TriggerInterractableEntity as an integer.
@@ -18,6 +19,7 @@ public class GameObjectDetector : MonoBehaviour
 	 **/
     private void Start()
     {
+        _playerHeight = GetComponent<CharacterController>().height * transform.localScale.y + 0.1f;
         _layerMask = LayerMask.NameToLayer("TriggerInterractableEntity");
         _cameraTransform = GetComponentInChildren<Camera>().transform;
     }
@@ -38,24 +40,40 @@ public class GameObjectDetector : MonoBehaviour
         {
             Vector3 cameraHitPoint = cameraHit.point;
             RaycastHit playerHit;
-            Physics.Raycast(transform.position + new Vector3(0f, 1.8f, 0f), cameraHitPoint - transform.position - new Vector3(0f, 1.8f, 0f), out playerHit, 20f);
-            float playerDistance = playerHit.distance;
-            Vector3 distanceToTarget = (playerHit.point - transform.position).normalized;
 
-            if (Vector3.Dot(distanceToTarget, transform.forward) > 0)
+            if (Physics.Raycast(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), out playerHit, 20f, LayerMask.NameToLayer("DefaultRaycastLayers"), QueryTriggerInteraction.Collide))
             {
-                if (playerDistance <= _rayCastMaxRange && playerHit.collider == cameraHit.collider && IsElligibleForHighlight(playerHit))
+                float playerDistance = playerHit.distance;
+                Vector3 distanceToTarget = (playerHit.point - transform.position).normalized;
+                if (Vector3.Dot(distanceToTarget, transform.forward) > 0)
                 {
-                    Debug.DrawLine(_cameraAim.origin, cameraHit.point, Color.green);
-                    Debug.DrawRay(transform.position + new Vector3(0f, 1.8f, 0f), cameraHitPoint - transform.position - new Vector3(0f, 1.8f, 0f), Color.red);
-                    SetBehaviorOfObjectsInFront(playerHit);
+                    if (playerHit.collider.gameObject.layer == LayerMask.NameToLayer("TriggerInterractableEntity")
+)                   {
+                        if (playerDistance <= _rayCastMaxRange && playerHit.collider == cameraHit.collider && IsElligibleForHighlight(playerHit))
+                        {
+                            Debug.DrawLine(_cameraAim.origin, cameraHit.point, Color.green);
+                            Debug.DrawRay(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), Color.red);
+                            SetBehaviorOfObjectsInFront(playerHit);
+                        }
+                    }
+                    else if (Physics.Raycast(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), out playerHit, 20f, LayerMask.NameToLayer("DefaultRaycastLayers"), QueryTriggerInteraction.Ignore))
+                    {
+                        if (playerDistance <= _rayCastMaxRange && playerHit.collider == cameraHit.collider && IsElligibleForHighlight(playerHit))
+                        {
+                            Debug.DrawLine(_cameraAim.origin, cameraHit.point, Color.green);
+                            Debug.DrawRay(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), Color.red);    
+                            SetBehaviorOfObjectsInFront(playerHit);
+                        }
+                    }
+
                 }
-            }
-            else
-            {
-                if (IsElligibleForTransparency(cameraHit))
+                
+                else
                 {
-                    SetBehaviorOfObjectsBehind(cameraHit);
+                    if (IsElligibleForTransparency(cameraHit))
+                    {
+                        SetBehaviorOfObjectsBehind(cameraHit);
+                    }
                 }
             }
         }
