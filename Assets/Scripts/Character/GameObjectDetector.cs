@@ -29,8 +29,8 @@ public class GameObjectDetector : MonoBehaviour
 	 *
 	 * First of all, we launch the RayCastAll from the camera to the camera.transform.forward and we collect every gameObjects.
 	 * After that, we parse all of the gameObjects detected and launch a RayCast from the player to this GameObject.
-	 * With this Raycast we are able to know if a gameObjetc is in front of the Player or behind the player.
-	 * After that we treat each case sepratly and apply Transparency on all GameObjects behind the player and highlight the first interractable encountered in front of the player.
+	 * With this Raycast we are able to know if a gameObject is in front of the Player or behind the player.
+	 * After that we threat each case sepratly and apply Transparency on all GameObjects behind the player and highlight the first interractable encountered in front of the player.
      **/
     private void FixedUpdate()
     {
@@ -48,7 +48,8 @@ public class GameObjectDetector : MonoBehaviour
                 if (Vector3.Dot(distanceToTarget, transform.forward) > 0)
                 {
                     if (playerHit.collider.gameObject.layer == LayerMask.NameToLayer("TriggerInterractableEntity")
-)                   {
+)
+                    {
                         if (playerDistance <= _rayCastMaxRange && playerHit.collider == cameraHit.collider && IsElligibleForHighlight(playerHit))
                         {
                             Debug.DrawLine(_cameraAim.origin, cameraHit.point, Color.green);
@@ -61,13 +62,13 @@ public class GameObjectDetector : MonoBehaviour
                         if (playerDistance <= _rayCastMaxRange && playerHit.collider == cameraHit.collider && IsElligibleForHighlight(playerHit))
                         {
                             Debug.DrawLine(_cameraAim.origin, cameraHit.point, Color.green);
-                            Debug.DrawRay(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), Color.red);    
+                            Debug.DrawRay(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), Color.red);
                             SetBehaviorOfObjectsInFront(playerHit);
                         }
                     }
 
                 }
-                
+
                 else
                 {
                     if (IsElligibleForTransparency(cameraHit))
