@@ -17,6 +17,13 @@ public class PlayerController : MonoBehaviour
     private bool _jumping;
     private bool _resetGravity;
     private float _gravity;
+    private Vector3 _gravityVector = new Vector3();
+    private Vector3 _moveDirection = new Vector3();
+
+    private float _lastHorizontalInput;
+    private float _lastVerticalInput;
+
+
     [SerializeField] public AnimationSettings Animations;
     [SerializeField] public PhysicsSettings Physics;
     [SerializeField] public MovementSettings Movement;
@@ -41,6 +48,7 @@ public class PlayerController : MonoBehaviour
     [System.Serializable]
     public class MovementSettings
     {
+        public float MovementSpeed = 5f;
         public float JumpSpeed = 3f;
         public float JumpTime = 0.5f;
     }
@@ -65,12 +73,25 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         ApplyGravity();
-        Animate(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
-        _characterController.transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X"), Vector3.up);
-
-        if (Input.GetKeyDown(InputsProperties.Jump))
+        ApplyMovemement();
+        if (!CursorBehaviour.CursorIsVisible)
         {
-            Jump();
+            Animate(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
+
+            _characterController.transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X"), Vector3.up);
+
+            if (Input.GetKeyDown(InputsProperties.Jump))
+            {
+                Jump();
+            }
+            _lastHorizontalInput = Input.GetAxis("Horizontal");
+            _lastVerticalInput = Input.GetAxis("Vertical");
+        }
+        else
+        {
+            _lastHorizontalInput = Mathf.Lerp(_lastHorizontalInput,0,0.1f);
+            _lastVerticalInput = Mathf.Lerp(_lastVerticalInput, 0, 0.1f);
+            Animate(_lastVerticalInput, _lastHorizontalInput);
         }
     }
 
@@ -96,7 +117,7 @@ public class PlayerController : MonoBehaviour
 	**/
     private void ApplyGravity()
     {
-        Vector3 gravityVector = new Vector3();
+        _gravityVector = Vector3.zero;
 
         if (!_characterController.isGrounded)
         {
@@ -115,16 +136,35 @@ public class PlayerController : MonoBehaviour
 
         if (!_jumping)
         {
-            gravityVector.y -= _gravity;
+            _gravityVector.y -= _gravity;
         }
         else
         {
-            gravityVector.y = Movement.JumpSpeed;
+            _gravityVector.y = Movement.JumpSpeed;
         }
+    }
 
-        Vector3 moveDirection = 5 * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        moveDirection.y = gravityVector.y;
-        _characterController.Move(moveDirection * Time.deltaTime);
+    private void ApplyMovemement()
+    {
+        if (CursorBehaviour.CursorIsVisible)
+        {
+            _moveDirection = Vector3.zero;
+            _moveDirection.y = _gravityVector.y;
+            _characterController.Move(_moveDirection * Time.deltaTime);
+        }
+        else
+        {
+            if (Input.GetAxis("Vertical") < 0)
+            {
+                _moveDirection = Movement.MovementSpeed / 4 * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            }
+            else
+            {
+                _moveDirection = Movement.MovementSpeed * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            }
+            _moveDirection.y = _gravityVector.y;
+            _characterController.Move(_moveDirection * Time.deltaTime);
+        }
     }
 
     /** Jump : public void method

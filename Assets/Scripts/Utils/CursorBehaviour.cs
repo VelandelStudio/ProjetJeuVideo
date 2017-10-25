@@ -7,7 +7,7 @@
  **/
 public class CursorBehaviour : MonoBehaviour
 {
-    public bool CursorIsVisible
+    public static bool CursorIsVisible
     {
         get
         {

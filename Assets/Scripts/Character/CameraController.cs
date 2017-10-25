@@ -26,6 +26,7 @@ public class CameraController : MonoBehaviour
     private float _distanceMax = 6.0f;
     private float _zoomRate = 20f;
 
+    public float X { get; private set; }
     public float Y { get; private set; }
 
     /** Start, private void
@@ -35,6 +36,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         var angles = transform.eulerAngles;
+        X = angles.y;
         Y = angles.x;
         CameraControlled = true;
     }
@@ -52,9 +54,10 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        if (CameraControlled && !GetComponentInParent<CursorBehaviour>().CursorIsVisible)
+        if (CameraControlled && !CursorBehaviour.CursorIsVisible)
         {
             Y -= Input.GetAxis("Mouse Y") * _ySpeed * _sensitivity;
+            X += Input.GetAxis("Mouse X") * _xSpeed * _sensitivity;
         }
 
         HandleCameraZoom();
@@ -78,8 +81,14 @@ public class CameraController : MonoBehaviour
     private void HandleCameraTransform()
     {
         Y = ClampAngle(Y, _xMinLimit, _xMaxLimit);
+        transform.rotation = Quaternion.Euler(Y, transform.parent.eulerAngles.y, 0);
+        transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -_distance) + _target.position;
+
+        /*
+        Y = ClampAngle(Y, _xMinLimit, _xMaxLimit);
         transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse Y"), Vector3.right);
         transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -_distance) + _target.position;
+        */
     }
 
     /** ClampAngle, private float
@@ -96,6 +105,7 @@ public class CameraController : MonoBehaviour
 	 **/
     public void ControlCamera(float x, float y)
     {
+        X = x;
         Y = y;
     }
 }

@@ -103,7 +103,7 @@ public class GameObjectDetector : MonoBehaviour
                 scriptExisting.ResetStatus();
             }
 
-            if (Input.GetKeyDown(InputsProperties.Activate) && !GetComponent<CursorBehaviour>().CursorIsVisible)
+            if (Input.GetKeyDown(InputsProperties.Activate) && !CursorBehaviour.CursorIsVisible)
             {
                 interractable.ActivateInterractable();
             }
