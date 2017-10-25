@@ -5,16 +5,16 @@ using UnityEngine;
 /** FireBall public class.
  * This script is associated with a Fireball instance prefab.
  **/
-public class FireBall : MonoBehaviour
+public class FireBall : LinearProjectile
 {
     /** OnCollisionEnter private void.
 	 * When the fireball is colliding something if it is an entity (not a player), it applies damage and a fresh IgniteStatus on the target.
 	 * then the fireball (gameObject) is destroyed.
 	 **/
-    private void OnCollisionEnter(Collision collision)
+    public override void ApplyEffect(Collider collision)
     {
         EntityLivingBase entityHit = collision.gameObject.GetComponent<EntityLivingBase>();
-        Debug.Log(collision.gameObject);
+        
         if (entityHit != null && entityHit.gameObject.tag != "Player")
         {
             entityHit.DamageFor(100);
@@ -26,9 +26,8 @@ public class FireBall : MonoBehaviour
             else
             {
                 ignite = entityHit.gameObject.AddComponent<IgniteStatus>();
-                transform.parent.GetComponent<ConflagrationSpell>().Targets.Add(ignite);
+                launcher.GetComponent<ConflagrationSpell>().Targets.Add(ignite);
             }
         }
-        Destroy(this.gameObject);
     }
 }
