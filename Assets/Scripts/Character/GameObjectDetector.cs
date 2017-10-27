@@ -38,6 +38,11 @@ public class GameObjectDetector : MonoBehaviour
         RaycastHit[] rayCastHits = Physics.RaycastAll(_cameraAim, 20f);
         foreach (RaycastHit cameraHit in rayCastHits)
         {
+			if(cameraHit.transform.gameObject.tag == "Player")
+			{
+				continue;
+			}
+			
             Vector3 cameraHitPoint = cameraHit.point;
             RaycastHit playerHit;
 
@@ -73,6 +78,7 @@ public class GameObjectDetector : MonoBehaviour
                 {
                     if (IsElligibleForTransparency(cameraHit))
                     {
+						Debug.Log(cameraHit.transform.gameObject);
                         SetBehaviorOfObjectsBehind(cameraHit);
                     }
                 }
