@@ -17,8 +17,8 @@ public class CameraController : MonoBehaviour
     private float _sensitivity = 0.02f;
 
     //Clamp vertical values of rotation : the player can not see under his own foot.
-    private float _yMinLimit = -10f;
-    private float _yMaxLimit = 80f;
+    private float _xMinLimit = -10f;
+    private float _xMaxLimit = 80f;
 
     //Clamp zoom values of the camera
     private float _distanceMin = 2.5f;
@@ -54,10 +54,10 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        if (CameraControlled && !GetComponentInParent<CursorBehaviour>().CursorIsVisible)
+        if (CameraControlled && !CursorBehaviour.CursorIsVisible)
         {
-            X += Input.GetAxis("Mouse X") * _xSpeed * _sensitivity;
             Y -= Input.GetAxis("Mouse Y") * _ySpeed * _sensitivity;
+            X += Input.GetAxis("Mouse X") * _xSpeed * _sensitivity;
         }
 
         HandleCameraZoom();
@@ -80,9 +80,15 @@ public class CameraController : MonoBehaviour
 	 **/
     private void HandleCameraTransform()
     {
-        Y = ClampAngle(Y, _yMinLimit, _yMaxLimit);
-        transform.rotation = Quaternion.Euler(Y, X, 0);
+        Y = ClampAngle(Y, _xMinLimit, _xMaxLimit);
+        transform.rotation = Quaternion.Euler(Y, transform.parent.eulerAngles.y, 0);
         transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -_distance) + _target.position;
+
+        /*
+        Y = ClampAngle(Y, _xMinLimit, _xMaxLimit);
+        transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse Y"), Vector3.right);
+        transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -_distance) + _target.position;
+        */
     }
 
     /** ClampAngle, private float

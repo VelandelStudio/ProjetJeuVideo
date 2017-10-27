@@ -7,14 +7,17 @@
  * If you are looking for a shortcut which is not in this class, please create it in the good region.
  * You should comment the variable names is they are not explicit enough.
  **/
-public static class InputsProperties {
+public static class InputsProperties
+{
 
     #region Movements
 
-    public static KeyCode MoveForward  = KeyCode.Z;
+    public static KeyCode MoveForward = KeyCode.Z;
     public static KeyCode MoveBackward = KeyCode.S;
-    public static KeyCode StrafeLeft   = KeyCode.Q;
-    public static KeyCode StrafeRight  = KeyCode.D;
+    public static KeyCode StrafeLeft = KeyCode.Q;
+    public static KeyCode StrafeRight = KeyCode.D;
+
+    public static KeyCode Jump = KeyCode.Space;
 
     #endregion
 
