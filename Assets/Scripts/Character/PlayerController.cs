@@ -143,7 +143,11 @@ public class PlayerController : MonoBehaviour
             _gravityVector.y = Movement.JumpSpeed;
         }
     }
-
+    
+    /** ApplyMovemement : private void method
+	 * Applys all the movements to the player. 
+         * In this method we threat two cases separately that depends if the player has his cursor visible or no not.
+	**/
     private void ApplyMovemement()
     {
         if (CursorBehaviour.CursorIsVisible)
