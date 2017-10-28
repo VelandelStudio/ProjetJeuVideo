@@ -5,21 +5,21 @@ using UnityEngine;
 /** AutoAttackFireMageBehaviour public class.
  * This script is associated with a AutoAttackFireMage instance prefab.
  **/
-public class AutoAttackFireMageBehaviour : MonoBehaviour
+public class AutoAttackFireMageBehaviour : LinearProjectile
 {
-
-    /** OnCollisionEnter private void.
-	 * When the AutoAttackFireMage prefabs hits a collider, if it is an EntityLivingBase, the script will notify the AutoAttackFireMage by launching its OnAttackHit method
-	 * Then the prefab is destroyed.
-	 **/
-    private void OnCollisionEnter(Collision collision)
+    /// <summary>
+    /// ApplyEffect method -> implementation of the abstract method in LinearProjectile mother Class
+    /// Deal damage to the target
+    /// Call the OnAtackHit for the launcher with AutoAttackFireMage attached. Shield the launcher
+    /// </summary>
+    /// <param name="col">>is the collider touch by the projectile</param>
+    public override void ApplyEffect(Collider col)
     {
-        EntityLivingBase entityHit = collision.gameObject.GetComponent<EntityLivingBase>();
-        if (entityHit != null && entityHit.gameObject.tag != "Player")
+        if (eHit != null && eHit.gameObject.tag != "Player")
         {
-            entityHit.DamageFor(5);
-            transform.parent.GetComponent<AutoAttackFireMage>().OnAttackHit();
+            eHit.DamageFor(5);
+
+            launcher.GetComponent<AutoAttackFireMage>().OnAttackHit();
         }
-        Destroy(gameObject);
     }
 }
