@@ -47,10 +47,6 @@ public class AutoAttackFireMage : AutoAttackBase
         {
             base.AutoAttack();
             Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
-<<<<<<< HEAD
-=======
-			
->>>>>>> refs/remotes/origin/Develop
         }
     }
 

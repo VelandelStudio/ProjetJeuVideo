@@ -11,11 +11,8 @@ public class SolarBurnSpell : Spell
 {
     private Camera _cameraPlayer;
     private GameObject throwable;
-<<<<<<< HEAD
 
-=======
 	public Vector3 TargetOfSolarBurn;
->>>>>>> refs/remotes/origin/Develop
     /** Start : protected override void Method
 	 * The Start Method is used here to get the camera and the transform associated to the player.
 	 * Once it is done, we apply the CD of the spell and launch the mother Method to initialize the spell.
@@ -54,18 +51,9 @@ public class SolarBurnSpell : Spell
         }
 
         Vector2 pointInCircle = Random.insideUnitCircle.normalized * 8;
-<<<<<<< HEAD
-        Vector3 v = new Vector3(target.x + pointInCircle.x, target.y + 10, target.z + pointInCircle.y);
-        GameObject throwableInstance = Instantiate(throwable, v, new Quaternion(), this.transform);
 
-        throwableInstance.transform.LookAt(target);
-        throwableInstance.GetComponent<Rigidbody>().AddForce(throwableInstance.transform.forward * 20);
-        ParticleSystem particles = throwableInstance.GetComponent<ParticleSystem>();
-        particles.Play();
-=======
         Vector3 v = new Vector3(TargetOfSolarBurn.x + pointInCircle.x, TargetOfSolarBurn.y + 15, TargetOfSolarBurn.z + pointInCircle.y);
         Instantiate(throwable, v, new Quaternion(), this.transform);
->>>>>>> refs/remotes/origin/Develop
 
         base.OnSpellLaunched();
     }
