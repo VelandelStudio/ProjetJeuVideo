@@ -47,7 +47,10 @@ public class AutoAttackFireMage : AutoAttackBase
         {
             base.AutoAttack();
             Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
+<<<<<<< HEAD
+=======
 			
+>>>>>>> refs/remotes/origin/Develop
         }
     }
 
@@ -60,6 +63,7 @@ public class AutoAttackFireMage : AutoAttackBase
     public void OnAttackHit()
     {
         CancelInvoke("RemoveShield");
+
         _shield = GetComponent<Shield>();
         if (_shield == null)
         {

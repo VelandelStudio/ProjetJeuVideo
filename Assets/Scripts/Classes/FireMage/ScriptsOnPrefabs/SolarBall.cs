@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class SolarBall : LinearProjectile
 {
+<<<<<<< HEAD
+=======
 	[SerializeField] private Transform _particlesOnFloor;
 	[SerializeField] private Transform _explosionOnFloor;
+>>>>>>> refs/remotes/origin/Develop
     /// <summary>
     /// ApplyEffect method -> implementation of the abstract method in LinearProjectile mother Class
     /// </summary>
     /// <param name="col">is the collider touch by the projectile</param>
+<<<<<<< HEAD
+    public override void ApplyEffect(Collider col)
+    {
+        // TODO ...
+    }
+=======
 	protected override void Start()
     {
 		projectileSpeed = 300f;
@@ -53,4 +62,5 @@ public class SolarBall : LinearProjectile
 			Instantiate(_particlesOnFloor.gameObject, v, _particlesOnFloor.rotation);
 		}
 	}
+>>>>>>> refs/remotes/origin/Develop
 }
