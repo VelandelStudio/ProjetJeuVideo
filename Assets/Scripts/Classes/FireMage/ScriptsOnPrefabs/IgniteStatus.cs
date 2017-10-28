@@ -8,23 +8,29 @@ using UnityEngine;
  **/
 public class IgniteStatus : MonoBehaviour
 {
-    private int _maxDuration = 5;
+    private int _maxDuration = 500;
     private float _tickInterval = 1;
     private int _damage = 5;
     private EntityLivingBase _entity;
     private GameObject _particles;
-
+	private GameObject _explosion;
+	
     /** Start private void
-	 * We get the prefab of the Ignite status and instantiate it on the target. 
+	 * We get the prefab of the Ignite status and instantiate it on the target. We also get the prefab of all animations. 
 	 * Then we invoke the Endstatus method which will destroy the debuff in a fixed amount of time (maxDuration).
 	 * Finally we launch an InvokeRepeating that will call the DamageFor method every _tickInterval.
 	 **/
     private void Start()
     {
+		_entity = GetComponent<EntityLivingBase>();
+		
         GameObject obj = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
-        _particles = Instantiate(obj, transform.position, transform.rotation, transform);
+		_explosion = (GameObject)Resources.Load("FireMage/ExplosionIgniteStatus", typeof(GameObject));
 
-        _entity = GetComponent<EntityLivingBase>();
+		float verticalPosition = transform.position.y + transform.lossyScale.y * 2  ;
+		Vector3 instPos = new Vector3(transform.position.x, verticalPosition, transform.position.z);
+        _particles = Instantiate(obj, instPos, obj.transform.rotation, transform);
+		
         Invoke("EndStatus", _maxDuration);
         InvokeRepeating("DamageFor", _tickInterval, _tickInterval);
     }
@@ -56,4 +62,12 @@ public class IgniteStatus : MonoBehaviour
         Destroy(_particles);
         Destroy(this);
     }
+	/** ExplodeIgniteStatus public void
+	 * This method should only be launched by the ConflagrationSpell.
+	 * When launched, we display the Explosion animation of the ignite. Then, we launch the EndStatus();
+	 **/
+	public void ExplodeIgniteStatus() {
+		_explosion = Instantiate(_explosion, _particles.transform.position, _particles.transform.rotation, transform);
+		EndStatus();
+	}
 }

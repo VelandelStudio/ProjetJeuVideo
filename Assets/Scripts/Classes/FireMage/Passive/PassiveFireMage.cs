@@ -12,7 +12,7 @@ public class PassiveFireMage : MonoBehaviour
     public float CritChanceToAdd;
 
     private ConflagrationSpell _conflagrationSpell;
-    private float _numberOfIgnites;
+    private float _numberOfIgnites = 0f;
 
     /** Start : protected override void Method
 	 * The Start Method is used here to get the ConflagrationSpell associated to the player and the NumBer Of Ignites in the game.
@@ -20,7 +20,6 @@ public class PassiveFireMage : MonoBehaviour
     private void Start()
     {
         _conflagrationSpell = GetComponent<ConflagrationSpell>();
-        _numberOfIgnites = _conflagrationSpell.Targets.Count;
     }
 
     /** Update : private void Method
