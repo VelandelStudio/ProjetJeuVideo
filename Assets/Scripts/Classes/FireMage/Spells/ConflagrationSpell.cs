@@ -64,6 +64,8 @@ public class ConflagrationSpell : Spell
             EntityLivingBase entity = target.GetComponent<EntityLivingBase>();
             entity.DamageFor(20);
             Collider[] cols = Physics.OverlapSphere(entity.transform.position, 10f);
+			TargetsExploded.Add(target.GetComponent<Collider>());
+            target.ExplodeIgniteStatus();
             foreach (Collider col in cols)
             {
                 if (col.gameObject.GetComponent<EntityLivingBase>()
@@ -88,8 +90,6 @@ public class ConflagrationSpell : Spell
 
                 }
             }
-            TargetsExploded.Add(target.GetComponent<Collider>());
-            target.EndStatus();
         }
         TargetsExploded.Clear();
         Targets.Clear();

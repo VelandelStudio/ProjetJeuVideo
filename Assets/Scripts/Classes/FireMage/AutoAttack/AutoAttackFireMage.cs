@@ -15,6 +15,9 @@ public class AutoAttackFireMage : AutoAttackBase
     private float _maxDurationShield = 5f;
     private float _maxValueShield = 50f;
     private float _fireMageGCD = 1.5f;
+	private GameObject _shieldObject;
+	private GameObject _shieldInstance;
+
     /** Start : protected override void Method
 	 * First at all, we override the GCD of the mother class.
 	 * Then we get the prefab of the AutoAttackFireMage.
@@ -25,15 +28,9 @@ public class AutoAttackFireMage : AutoAttackBase
         GCD = _fireMageGCD;
         _cameraPlayer = this.GetComponentInChildren<Camera>();
         _throwable = (GameObject)Resources.Load("FireMage/AutoAttackFireMage", typeof(GameObject));
-        Transform[] transformTab = this.gameObject.GetComponentsInChildren<Transform>();
-        foreach (Transform tr in transformTab)
-        {
-            if (tr.gameObject.name == "EthanLeftHand")
-            {
-                _launcherTransform = tr;
-                break;
-            }
-        }
+		_shieldObject = (GameObject)Resources.Load("FireMage/FireMageShield", typeof(GameObject));
+        _launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
+
         base.Start();
     }
 
@@ -50,6 +47,7 @@ public class AutoAttackFireMage : AutoAttackBase
         {
             base.AutoAttack();
             Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
+			
         }
     }
 
@@ -62,11 +60,11 @@ public class AutoAttackFireMage : AutoAttackBase
     public void OnAttackHit()
     {
         CancelInvoke("RemoveShield");
-
         _shield = GetComponent<Shield>();
         if (_shield == null)
         {
             _shield = gameObject.AddComponent<Shield>();
+			_shieldInstance = Instantiate(_shieldObject, transform.position + _shieldObject.transform.position, transform.rotation, this.transform);
         }
 
         _shield.AddShieldValue(Mathf.Clamp(5, 0, _maxValueShield - _shield.ShieldValue));
@@ -79,5 +77,6 @@ public class AutoAttackFireMage : AutoAttackBase
     private void RemoveShield()
     {
         _shield.RemoveShield();
+		Destroy(_shieldInstance);
     }
 }

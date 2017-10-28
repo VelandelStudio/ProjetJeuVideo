@@ -19,15 +19,8 @@ public class FireBallSpell : Spell
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
         _throwable = (GameObject)Resources.Load("FireMage/FireBall", typeof(GameObject));
-        Transform[] transformTab = this.gameObject.GetComponentsInChildren<Transform>();
-        foreach (Transform tr in transformTab)
-        {
-            if (tr.gameObject.name == "EthanLeftHand")
-            {
-                _launcherTransform = tr;
-                break;
-            }
-        }
+		_launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
+		
         spellCD = 3.0f;
         base.Start();
     }

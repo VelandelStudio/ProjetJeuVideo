@@ -15,6 +15,7 @@ public class AutoAttackFireMageBehaviour : LinearProjectile
     /// <param name="col">>is the collider touch by the projectile</param>
     public override void ApplyEffect(Collider col)
     {
+		Debug.Log(col.gameObject.name);
         if (eHit != null && eHit.gameObject.tag != "Player")
         {
             eHit.DamageFor(5);

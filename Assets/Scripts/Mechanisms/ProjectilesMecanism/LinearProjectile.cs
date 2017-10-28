@@ -20,7 +20,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     protected float timeOfFly;
     protected float spellRange = 2000f;
     protected float projectileSpeed = 1000f;
-
+	protected Vector3 target;
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
     /// called when the player press the key associated to the spell.
@@ -28,17 +28,23 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     /// Detach itself from the parent to have a good linear pathway
     /// And Start the Launch method before being destroy by the time
     /// </summary>
-    protected void Start()
+    protected virtual void Start()
     {
         launcher = transform.parent;
         GetComponent<Collider>().isTrigger = true;
         transform.parent = null;
-
-        LaunchProjectile();
-
+		if(target == Vector3.zero)
+		{
+			LaunchProjectile();
+		}
+		else
+		{
+			LaunchProjectile(target);
+		}
         timeOfFly = CalculTimeOfFly(projectileSpeed, spellRange);
         Destroy(gameObject, timeOfFly);
     }
+
 
     /// <summary>
     /// OnTriggerEnter method from Unity called after a collision between two colliders
@@ -57,6 +63,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
             {
                 ApplyEffect(col);
             }
+			AdditionalEffects();
             Destroy(gameObject);
         }
     }
@@ -83,7 +90,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
         Vector3 target;
         RaycastHit hit;
 
-        bool hasFoundHitPoint = Physics.Raycast(cameraPlayer.GetComponent<GameObjectDetector>().OriginPoint, cameraPlayer.transform.forward, 
+        bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(launcher), cameraPlayer.transform.forward, 
                                                 out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
 
         if (hasFoundHitPoint)
@@ -104,7 +111,23 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
             particles.Play();
         }
     }
+	
+	/** LaunchProjectile protected virtual void 
+	 * @params : Vector3 target
+	 * This method is used to override the classical way of launching projectiles. 
+	 * It is launched by daughter classes when they are linear projectiles bu follow a different way than the classical "From Hand to Point".
+	 **/
+	protected virtual void LaunchProjectile(Vector3 target)
+    {
+        transform.LookAt(target);
+        GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
+        ParticleSystem particles = GetComponent<ParticleSystem>();
 
+        if (particles != null)
+        {
+            particles.Play();
+        }
+    }
     /// <summary>
     /// CalculTimeOfFly method calculates automatically at the instanciation of a projectile the time of fly
     /// depending on speed and the distance
@@ -116,4 +139,6 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     {
         return distance / speed;
     }
+	
+	protected virtual void AdditionalEffects(){}
 }
