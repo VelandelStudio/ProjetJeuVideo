@@ -14,19 +14,18 @@ public class FireBall : LinearProjectile
     public override void ApplyEffect(Collider collision)
     {
         EntityLivingBase entityHit = collision.gameObject.GetComponent<EntityLivingBase>();
-        
+        GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
+
         if (entityHit != null && entityHit.gameObject.tag != "Player")
         {
-            entityHit.DamageFor(100);
-            IgniteStatus ignite = entityHit.gameObject.GetComponent<IgniteStatus>();
-            if (ignite != null)
+            if (entityHit.GetComponentInChildren<IgniteStatus>() != null)
             {
-                ignite.ResetStatus();
+                IgniteStatus igniteStatus = entityHit.GetComponentInChildren<IgniteStatus>();
+                igniteStatus.ResetStatus();
             }
             else
             {
-                ignite = entityHit.gameObject.AddComponent<IgniteStatus>();
-                launcher.GetComponent<ConflagrationSpell>().Targets.Add(ignite);
+                Instantiate(igniteToApply, entityHit.transform);
             }
         }
     }

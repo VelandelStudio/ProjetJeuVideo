@@ -376,9 +376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e2605c65769fa43b9305b37c76402b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 0
-  RegenHpPerSec: 3
-  HPMax: 0
+  _HP: 0
+  _regenHpPerSec: 3
+  _HPMax: 0
   maxDistanceTarget: 0
 --- !u!135 &135910564107169464
 SphereCollider:
