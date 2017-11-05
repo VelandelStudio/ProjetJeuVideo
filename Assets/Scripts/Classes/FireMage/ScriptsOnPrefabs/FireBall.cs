@@ -18,14 +18,16 @@ public class FireBall : LinearProjectile
 
         if (entityHit != null && entityHit.gameObject.tag != "Player")
         {
-            if (entityHit.GetComponentInChildren<IgniteStatus>() != null)
+            entityHit.DamageFor(100);
+            IgniteStatus igniteStatus = entityHit.GetComponentInChildren<IgniteStatus>();
+            if (igniteStatus != null)
             {
-                IgniteStatus igniteStatus = entityHit.GetComponentInChildren<IgniteStatus>();
                 igniteStatus.ResetStatus();
             }
             else
             {
-                Instantiate(igniteToApply, entityHit.transform);
+                GameObject ignite = Instantiate(igniteToApply, entityHit.transform);
+                launcher.GetComponent<ConflagrationSpell>().Targets.Add(ignite.GetComponent<IgniteStatus>());
             }
         }
     }
