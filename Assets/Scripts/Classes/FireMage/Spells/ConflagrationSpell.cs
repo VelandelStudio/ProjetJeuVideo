@@ -85,7 +85,8 @@ public class ConflagrationSpell : Spell
                         }
                         else
                         {
-                            Instantiate(igniteToApply, col.transform);
+                            GameObject newIgnite = Instantiate(igniteToApply, col.transform);
+                            ignite = newIgnite.GetComponentInChildren<IgniteStatus>();
                         }
                         targetsToAdd.Add(ignite);
                     }

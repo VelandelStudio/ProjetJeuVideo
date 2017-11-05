@@ -28,7 +28,7 @@ public class IgniteStatus : StatusBase
 		_explosion = (GameObject)Resources.Load("FireMage/ExplosionIgniteStatus", typeof(GameObject));
 
 		float verticalPosition = transform.position.y + _entity.transform.lossyScale.y * 2  ;
-        this.transform.position = new Vector3(transform.position.x, verticalPosition, transform.position.z);
+        transform.position = new Vector3(transform.position.x, verticalPosition, transform.position.z);
     }
 
 	/** ExplodeIgniteStatus public void
@@ -36,8 +36,8 @@ public class IgniteStatus : StatusBase
 	 * When launched, we display the Explosion animation of the ignite. Then, we launch the EndStatus();
 	 **/
 	public void ExplodeIgniteStatus() {
-		_explosion = Instantiate(_explosion, this.transform.position, this.transform.rotation, transform);
-		Destroy(this);
+		_explosion = Instantiate(_explosion, transform.position, transform.rotation, transform.parent);
+		Destroy(gameObject);
 	}
 
     public override void OnStatusApplied()
