@@ -21,8 +21,10 @@ public class TransparentStatus : StatusBase
         delay = 0f;
 
         _objectRenderer = GetComponentInParent<Renderer>();
-        if (_objectRenderer == null)
+        if (_objectRenderer == null || _objectRenderer.material.color == null)
+        {
             base.DestroyStatus();
+        }
 
         if (_oldShader == null)
         {
