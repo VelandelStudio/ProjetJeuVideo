@@ -64,7 +64,7 @@ public class ConflagrationSpell : Spell
             EntityLivingBase entity = target.GetComponent<EntityLivingBase>();
             entity.DamageFor(20);
             Collider[] cols = Physics.OverlapSphere(entity.transform.position, 10f);
-			TargetsExploded.Add(target.GetComponent<Collider>());
+            TargetsExploded.Add(target.GetComponent<Collider>());
             target.ExplodeIgniteStatus();
             foreach (Collider col in cols)
             {
@@ -105,5 +105,13 @@ public class ConflagrationSpell : Spell
     protected override bool IsSpellLauncheable()
     {
         return Targets.Count >= 1 && base.IsSpellLauncheable();
+    }
+
+    /** AvailableForGUI public override bool Method,
+	 * The GUICD image is dependant on the number of Ignites in ythe game.
+	 **/
+    public override bool AvailableForGUI()
+    {
+        return Targets.Count >= 1;
     }
 }

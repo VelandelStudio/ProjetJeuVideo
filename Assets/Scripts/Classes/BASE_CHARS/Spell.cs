@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 /** Spell abstract class.
  * This abstract class is the mother class of all spells in our game. 
@@ -6,8 +7,18 @@ using UnityEngine;
  **/
 public abstract class Spell : MonoBehaviour
 {
-    protected float spellCD;
-    protected float currentCD;
+    public float spellCD
+    {
+        get;
+        protected set;
+    }
+
+    public float currentCD
+    {
+        get;
+        protected set;
+    }
+
     protected bool spellInUse = false;
 
     /** Start protected virtual void Method,
@@ -17,7 +28,7 @@ public abstract class Spell : MonoBehaviour
     protected virtual void Start()
     {
         DisplaySpellCreation(this);
-        currentCD = spellCD;
+        currentCD = 0;
     }
 
     /** Update protected virtual void Method,
@@ -27,7 +38,7 @@ public abstract class Spell : MonoBehaviour
     {
         if (!IsSpellLauncheable())
         {
-            currentCD = Mathf.Clamp(currentCD + Time.deltaTime, 0, spellCD);
+            currentCD = Mathf.Clamp(currentCD - Time.deltaTime, 0, spellCD);
         }
     }
 
@@ -53,7 +64,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual void OnSpellLaunched()
     {
-        currentCD = 0;
+        currentCD = spellCD;
         spellInUse = false;
     }
 
@@ -63,7 +74,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual bool IsSpellLauncheable()
     {
-        return (spellCD == currentCD);
+        return (currentCD == 0);
     }
 
     /** IsSpellInUse public bool Method,
@@ -90,5 +101,16 @@ public abstract class Spell : MonoBehaviour
     protected void DisplaySpellCreation(Spell spell)
     {
         Debug.Log(spell.GetType().ToString() + " created.");
+    }
+
+    /** AvailableForGUI public virtual bool Method,
+	 * Each spell is associated to a GUI Spell Slot. 
+	 * Globally this Slot has an image that represents the remaining CD timer of the Spell. 
+	 * If the cooldown is reload, the image is clear. But, sometimes, we have spells that can not be launched in some conditions.
+	 * This is what this method does. By Default, every spell is AvailableForGUI, meaning that the image associated is only CD dependant.
+	 **/
+    public virtual bool AvailableForGUI()
+    {
+        return true;
     }
 }

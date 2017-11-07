@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ public abstract class Character : MonoBehaviour
 {
     protected List<Spell> spells = new List<Spell>();
     protected AutoAttackBase autoAttack;
-	protected CharacterData characterData;
+    protected CharacterData characterData;
+
     /** Start protected virtual void Method.
 	 * The Start methos is here to construct the class, attributing the spells passive and auto-attack.
 	 * First at all, we try to read the CharacterData.json file. After that, we collect every CharacterData declared in the JSON file.
@@ -24,19 +26,19 @@ public abstract class Character : MonoBehaviour
 	 **/
     protected virtual void Start()
     {
-		string filePath = Path.Combine(Application.streamingAssetsPath, "CharacterData.json");
-		if(File.Exists(filePath))
+        string filePath = Path.Combine(Application.streamingAssetsPath, "CharacterData.json");
+        if (File.Exists(filePath))
         {
-            string jsonFile = File.ReadAllText(filePath); 
-			CharacterData[] data = JsonHelper.getJsonArray<CharacterData> (jsonFile);
-			foreach(CharacterData character in data) 
-			{
-				if(character.Name == this.GetType().ToString())
-				{
-					characterData = character;
-					break;
-				}
-			}
+            string jsonFile = File.ReadAllText(filePath);
+            CharacterData[] data = JsonHelper.getJsonArray<CharacterData>(jsonFile);
+            foreach (CharacterData character in data)
+            {
+                if (character.Name == this.GetType().ToString())
+                {
+                    characterData = character;
+                    break;
+                }
+            }
         }
         else
         {
@@ -139,20 +141,32 @@ public abstract class Character : MonoBehaviour
 	 * This method is called by the Start method. The Objective of the method is to get the spell names in the characterData instance.
 	 * Then, it get all of the script in the scripts library and attach it to the player.
 	 * If one of the scripts is not found or mispelled, the HandleException(3) is launched.
+	 * After that, we call the AttributeSpellToGUI method to give to the GUI all information in requires to display informations about each spell.
 	 **/
     protected virtual void AttributeSpellsToClass()
     {
-        Type t;
-        foreach (string SpellName in characterData.ActiveSpells)
+        for (int i = 1; i <= 4; i++)
         {
-            t = Type.GetType(SpellName.ToString());
-            if (t == null)
+            string SpellName = characterData.ActiveSpells[i - 1];
+            if (Type.GetType(SpellName) == null)
             {
                 HandleException(3);
                 return;
             }
-            spells.Add((Spell)gameObject.AddComponent(t));
+            Spell spellToAdd = (Spell)gameObject.AddComponent(Type.GetType(SpellName));
+            spells.Add(spellToAdd);
+            AttributeSpellToGUI(spellToAdd, i);
         }
+    }
+
+    /** AttributeSpellToGUI private void Method.
+	 * @Params : Spell, Int
+	 * This method is used to find, on the Canvas, a slot to add a Spell on the GUI and give it the correct spell associated.
+	 **/
+    private void AttributeSpellToGUI(Spell spell, int indexSpell)
+    {
+        GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + indexSpell).GetComponent<GUISpellDisplayer>();
+        spellDisplayer.AttributeSpellToGUI(spell);
     }
 
     /** HandleException private void Method.
@@ -173,16 +187,18 @@ public abstract class Character : MonoBehaviour
         }
         UnityEditor.EditorApplication.isPlaying = false;
     }
-	/** CharacterData protected Serializable class.
+
+    /** CharacterData protected Serializable class.
 	 * This class were designed to be at the service of the Character class.
 	 * It is used as a JSON Object to stock every variables read from the JSON file.
 	 **/
-	[System.Serializable]
-	protected class CharacterData
-	{
-		public string Name;
-		public string Passive;
-		public string AutoAttack;
-		public string[] ActiveSpells;
-	}
+    [System.Serializable]
+    protected class CharacterData
+    {
+        public string Name;
+        public string Passive;
+        public string AutoAttack;
+        public string[] ActiveSpells;
+        public string[] DescriptionSpells;
+    }
 }
