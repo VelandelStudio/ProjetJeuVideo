@@ -40,11 +40,13 @@ public class ConflagrationSpell : Spell
 	 * The LauncheSpell Method is called by the abstract Class Classe when the player press the key associated to the spell.
 	 * First at all, we launch the mother method to initialize the spell launching.
      * If the spell is Launcheable, we create a new List that will contains the targets freshly affected by new IgniteStatus.
-	 * Then, we explode every targets already affected by the IgniteStatus (making damage to this target). In order to get the new targets that are getting new ignite status, we use an overlapSphere.
+	 * Then, we explode every targets already affected by an IgniteStatus (making damage to this target).
+     * In order to get the new targets that are getting new igniteStatus, we use an overlapSphere.
 	 * For every collider touched by the overlap sphere we only want to get Colliders of Monsters that have not explosed and are not explosable. 
 	 * Once we get the correct targets, We first apply an explosion damage.
-	 * Then, we launch a random to apply or not ignite on the correct target. Please note that the random can be ignored if CritSuccess was set to true by the FireBlessingSpell.
-	 * If the random is a success, we apply a fresh ignite on the target (by adding a new one or reseting the current one).
+	 * Then, we launch a random to instantiate or not ignite on the correct target.
+     * Please note that the random can be ignored if CritSuccess was set to true by the FireBlessingSpell.
+	 * If the random is a success, we instantiate a fresh Ignite child of the target (by adding a new one or reseting the current one).
 	 * After that, we add the new Frsh targets with fresh ignites to the targetsToAdd List. Then, we refresh the targetsExploded list, by adding the target that just exploded
 	 * These steps ensures that targets can not explode 2 times and get a new fresh igniteStatus after an explosion.
 	 * Then, we clear the old ignites on explosed targets and we add the new fresh targets to the target List. We also ensure that CritSuccess is reset to false.
