@@ -51,6 +51,8 @@ public abstract class StatusBase : MonoBehaviour, IStatus
      **/
     public virtual void ResetStatus()
     {
+        Debug.Log("Reset Status");
+
         OnStatusApplied();
         CancelInvoke("DestroyStatus");
         Invoke("DestroyStatus", maxDuration);
