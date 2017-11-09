@@ -8,7 +8,8 @@ using UnityEngine;
 public class FireBall : LinearProjectile
 {
     /** OnCollisionEnter private void.
-	 * When the fireball is colliding something if it is an entity (not a player), it applies damage and a fresh IgniteStatus on the target.
+	 * When the fireball is colliding something if it is an entity (not a player), it applies damage.
+     * It also instantiate or refresh an IgniteStatus Prefab (GameObject) as the child of the target gameObject.
 	 * then the fireball (gameObject) is destroyed.
 	 **/
     public override void ApplyEffect(Collider collision)
