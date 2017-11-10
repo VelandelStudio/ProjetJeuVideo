@@ -15,10 +15,11 @@ public class GUISpellDisplayer : MonoBehaviour
 	 * The _spellAvailableForGUI is a simple image that shoudkl be activated when the spell is not activable at any conditions (stuns for example)
 	 **/
     private Spell _spell;
-    private string _spellDescription;
     [SerializeField] private Image _spellImgDescription;
     [SerializeField] private Image _CDSpellImage;
     [SerializeField] private Image _spellAvailableForGUI;
+    [SerializeField] private Text _timerCDText;
+
     private Text _spellTextDescription;
 
     /** Start private void Method
@@ -31,6 +32,7 @@ public class GUISpellDisplayer : MonoBehaviour
         _spellTextDescription = _spellImgDescription.GetComponentInChildren<Text>();
         _spellImgDescription.enabled = false;
         _spellTextDescription.enabled = false;
+        _timerCDText.enabled = false;
     }
 
     /** Update private void Method
@@ -42,6 +44,9 @@ public class GUISpellDisplayer : MonoBehaviour
     {
         _spellAvailableForGUI.enabled = !_spell.AvailableForGUI();
         _CDSpellImage.fillAmount = _spell.currentCD / _spell.spellCD;
+        _timerCDText.text = ((int)_spell.currentCD + 1).ToString();
+
+        _timerCDText.enabled = _CDSpellImage.fillAmount != 0;
     }
 
     /** AttributeSpellToGUI public void Method
@@ -50,10 +55,9 @@ public class GUISpellDisplayer : MonoBehaviour
 	 * In this method, we attribute to the Gui the correct spell.
 	 * Then, we try to locate a Sprite associated to the spell in the Image Folder associated to the Character.
 	 **/
-    public void AttributeSpellToGUI(Spell spell, string description)
+    public void AttributeSpellToGUI(Spell spell)
     {
         _spell = spell;
-        _spellDescription = description;
         Image spellImage = GetComponent<Image>();
         spellImage.sprite = Resources.Load<Sprite>("Images/Spells/" + _spell.GetComponent<Character>().GetType().ToString() + "/" + _spell.GetType());
         if (spellImage.sprite == null)
@@ -62,14 +66,14 @@ public class GUISpellDisplayer : MonoBehaviour
         }
     }
 
-    public void Enter()
+    public void MouseEnter()
     {
-        _spellTextDescription.text = _spellDescription;
+        _spellTextDescription.text = _spell.DescriptionGUI;
         _spellImgDescription.enabled = true;
         _spellTextDescription.enabled = true;
     }
 
-    public void Exit()
+    public void MouseExit()
     {
         _spellTextDescription.enabled = false;
         _spellImgDescription.enabled = false;

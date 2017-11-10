@@ -56,5 +56,8 @@ public class ChargeSpell : Spell
         tick = 0;
     }
 
-
+    protected override void SetSpellDescritpion()
+    {
+        description = "Description OF ChargeSpell";
+    }
 }

@@ -114,4 +114,9 @@ public class ConflagrationSpell : Spell
     {
         return Targets.Count >= 1;
     }
+
+    protected override void SetSpellDescritpion()
+    {
+        description = "Description Of ConflagrationSpell";
+    }
 }

@@ -42,4 +42,9 @@ public class FireBallSpell : Spell
             base.OnSpellLaunched();
         }
     }
+
+    protected override void SetSpellDescritpion()
+    {
+        description = "Description Of FireBallSpell";
+    }
 }

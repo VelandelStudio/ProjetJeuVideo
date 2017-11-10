@@ -157,7 +157,7 @@ public abstract class Character : MonoBehaviour
             spells.Add(spellToAdd);
 
 
-            AttributeSpellToGUI(spellToAdd, i, characterData.DescriptionSpells[i - 1]);
+            AttributeSpellToGUI(spellToAdd, i);
         }
     }
 
@@ -165,10 +165,10 @@ public abstract class Character : MonoBehaviour
 	 * @Params : Spell, int, string
 	 * This method is used to find, on the Canvas, a slot to add a Spell on the GUI and give it the correct spell associated with its description.
 	 **/
-    private void AttributeSpellToGUI(Spell spell, int indexSpell, string description)
+    private void AttributeSpellToGUI(Spell spell, int indexSpell)
     {
         GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + indexSpell).GetComponent<GUISpellDisplayer>();
-        spellDisplayer.AttributeSpellToGUI(spell, description);
+        spellDisplayer.AttributeSpellToGUI(spell);
     }
 
     /** HandleException private void Method.
@@ -201,6 +201,5 @@ public abstract class Character : MonoBehaviour
         public string Passive;
         public string AutoAttack;
         public string[] ActiveSpells;
-        public string[] DescriptionSpells;
     }
 }

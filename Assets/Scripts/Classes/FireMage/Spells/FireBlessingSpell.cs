@@ -56,4 +56,9 @@ public class FireBlessingSpell : Spell
             Debug.Log("Conflagration CritSuccess ended !");
         }
     }
+
+    protected override void SetSpellDescritpion()
+    {
+        description = "Description Of FireBlessingSpell";
+    }
 }

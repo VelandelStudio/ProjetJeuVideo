@@ -19,6 +19,19 @@ public abstract class Spell : MonoBehaviour
         protected set;
     }
 
+    public string description;
+    public string DescriptionGUI
+    {
+        get
+        {
+            return description;
+        }
+        protected set
+        {
+
+        }
+    }
+
     protected bool spellInUse = false;
 
     /** Start protected virtual void Method,
@@ -29,6 +42,7 @@ public abstract class Spell : MonoBehaviour
     {
         DisplaySpellCreation(this);
         currentCD = 0;
+        SetSpellDescritpion();
     }
 
     /** Update protected virtual void Method,
@@ -102,6 +116,8 @@ public abstract class Spell : MonoBehaviour
     {
         Debug.Log(spell.GetType().ToString() + " created.");
     }
+
+    protected abstract void SetSpellDescritpion();
 
     /** AvailableForGUI public virtual bool Method,
 	 * Each spell is associated to a GUI Spell Slot. 

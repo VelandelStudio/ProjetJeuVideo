@@ -57,4 +57,9 @@ public class SolarBurnSpell : Spell
 
         base.OnSpellLaunched();
     }
+
+    protected override void SetSpellDescritpion()
+    {
+        description = "Description Of SolarBurnSpell";
+    }
 }
