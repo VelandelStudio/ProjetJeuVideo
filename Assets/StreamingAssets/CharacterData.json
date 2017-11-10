@@ -6,6 +6,12 @@
 		"ActiveSpells":["FireBallSpell", "ConflagrationSpell", "FireBlessingSpell", "SolarBurnSpell"]
 	},
 	{
+		"Name":"Windiator",
+		"Passive":"PassiveWindiator",
+		"AutoAttack":"AutoAttackWindiator",
+		"ActiveSpells":["WindStike", "StormWall", "TridentLaunch", "Gust"]
+	},
+	{
 		"Name":"Test",
 		"Passive":"PassiveTest",
 		"AutoAttack":"AutoAttackTest",
