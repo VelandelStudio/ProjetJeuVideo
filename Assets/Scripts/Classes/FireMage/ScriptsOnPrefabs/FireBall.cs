@@ -8,25 +8,27 @@ using UnityEngine;
 public class FireBall : LinearProjectile
 {
     /** OnCollisionEnter private void.
-	 * When the fireball is colliding something if it is an entity (not a player), it applies damage and a fresh IgniteStatus on the target.
+	 * When the fireball is colliding something if it is an entity (not a player), it applies damage.
+     * It also instantiate or refresh an IgniteStatus Prefab (GameObject) as the child of the target gameObject.
 	 * then the fireball (gameObject) is destroyed.
 	 **/
     public override void ApplyEffect(Collider collision)
     {
         EntityLivingBase entityHit = collision.gameObject.GetComponent<EntityLivingBase>();
-        
+        GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
+
         if (entityHit != null && entityHit.gameObject.tag != "Player")
         {
             entityHit.DamageFor(100);
-            IgniteStatus ignite = entityHit.gameObject.GetComponent<IgniteStatus>();
-            if (ignite != null)
+            IgniteStatus igniteStatus = entityHit.GetComponentInChildren<IgniteStatus>();
+            if (igniteStatus != null)
             {
-                ignite.ResetStatus();
+                igniteStatus.ResetStatus();
             }
             else
             {
-                ignite = entityHit.gameObject.AddComponent<IgniteStatus>();
-                launcher.GetComponent<ConflagrationSpell>().Targets.Add(ignite);
+                GameObject ignite = Instantiate(igniteToApply, entityHit.transform);
+                launcher.GetComponent<ConflagrationSpell>().Targets.Add(ignite.GetComponent<IgniteStatus>());
             }
         }
     }
