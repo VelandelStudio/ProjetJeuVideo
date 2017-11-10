@@ -3,8 +3,7 @@
 		"Name":"FireMage",
 		"Passive":"PassiveFireMage",
 		"AutoAttack":"AutoAttackFireMage",
-		"ActiveSpells":["FireBallSpell", "ConflagrationSpell", "FireBlessingSpell", "SolarBurnSpell"],
-		"DescriptionSpells":["FireBall", "Conflagration", "FireBlessing", "SolarBurn"]
+		"ActiveSpells":["FireBallSpell", "ConflagrationSpell", "FireBlessingSpell", "SolarBurnSpell"]
 	},
 	{
 		"Name":"Test",
