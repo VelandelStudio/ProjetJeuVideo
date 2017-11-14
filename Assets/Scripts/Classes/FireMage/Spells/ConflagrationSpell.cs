@@ -21,7 +21,6 @@ public class ConflagrationSpell : Spell
 	 **/
     protected override void Start()
     {
-        spellCD = 12.0f;
         base.Start();
     }
 
@@ -65,7 +64,7 @@ public class ConflagrationSpell : Spell
         {
             GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
             EntityLivingBase entity = target.GetComponentInParent<EntityLivingBase>();
-            entity.DamageFor(20);
+            entity.DamageFor(SpellDefinition.BaseDamage);
             Collider[] cols = Physics.OverlapSphere(entity.transform.position, 10f);
             TargetsExploded.Add(target.GetComponent<Collider>());
             target.ExplodeIgniteStatus();
@@ -77,8 +76,8 @@ public class ConflagrationSpell : Spell
                     && !TargetsExploded.Contains(col)
                     && !Targets.Contains(col.GetComponent<IgniteStatus>()))
                 {
-                    col.gameObject.GetComponent<EntityLivingBase>().DamageFor(10);
-                    if (Random.Range(0, 100) < 50 || CritSuccess)
+                    col.gameObject.GetComponent<EntityLivingBase>().DamageFor(SpellDefinition.AdditionalDamages[0]);
+                    if (Random.Range(0, 100) < int.Parse(SpellDefinition.OtherValues[0]) || CritSuccess)
                     {
                         IgniteStatus ignite = col.gameObject.GetComponentInChildren<IgniteStatus>();
                         if (ignite != null)
@@ -120,8 +119,11 @@ public class ConflagrationSpell : Spell
         return Targets.Count >= 1;
     }
 
-    protected override void SetSpellDescritpion()
+    /** getDescriptionVariables, protected override object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	**/
+    protected override object[] getDescriptionVariables()
     {
-        description = "Description Of ConflagrationSpell";
+        return new object[] { SpellDefinition.BaseDamage, SpellDefinition.AdditionalDamages[0], SpellDefinition.OtherValues[0] };
     }
 }

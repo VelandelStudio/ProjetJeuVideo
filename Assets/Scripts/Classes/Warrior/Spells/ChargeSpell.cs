@@ -56,8 +56,8 @@ public class ChargeSpell : Spell
         tick = 0;
     }
 
-    protected override void SetSpellDescritpion()
+    protected override object[] getDescriptionVariables()
     {
-        description = "Description OF ChargeSpell";
+        return new object[] { };
     }
 }

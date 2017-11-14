@@ -9,7 +9,7 @@ using UnityEngine;
 public class FireBlessingSpell : Spell
 {
     private ConflagrationSpell _conflagration;
-    private float _durationOfCritSuccess = 5.0f;
+    private float _durationOfCritSuccess;
 
     /** Start : protected override void Method
 	 * The Start Method is used here to get the set the CD of the spell.
@@ -18,9 +18,9 @@ public class FireBlessingSpell : Spell
 	 **/
     protected override void Start()
     {
-        spellCD = 30.0f;
         _conflagration = GetComponent<ConflagrationSpell>();
         base.Start();
+        _durationOfCritSuccess = int.Parse(SpellDefinition.OtherValues[0]);
     }
 
     /** LaunchSpell : public override void Method
@@ -57,8 +57,11 @@ public class FireBlessingSpell : Spell
         }
     }
 
-    protected override void SetSpellDescritpion()
+    /** getDescriptionVariables, protected override object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	**/
+    protected override object[] getDescriptionVariables()
     {
-        description = "Description Of FireBlessingSpell";
+        return new object[] { _durationOfCritSuccess };
     }
 }

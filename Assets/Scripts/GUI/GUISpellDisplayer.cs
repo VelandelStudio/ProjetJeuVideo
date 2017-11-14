@@ -66,13 +66,19 @@ public class GUISpellDisplayer : MonoBehaviour
         }
     }
 
+    /** MouseEnter, public void Method
+	 * This Method is launched with an event trigger when the mouse enters the spell icon on the screen
+	**/
     public void MouseEnter()
     {
-        _spellTextDescription.text = _spell.DescriptionGUI;
+        _spellTextDescription.text = _spell.GetDescriptionGUI();
         _spellImgDescription.enabled = true;
         _spellTextDescription.enabled = true;
     }
 
+    /** MouseExit, public void Method
+	 * This Method is launched with an event trigger when the mouse exits the spell icon on the screen
+	**/
     public void MouseExit()
     {
         _spellTextDescription.enabled = false;

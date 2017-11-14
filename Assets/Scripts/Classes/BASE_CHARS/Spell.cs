@@ -1,5 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 /** Spell abstract class.
  * This abstract class is the mother class of all spells in our game. 
@@ -19,17 +23,10 @@ public abstract class Spell : MonoBehaviour
         protected set;
     }
 
-    public string description;
-    public string DescriptionGUI
+    public SpellData SpellDefinition
     {
-        get
-        {
-            return description;
-        }
-        protected set
-        {
-
-        }
+        get;
+        protected set;
     }
 
     protected bool spellInUse = false;
@@ -40,9 +37,10 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual void Start()
     {
+        LoadSpellData("SpellData.json");
         DisplaySpellCreation(this);
         currentCD = 0;
-        SetSpellDescritpion();
+        spellCD = SpellDefinition.CoolDownValue;
     }
 
     /** Update protected virtual void Method,
@@ -117,8 +115,6 @@ public abstract class Spell : MonoBehaviour
         Debug.Log(spell.GetType().ToString() + " created.");
     }
 
-    protected abstract void SetSpellDescritpion();
-
     /** AvailableForGUI public virtual bool Method,
 	 * Each spell is associated to a GUI Spell Slot. 
 	 * Globally this Slot has an image that represents the remaining CD timer of the Spell. 
@@ -128,5 +124,64 @@ public abstract class Spell : MonoBehaviour
     public virtual bool AvailableForGUI()
     {
         return true;
+    }
+
+    /**GetDescriptionGUI, public string Method
+	 * Return the descreiption of our spell built by the SpellDescriptionBuilder of the StringHelper static class.
+	 * This method allows to get a dynamic and colored description on the screen.
+	**/
+    public string GetDescriptionGUI()
+    {
+        return StringHelper.SpellDescriptionBuilder(this, getDescriptionVariables());
+    }
+
+    /** getDescriptionVariables, protected abstract object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	**/
+    protected abstract object[] getDescriptionVariables();
+
+    /** LoadSpellData, protected void
+	 * @Params : string
+	 * Loads the JSON SpellDefinition associated to the spell.
+	**/
+    protected void LoadSpellData(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+            SpellData[] data = JsonHelper.getJsonArray<SpellData>(jsonFile);
+            foreach (SpellData spell in data)
+            {
+                if (spell.ScriptName == this.GetType().ToString())
+                {
+                    SpellDefinition = spell;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Cannot load game data!");
+        }
+    }
+
+    /** SpellData public Serializable class
+	 * This class war created to be at the service of the Spell class
+	 * This class contains all elements to construct a spell from the JSON file.
+	**/
+    [System.Serializable]
+    public class SpellData
+    {
+        public string ScriptName;
+        public string Name;
+        public string Type;
+        public float CoolDownValue;
+        public bool HasGCD;
+        public int BaseDamage;
+        public int[] AdditionalDamages;
+        public IStatus[] AdditionalEffects;
+        public string[] OtherValues;
+        public string[] Description;
     }
 }

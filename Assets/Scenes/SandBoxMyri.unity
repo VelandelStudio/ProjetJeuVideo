@@ -6687,6 +6687,41 @@ Prefab:
       propertyPath: ShapeModule.radiusThickness
       value: 1.0000
       objectReference: {fileID: 0}
+    - target: {fileID: 198097654110051690, guid: 099d1731863eed346bed372725b45674,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198097654110051690, guid: 099d1731863eed346bed372725b45674,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198097654110051690, guid: 099d1731863eed346bed372725b45674,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198097654110051690, guid: 099d1731863eed346bed372725b45674,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198097654110051690, guid: 099d1731863eed346bed372725b45674,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198097654110051690, guid: 099d1731863eed346bed372725b45674,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198097654110051690, guid: 099d1731863eed346bed372725b45674,
+        type: 2}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 099d1731863eed346bed372725b45674, type: 2}
   m_IsPrefabParent: 0
@@ -14468,7 +14503,7 @@ Prefab:
     - target: {fileID: 224295092031376382, guid: eaea802884656864d975e4a2616191d7,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 115.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224295092031376382, guid: eaea802884656864d975e4a2616191d7,
         type: 2}
