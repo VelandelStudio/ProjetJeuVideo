@@ -6,11 +6,13 @@ public class AutoAttackWindiator : AutoAttackBase {
 
     private float _WindiatorGCD = 2f;
     private Animator _anim;
+    private WindiatorSimpleAttack _wsa;
 
     protected override void Start()
     {
         GCD = _WindiatorGCD;
         _anim = GetComponent<Animator>();
+        _wsa = GetComponentInChildren<WindiatorSimpleAttack>();
 
         base.Start();
     }
@@ -21,10 +23,24 @@ public class AutoAttackWindiator : AutoAttackBase {
         {
             if (Input.GetMouseButtonDown(0))
             {
-                _anim.Play("AutoAttackWindiator",-1,0f);
+                _wsa.SwapEnableArmeCol();
+                _anim.SetBool("AutoAttack", true);
+                StartCoroutine(CoroutineOneSec());
             }
 
             base.AutoAttack();
         }
+    }
+
+    IEnumerator CoroutineOneSec()
+    {
+        yield return new WaitForSeconds(1f);
+
+        if (_wsa.GetValueColArme())
+        {
+            _wsa.SwapEnableArmeCol();
+        }
+
+        _anim.SetBool("AutoAttack", false);
     }
 }
