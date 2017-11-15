@@ -394,7 +394,6 @@ GameObject:
   - component: {fileID: 224295092031376382}
   - component: {fileID: 222290122768076116}
   - component: {fileID: 114412012787295512}
-  - component: {fileID: 114997474746586968}
   m_Layer: 5
   m_Name: TextSpell
   m_TagString: Untagged
@@ -1466,20 +1465,6 @@ MonoBehaviour:
   _spellAvailableForGUI: {fileID: 114698796243753548}
   _timerCDText: {fileID: 114924414996975442}
   _stackText: {fileID: 114694273231416036}
---- !u!114 &114997474746586968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1868411409488978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1573420865, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!222 &222006256453235658
 CanvasRenderer:
   m_ObjectHideFlags: 1
