@@ -182,6 +182,8 @@ public abstract class Spell : MonoBehaviour
         public int[] AdditionalDamages;
         public IStatus[] AdditionalEffects;
         public string[] OtherValues;
+        public bool IsStackable;
+        public int NumberOfStack;
         public string[] Description;
     }
 }

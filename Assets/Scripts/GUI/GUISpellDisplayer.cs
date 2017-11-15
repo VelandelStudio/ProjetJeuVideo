@@ -19,7 +19,7 @@ public class GUISpellDisplayer : MonoBehaviour
     [SerializeField] private Image _CDSpellImage;
     [SerializeField] private Image _spellAvailableForGUI;
     [SerializeField] private Text _timerCDText;
-
+    [SerializeField] private Text _stackText;
     private Text _spellTextDescription;
 
     /** Start private void Method
@@ -33,6 +33,7 @@ public class GUISpellDisplayer : MonoBehaviour
         _spellImgDescription.enabled = false;
         _spellTextDescription.enabled = false;
         _timerCDText.enabled = false;
+        _stackText.enabled = false;
     }
 
     /** Update private void Method
@@ -47,6 +48,9 @@ public class GUISpellDisplayer : MonoBehaviour
         _timerCDText.text = ((int)_spell.currentCD + 1).ToString();
 
         _timerCDText.enabled = _CDSpellImage.fillAmount != 0;
+
+        _stackText.enabled = _spell.SpellDefinition.IsStackable;
+        _stackText.text = _spell.SpellDefinition.NumberOfStack.ToString();
     }
 
     /** AttributeSpellToGUI public void Method

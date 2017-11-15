@@ -9,10 +9,12 @@
 		"AdditionalDamages":[10],
 		"AdditionalEffects":[],
 		"OtherValues":["50"],
+		"IsStackable":false,
+		"NumberOfStack":0,
 		"Description":
 		[
-			"Make every Ignite explodes and inflicts {d0} damages to target.\n",
-			"Every monster taken in the explosion sudden {d1} damages and has {2} % of chances to be affected by a new Ignite."
+			"Make every Ignite explodes and inflicts {m0} damages to target.\n",
+			"Every monster taken in the explosion sudden {m1} damages and has {2} % of chances to be affected by a new Ignite."
 		]
 	},
 	{
@@ -25,10 +27,12 @@
 		"AdditionalDamages":[],
 		"AdditionalEffects":["IgniteStatus"],
 		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStack":0,
 		"Description":
 		[
 			"Launch a Fireball in front of the player.\n",
-			"If the Fireball hits a monster,it sudden {d0} damages and apply <<Ignite>>"
+			"If the Fireball hits a monster,it sudden {m0} damages and apply <<Ignite>>"
 		]
 	},
 	{
@@ -41,6 +45,8 @@
 		"AdditionalDamages":[],
 		"AdditionalEffects":[],
 		"OtherValues":["5"],
+		"IsStackable":false,
+		"NumberOfStack":0,
 		"Description":
 		[ 
 			"You are blessed by the goddess of fire.\n",
@@ -58,11 +64,13 @@
 		"AdditionalDamages":[100],
 		"AdditionalEffects":[],
 		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStack":0,
 		"Description":
 		[
 			"Invokes an enormous eruption from the sky that explodes at the targeted point.\n",
-			"At the impact, if the Solar Burn hits an entity, it sudden {d0} damages.\n",
-			"Otherwise, every target caught in the explosion sudden {d1} damages.\n",
+			"At the impact, if the Solar Burn hits an entity, it sudden {m0} damages.\n",
+			"Otherwise, every target caught in the explosion sudden {m1} damages.\n",
 			"Critical hits inflicts 4x more damages instande of 2x."
 		]
 	}
