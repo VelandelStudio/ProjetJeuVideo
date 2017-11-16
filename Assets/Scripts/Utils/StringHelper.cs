@@ -5,7 +5,17 @@ using UnityEngine;
 
 public static class StringHelper
 {
-
+    /** SpellDescriptionBuilder, public static string method
+     * @Params : Spell, object[]
+     * This static method is used to construct the Spell Descriptions that will be displayed on the GUI.
+     * This method works as a printf. We get the description from the spell and we replace the variables elements by the descriptionVariables.
+     * First of all, we get the title, the cooldown value and the cost of resources associated to the spell.
+     * Then, we read the description from the JSON file. The method is ablme to detect different patterns :
+     * {p0} : The first variable of the array is a Physical damage (Bold + Maroon color).
+     * {m1} : The second variable of the array is a Magical damage (Bold + Cyan color).
+     * {2}  : The third variable of the array is an anonymous variable (Just Bold, Doritos like).
+     * <<IgniteStatus>> : Additionnal effects are surronded by <<>> (Bold + Green color + Get the Description of the variable).
+     **/
     public static string SpellDescriptionBuilder(Spell spell, object[] descriptionVariables)
     {
         string title = spell.SpellDefinition.Name;
@@ -28,7 +38,7 @@ public static class StringHelper
                 if (matches[i].Value[0] == 'm' || matches[i].Value[0] == 'p')
                 {
                     string color = matches[i].Value[0] == 'm' ? "cyan" : "maroon";
-                    description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">{" + matches[i].Value.TrimStart('m') + "}</color></b>");
+                    description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">{" + matches[i].Value.TrimStart('m','p') + "}</color></b>");
                     continue;
                 }
                 else
@@ -57,6 +67,10 @@ public static class StringHelper
         return finaldescription;
     }
 
+    /** SecToMinConverter, public static string method
+     * @Params : float
+     * Transform a seconds value into a friendly Format mm.s or ss
+     */
     public static string SecToMinConverter(float seconds)
     {
         if (seconds < 60)
