@@ -21,7 +21,6 @@ public class ConflagrationSpell : Spell
 	 **/
     protected override void Start()
     {
-        spellCD = 12.0f;
         base.Start();
     }
 
@@ -65,9 +64,9 @@ public class ConflagrationSpell : Spell
         {
             GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
             EntityLivingBase entity = target.GetComponentInParent<EntityLivingBase>();
-            entity.DamageFor(20);
+            entity.DamageFor(SpellDefinition.BaseDamage);
             Collider[] cols = Physics.OverlapSphere(entity.transform.position, 10f);
-			TargetsExploded.Add(target.GetComponent<Collider>());
+            TargetsExploded.Add(target.GetComponent<Collider>());
             target.ExplodeIgniteStatus();
 
             foreach (Collider col in cols)
@@ -77,8 +76,8 @@ public class ConflagrationSpell : Spell
                     && !TargetsExploded.Contains(col)
                     && !Targets.Contains(col.GetComponent<IgniteStatus>()))
                 {
-                    col.gameObject.GetComponent<EntityLivingBase>().DamageFor(10);
-                    if (Random.Range(0, 100) < 50 || CritSuccess)
+                    col.gameObject.GetComponent<EntityLivingBase>().DamageFor(SpellDefinition.AdditionalDamages[0]);
+                    if (Random.Range(0, 100) < int.Parse(SpellDefinition.OtherValues[0]) || CritSuccess)
                     {
                         IgniteStatus ignite = col.gameObject.GetComponentInChildren<IgniteStatus>();
                         if (ignite != null)
@@ -110,5 +109,21 @@ public class ConflagrationSpell : Spell
     protected override bool IsSpellLauncheable()
     {
         return Targets.Count >= 1 && base.IsSpellLauncheable();
+    }
+
+    /** AvailableForGUI public override bool Method,
+	 * The GUICD image is dependant on the number of Ignites in ythe game.
+	 **/
+    public override bool AvailableForGUI()
+    {
+        return Targets.Count >= 1;
+    }
+
+    /** getDescriptionVariables, protected override object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	**/
+    protected override object[] getDescriptionVariables()
+    {
+        return new object[] { SpellDefinition.BaseDamage, SpellDefinition.AdditionalDamages[0], SpellDefinition.OtherValues[0] };
     }
 }

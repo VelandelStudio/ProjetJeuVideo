@@ -12,7 +12,7 @@ public class SolarBurnSpell : Spell
     private Camera _cameraPlayer;
     private GameObject throwable;
 
-	public Vector3 TargetOfSolarBurn;
+    public Vector3 TargetOfSolarBurn;
     /** Start : protected override void Method
 	 * The Start Method is used here to get the camera and the transform associated to the player.
 	 * Once it is done, we apply the CD of the spell and launch the mother Method to initialize the spell.
@@ -21,7 +21,6 @@ public class SolarBurnSpell : Spell
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
         throwable = (GameObject)Resources.Load("FireMage/SolarBall", typeof(GameObject));
-        spellCD = 7f;
         base.Start();
     }
 
@@ -56,5 +55,34 @@ public class SolarBurnSpell : Spell
         Instantiate(throwable, v, new Quaternion(), this.transform);
 
         base.OnSpellLaunched();
+    }
+
+    /** ApplyEffectOnHit, public void Method
+	 * @Params : EntityLivingBase
+	 * When the instance of SolarBurn hits an entity, this method is launched.
+	 * It applies damages on the target.
+	**/
+    public void ApplyEffectOnHit(EntityLivingBase entityHit)
+    {
+        entityHit.DamageFor(SpellDefinition.BaseDamage);
+    }
+
+    /** ApplyAdditionalEffect, public void Method
+	 * @Params : EntityLivingBase
+	 * When the instance of SolarBurn hits the floor, an explosion occurs.
+	 * This method is called for every target that are caught by the Explosion.
+	 * It applies damaes to the target.
+	**/
+    public void ApplyAdditionalEffect(EntityLivingBase entityHit)
+    {
+        entityHit.DamageFor(SpellDefinition.AdditionalDamages[0]);
+    }
+
+    /** getDescriptionVariables, protected override object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	**/
+    protected override object[] getDescriptionVariables()
+    {
+        return new object[] { SpellDefinition.BaseDamage, SpellDefinition.AdditionalDamages[0] };
     }
 }
