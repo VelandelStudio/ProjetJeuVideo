@@ -28,7 +28,6 @@ public abstract class Spell : MonoBehaviour
         get;
         protected set;
     }
-
     protected bool spellInUse = false;
     protected float spellGCD = 1f;
 
