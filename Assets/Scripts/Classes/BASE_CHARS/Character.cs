@@ -102,7 +102,17 @@ public abstract class Character : MonoBehaviour
     protected virtual void LaunchSpell(int spellIndex)
     {
         Spell spell = spells[spellIndex];
-        spell.LaunchSpell();
+        if (spell.IsSpellLauncheable())
+        {
+            spell.LaunchSpell();
+            for (int i = 0; i < spells.Count; i++)
+            {
+                if (i != spellIndex && spells[i].CurrentCD == 0)
+                {
+                    StartCoroutine(spells[i].LaunchGCD());
+                }
+            }
+        }
     }
 
     /** AttributePassiveToClass protected virtual void Method.

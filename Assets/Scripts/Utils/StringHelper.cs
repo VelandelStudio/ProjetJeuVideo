@@ -24,7 +24,7 @@ public static class StringHelper
         string resources = "Resources_Value" + " " + "Resources_Type";
         resources = "<b><size=12><color=lightblue>" + resources + "</color></size></b>";
 
-        string cooldown = SecToMinConverter(spell.spellCD) + " cooldown";
+        string cooldown = SecToMinConverter(spell.SpellCD) + " cooldown";
         cooldown = "<b><size=12><color=lightblue>" + cooldown + "</color></size></b>";
 
         string description = string.Join("", spell.SpellDefinition.Description);

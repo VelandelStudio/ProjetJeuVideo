@@ -11,13 +11,13 @@ using System.IO;
  **/
 public abstract class Spell : MonoBehaviour
 {
-    public float spellCD
+    public float SpellCD
     {
         get;
         protected set;
     }
 
-    public float currentCD
+    public float CurrentCD
     {
         get;
         protected set;
@@ -30,6 +30,7 @@ public abstract class Spell : MonoBehaviour
     }
 
     protected bool spellInUse = false;
+    protected float spellGCD = 1f;
 
     /** Start protected virtual void Method,
 	 * The Start method first display the name of the spell whe he is created by the Classe.
@@ -39,8 +40,8 @@ public abstract class Spell : MonoBehaviour
     {
         LoadSpellData("SpellData.json");
         DisplaySpellCreation(this);
-        currentCD = 0;
-        spellCD = SpellDefinition.CoolDownValue;
+        CurrentCD = 0;
+        SpellCD = SpellDefinition.CoolDownValue;
     }
 
     /** Update protected virtual void Method,
@@ -50,7 +51,7 @@ public abstract class Spell : MonoBehaviour
     {
         if (!IsSpellLauncheable())
         {
-            currentCD = Mathf.Clamp(currentCD - Time.deltaTime, 0, spellCD);
+            CurrentCD = Mathf.Clamp(CurrentCD - Time.deltaTime, 0, SpellCD);
         }
     }
 
@@ -69,24 +70,38 @@ public abstract class Spell : MonoBehaviour
             spellInUse = true;
         }
     }
-
     /** OnSpellLaunched protected virtual void Method,
 	 * This method should be called when the spell has reached is final statement.
 	 * When it is the case, this method set the current CD to 0 and tells the game that this spells is not in use anymore.
 	 **/
     protected virtual void OnSpellLaunched()
     {
-        currentCD = spellCD;
+        CurrentCD = SpellCD;
         spellInUse = false;
+    }
+
+    /** LaunchGCD,public virtual void Method
+	 * This Method should be launched by other scripts in order to activate the Global Cooldown of the spell.
+	 * If a spell is stackable and if it has more than 1 stacks, this method can be launched by the spell itself.
+	**/
+    public virtual IEnumerator LaunchGCD()
+    {
+        float oldSpellCD = SpellCD;
+        SpellCD = spellGCD;
+        CurrentCD = SpellCD;
+        spellInUse = true;
+        yield return new WaitForSeconds(spellGCD);
+        spellInUse = false;
+        SpellCD = oldSpellCD;
     }
 
     /** IsSpellLauncheable protected virtual bool Method,
 	 * This returns if the spell is launcheable or not. In this script, we only check if the spell is under Cooldown or not.
 	 * You should overrie this method is you want to not make your spell launcheable in other conditions
 	 **/
-    protected virtual bool IsSpellLauncheable()
+    public virtual bool IsSpellLauncheable()
     {
-        return (currentCD == 0);
+        return (CurrentCD == 0);
     }
 
     /** IsSpellInUse public bool Method,

@@ -106,7 +106,7 @@ public class ConflagrationSpell : Spell
 	 * This method override the parent one adding a condition to the utilisation of this spell :
 	 * If the targets List is empty (i.e. if there are no igniteStatus in the game), the spell can not be launched.
 	 **/
-    protected override bool IsSpellLauncheable()
+    public override bool IsSpellLauncheable()
     {
         return Targets.Count >= 1 && base.IsSpellLauncheable();
     }

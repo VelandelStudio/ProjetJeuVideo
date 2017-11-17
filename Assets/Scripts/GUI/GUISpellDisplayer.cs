@@ -19,7 +19,10 @@ public class GUISpellDisplayer : MonoBehaviour
     [SerializeField] private Image _CDSpellImage;
     [SerializeField] private Image _spellAvailableForGUI;
     [SerializeField] private Text _timerCDText;
-    [SerializeField] private Text _stackText;
+    [SerializeField] private Image _stackImage;
+    [SerializeField] private Image _backgroundStack;
+
+    private Text _stackText;
     private Text _spellTextDescription;
 
     /** Start private void Method
@@ -33,7 +36,10 @@ public class GUISpellDisplayer : MonoBehaviour
         _spellImgDescription.enabled = false;
         _spellTextDescription.enabled = false;
         _timerCDText.enabled = false;
+        _stackText = _stackImage.GetComponentInChildren<Text>();
         _stackText.enabled = false;
+        _stackImage.enabled = false;
+        _backgroundStack.enabled = false;
     }
 
     /** Update private void Method
@@ -44,13 +50,18 @@ public class GUISpellDisplayer : MonoBehaviour
     private void Update()
     {
         _spellAvailableForGUI.enabled = !_spell.AvailableForGUI();
-        _CDSpellImage.fillAmount = _spell.currentCD / _spell.spellCD;
-        _timerCDText.text = ((int)_spell.currentCD + 1).ToString();
+        _CDSpellImage.fillAmount = _spell.CurrentCD / _spell.SpellCD;
+        _timerCDText.text = ((int)_spell.CurrentCD + 1).ToString();
 
         _timerCDText.enabled = _CDSpellImage.fillAmount != 0;
 
-        _stackText.enabled = _spell.SpellDefinition.IsStackable;
-        _stackText.text = _spell.SpellDefinition.NumberOfStack.ToString();
+        if (_spell is StackableSpell)
+        {
+            StackableSpell spell = (StackableSpell)_spell;
+            _stackText.text = (spell).NumberOfStacks.ToString();
+            _stackImage.enabled = spell.NumberOfStacks > 0;
+            _stackImage.fillAmount = spell.CurrentStackCD / spell.StackCD;
+        }
     }
 
     /** AttributeSpellToGUI public void Method
@@ -67,6 +78,13 @@ public class GUISpellDisplayer : MonoBehaviour
         if (spellImage.sprite == null)
         {
             spellImage.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");
+        }
+
+        if (spell is StackableSpell)
+        {
+            _stackText.enabled = true;
+            _stackImage.enabled = true;
+            _backgroundStack.enabled = true;
         }
     }
 
