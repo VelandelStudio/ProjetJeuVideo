@@ -11,7 +11,7 @@ public class SolarBurnSpell : Spell
 {
     private Camera _cameraPlayer;
     private GameObject throwable;
-
+    private bool _playerTargetingFloor;
     public Vector3 TargetOfSolarBurn;
     /** Start : protected override void Method
 	 * The Start Method is used here to get the camera and the transform associated to the player.
@@ -84,5 +84,33 @@ public class SolarBurnSpell : Spell
     protected override object[] getDescriptionVariables()
     {
         return new object[] { SpellDefinition.BaseDamage, SpellDefinition.AdditionalDamages[0] };
+    }
+
+    /** IsSpellLauncheable(), public override bool method
+     * The solar burn spell is launcheable only on ground surfaces.
+     * First we check in a Raycastall if the player is aiming at the ground.
+     * If it is, and if the base.IsSpellLauncheable() is true, then you can cast the spell.
+     **/
+    public override bool IsSpellLauncheable()
+    {
+        _playerTargetingFloor = false;
+        RaycastHit[] hits = Physics.RaycastAll(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward,Mathf.Infinity);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i].collider.gameObject.tag == "Floor")
+            {
+                _playerTargetingFloor = true;
+                break;
+            }
+        }
+
+        return (base.IsSpellLauncheable() && _playerTargetingFloor);
+    }
+    /** AvailableForGUI(), public override bool method
+     * The Spell is available on the GUI if the player is currently targeting at the floor.
+     **/
+    public override bool AvailableForGUI()
+    {
+        return _playerTargetingFloor;
     }
 }
