@@ -97,7 +97,7 @@ public class SolarBurnSpell : Spell
         RaycastHit[] hits = Physics.RaycastAll(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward,Mathf.Infinity);
         for (int i = 0; i < hits.Length; i++)
         {
-            if (hits[i].collider.gameObject.tag == "Floor")
+            if (hits[i].collider.gameObject.tag == "Floor" || hits[i].collider.gameObject.name == "Ground")
             {
                 _playerTargetingFloor = true;
                 break;
