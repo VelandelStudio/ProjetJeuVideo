@@ -145,6 +145,9 @@ public abstract class Character : MonoBehaviour
             return;
         }
         autoAttack = (AutoAttackBase)gameObject.AddComponent(t);
+
+        GUIAutoAttackDisplayer autoAttackDisplayer = GameObject.Find("AutoAttack").GetComponent<GUIAutoAttackDisplayer>();
+        autoAttackDisplayer.AttributeAutoAttackToGUI(autoAttack);
     }
 
     /** AttributeSpellsToClass protected virtual void Method.
@@ -167,18 +170,9 @@ public abstract class Character : MonoBehaviour
             spells.Add(spellToAdd);
 
 
-            AttributeSpellToGUI(spellToAdd, i);
+            GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + i).GetComponent<GUISpellDisplayer>();
+            spellDisplayer.AttributeSpellToGUI(spellToAdd);
         }
-    }
-
-    /** AttributeSpellToGUI private void Method.
-	 * @Params : Spell, int, string
-	 * This method is used to find, on the Canvas, a slot to add a Spell on the GUI and give it the correct spell associated with its description.
-	 **/
-    private void AttributeSpellToGUI(Spell spell, int indexSpell)
-    {
-        GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + indexSpell).GetComponent<GUISpellDisplayer>();
-        spellDisplayer.AttributeSpellToGUI(spell);
     }
 
     /** HandleException private void Method.

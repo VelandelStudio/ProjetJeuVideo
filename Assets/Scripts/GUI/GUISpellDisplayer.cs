@@ -93,9 +93,7 @@ public class GUISpellDisplayer : MonoBehaviour
 	**/
     public void MouseEnter()
     {
-        _spellTextDescription.text = _spell.GetDescriptionGUI();
-        _spellImgDescription.enabled = true;
-        _spellTextDescription.enabled = true;
+        GUIDescriptionDisplayer.DisplayDescriptionOnScreen(_spellTextDescription, _spellImgDescription, _spell.GetDescriptionGUI());
     }
 
     /** MouseExit, public void Method
@@ -103,8 +101,6 @@ public class GUISpellDisplayer : MonoBehaviour
 	**/
     public void MouseExit()
     {
-        _spellTextDescription.enabled = false;
-        _spellImgDescription.enabled = false;
-        _spellTextDescription.text = " ";
+        GUIDescriptionDisplayer.CancelDescriptionOnScreen(_spellTextDescription, _spellImgDescription);
     }
 }

@@ -1,4 +1,9 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 /** AutoAttackBase abstract class.
  * This abstract class is the mother class of all AutoAttack in our game. 
@@ -9,11 +14,17 @@ public abstract class AutoAttackBase : MonoBehaviour
     protected float GCD;
     protected float currentGCD;
 
+    public AutoAttackData AutoAttackDefinition
+    {
+        get;
+        protected set;
+    }
     /** Start protected virtual void Method,
 	 * The Start method initializes the CD of the auto-attack.
 	 **/
     protected virtual void Start()
     {
+        LoadAutoAttackData("AutoAttackData.json");
         currentGCD = GCD;
     }
 
@@ -45,5 +56,56 @@ public abstract class AutoAttackBase : MonoBehaviour
     public virtual void AutoAttack()
     {
         currentGCD = 0;
+    }
+
+    /**
+	 *
+	 **/
+    public string GetDescriptionGUI()
+    {
+        return StringHelper.AutoAttackDescriptionBuilder(this, getDescriptionVariables());
+    }
+
+    /** getDescriptionVariables, protected abstract object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	**/
+    protected abstract object[] getDescriptionVariables();
+
+    /** 
+	 *
+	 **/
+    protected void LoadAutoAttackData(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+            AutoAttackData[] data = JsonHelper.getJsonArray<AutoAttackData>(jsonFile);
+            foreach (AutoAttackData autoAttack in data)
+            {
+                if (autoAttack.ScriptName == this.GetType().ToString())
+                {
+                    AutoAttackDefinition = autoAttack;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Cannot load game data!");
+        }
+    }
+
+    /** 
+	 * 
+	**/
+    [System.Serializable]
+    public class AutoAttackData
+    {
+        public string ScriptName;
+        public string Name;
+        public int[] Damages;
+        public string[] OtherValues;
+        public string[] Description;
     }
 }

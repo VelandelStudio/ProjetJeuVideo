@@ -28,6 +28,36 @@ public static class StringHelper
         cooldown = "<b><size=12><color=lightblue>" + cooldown + "</color></size></b>";
 
         string description = string.Join("", spell.SpellDefinition.Description);
+        description = DescriptionBuilder(description, descriptionVariables);
+
+        string finaldescription = title + "\n"
+                                + resources + "\n"
+                                + cooldown + "\n"
+                                + "\n"
+                                + description;
+        return finaldescription;
+    }
+
+    public static string AutoAttackDescriptionBuilder(AutoAttackBase autoAttack, object[] descriptionVariables)
+    {
+        string title = autoAttack.AutoAttackDefinition.Name;
+        title = "<b><size=14><color=darkblue>" + title + "</color></size></b>";
+
+        string resources = "Resources_Value" + " " + "Resources_Type";
+        resources = "<b><size=12><color=lightblue>" + resources + "</color></size></b>";
+
+        string description = string.Join("", autoAttack.AutoAttackDefinition.Description);
+        description = DescriptionBuilder(description, descriptionVariables);
+
+
+        string finaldescription = title + "\n"
+                                + "\n"
+                                + description;
+        return finaldescription;
+    }
+
+    private static string DescriptionBuilder(string description, object[] descriptionVariables)
+    {
         string pattern = @"(?<=\{).+?(?=\})";
         MatchCollection matches = Regex.Matches(description, pattern, RegexOptions.IgnoreCase);
 
@@ -38,7 +68,7 @@ public static class StringHelper
                 if (matches[i].Value[0] == 'm' || matches[i].Value[0] == 'p')
                 {
                     string color = matches[i].Value[0] == 'm' ? "cyan" : "maroon";
-                    description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">{" + matches[i].Value.TrimStart('m','p') + "}</color></b>");
+                    description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">{" + matches[i].Value.TrimStart('m', 'p') + "}</color></b>");
                     continue;
                 }
                 else
@@ -59,12 +89,7 @@ public static class StringHelper
             description += "StringHelper TODO : Dynamic Description of Status";
         }
 
-        string finaldescription = title + "\n"
-                                + resources + "\n"
-                                + cooldown + "\n"
-                                + "\n"
-                                + description;
-        return finaldescription;
+        return description;
     }
 
     /** SecToMinConverter, public static string method

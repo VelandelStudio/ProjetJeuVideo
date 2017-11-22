@@ -1,0 +1,14 @@
+[
+	{
+		"ScriptName":"AutoAttackFireMage",
+		"Name":"Coup d'bouteille",
+		"Type":"Physical",
+		"Damages":[5],
+		"OtherValues":[],
+		"Description":
+		[
+			"Launch a small coup d'bouteille that inflicts {p0} damages to target.\n",
+			"If a monster is damaged, the FireMage is surrounded by a <<FireShield>>"
+		]
+	}
+]
