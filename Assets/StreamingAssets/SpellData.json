@@ -1,5 +1,5 @@
 [
-	{
+	 {
 		"ScriptName":"ConflagrationSpell",
 		"Name":"Conflagration",
 		"Element":"Fire",
@@ -18,13 +18,13 @@
 	{
 		"ScriptName":"FireBallSpell",
 		"Name":"FireBall",
-		"Element":"Physical",
+		"Element":"Fire",
 		"CoolDownValue":3.0,
 		"HasGCD":true,
 		"Damages":[5],
 		"DamagesType":["m"],
 		"OtherValues":[],
-		"NumberOfStacks":5,
+		"NumberOfStacks":0,
 		"Description":
 		[
 			"Launch a Fireball in front of the player.\n",

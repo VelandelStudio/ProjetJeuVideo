@@ -13,10 +13,10 @@ using System.IO;
  **/
 public abstract class Character : MonoBehaviour
 {
+    protected PassiveBase passiveBase;
     protected List<Spell> spells = new List<Spell>();
     protected AutoAttackBase autoAttack;
     protected CharacterData characterData;
-    protected PassiveBase passiveBase;
 
     /** Start protected virtual void Method.
 	 * The Start methos is here to construct the class, attributing the spells passive and auto-attack.
@@ -56,6 +56,11 @@ public abstract class Character : MonoBehaviour
 	 **/
     protected virtual void Update()
     {
+        if(CursorBehaviour.CursorIsVisible)
+        {
+            return;
+        }
+
         if (Input.GetMouseButton(0))
         {
             AutoAttack();
@@ -130,7 +135,7 @@ public abstract class Character : MonoBehaviour
             HandleException(1);
             return;
         }
-        passiveBase = (PassiveBase)gameObject.AddComponent(t);
+        passiveBase = (PassiveBase) gameObject.AddComponent(t);
         GUIPassiveDisplayer passiveDisplayer = GameObject.Find("Passive").GetComponent<GUIPassiveDisplayer>();
         passiveDisplayer.AttributePassiveToGUI(passiveBase);
     }
@@ -173,7 +178,6 @@ public abstract class Character : MonoBehaviour
             }
             Spell spellToAdd = (Spell)gameObject.AddComponent(Type.GetType(SpellName));
             spells.Add(spellToAdd);
-
 
             GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + i).GetComponent<GUISpellDisplayer>();
             spellDisplayer.AttributeSpellToGUI(spellToAdd);

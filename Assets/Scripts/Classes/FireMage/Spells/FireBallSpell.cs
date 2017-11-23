@@ -4,7 +4,7 @@ using UnityEngine;
  * This spell is associated with the FireMageClass
  * The objectif of this spell is to Instantiate a prefab (FireBall) and apply a force on it.
  **/
-public class FireBallSpell : StackableSpell
+public class FireBallSpell : Spell
 {
     private Camera _cameraPlayer;
     private GameObject _throwable;

@@ -3,7 +3,7 @@
 		"ScriptName":"PassiveFireMage",
 		"Name":"Fiery rage",
 		"Damages":[],
-		"OtherValues":["5","25"],
+		"OtherValues":["20","25"],
 		"NumberOfStacks":0,
 		"Description":
 		[
