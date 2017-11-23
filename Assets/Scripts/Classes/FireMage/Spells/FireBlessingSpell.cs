@@ -20,7 +20,6 @@ public class FireBlessingSpell : Spell
     {
         _conflagration = GetComponent<ConflagrationSpell>();
         base.Start();
-        _durationOfCritSuccess = int.Parse(SpellDefinition.OtherValues[0]);
     }
 
     /** LaunchSpell : public override void Method
@@ -37,7 +36,7 @@ public class FireBlessingSpell : Spell
         {
             return;
         }
-
+        _durationOfCritSuccess = int.Parse(OtherValues[0]);
         _conflagration.CritSuccess = true;
         Debug.Log("Conflagration CritSuccess 100% for 5 sec !");
         Invoke("CancelFireBlessingSpell", _durationOfCritSuccess);
@@ -59,9 +58,9 @@ public class FireBlessingSpell : Spell
 
     /** getDescriptionVariables, protected override object[]
 	 * Return an array of objects that represents the current variables displayed on the GUI
-	**/
+	 **/
     protected override object[] getDescriptionVariables()
     {
-        return new object[] { _durationOfCritSuccess };
+        return new object[] { int.Parse(OtherValues[0]) };
     }
 }

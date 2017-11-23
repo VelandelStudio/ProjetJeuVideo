@@ -2,9 +2,11 @@
 	{
 		"ScriptName":"AutoAttackFireMage",
 		"Name":"Coup d'bouteille",
-		"Type":"Physical",
+		"Element":"Fire",
+		"CoolDownValue":"1.5f",
 		"Damages":[5],
-		"OtherValues":[],
+		"DamagesType":["m"],
+		"OtherValues":["5","50","5"],
 		"Description":
 		[
 			"Launch a small coup d'bouteille that inflicts {p0} damages to target.\n",

@@ -1,53 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/** StackableSpell, public abstract class
+ * @Extends Spell
+ * This class is specific to spells that have a Stackable Option.
+ * It is used as a common spell but we also have a second coroutine that handles the stack CD.
+ **/
 public abstract class StackableSpell : Spell
 {
 
-    public float NumberOfStacks;
+    public float CurrentNumberOfStacks;
     public float StackCD;
     public float CurrentStackCD;
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
 
     protected override void Start()
     {
         base.Start();
-        NumberOfStacks = SpellDefinition.NumberOfStack;
-        StackCD = SpellCD;
+        CurrentNumberOfStacks = NumberOfStacks;
+        StackCD = CoolDownValue;
         Debug.Log(StackCD);
     }
 
-    /** LaunchSpell public virtual void Method,
-	 * This public Method should always be called by the Classe script. It first checks if the spell is Launcheable.
-	 * If it is, it switched the boolean spellInUse to true. This Method should always be used with OnSpellLaunched, to reset the spellInUse to false.
-	 **/
-    public override void LaunchSpell()
-    {
-        if (!IsSpellLauncheable())
-        {
-            DisplaySpellNotLauncheable(this);
-        }
-        else
-        {
-            spellInUse = true;
-        }
-    }
     /** OnSpellLaunched protected virtual void Method,
 	 * This method should be called when the spell has reached is final statement.
-	 * When it is the case, this method set the current CD to 0 and tells the game that this spells is not in use anymore.
+	 * When the spell was used, one stack is lost.
 	 **/
     protected override void OnSpellLaunched()
     {
-        SpellCD = spellGCD;
+        CoolDownValue = spellGCD;
         CurrentCD = spellGCD;
         spellInUse = false;
-        NumberOfStacks--;
+        CurrentNumberOfStacks--;
     }
 
+    /** Update, protected override void
+	 * Same as a basic Update from the Spell mother class but we also check the number of stacks.
+	 * If at least a stack is missing, then we reload the stack.
+	 * If there are no stacks anymore, then the CD of the spell is replaced from the GCD to the StackCD
+	 **/
     protected override void Update()
     {
         base.Update();
-        if (NumberOfStacks < SpellDefinition.NumberOfStack)
+        if (CurrentNumberOfStacks < NumberOfStacks)
         {
             if (CurrentStackCD == 0)
             {
@@ -56,29 +55,36 @@ public abstract class StackableSpell : Spell
             ReloadStack();
         }
 
-        if (NumberOfStacks == 0 && CurrentCD == 0)
+        if (CurrentNumberOfStacks == 0)
         {
-            SpellCD = StackCD;
+            CoolDownValue = StackCD;
             CurrentCD = CurrentStackCD;
         }
     }
 
+    /** ReloadStack, protected virtual void
+	 * This method is launched when at leats when stack is missing.
+	 * When the CurrentStackCD is reload, we add a stack to the pool.
+	 **/
     protected virtual void ReloadStack()
     {
         CurrentStackCD = Mathf.Clamp(CurrentStackCD - Time.deltaTime, 0, StackCD);
         if (CurrentStackCD == 0)
         {
-            NumberOfStacks++;
-            if (NumberOfStacks + 1 == SpellDefinition.NumberOfStack)
+            CurrentNumberOfStacks++;
+            if (CurrentNumberOfStacks + 1 == NumberOfStacks)
             {
                 CurrentStackCD = StackCD;
             }
         }
     }
 
-    public virtual bool IsSpellLauncheable()
+    /** IsSpellLauncheable, public override bool 
+	 * A Stackable spell is launcheable if it is reloaded and if it has at least one stack.
+	 **/
+    public override bool IsSpellLauncheable()
     {
-        return (CurrentCD == 0 && NumberOfStacks > 0);
+        return (CurrentCD == 0 && CurrentNumberOfStacks > 0);
     }
 
 }

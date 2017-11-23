@@ -12,9 +12,6 @@ public class AutoAttackFireMage : AutoAttackBase
     private Transform _launcherTransform;
 
     private Shield _shield;
-    private float _maxDurationShield = 5f;
-    private float _maxValueShield = 50f;
-    private float _fireMageGCD = 1.5f;
     private GameObject _shieldObject;
     private GameObject _shieldInstance;
 
@@ -25,7 +22,6 @@ public class AutoAttackFireMage : AutoAttackBase
 	 **/
     protected override void Start()
     {
-        GCD = _fireMageGCD;
         _cameraPlayer = this.GetComponentInChildren<Camera>();
         _throwable = (GameObject)Resources.Load("FireMage/AutoAttackFireMage", typeof(GameObject));
         _shieldObject = (GameObject)Resources.Load("FireMage/FireMageShield", typeof(GameObject));
@@ -58,7 +54,11 @@ public class AutoAttackFireMage : AutoAttackBase
     **/
     public void OnAttackHit(EntityLivingBase eHit)
     {
-        eHit.DamageFor(AutoAttackDefinition.Damages[0]);
+        int shieldValueToAdd = int.Parse(OtherValues[0]);
+        int maxValueShield = int.Parse(OtherValues[1]);
+        int maxDurationShield = int.Parse(OtherValues[2]);
+
+        eHit.DamageFor(Damages[0]);
         CancelInvoke("RemoveShield");
 
         _shield = GetComponent<Shield>();
@@ -68,13 +68,16 @@ public class AutoAttackFireMage : AutoAttackBase
             _shieldInstance = Instantiate(_shieldObject, transform.position + _shieldObject.transform.position, transform.rotation, this.transform);
         }
 
-        _shield.AddShieldValue(Mathf.Clamp(5, 0, _maxValueShield - _shield.ShieldValue));
-        Invoke("RemoveShield", _maxDurationShield);
+        _shield.AddShieldValue(Mathf.Clamp(shieldValueToAdd, 0, maxValueShield - _shield.ShieldValue));
+        Invoke("RemoveShield", maxDurationShield);
     }
 
+    /** getDescriptionVariables, protected override object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	 **/
     protected override object[] getDescriptionVariables()
     {
-        return new object[] { AutoAttackDefinition.Damages[0] };
+        return new object[] { Damages[0] };
     }
 
     /** RemoveShield : private void Method

@@ -1,0 +1,14 @@
+[
+	{
+		"ScriptName":"PassiveFireMage",
+		"Name":"Fiery rage",
+		"Damages":[],
+		"OtherValues":["5","25"],
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"For each monster affected by Ignite, you earn {0}% additionnal critical rate.\n",
+			"This effect can provide a maximum bonus of {1}% additionnal critical rate."
+		]
+	}
+]

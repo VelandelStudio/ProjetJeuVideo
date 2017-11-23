@@ -4,7 +4,7 @@ using UnityEngine;
  * This spell is associated with the FireMageClass
  * The objectif of this spell is to Instantiate a prefab (FireBall) and apply a force on it.
  **/
-public class FireBallSpell : Spell
+public class FireBallSpell : StackableSpell
 {
     private Camera _cameraPlayer;
     private GameObject _throwable;
@@ -50,7 +50,7 @@ public class FireBallSpell : Spell
     {
         GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
 
-        entityHit.DamageFor(SpellDefinition.BaseDamage);
+        entityHit.DamageFor(Damages[0]);
         IgniteStatus igniteStatus = entityHit.GetComponentInChildren<IgniteStatus>();
         if (igniteStatus != null)
         {
@@ -68,6 +68,6 @@ public class FireBallSpell : Spell
 	**/
     protected override object[] getDescriptionVariables()
     {
-        return new object[] { SpellDefinition.BaseDamage };
+        return new object[] { Damages[0] };
     }
 }

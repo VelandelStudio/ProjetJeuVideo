@@ -61,29 +61,28 @@ public class SolarBurnSpell : Spell
 	 * @Params : EntityLivingBase
 	 * When the instance of SolarBurn hits an entity, this method is launched.
 	 * It applies damages on the target.
-	**/
+	 **/
     public void ApplyEffectOnHit(EntityLivingBase entityHit)
     {
-        entityHit.DamageFor(SpellDefinition.BaseDamage);
+        entityHit.DamageFor(Damages[0]);
     }
 
     /** ApplyAdditionalEffect, public void Method
 	 * @Params : EntityLivingBase
 	 * When the instance of SolarBurn hits the floor, an explosion occurs.
 	 * This method is called for every target that are caught by the Explosion.
-	 * It applies damaes to the target.
-	**/
+     **/
     public void ApplyAdditionalEffect(EntityLivingBase entityHit)
     {
-        entityHit.DamageFor(SpellDefinition.AdditionalDamages[0]);
+        entityHit.DamageFor(Damages[1]);
     }
 
     /** getDescriptionVariables, protected override object[]
 	 * Return an array of objects that represents the current variables displayed on the GUI
-	**/
+	 **/
     protected override object[] getDescriptionVariables()
     {
-        return new object[] { SpellDefinition.BaseDamage, SpellDefinition.AdditionalDamages[0] };
+        return new object[] { Damages[0], Damages[1] };
     }
 
     /** IsSpellLauncheable(), public override bool method
@@ -94,7 +93,7 @@ public class SolarBurnSpell : Spell
     public override bool IsSpellLauncheable()
     {
         _playerTargetingFloor = false;
-        RaycastHit[] hits = Physics.RaycastAll(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward,Mathf.Infinity);
+        RaycastHit[] hits = Physics.RaycastAll(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward, Mathf.Infinity);
         for (int i = 0; i < hits.Length; i++)
         {
             if (hits[i].collider.gameObject.tag == "Floor" || hits[i].collider.gameObject.name == "Ground")

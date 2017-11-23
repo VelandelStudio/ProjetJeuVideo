@@ -9,10 +9,9 @@ using UnityEngine.UI;
  **/
 public class GUISpellDisplayer : MonoBehaviour
 {
-
     /** Fields contains a Spell, associated to the Displayer and two images.
 	 * The _CDSpellImage is a rotative image filler that is filled by the CD value of the spell.
-	 * The _spellAvailableForGUI is a simple image that shoudkl be activated when the spell is not activable at any conditions (stuns for example)
+	 * The _spellAvailableForGUI is a simple image that should be activated when the spell is not activable at any conditions (stuns for example)
 	 **/
     private Spell _spell;
     [SerializeField] private Image _spellImgDescription;
@@ -24,6 +23,7 @@ public class GUISpellDisplayer : MonoBehaviour
 
     private Text _stackText;
     private Text _spellTextDescription;
+    private int _numberOfStacks;
 
     /** Start private void Method
 	 * The start method de-activate the _spellAvailableForGUI component by default.
@@ -45,21 +45,25 @@ public class GUISpellDisplayer : MonoBehaviour
     /** Update private void Method
 	 * We ensure that _spellAvailableForGUI is always equal, to the AvailableForGUI() method in the Spell associated.
 	 * We also ensure that the fillAmount of _CDSpellImage is always equal to the current CD of the spell associated. 
-	 * Please note that the fillAmount must be [0;1] this is why we divide the currentCD by the SpellCD.
+	 * Please note that the fillAmount must be [0;1] this is why we divide the currentCD by the CoolDownValue.
 	 **/
     private void Update()
     {
         _spellAvailableForGUI.enabled = !_spell.AvailableForGUI();
-        _CDSpellImage.fillAmount = _spell.CurrentCD / _spell.SpellCD;
+        if (_spell.IsUnderGCD)
+        {
+            _CDSpellImage.fillAmount = _spell.CurrentCD / _spell.SpellGCD;
+        }
+        else
+            _CDSpellImage.fillAmount = _spell.CurrentCD / _spell.CoolDownValue;
+
         _timerCDText.text = ((int)_spell.CurrentCD + 1).ToString();
-
-        _timerCDText.enabled = _CDSpellImage.fillAmount != 0;
-
+        _timerCDText.enabled = _CDSpellImage.fillAmount != 0 || _spell.CoolDownValue < _spell.SpellGCD;
         if (_spell is StackableSpell)
         {
             StackableSpell spell = (StackableSpell)_spell;
-            _stackText.text = (spell).NumberOfStacks.ToString();
-            _stackImage.enabled = spell.NumberOfStacks > 0;
+            _stackText.text = spell.CurrentNumberOfStacks.ToString();
+            _stackImage.enabled = spell.CurrentNumberOfStacks > 0;
             _stackImage.fillAmount = spell.CurrentStackCD / spell.StackCD;
         }
     }
@@ -90,7 +94,7 @@ public class GUISpellDisplayer : MonoBehaviour
 
     /** MouseEnter, public void Method
 	 * This Method is launched with an event trigger when the mouse enters the spell icon on the screen
-	**/
+	 **/
     public void MouseEnter()
     {
         GUIDescriptionDisplayer.DisplayDescriptionOnScreen(_spellTextDescription, _spellImgDescription, _spell.GetDescriptionGUI());
@@ -98,7 +102,7 @@ public class GUISpellDisplayer : MonoBehaviour
 
     /** MouseExit, public void Method
 	 * This Method is launched with an event trigger when the mouse exits the spell icon on the screen
-	**/
+	 **/
     public void MouseExit()
     {
         GUIDescriptionDisplayer.CancelDescriptionOnScreen(_spellTextDescription, _spellImgDescription);

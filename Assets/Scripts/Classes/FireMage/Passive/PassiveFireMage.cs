@@ -7,19 +7,30 @@ using UnityEngine;
  * The main aim of this passive is to attribute to the FireMage a Critical Chance bonus for every targets affected by a IgniteStatus
  * The bonus has for value 5% per igniteStatus in the game and can not exceed 25%. 
  **/
-public class PassiveFireMage : MonoBehaviour
+public class PassiveFireMage : PassiveBase
 {
+    #region Fields
     public float CritChanceToAdd;
 
     private ConflagrationSpell _conflagrationSpell;
-    private float _numberOfIgnites = 0f;
+    private int _numberOfIgnites = 0;
+    #endregion
 
+    #region Functionnal methods
     /** Start : protected override void Method
 	 * The Start Method is used here to get the ConflagrationSpell associated to the player and the NumBer Of Ignites in the game.
 	 **/
     private void Start()
     {
         _conflagrationSpell = GetComponent<ConflagrationSpell>();
+    }
+
+    /** getDescriptionVariables, protected abstract object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	 **/
+    protected override object[] getDescriptionVariables()
+    {
+        return OtherValues;
     }
 
     /** Update : private void Method
@@ -30,6 +41,8 @@ public class PassiveFireMage : MonoBehaviour
     private void Update()
     {
         _numberOfIgnites = _conflagrationSpell.Targets.Count;
-        CritChanceToAdd = Mathf.Clamp(5 * _numberOfIgnites, 0, 25);
+        NumberOfStacks = _numberOfIgnites;
+        CritChanceToAdd = Mathf.Clamp(int.Parse(OtherValues[0]) * _numberOfIgnites, 0, int.Parse(OtherValues[1]));
     }
+    #endregion
 }

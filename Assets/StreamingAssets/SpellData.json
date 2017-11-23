@@ -2,15 +2,13 @@
 	{
 		"ScriptName":"ConflagrationSpell",
 		"Name":"Conflagration",
-		"Type":"Magical",
+		"Element":"Fire",
 		"CoolDownValue":12.0,
 		"HasGCD":true,
-		"BaseDamage":20,
-		"AdditionalDamages":[10],
-		"AdditionalEffects":[],
+		"Damages":[20,10],
+		"DamagesType":["m","m"],
 		"OtherValues":["50"],
-		"IsStackable":false,
-		"NumberOfStack":0,
+		"NumberOfStacks":0,
 		"Description":
 		[
 			"Make every Ignite explodes and inflicts {m0} damages to target.\n",
@@ -20,15 +18,13 @@
 	{
 		"ScriptName":"FireBallSpell",
 		"Name":"FireBall",
-		"Type":"Physical",
+		"Element":"Physical",
 		"CoolDownValue":3.0,
 		"HasGCD":true,
-		"BaseDamage":5,
-		"AdditionalDamages":[],
-		"AdditionalEffects":["IgniteStatus"],
+		"Damages":[5],
+		"DamagesType":["m"],
 		"OtherValues":[],
-		"IsStackable":false,
-		"NumberOfStack":0,
+		"NumberOfStacks":5,
 		"Description":
 		[
 			"Launch a Fireball in front of the player.\n",
@@ -38,15 +34,13 @@
 	{
 		"ScriptName":"FireBlessingSpell",
 		"Name":"Fire Blessing",
-		"Type":"Magical",
+		"Element":"Fire",
 		"CoolDownValue":30.0,
-		"HasGCD":true,
-		"BaseDamage":0,
-		"AdditionalDamages":[],
-		"AdditionalEffects":[],
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
 		"OtherValues":["5"],
-		"IsStackable":false,
-		"NumberOfStack":0,
+		"NumberOfStacks":0,
 		"Description":
 		[ 
 			"You are blessed by the goddess of fire.\n",
@@ -57,15 +51,13 @@
 	{
 		"ScriptName":"SolarBurnSpell",
 		"Name":"Solar Burn",
-		"Type":"Magical",
+		"Element":"Fire",
 		"CoolDownValue":7.0,
 		"HasGCD":true,
-		"BaseDamage":100,
-		"AdditionalDamages":[100],
-		"AdditionalEffects":[],
+		"Damages":[100,100],
+		"DamagesType":["m","m"],
 		"OtherValues":[],
-		"IsStackable":false,
-		"NumberOfStack":0,
+		"NumberOfStacks":0,
 		"Description":
 		[
 			"Invokes an enormous eruption from the sky that explodes at the targeted point.\n",
