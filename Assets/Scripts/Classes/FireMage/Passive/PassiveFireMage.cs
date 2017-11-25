@@ -25,14 +25,6 @@ public class PassiveFireMage : PassiveBase
         _conflagrationSpell = GetComponent<ConflagrationSpell>();
     }
 
-    /** getDescriptionVariables, protected abstract object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	 **/
-    protected override object[] getDescriptionVariables()
-    {
-        return OtherValues;
-    }
-
     /** Update : private void Method
 	 * The Update Method is used here to get the NumBer Of Ignites in the game at every moments. 
 	 * After that, it sets the critical chance bonus value clamped between 0 and 25% 

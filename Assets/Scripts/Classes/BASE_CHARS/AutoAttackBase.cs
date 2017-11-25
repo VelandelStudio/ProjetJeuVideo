@@ -18,7 +18,7 @@ public abstract class AutoAttackBase : MonoBehaviour
     public string Element;
     public float CoolDownValue;
     public int[] Damages;
-    public int[] DamagesType;
+    public string[] DamagesType;
     public string[] OtherValues;
     public string[] Description;
 
@@ -89,13 +89,8 @@ public abstract class AutoAttackBase : MonoBehaviour
 	 **/
     public string GetDescriptionGUI()
     {
-        return StringHelper.AutoAttackDescriptionBuilder(this, getDescriptionVariables());
+        return StringHelper.AutoAttackDescriptionBuilder(this);
     }
-
-    /** getDescriptionVariables, protected abstract object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	 **/
-    protected abstract object[] getDescriptionVariables();
 
     /** LoadAutoAttackData, protected void Method
 	 * This Method is launched by the Awake one. Once launched, we try to locate a JSON File associated to this AutoAttack.
@@ -136,7 +131,7 @@ public abstract class AutoAttackBase : MonoBehaviour
         public string Element;
         public float CoolDownValue;
         public int[] Damages;
-        public int[] DamagesType;
+        public string[] DamagesType;
         public string[] OtherValues;
         public string[] Description;
     }

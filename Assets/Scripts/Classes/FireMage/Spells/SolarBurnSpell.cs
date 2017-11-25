@@ -77,14 +77,6 @@ public class SolarBurnSpell : Spell
         entityHit.DamageFor(Damages[1]);
     }
 
-    /** getDescriptionVariables, protected override object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	 **/
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { Damages[0], Damages[1] };
-    }
-
     /** IsSpellLauncheable(), public override bool method
      * The solar burn spell is launcheable only on ground surfaces.
      * First we check in a Raycastall if the player is aiming at the ground.

@@ -20,6 +20,7 @@ public abstract class PassiveBase : MonoBehaviour
     private PassiveData _passiveDefinition { get; set; }
     public string Name;
     public int[] Damages;
+    public string[] DamagesType;
     public string[] OtherValues;
     public int NumberOfStacks;
     public string[] Description;
@@ -37,6 +38,7 @@ public abstract class PassiveBase : MonoBehaviour
         Description = _passiveDefinition.Description;
         Name = _passiveDefinition.Name;
         Damages = _passiveDefinition.Damages;
+        DamagesType = _passiveDefinition.DamagesType;
         OtherValues = _passiveDefinition.OtherValues;
         NumberOfStacks = _passiveDefinition.NumberOfStacks;
         Description = _passiveDefinition.Description;
@@ -74,14 +76,8 @@ public abstract class PassiveBase : MonoBehaviour
 	 **/
     public string GetDescriptionGUI()
     {
-        return StringHelper.PassiveDescriptionBuilder(this, getDescriptionVariables());
+        return StringHelper.PassiveDescriptionBuilder(this);
     }
-
-    /** getDescriptionVariables, protected abstract object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI.
-	 * For example, a Description that contains 3 variables ({0}, {1} and {3}) must have an associated Table of 3 Variables. 
-	 **/
-    protected abstract object[] getDescriptionVariables();
 
     #endregion
 
@@ -96,6 +92,7 @@ public abstract class PassiveBase : MonoBehaviour
         public string ScriptName;
         public string Name;
         public int[] Damages;
+        public string[] DamagesType;
         public string[] OtherValues;
         public int NumberOfStacks;
         public string[] Description;

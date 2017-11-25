@@ -118,12 +118,4 @@ public class ConflagrationSpell : Spell
     {
         return Targets.Count >= 1;
     }
-
-    /** getDescriptionVariables, protected override object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	 **/
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { Damages[0], Damages[1], OtherValues[0] };
-    }
 }

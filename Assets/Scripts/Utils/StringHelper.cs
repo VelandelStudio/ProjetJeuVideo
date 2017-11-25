@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using System;
 
 public static class StringHelper
 {
@@ -12,7 +13,7 @@ public static class StringHelper
      * First of all, we get the title, the cooldown value and the cost of resources associated to the spell.
      * Then, we read the description from the JSON file. and pass it to the DescriptionBuilder.
      **/
-    public static string SpellDescriptionBuilder(Spell spell, object[] descriptionVariables)
+    public static string SpellDescriptionBuilder(Spell spell)
     {
         string title = spell.Name;
         title = "<b><size=14><color=darkblue>" + title + "</color></size></b>";
@@ -24,7 +25,7 @@ public static class StringHelper
         cooldown = "<b><size=12><color=lightblue>" + cooldown + "</color></size></b>";
 
         string description = string.Join("", spell.Description);
-        description = DescriptionBuilder(description, descriptionVariables);
+        description = DescriptionBuilder(spell, description);
 
         string finaldescription = title + "\n"
                                 + resources + "\n"
@@ -41,7 +42,7 @@ public static class StringHelper
      * First of all, we get the title and the cost of resources associated to the spell.
      * Then, we read the description from the JSON file. and pass it to the DescriptionBuilder.
      **/
-    public static string AutoAttackDescriptionBuilder(AutoAttackBase autoAttack, object[] descriptionVariables)
+    public static string AutoAttackDescriptionBuilder(AutoAttackBase autoAttack)
     {
         string title = autoAttack.Name;
         title = "<b><size=14><color=darkblue>" + title + "</color></size></b>";
@@ -50,7 +51,7 @@ public static class StringHelper
         resources = "<b><size=12><color=lightblue>" + resources + "</color></size></b>";
 
         string description = string.Join("", autoAttack.Description);
-        description = DescriptionBuilder(description, descriptionVariables);
+        description = DescriptionBuilder(autoAttack, description);
 
 
         string finaldescription = title + "\n"
@@ -66,7 +67,7 @@ public static class StringHelper
      * First of all, we get the title and the cost of resources associated to the spell.
      * Then, we read the description from the JSON file. and pass it to the DescriptionBuilder.
      **/
-    public static string PassiveDescriptionBuilder(PassiveBase passive, object[] descriptionVariables)
+    public static string PassiveDescriptionBuilder(PassiveBase passive)
     {
         string title = passive.Name;
         title = "<b><size=14><color=darkblue>" + title + "</color></size></b>";
@@ -75,7 +76,7 @@ public static class StringHelper
         resources = "<b><size=12><color=lightblue>" + resources + "</color></size></b>";
 
         string description = string.Join("", passive.Description);
-        description = DescriptionBuilder(description, descriptionVariables);
+        description = DescriptionBuilder(passive, description);
 
 
         string finaldescription = title + "\n"
@@ -85,36 +86,34 @@ public static class StringHelper
     }
 
     /** DescriptionBuilder, private static string
-	 * @Params : string, object[]
-	 * The method is able to detect different patterns :
-     * {p0} : The first variable of the array is a Physical damage (Bold + Maroon color).
-     * {m1} : The second variable of the array is a Magical damage (Bold + Cyan color).
-     * {2}  : The third variable of the array is an anonymous variable (Just Bold, Doritos like).
-     * <<IgniteStatus>> : Additionnal effects are surronded by <<>> (Bold + Green color + Get the Description of the variable).
-	 * And returns a WONDERFULL string with colors, flowers and unicorns.
+	 * @Params : object, string
+	 * The method works with reflexions conepts. We get a string from the description inside a {} block.
+     * This string correspond to an array or a value contained inside the object we have in parameters.
+     * We get the string and the field associated to it inside the object. If the Field is a "Damages" one, we try to catch the "DemagesType" inside the object.
+     * After that, we formate and return a string that will be ready the be displayed on the screen
+     * We are also able to detect a <<Status>> Pattern. The pattern will be displayed with its description.
 	 **/
-    private static string DescriptionBuilder(string description, object[] descriptionVariables)
+    private static string DescriptionBuilder(object src, string description)
     {
         string pattern = @"(?<=\{).+?(?=\})";
         MatchCollection matches = Regex.Matches(description, pattern, RegexOptions.IgnoreCase);
 
-        if (descriptionVariables != null)
+        for (int i = 0; i < matches.Count; i++)
         {
-            for (int i = 0; i < descriptionVariables.Length; i++)
+            Match indexMatch;
+            string color = "";
+            int arrayIndex;
+
+            string indexPattern = @"(?<=\[).+?(?=\])";
+            indexMatch = Regex.Match(matches[i].Value, indexPattern, RegexOptions.IgnoreCase);
+            arrayIndex = int.Parse(indexMatch.Value);
+
+            if (matches[i].Value.Contains("Damages"))
             {
-                if (matches[i].Value[0] == 'm' || matches[i].Value[0] == 'p')
-                {
-                    string color = matches[i].Value[0] == 'm' ? "cyan" : "maroon";
-                    description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">{" + matches[i].Value.TrimStart('m', 'p') + "}</color></b>");
-                    continue;
-                }
-                else
-                {
-                    description = description.Replace("{" + matches[i].Value + "}", "<b>{" + matches[i].Value + "}</b>");
-                }
+                color = (string)(GetArrayNameFromString(src, "DamagesType").GetValue(arrayIndex)) == "m" ? "cyan" : "maroon";
             }
 
-            description = string.Format(description, descriptionVariables);
+            description = description.Replace("{"+ matches[i].Value + "}", "<b><color="+color+">"+ GetArrayNameFromString(src, matches[i].Value).GetValue(arrayIndex) + "</color></b>" );
         }
 
         pattern = @"(?<=<<).*?(?=>>)";
@@ -127,6 +126,30 @@ public static class StringHelper
         }
 
         return description;
+    }
+
+    /** GetArrayNameFromString, private static Array
+     * @Params : object ,string, object[]
+     * This method is used the get an ArrayName from a pattern type of NameOfArray[Index].
+     * In this exemple we just return the NameOfArray as an array and not as a string anymore.
+     **/
+    private static Array GetArrayNameFromString(object src, string str)
+    {
+        string arrayName = "";
+
+        foreach (char c in str)
+        {
+            if (c == '[')
+            {
+                break;
+            }
+            else
+            {
+                arrayName += c;
+            }
+        }
+
+        return (Array)src.GetType().GetField(arrayName).GetValue(src);;
     }
 
     /** SecToMinConverter, public static string method

@@ -62,12 +62,4 @@ public class FireBallSpell : Spell
             GetComponent<ConflagrationSpell>().Targets.Add(ignite.GetComponent<IgniteStatus>());
         }
     }
-
-    /** getDescriptionVariables, protected override object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	**/
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { Damages[0] };
-    }
 }

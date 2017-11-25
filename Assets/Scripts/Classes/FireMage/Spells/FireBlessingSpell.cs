@@ -55,12 +55,4 @@ public class FireBlessingSpell : Spell
             Debug.Log("Conflagration CritSuccess ended !");
         }
     }
-
-    /** getDescriptionVariables, protected override object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	 **/
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { int.Parse(OtherValues[0]) };
-    }
 }

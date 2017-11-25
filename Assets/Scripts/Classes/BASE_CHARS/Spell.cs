@@ -25,7 +25,7 @@ public abstract class Spell : MonoBehaviour
     public float CoolDownValue;
     public bool HasGCD;
     public int[] Damages;
-    public int[] DamagesType;
+    public string[] DamagesType;
     public string[] OtherValues;
     public int NumberOfStacks;
     public string[] Description;
@@ -166,13 +166,8 @@ public abstract class Spell : MonoBehaviour
 	 **/
     public string GetDescriptionGUI()
     {
-        return StringHelper.SpellDescriptionBuilder(this, getDescriptionVariables());
+        return StringHelper.SpellDescriptionBuilder(this);
     }
-
-    /** getDescriptionVariables, protected abstract object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	 **/
-    protected abstract object[] getDescriptionVariables();
 
     /** LoadSpellData, protected void
 	 * @Params : string
@@ -233,7 +228,7 @@ public abstract class Spell : MonoBehaviour
         public float CoolDownValue;
         public bool HasGCD;
         public int[] Damages;
-        public int[] DamagesType;
+        public string[] DamagesType;
         public string[] OtherValues;
         public int NumberOfStacks;
         public string[] Description;

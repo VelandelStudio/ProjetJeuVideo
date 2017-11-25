@@ -54,9 +54,4 @@ public class ChargeSpell : Spell
         OnSpellLaunched();
         tick = 0;
     }
-
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { };
-    }
 }

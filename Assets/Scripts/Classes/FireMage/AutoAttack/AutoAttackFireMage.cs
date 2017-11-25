@@ -72,14 +72,6 @@ public class AutoAttackFireMage : AutoAttackBase
         Invoke("RemoveShield", maxDurationShield);
     }
 
-    /** getDescriptionVariables, protected override object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	 **/
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { Damages[0] };
-    }
-
     /** RemoveShield : private void Method
 	 * This method calls the RemoveShield method in the Shield instance.
 	 **/

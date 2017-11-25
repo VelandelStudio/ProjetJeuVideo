@@ -9,7 +9,7 @@
 		"OtherValues":["5","50","5"],
 		"Description":
 		[
-			"Launch a small coup d'bouteille that inflicts {p0} damages to target.\n",
+			"Launch a small coup d'bouteille that inflicts {Damages[0]} damages to target.\n",
 			"If a monster is damaged, the FireMage is surrounded by a <<FireShield>>"
 		]
 	}

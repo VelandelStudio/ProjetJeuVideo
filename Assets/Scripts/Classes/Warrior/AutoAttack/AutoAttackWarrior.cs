@@ -15,9 +15,4 @@ public class AutoAttackWarrior : AutoAttackBase
             base.AutoAttack();
         }
     }
-
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { };
-    }
 }
