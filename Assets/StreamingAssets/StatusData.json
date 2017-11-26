@@ -1,0 +1,53 @@
+[
+	{
+		"ScriptName":"IgniteStatus",
+		"Name":"Ignite",
+		"Element":"Fire",
+		"Duration":5.0,
+		"IsTickable":true,
+		"TicksIntervals":[1],
+		"TickStarts":[1],
+		"Damages":[5],
+		"DamagesType":["m"],
+		"OtherValues":[""],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Burn that inflicts {Damages[0]} every {TicksIntervals[0]} during {Duration}."
+		]
+	},
+	{
+		"ScriptName":"HighlightStatus",
+		"Name":"Highlight",
+		"Element":"",
+		"Duration":0.05,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[""],
+		"OtherValues":[""],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":[""]
+	},
+	{
+		"ScriptName":"TransparentStatus",
+		"Name":"Transparent",
+		"Element":"",
+		"Duration":0.05,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[""],
+		"OtherValues":[""],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Burn that inflicts {Damages[0]} every {TicksIntervals[0]} during {Duration}."
+		]
+	}
+]

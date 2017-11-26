@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 /** StatusBase public abstract class
  * Implements IStatus.
@@ -9,10 +10,19 @@ using UnityEngine;
  **/
 public abstract class StatusBase : MonoBehaviour, IStatus
 {
-    protected float maxDuration;
-    protected float tickInterval;
-    protected float delay;
-    protected bool isTickable = true;
+    private StatusData StatusDefinition;
+    public string Name;
+    public string Element;
+    public float Duration;
+    public bool IsTickable;
+    public float[] TicksIntervals;
+    public float[] TickStarts;
+    public int[] Damages;
+    public string[] DamagesType;
+    public string[] OtherValues;
+    public bool IsStackable;
+    public int NumberOfStacks;
+    public string[] Description;
 
     /** Awake, protected virtual void
      *  By default, a Status should be initialized at the LocalPosition of 0,0,0.
@@ -20,7 +30,20 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     protected virtual void Awake()
     {
         transform.localPosition = Vector3.zero;
-    }
+        LoadStatusData("StatusData.json");
+        Name = StatusDefinition.Name;
+        Element = StatusDefinition.Element;
+        Duration = StatusDefinition.Duration;
+        IsTickable = StatusDefinition.IsTickable;
+        TicksIntervals = StatusDefinition.TicksIntervals;
+        TickStarts = StatusDefinition.TickStarts;
+        Damages = StatusDefinition.Damages;
+        DamagesType = StatusDefinition.DamagesType;
+        OtherValues = StatusDefinition.OtherValues;
+        IsStackable = StatusDefinition.IsStackable;
+        NumberOfStacks = StatusDefinition.NumberOfStacks;
+        Description = StatusDefinition.Description;
+}
 
     /** Start protected virtual void
      * The method is here to launch the method OnStatusApplied.
@@ -32,12 +55,12 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     {
         OnStatusApplied();
 
-        if (isTickable)
+        if (IsTickable)
         {
-            InvokeRepeating("StatusTickBehaviour", delay, tickInterval);
+            InvokeRepeating("StatusTickBehaviour", TickStarts[0], TicksIntervals[0]);
         }
 
-        Invoke("DestroyStatus", maxDuration);
+        Invoke("DestroyStatus", Duration);
     }
 
     /** OnStatusApplied public abstract void
@@ -63,12 +86,12 @@ public abstract class StatusBase : MonoBehaviour, IStatus
 
         OnStatusApplied();
         CancelInvoke("DestroyStatus");
-        Invoke("DestroyStatus", maxDuration);
+        Invoke("DestroyStatus", Duration);
 
-        if (isTickable)
+        if (IsTickable)
         {
             CancelInvoke("StatusTickBehaviour");
-            InvokeRepeating("StatusTickBehaviour", delay, tickInterval);
+            InvokeRepeating("StatusTickBehaviour", TickStarts[0], TicksIntervals[0]);
         }
     }
 
@@ -79,4 +102,55 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     {
         Destroy(gameObject);
     }
+
+    /** LoadStatusData, protected void
+	 * @Params : string
+	 * Loads the JSON StatusDefinition associated to the spell.
+	 **/
+    protected void LoadStatusData(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+
+            StatusData[] data = JsonHelper.getJsonArray<StatusData>(jsonFile);
+            foreach (StatusData status in data)
+            {
+                if (status.ScriptName == this.GetType().ToString())
+                {
+                    StatusDefinition = status;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
+        }
+    }
+
+    #region Serializable Classes
+    /** StatusData public Serializable class
+	 * This class was created to be at the service of the StatusBase class
+	 * This class contains all elements to construct a Status from the JSON file.
+	 **/
+    [System.Serializable]
+    public class StatusData
+    {
+        public string ScriptName;
+        public string Name;
+        public string Element;
+        public float Duration;
+        public bool IsTickable;
+        public float[] TicksIntervals;
+        public float[] TickStarts;
+        public int[] Damages;
+        public string[] DamagesType;
+        public string[] OtherValues;
+        public bool IsStackable;
+        public int NumberOfStacks;
+        public string[] Description;
+    }
+    #endregion
 }

@@ -9,10 +9,10 @@ public class HighlightStatus : StatusBase
 
     public override void OnStatusApplied()
     {
-        isTickable = false;
-        maxDuration = 0.05f;
-        tickInterval = 0f;
-        delay = 0f;
+        //isTickable = false;
+        //maxDuration = 0.05f;
+        //tickInterval = 0f;
+        //delay = 0f;
 
         _objectRenderer = GetComponentInParent<Renderer>();
         if (_objectRenderer == null)

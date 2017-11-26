@@ -8,7 +8,6 @@ using UnityEngine;
  **/
 public class IgniteStatus : StatusBase
 {
-    private int _damage = 5;
     private EntityLivingBase _entity;
 	private GameObject _explosion;
 	
@@ -42,15 +41,12 @@ public class IgniteStatus : StatusBase
 
     public override void OnStatusApplied()
     {
-        maxDuration = 5;
-        tickInterval = 1f;
-        delay = tickInterval;
         Debug.Log("IgniteStatus Created !");
     }
 
     public override void StatusTickBehaviour()
     {
-        _entity.DamageFor(_damage);
+        _entity.DamageFor(Damages[0]);
 
         Debug.Log("IgniteStatus Tick !");
     }

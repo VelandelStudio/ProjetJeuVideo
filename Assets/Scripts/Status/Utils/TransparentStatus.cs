@@ -15,11 +15,6 @@ public class TransparentStatus : StatusBase
 
     public override void OnStatusApplied()
     {
-        isTickable = false;
-        maxDuration = 0.05f;
-        tickInterval = 0f;
-        delay = 0f;
-
         _objectRenderer = GetComponentInParent<Renderer>();
         if (_objectRenderer == null
         || _objectRenderer.material == null
