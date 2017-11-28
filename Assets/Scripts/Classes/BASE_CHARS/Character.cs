@@ -56,7 +56,7 @@ public abstract class Character : MonoBehaviour
 	 **/
     protected virtual void Update()
     {
-        if(CursorBehaviour.CursorIsVisible)
+        if (CursorBehaviour.CursorIsVisible)
         {
             return;
         }
@@ -135,7 +135,7 @@ public abstract class Character : MonoBehaviour
             HandleException(1);
             return;
         }
-        passiveBase = (PassiveBase) gameObject.AddComponent(t);
+        passiveBase = (PassiveBase)gameObject.AddComponent(t);
         GUIPassiveDisplayer passiveDisplayer = GameObject.Find("Passive").GetComponent<GUIPassiveDisplayer>();
         passiveDisplayer.AttributePassiveToGUI(passiveBase);
     }

@@ -8,18 +8,18 @@ using UnityEngine;
  **/
 public class FireBlessingSpell : Spell
 {
-    private ConflagrationSpell _conflagration;
-    private float _durationOfCritSuccess;
+    private GameObject _fireBlessingStatus;
+    public FireBlessingStatus status;
+    private int _durationOfCritSuccess;
 
     /** Start : protected override void Method
-	 * The Start Method is used here to get the set the CD of the spell.
-	 * Then, the scripts is looking for the ConflagrationSpell associated to the player.
-	 * Once it is done, we launch the mother Method to initialize the spell.
+	 * We launch the mother Method to initialize the spell.
 	 **/
     protected override void Start()
     {
-        _conflagration = GetComponent<ConflagrationSpell>();
         base.Start();
+        _fireBlessingStatus = (GameObject)Resources.Load("FireMage/FireBlessingStatus", typeof(GameObject));
+        FireBlessingStatus status = _fireBlessingStatus.GetComponent<FireBlessingStatus>();
     }
 
     /** LaunchSpell : public override void Method
@@ -37,22 +37,7 @@ public class FireBlessingSpell : Spell
             return;
         }
         _durationOfCritSuccess = int.Parse(OtherValues[0]);
-        _conflagration.CritSuccess = true;
-        Debug.Log("Conflagration CritSuccess 100% for 5 sec !");
-        Invoke("CancelFireBlessingSpell", _durationOfCritSuccess);
+        Instantiate(_fireBlessingStatus, this.transform);
         base.OnSpellLaunched();
-    }
-
-    /** CancelFireBlessingSpell : private void Method
-	 * This Method reset the conflagration.CritSuccess from true to false when the buff fades. 
-	 * Please note that when the method is launched, if the conflagration.CritSuccess is already set to false (because the Conflagration was used), nothing happens.
-	 **/
-    private void CancelFireBlessingSpell()
-    {
-        if (_conflagration.CritSuccess)
-        {
-            _conflagration.CritSuccess = false;
-            Debug.Log("Conflagration CritSuccess ended !");
-        }
     }
 }

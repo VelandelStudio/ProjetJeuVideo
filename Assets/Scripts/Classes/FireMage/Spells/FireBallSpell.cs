@@ -48,8 +48,6 @@ public class FireBallSpell : Spell
 	**/
     public void ApplyEffectOnHit(EntityLivingBase entityHit)
     {
-        GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
-
         entityHit.DamageFor(Damages[0]);
         IgniteStatus igniteStatus = entityHit.GetComponentInChildren<IgniteStatus>();
         if (igniteStatus != null)
@@ -58,7 +56,8 @@ public class FireBallSpell : Spell
         }
         else
         {
-            GameObject ignite = Instantiate(igniteToApply, entityHit.transform);
+            GameObject ignite = Instantiate(Status[0], entityHit.transform);
+            IgniteStatus statusDef = ignite.GetComponent<IgniteStatus>();
             GetComponent<ConflagrationSpell>().Targets.Add(ignite.GetComponent<IgniteStatus>());
         }
     }

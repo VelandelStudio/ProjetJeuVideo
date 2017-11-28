@@ -28,9 +28,11 @@ public abstract class Spell : MonoBehaviour
     public string[] DamagesType;
     public string[] OtherValues;
     public int NumberOfStacks;
+    public GameObject[] Status;
     public string[] Description;
 
     protected bool spellInUse = false;
+    protected Character champion;
 
     public float CurrentCD
     {
@@ -72,6 +74,17 @@ public abstract class Spell : MonoBehaviour
         OtherValues = SpellDefinition.OtherValues;
         NumberOfStacks = SpellDefinition.NumberOfStacks;
         Description = SpellDefinition.Description;
+
+        if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
+        {
+            Status = new GameObject[SpellDefinition.Status.Length];
+            champion = GetComponentInParent<Character>();
+            for (int i = 0; i < SpellDefinition.Status.Length; i++)
+            {
+                Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + SpellDefinition.Status[i], typeof(GameObject));
+                Status[i].GetComponent<StatusBase>().PreloadStatus();
+            }
+        }
     }
 
     /** Start protected virtual void Method,
@@ -231,6 +244,7 @@ public abstract class Spell : MonoBehaviour
         public string[] DamagesType;
         public string[] OtherValues;
         public int NumberOfStacks;
+        public string[] Status;
         public string[] Description;
     }
     #endregion

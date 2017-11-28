@@ -1,9 +1,28 @@
 [
 	{
+		"ScriptName":"FireBlessingStatus",
+		"Name":"Favor of Fire",
+		"Element":"Fire",
+		"Duration":5,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[0],
+		"DamagesType":[""],
+		"OtherValues":["100"],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Your next Conflagration has {OtherValues[0]}% chance to propagate Ignites on targets caught in the explosion.\n",
+			"The Favor of Fire lasts for {Duration} seconds or until the next use of Conflagration."
+		]
+	},
+	{
 		"ScriptName":"IgniteStatus",
 		"Name":"Ignite",
 		"Element":"Fire",
-		"Duration":5.0,
+		"Duration":5,
 		"IsTickable":true,
 		"TicksIntervals":[1],
 		"TickStarts":[1],
@@ -14,7 +33,7 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			"Burn that inflicts {Damages[0]} every {TicksIntervals[0]} during {Duration}."
+			"Burn that inflicts {Damages[0]} every {TicksIntervals[0]} second during {Duration} seconds."
 		]
 	},
 	{
@@ -45,9 +64,6 @@
 		"OtherValues":[""],
 		"IsStackable":false,
 		"NumberOfStacks":0,
-		"Description":
-		[
-			"Burn that inflicts {Damages[0]} every {TicksIntervals[0]} during {Duration}."
-		]
+		"Description":[""]
 	}
 ]

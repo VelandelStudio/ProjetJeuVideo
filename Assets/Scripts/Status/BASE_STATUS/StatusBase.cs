@@ -24,11 +24,18 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     public int NumberOfStacks;
     public string[] Description;
 
+    private bool ExternalLoading = false;
     /** Awake, protected virtual void
      *  By default, a Status should be initialized at the LocalPosition of 0,0,0.
      **/
     protected virtual void Awake()
     {
+        Debug.Log("ExternalLoading");
+        if (ExternalLoading)
+        {
+            return;
+        }
+
         transform.localPosition = Vector3.zero;
         LoadStatusData("StatusData.json");
         Name = StatusDefinition.Name;
@@ -43,7 +50,8 @@ public abstract class StatusBase : MonoBehaviour, IStatus
         IsStackable = StatusDefinition.IsStackable;
         NumberOfStacks = StatusDefinition.NumberOfStacks;
         Description = StatusDefinition.Description;
-}
+        ExternalLoading = true;
+    }
 
     /** Start protected virtual void
      * The method is here to launch the method OnStatusApplied.
@@ -128,6 +136,11 @@ public abstract class StatusBase : MonoBehaviour, IStatus
         {
             Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
         }
+    }
+
+    public void PreloadStatus()
+    {
+        Awake();
     }
 
     #region Serializable Classes
