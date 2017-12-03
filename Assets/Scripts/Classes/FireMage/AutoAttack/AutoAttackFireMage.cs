@@ -12,11 +12,8 @@ public class AutoAttackFireMage : AutoAttackBase
     private Transform _launcherTransform;
 
     private Shield _shield;
-    private float _maxDurationShield = 5f;
-    private float _maxValueShield = 50f;
-    private float _fireMageGCD = 1.5f;
-	private GameObject _shieldObject;
-	private GameObject _shieldInstance;
+    private GameObject _shieldObject;
+    private GameObject _shieldInstance;
 
     /** Start : protected override void Method
 	 * First at all, we override the GCD of the mother class.
@@ -25,10 +22,9 @@ public class AutoAttackFireMage : AutoAttackBase
 	 **/
     protected override void Start()
     {
-        GCD = _fireMageGCD;
         _cameraPlayer = this.GetComponentInChildren<Camera>();
         _throwable = (GameObject)Resources.Load("FireMage/AutoAttackFireMage", typeof(GameObject));
-		_shieldObject = (GameObject)Resources.Load("FireMage/FireMageShield", typeof(GameObject));
+        _shieldObject = (GameObject)Resources.Load("FireMage/FireMageShield", typeof(GameObject));
         _launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
 
         base.Start();
@@ -56,19 +52,24 @@ public class AutoAttackFireMage : AutoAttackBase
     * Then, we add a shield to the FireMage and increase the shield value. Please note that the value should be increased by 5 points every hit, with a maximum of _maxValueShield.
     * After that, we re-invoke the RemoveShield method that will occurs in _maxDurationShield seconds.
     **/
-    public void OnAttackHit()
+    public void OnAttackHit(EntityLivingBase eHit)
     {
+        int shieldValueToAdd = int.Parse(OtherValues[0]);
+        int maxValueShield = int.Parse(OtherValues[1]);
+        int maxDurationShield = int.Parse(OtherValues[2]);
+
+        eHit.DamageFor(Damages[0]);
         CancelInvoke("RemoveShield");
 
         _shield = GetComponent<Shield>();
         if (_shield == null)
         {
             _shield = gameObject.AddComponent<Shield>();
-			_shieldInstance = Instantiate(_shieldObject, transform.position + _shieldObject.transform.position, transform.rotation, this.transform);
+            _shieldInstance = Instantiate(_shieldObject, transform.position + _shieldObject.transform.position, transform.rotation, this.transform);
         }
 
-        _shield.AddShieldValue(Mathf.Clamp(5, 0, _maxValueShield - _shield.ShieldValue));
-        Invoke("RemoveShield", _maxDurationShield);
+        _shield.AddShieldValue(Mathf.Clamp(shieldValueToAdd, 0, maxValueShield - _shield.ShieldValue));
+        Invoke("RemoveShield", maxDurationShield);
     }
 
     /** RemoveShield : private void Method
@@ -77,6 +78,6 @@ public class AutoAttackFireMage : AutoAttackBase
     private void RemoveShield()
     {
         _shield.RemoveShield();
-		Destroy(_shieldInstance);
+        Destroy(_shieldInstance);
     }
 }

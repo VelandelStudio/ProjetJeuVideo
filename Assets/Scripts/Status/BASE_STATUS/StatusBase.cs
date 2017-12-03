@@ -14,6 +14,14 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     protected float delay;
     protected bool isTickable = true;
 
+    /** Awake, protected virtual void
+     *  By default, a Status should be initialized at the LocalPosition of 0,0,0.
+     **/
+    protected virtual void Awake()
+    {
+        transform.localPosition = Vector3.zero;
+    }
+
     /** Start protected virtual void
      * The method is here to launch the method OnStatusApplied.
      * Then, it lanches an InvokeRepeating on StatusTickBehaviour to make the status tick every tickInterval.

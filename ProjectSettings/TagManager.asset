@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Monster
+  - Fire
+  - Floor
   layers:
   - Default
   - TransparentFX

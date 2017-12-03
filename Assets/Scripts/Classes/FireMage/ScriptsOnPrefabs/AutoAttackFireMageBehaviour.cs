@@ -17,9 +17,7 @@ public class AutoAttackFireMageBehaviour : LinearProjectile
     {
         if (eHit != null && eHit.gameObject.tag != "Player")
         {
-            eHit.DamageFor(5);
-
-            launcher.GetComponent<AutoAttackFireMage>().OnAttackHit();
+            launcher.GetComponent<AutoAttackFireMage>().OnAttackHit(eHit);
         }
     }
 }

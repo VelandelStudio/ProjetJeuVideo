@@ -1,76 +1,68 @@
 [
-	{
+	 {
 		"ScriptName":"ConflagrationSpell",
 		"Name":"Conflagration",
-		"Type":"Magical",
+		"Element":"Fire",
 		"CoolDownValue":12.0,
 		"HasGCD":true,
-		"BaseDamage":20,
-		"AdditionalDamages":[10],
-		"AdditionalEffects":[],
+		"Damages":[20,10],
+		"DamagesType":["m","m"],
 		"OtherValues":["50"],
-		"IsStackable":false,
-		"NumberOfStack":0,
+		"NumberOfStacks":0,
 		"Description":
 		[
-			"Make every Ignite explodes and inflicts {m0} damages to target.\n",
-			"Every monster taken in the explosion sudden {m1} damages and has {2} % of chances to be affected by a new Ignite."
+			"Make every Ignite explodes and inflicts {Damages[0]} damages to target.\n",
+			"Every monster taken in the explosion sudden {Damages[1]} damages and has {OtherValues[0]}% of chances to be affected by a new Ignite."
 		]
 	},
 	{
 		"ScriptName":"FireBallSpell",
 		"Name":"FireBall",
-		"Type":"Physical",
+		"Element":"Fire",
 		"CoolDownValue":3.0,
 		"HasGCD":true,
-		"BaseDamage":5,
-		"AdditionalDamages":[],
-		"AdditionalEffects":["IgniteStatus"],
+		"Damages":[5],
+		"DamagesType":["m"],
 		"OtherValues":[],
-		"IsStackable":false,
-		"NumberOfStack":0,
+		"NumberOfStacks":0,
 		"Description":
 		[
 			"Launch a Fireball in front of the player.\n",
-			"If the Fireball hits a monster,it sudden {m0} damages and apply <<Ignite>>"
+			"If the Fireball hits a monster,it sudden {Damages[0]} damages and apply <<Ignite>>"
 		]
 	},
 	{
 		"ScriptName":"FireBlessingSpell",
 		"Name":"Fire Blessing",
-		"Type":"Magical",
+		"Element":"Fire",
 		"CoolDownValue":30.0,
-		"HasGCD":true,
-		"BaseDamage":0,
-		"AdditionalDamages":[],
-		"AdditionalEffects":[],
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
 		"OtherValues":["5"],
-		"IsStackable":false,
-		"NumberOfStack":0,
+		"NumberOfStacks":0,
 		"Description":
 		[ 
 			"You are blessed by the goddess of fire.\n",
 			"Your next Conflagration has 100% chance to propagate Ignite to targets caught in the explosion.\n",
-			"The Fire Blessing lasts for {0} seconds or until the next Conflagration"
+			"The Fire Blessing lasts for {OtherValues[0]} seconds or until the next Conflagration"
 		]
 	},
 	{
 		"ScriptName":"SolarBurnSpell",
 		"Name":"Solar Burn",
-		"Type":"Magical",
+		"Element":"Fire",
 		"CoolDownValue":7.0,
 		"HasGCD":true,
-		"BaseDamage":100,
-		"AdditionalDamages":[100],
-		"AdditionalEffects":[],
+		"Damages":[100,100],
+		"DamagesType":["m","m"],
 		"OtherValues":[],
-		"IsStackable":false,
-		"NumberOfStack":0,
+		"NumberOfStacks":0,
 		"Description":
 		[
 			"Invokes an enormous eruption from the sky that explodes at the targeted point.\n",
-			"At the impact, if the Solar Burn hits an entity, it sudden {m0} damages.\n",
-			"Otherwise, every target caught in the explosion sudden {m1} damages.\n",
+			"At the impact, if the Solar Burn hits an entity, it sudden {Damages[0]} damages.\n",
+			"Otherwise, every target caught in the explosion sudden {Damages[1]} damages.\n",
 			"Critical hits inflicts 4x more damages instande of 2x."
 		]
 	}
