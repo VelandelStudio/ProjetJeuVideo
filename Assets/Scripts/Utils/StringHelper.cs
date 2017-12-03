@@ -137,7 +137,7 @@ public static class StringHelper
             string debuffType = status is IBuff ? "Empowerment" : "Curse";
             debuffType = "<b><size=12><color=lightblue>" + debuffType + "</color></size></b>";
 
-            string descriptionStatus = DescriptionBuilder(status, status.Description[0]);
+            string descriptionStatus = DescriptionBuilder(status, string.Join("", status.Description));
 
             description += "\n___________________________________________________"
                         + "\n"
