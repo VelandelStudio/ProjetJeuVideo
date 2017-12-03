@@ -6,6 +6,7 @@ public class FireBlessingStatus : StatusBase, IBuff
 {
 
     private ConflagrationSpell _conflagration;
+
     protected override void Start()
     {
         base.Start();

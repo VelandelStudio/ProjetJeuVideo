@@ -9,7 +9,6 @@ using UnityEngine;
 public class FireBlessingSpell : Spell
 {
     private GameObject _fireBlessingStatus;
-    public FireBlessingStatus status;
     private int _durationOfCritSuccess;
 
     /** Start : protected override void Method
@@ -18,8 +17,6 @@ public class FireBlessingSpell : Spell
     protected override void Start()
     {
         base.Start();
-        _fireBlessingStatus = (GameObject)Resources.Load("FireMage/FireBlessingStatus", typeof(GameObject));
-        FireBlessingStatus status = _fireBlessingStatus.GetComponent<FireBlessingStatus>();
     }
 
     /** LaunchSpell : public override void Method
@@ -37,7 +34,7 @@ public class FireBlessingSpell : Spell
             return;
         }
         _durationOfCritSuccess = int.Parse(OtherValues[0]);
-        Instantiate(_fireBlessingStatus, this.transform);
+        GameObject fireBlessingInst = ApplyStatus(Status[0], transform);
         base.OnSpellLaunched();
     }
 }

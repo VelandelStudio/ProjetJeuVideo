@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.IO;
 
 /** StatusBase public abstract class
@@ -10,7 +11,12 @@ using System.IO;
  **/
 public abstract class StatusBase : MonoBehaviour, IStatus
 {
-    private StatusData StatusDefinition;
+    public StatusData StatusDefinition
+    {
+        get;
+        protected set;
+    }
+
     public string Name;
     public string Element;
     public float Duration;
@@ -24,19 +30,13 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     public int NumberOfStacks;
     public string[] Description;
 
-    private bool ExternalLoading = false;
-    /** Awake, protected virtual void
-     *  By default, a Status should be initialized at the LocalPosition of 0,0,0.
-     **/
-    protected virtual void Awake()
+    protected virtual void Start()
     {
-        Debug.Log("ExternalLoading");
-        if (ExternalLoading)
-        {
-            return;
-        }
-
         transform.localPosition = Vector3.zero;
+    }
+
+    public void PreWarm()
+    {
         LoadStatusData("StatusData.json");
         Name = StatusDefinition.Name;
         Element = StatusDefinition.Element;
@@ -50,17 +50,28 @@ public abstract class StatusBase : MonoBehaviour, IStatus
         IsStackable = StatusDefinition.IsStackable;
         NumberOfStacks = StatusDefinition.NumberOfStacks;
         Description = StatusDefinition.Description;
-        ExternalLoading = true;
     }
 
-    /** Start protected virtual void
-     * The method is here to launch the method OnStatusApplied.
-     * Then, it lanches an InvokeRepeating on StatusTickBehaviour to make the status tick every tickInterval.
-	 * Please note that, by default, a Status is considered as tickable.
-     * Finally, it lanches an Invoke on DestroyStatus that will occurs in maxDuration seconds.
-     **/
-    protected virtual void Start()
+    public void StartStatus(StatusBase status)
     {
+        if(status == null)
+        {
+            PreWarm();
+        }
+
+        Name = status.Name;
+        Element = status.Element;
+        Duration = status.Duration;
+        IsTickable = status.IsTickable;
+        TicksIntervals = status.TicksIntervals;
+        TickStarts = status.TickStarts;
+        Damages = status.Damages;
+        DamagesType = status.DamagesType;
+        OtherValues = status.OtherValues;
+        IsStackable = status.IsStackable;
+        NumberOfStacks = status.NumberOfStacks;
+        Description = status.Description;
+
         OnStatusApplied();
 
         if (IsTickable)
@@ -136,11 +147,6 @@ public abstract class StatusBase : MonoBehaviour, IStatus
         {
             Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
         }
-    }
-
-    public void PreloadStatus()
-    {
-        Awake();
     }
 
     #region Serializable Classes

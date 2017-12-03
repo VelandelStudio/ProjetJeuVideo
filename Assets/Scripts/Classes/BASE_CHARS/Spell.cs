@@ -82,7 +82,7 @@ public abstract class Spell : MonoBehaviour
             for (int i = 0; i < SpellDefinition.Status.Length; i++)
             {
                 Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + SpellDefinition.Status[i], typeof(GameObject));
-                Status[i].GetComponent<StatusBase>().PreloadStatus();
+                Status[i].GetComponent<StatusBase>().PreWarm();
             }
         }
     }
@@ -206,6 +206,14 @@ public abstract class Spell : MonoBehaviour
         {
             Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
         }
+    }
+
+    protected GameObject ApplyStatus(GameObject status, Transform tr)
+    {
+        GameObject objInst = Instantiate(status, tr);
+        StatusBase statusInst = objInst.GetComponent<StatusBase>();
+        statusInst.StartStatus(status.GetComponent<StatusBase>());
+        return objInst;
     }
     #endregion
 

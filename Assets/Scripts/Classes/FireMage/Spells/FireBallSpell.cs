@@ -56,9 +56,8 @@ public class FireBallSpell : Spell
         }
         else
         {
-            GameObject ignite = Instantiate(Status[0], entityHit.transform);
-            IgniteStatus statusDef = ignite.GetComponent<IgniteStatus>();
-            GetComponent<ConflagrationSpell>().Targets.Add(ignite.GetComponent<IgniteStatus>());
+            GameObject statusObj = ApplyStatus(Status[0], entityHit.transform);
+            GetComponent<ConflagrationSpell>().Targets.Add(statusObj.GetComponent<IgniteStatus>());
         }
     }
 }
