@@ -30,12 +30,20 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     public int NumberOfStacks;
     public string[] Description;
 
+    /** Start, protected virtual void
+     * Just here to set the local position of the Status to vector3.zero.
+     * The main goal of this method is to ensure that every calculation of positions will be based on the zero value. 
+     **/
     protected virtual void Start()
     {
         transform.localPosition = Vector3.zero;
     }
 
-    public void PreWarm()
+    /** PreWarm, public virtual void 
+     * This method is called by other scripts (mainly spells)
+     * This method is used to load an instance of a Status from a JSON File.
+     **/
+    public virtual void PreWarm()
     {
         LoadStatusData("StatusData.json");
         Name = StatusDefinition.Name;
@@ -52,7 +60,14 @@ public abstract class StatusBase : MonoBehaviour, IStatus
         Description = StatusDefinition.Description;
     }
 
-    public void StartStatus(StatusBase status)
+    /** StartStatus, public virtual void 
+     * @params : StatusBase
+     * This method is called by other scripts (mainly spells)
+     * It is used to Start the Status already applied on a target.
+     * The Status should be started with another Status instance (because of instanciation of gameobjects on unity)
+     * If the param is null, the Status is reloaded (Prewarm) from it's JSON file.
+     **/
+    public virtual void StartStatus(StatusBase status)
     {
         if(status == null)
         {

@@ -61,6 +61,8 @@ public abstract class Spell : MonoBehaviour
 
     /** Awake protected virtual void Method,
 	 * The Awake method is used to create the Spell from the JSON file and attribute every variables.
+     * You should notice that the Status table contains Status GameObject with an instance of StatusBase attached to it.
+     * We try to pre-warm the StatusBase attached in order to display descriptions and maybe modify the instance.
 	 **/
     protected virtual void Awake()
     {
@@ -208,7 +210,18 @@ public abstract class Spell : MonoBehaviour
         }
     }
 
-    protected GameObject ApplyStatus(GameObject status, Transform tr)
+    /** ApplyStatus, protected virtual GameObject
+     * @Params : GameObject, Transform
+     * @Returns: GameObject
+     * This method should be called by spells that are able to apply a Status on their targets.
+     * The first param (GameObject status) should be a GameObject that has a StatusBase Script attached. 
+     * Most of the time, this gameObject is contained in the SpellDefinition.Status Table, and the Transform is the target one.
+     * The method will instantiate a new Status and attach to it the status that is already attached on the first parameter.
+     * When we instantiate an object, the StatusBase element if reseted, so we need to attach this instance of the StatusBase because of previous modifications,
+     * such as damages or CDReduction of the Status of the player. 
+     * Then, we return the fresh GameObject constructed if we want to use it later.
+     **/
+    protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
     {
         GameObject objInst = Instantiate(status, tr);
         StatusBase statusInst = objInst.GetComponent<StatusBase>();

@@ -43,7 +43,7 @@
 		"DamagesType":[],
 		"OtherValues":["5"],
 		"NumberOfStacks":0,
-		"Status":["FireBlessingStatus"],
+		"Status":["FavorOfFireStatus"],
 		"Description":
 		[ 
 			"The Goddess of fire gives you a <<Status[0]>>."

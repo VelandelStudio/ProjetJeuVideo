@@ -5,6 +5,10 @@ using UnityEngine;
 using System;
 using System.Reflection;
 
+/** StringHelper, public static class :
+ * This static class contains every methods that are able to help us in string building.
+ * You will find here methods to build strings that will be displayed on the screen or converter from seconds to mins.
+ **/
 public static class StringHelper
 {
     /** SpellDescriptionBuilder, public static string method

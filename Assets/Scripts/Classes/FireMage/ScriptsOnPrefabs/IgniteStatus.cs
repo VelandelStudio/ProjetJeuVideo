@@ -45,6 +45,9 @@ public class IgniteStatus : StatusBase, IDebuff
         Debug.Log("IgniteStatus Created !");
     }
 
+    /** StatusTickBehaviour public override void
+     * Apply damages every seconds on the target.
+     **/
     public override void StatusTickBehaviour()
     {
         _entity.DamageFor(Damages[0]);
