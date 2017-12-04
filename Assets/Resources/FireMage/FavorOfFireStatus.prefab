@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4852018728782656}
   - component: {fileID: 114441976710375172}
   m_Layer: 0
-  m_Name: FireBlessingStatus
+  m_Name: FavorOfFireStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,15 +51,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732415c264e992e4090f5b1553df047e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Element: 
-  Duration: 0
+  Name: Favor of Fire
+  Element: Fire
+  Duration: 5
   IsTickable: 0
   TicksIntervals: []
   TickStarts: []
-  Damages: 
-  DamagesType: []
-  OtherValues: []
+  Damages: 00000000
+  DamagesType:
+  - 
+  OtherValues:
+  - 100
   IsStackable: 0
   NumberOfStacks: 0
-  Description: []
+  Description:
+  - 'Your next Conflagration has {OtherValues[0]}% chance to propagate Ignites on
+    targets caught in the explosion.
+
+'
+  - The Favor of Fire lasts for {Duration} seconds or until the next use of Conflagration.

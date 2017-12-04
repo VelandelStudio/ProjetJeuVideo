@@ -9,7 +9,7 @@ using UnityEngine;
  * This Status allows the next Conflagration of the FireMage to have 100% chances to propagate ignites.
  * Lasts for 5 sec. max.
  **/
-public class FavorOfFire : StatusBase, IBuff
+public class FavorOfFireStatus : StatusBase, IBuff
 {
 
     private ConflagrationSpell _conflagration;

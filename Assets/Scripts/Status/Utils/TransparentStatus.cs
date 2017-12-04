@@ -13,6 +13,11 @@ public class TransparentStatus : StatusBase
     private Color _newColor;
     private float _transparency;
 
+
+    private void Awake()
+    {
+        PreWarm();
+    }
     public override void OnStatusApplied()
     {
         _objectRenderer = GetComponentInParent<Renderer>();
