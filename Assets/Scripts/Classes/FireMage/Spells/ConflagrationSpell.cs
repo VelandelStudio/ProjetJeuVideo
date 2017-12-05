@@ -62,7 +62,6 @@ public class ConflagrationSpell : Spell
 
         foreach (IgniteStatus target in Targets)
         {
-            GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
             EntityLivingBase entity = target.GetComponentInParent<EntityLivingBase>();
             entity.DamageFor(Damages[0]);
             Collider[] cols = Physics.OverlapSphere(entity.transform.position, 10f);
@@ -86,7 +85,7 @@ public class ConflagrationSpell : Spell
                         }
                         else
                         {
-                            GameObject newIgnite = Instantiate(igniteToApply, col.transform);
+                            GameObject newIgnite = ApplyStatus(GetComponent<FireBallSpell>().Status[0], col.transform);
                             ignite = newIgnite.GetComponentInChildren<IgniteStatus>();
                         }
                         targetsToAdd.Add(ignite);
