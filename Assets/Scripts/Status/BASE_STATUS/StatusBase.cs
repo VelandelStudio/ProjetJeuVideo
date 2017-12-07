@@ -30,6 +30,10 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     public int NumberOfStacks;
     public string[] Description;
 
+    GameObject statusSection;
+    GUIStatusDisplayer statusDisplayer;
+
+#region Functionnal Methods
     /** Start, protected virtual void
      * Just here to set the local position of the Status to vector3.zero.
      * The main goal of this method is to ensure that every calculation of positions will be based on the zero value. 
@@ -87,6 +91,15 @@ public abstract class StatusBase : MonoBehaviour, IStatus
         NumberOfStacks = status.NumberOfStacks;
         Description = status.Description;
 
+        if (transform.parent.gameObject.tag == "Player")
+        {
+            statusSection = GameObject.Find("StatusSection");
+            GameObject statusGUIInst = (GameObject)Resources.Load("StatusGUI", typeof(GameObject));
+            statusGUIInst = Instantiate(statusGUIInst, statusSection.transform);
+            statusDisplayer = statusGUIInst.GetComponent<GUIStatusDisplayer>();
+            statusDisplayer.AttributeStatusBase(this);
+        }
+
         OnStatusApplied();
 
         if (IsTickable)
@@ -118,6 +131,11 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     {
         Debug.Log("Reset Status");
 
+        if (transform.parent.gameObject.tag == "Player")
+        {
+            statusDisplayer.ResetGUIStatus();
+        }
+
         OnStatusApplied();
         CancelInvoke("DestroyStatus");
         Invoke("DestroyStatus", Duration);
@@ -134,8 +152,14 @@ public abstract class StatusBase : MonoBehaviour, IStatus
      **/
     public virtual void DestroyStatus()
     {
+        if (transform.parent.gameObject.tag == "Player")
+        {
+            statusDisplayer.DestroyGUIStatus();
+        }
+
         Destroy(gameObject);
     }
+#endregion 
 
     /** LoadStatusData, protected void
 	 * @Params : string

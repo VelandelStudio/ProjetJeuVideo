@@ -98,7 +98,7 @@ public static class StringHelper
      * After that, we formate and return a string that will be ready the be displayed on the screen
      * We are also able to detect a <<Status>> Pattern. The pattern will be displayed with its description.
 	 **/
-    private static string DescriptionBuilder(object src, string description)
+    public static string DescriptionBuilder(object src, string description)
     {
         string pattern = @"(?<=\{).+?(?=\})";
         MatchCollection matches = Regex.Matches(description, pattern, RegexOptions.IgnoreCase);
