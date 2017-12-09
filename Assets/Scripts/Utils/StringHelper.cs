@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using System;
+using System.Reflection;
 
+/** StringHelper, public static class :
+ * This static class contains every methods that are able to help us in string building.
+ * You will find here methods to build strings that will be displayed on the screen or converter from seconds to mins.
+ **/
 public static class StringHelper
 {
     /** SpellDescriptionBuilder, public static string method
@@ -100,31 +105,53 @@ public static class StringHelper
 
         for (int i = 0; i < matches.Count; i++)
         {
-            Match indexMatch;
             string color = "";
-            int arrayIndex;
 
-            string indexPattern = @"(?<=\[).+?(?=\])";
-            indexMatch = Regex.Match(matches[i].Value, indexPattern, RegexOptions.IgnoreCase);
-            arrayIndex = int.Parse(indexMatch.Value);
-
-            if (matches[i].Value.Contains("Damages"))
+            if (matches[i].Value.Contains("[") && matches[i].Value.Contains("]"))
             {
-                color = (string)(GetArrayNameFromString(src, "DamagesType").GetValue(arrayIndex)) == "m" ? "cyan" : "maroon";
+                int arrayIndex;
+                arrayIndex = GetIndexFromString(matches[i].Value);
+
+                if (matches[i].Value.Contains("Damages"))
+                {
+                    color = (string)(GetArrayNameFromString(src, "DamagesType").GetValue(arrayIndex)) == "m" ? "cyan" : "maroon";
+                }
+
+                description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + GetArrayNameFromString(src, matches[i].Value).GetValue(arrayIndex) + "</color></b>");
             }
-
-            description = description.Replace("{"+ matches[i].Value + "}", "<b><color="+color+">"+ GetArrayNameFromString(src, matches[i].Value).GetValue(arrayIndex) + "</color></b>" );
+            else
+            {
+                description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + src.GetType().GetField(matches[i].Value).GetValue(src) + "</color></b>");
+            }
         }
-
         pattern = @"(?<=<<).*?(?=>>)";
         matches = Regex.Matches(description, pattern, RegexOptions.IgnoreCase);
         foreach (Match m in matches)
         {
-            description = description.Replace("<<" + m.Value + ">>", "<b><color=lime>" + m.Value + "</color></b>");
-            description += "\n___________________________________________________\n";
-            description += "StringHelper TODO : Dynamic Description of Status";
-        }
+            Array statusDescription = GetArrayNameFromString(src, m.Value);
+            int arrayIndex = GetIndexFromString(m.Value);
+            GameObject obj = (GameObject)statusDescription.GetValue(arrayIndex);
+            StatusBase status = obj.GetComponent<StatusBase>();
 
+            description = description.Replace("<<" + m.Value + ">>", "<b><color=lime>" + status.Name + "</color></b>");
+
+            string titleStatus = status.Name;
+            titleStatus = "<b><size=14><color=darkblue>" + status.Name + "</color></size></b>";
+
+            string debuffType = status is IBuff ? "Empowerment" : "Curse";
+            debuffType = "<b><size=12><color=lightblue>" + debuffType + "</color></size></b>";
+
+            string descriptionStatus = DescriptionBuilder(status, string.Join("", status.Description));
+
+            description += "\n___________________________________________________"
+                        + "\n"
+                        + titleStatus
+                        + "\n"
+                        + debuffType
+                        + "\n"
+                        + "\n"
+                        + descriptionStatus;
+        }
         return description;
     }
 
@@ -149,7 +176,13 @@ public static class StringHelper
             }
         }
 
-        return (Array)src.GetType().GetField(arrayName).GetValue(src);;
+        return (Array)src.GetType().GetField(arrayName).GetValue(src);
+    }
+
+    private static int GetIndexFromString(string str)
+    {
+        string indexPattern = @"(?<=\[).+?(?=\])";
+        return int.Parse(Regex.Match(str, indexPattern, RegexOptions.IgnoreCase).Value);
     }
 
     /** SecToMinConverter, public static string method

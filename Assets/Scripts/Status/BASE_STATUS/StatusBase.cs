@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
 
 /** StatusBase public abstract class
  * Implements IStatus.
@@ -9,35 +11,90 @@ using UnityEngine;
  **/
 public abstract class StatusBase : MonoBehaviour, IStatus
 {
-    protected float maxDuration;
-    protected float tickInterval;
-    protected float delay;
-    protected bool isTickable = true;
+    public StatusData StatusDefinition
+    {
+        get;
+        protected set;
+    }
 
-    /** Awake, protected virtual void
-     *  By default, a Status should be initialized at the LocalPosition of 0,0,0.
+    public string Name;
+    public string Element;
+    public float Duration;
+    public bool IsTickable;
+    public float[] TicksIntervals;
+    public float[] TickStarts;
+    public int[] Damages;
+    public string[] DamagesType;
+    public string[] OtherValues;
+    public bool IsStackable;
+    public int NumberOfStacks;
+    public string[] Description;
+
+    /** Start, protected virtual void
+     * Just here to set the local position of the Status to vector3.zero.
+     * The main goal of this method is to ensure that every calculation of positions will be based on the zero value. 
      **/
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         transform.localPosition = Vector3.zero;
     }
 
-    /** Start protected virtual void
-     * The method is here to launch the method OnStatusApplied.
-     * Then, it lanches an InvokeRepeating on StatusTickBehaviour to make the status tick every tickInterval.
-	 * Please note that, by default, a Status is considered as tickable.
-     * Finally, it lanches an Invoke on DestroyStatus that will occurs in maxDuration seconds.
+    /** PreWarm, public virtual void 
+     * This method is called by other scripts (mainly spells)
+     * This method is used to load an instance of a Status from a JSON File.
      **/
-    protected virtual void Start()
+    public virtual void PreWarm()
     {
-        OnStatusApplied();
+        LoadStatusData("StatusData.json");
+        Name = StatusDefinition.Name;
+        Element = StatusDefinition.Element;
+        Duration = StatusDefinition.Duration;
+        IsTickable = StatusDefinition.IsTickable;
+        TicksIntervals = StatusDefinition.TicksIntervals;
+        TickStarts = StatusDefinition.TickStarts;
+        Damages = StatusDefinition.Damages;
+        DamagesType = StatusDefinition.DamagesType;
+        OtherValues = StatusDefinition.OtherValues;
+        IsStackable = StatusDefinition.IsStackable;
+        NumberOfStacks = StatusDefinition.NumberOfStacks;
+        Description = StatusDefinition.Description;
+    }
 
-        if (isTickable)
+    /** StartStatus, public virtual void 
+     * @params : StatusBase
+     * This method is called by other scripts (mainly spells)
+     * It is used to Start the Status already applied on a target.
+     * The Status should be started with another Status instance (because of instanciation of gameobjects on unity)
+     * If the param is null, the Status is reloaded (Prewarm) from it's JSON file.
+     **/
+    public virtual void StartStatus(StatusBase status)
+    {
+        if(status == null)
         {
-            InvokeRepeating("StatusTickBehaviour", delay, tickInterval);
+            PreWarm();
         }
 
-        Invoke("DestroyStatus", maxDuration);
+        Name = status.Name;
+        Element = status.Element;
+        Duration = status.Duration;
+        IsTickable = status.IsTickable;
+        TicksIntervals = status.TicksIntervals;
+        TickStarts = status.TickStarts;
+        Damages = status.Damages;
+        DamagesType = status.DamagesType;
+        OtherValues = status.OtherValues;
+        IsStackable = status.IsStackable;
+        NumberOfStacks = status.NumberOfStacks;
+        Description = status.Description;
+
+        OnStatusApplied();
+
+        if (IsTickable)
+        {
+            InvokeRepeating("StatusTickBehaviour", TickStarts[0], TicksIntervals[0]);
+        }
+
+        Invoke("DestroyStatus", Duration);
     }
 
     /** OnStatusApplied public abstract void
@@ -63,12 +120,12 @@ public abstract class StatusBase : MonoBehaviour, IStatus
 
         OnStatusApplied();
         CancelInvoke("DestroyStatus");
-        Invoke("DestroyStatus", maxDuration);
+        Invoke("DestroyStatus", Duration);
 
-        if (isTickable)
+        if (IsTickable)
         {
             CancelInvoke("StatusTickBehaviour");
-            InvokeRepeating("StatusTickBehaviour", delay, tickInterval);
+            InvokeRepeating("StatusTickBehaviour", TickStarts[0], TicksIntervals[0]);
         }
     }
 
@@ -79,4 +136,55 @@ public abstract class StatusBase : MonoBehaviour, IStatus
     {
         Destroy(gameObject);
     }
+
+    /** LoadStatusData, protected void
+	 * @Params : string
+	 * Loads the JSON StatusDefinition associated to the spell.
+	 **/
+    protected void LoadStatusData(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+
+            StatusData[] data = JsonHelper.getJsonArray<StatusData>(jsonFile);
+            foreach (StatusData status in data)
+            {
+                if (status.ScriptName == this.GetType().ToString())
+                {
+                    StatusDefinition = status;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
+        }
+    }
+
+    #region Serializable Classes
+    /** StatusData public Serializable class
+	 * This class was created to be at the service of the StatusBase class
+	 * This class contains all elements to construct a Status from the JSON file.
+	 **/
+    [System.Serializable]
+    public class StatusData
+    {
+        public string ScriptName;
+        public string Name;
+        public string Element;
+        public float Duration;
+        public bool IsTickable;
+        public float[] TicksIntervals;
+        public float[] TickStarts;
+        public int[] Damages;
+        public string[] DamagesType;
+        public string[] OtherValues;
+        public bool IsStackable;
+        public int NumberOfStacks;
+        public string[] Description;
+    }
+    #endregion
 }

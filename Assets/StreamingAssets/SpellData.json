@@ -9,6 +9,7 @@
 		"DamagesType":["m","m"],
 		"OtherValues":["50"],
 		"NumberOfStacks":0,
+		"Status":[""],
 		"Description":
 		[
 			"Make every Ignite explodes and inflicts {Damages[0]} damages to target.\n",
@@ -25,10 +26,11 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
+		"Status":["IgniteStatus"],
 		"Description":
 		[
 			"Launch a Fireball in front of the player.\n",
-			"If the Fireball hits a monster,it sudden {Damages[0]} damages and apply <<Ignite>>"
+			"If the Fireball hits a monster,it sudden {Damages[0]} damages and apply <<Status[0]>>"
 		]
 	},
 	{
@@ -41,11 +43,10 @@
 		"DamagesType":[],
 		"OtherValues":["5"],
 		"NumberOfStacks":0,
+		"Status":["FavorOfFireStatus"],
 		"Description":
 		[ 
-			"You are blessed by the goddess of fire.\n",
-			"Your next Conflagration has 100% chance to propagate Ignite to targets caught in the explosion.\n",
-			"The Fire Blessing lasts for {OtherValues[0]} seconds or until the next Conflagration"
+			"The Goddess of fire gives you a <<Status[0]>>."
 		]
 	},
 	{
@@ -58,6 +59,7 @@
 		"DamagesType":["m","m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
+		"Status":[""],
 		"Description":
 		[
 			"Invokes an enormous eruption from the sky that explodes at the targeted point.\n",
