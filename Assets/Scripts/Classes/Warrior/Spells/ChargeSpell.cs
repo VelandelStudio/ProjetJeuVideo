@@ -10,7 +10,6 @@ public class ChargeSpell : Spell
     private Collider obstacle;
     protected override void Start()
     {
-        spellCD = 10.0f;
         cameraPlayer = gameObject.GetComponentInChildren<Camera>().GetComponent<CameraController>();
         base.Start();
     }
@@ -54,10 +53,5 @@ public class ChargeSpell : Spell
         cameraPlayer.CameraControlled = true;
         OnSpellLaunched();
         tick = 0;
-    }
-
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { };
     }
 }

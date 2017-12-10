@@ -13,6 +13,7 @@ using System.IO;
  **/
 public abstract class Character : MonoBehaviour
 {
+    protected PassiveBase passiveBase;
     protected List<Spell> spells = new List<Spell>();
     protected AutoAttackBase autoAttack;
     protected CharacterData characterData;
@@ -52,15 +53,12 @@ public abstract class Character : MonoBehaviour
 
     /** Update protected virtual void Method.
 	 * The Update method is used to detect Inputs of the player and then launch the corrects methods.
-	 * First, it ensures than no spells are currently in use. In this way, we are sure that we can't fire 2 spells at the same time.
-	 * Then wa can launch one of the four spells or an auto-attack.
 	 **/
     protected virtual void Update()
     {
-        foreach (Spell s in spells)
+        if (CursorBehaviour.CursorIsVisible)
         {
-            if (s.IsSpellInUse())
-                return;
+            return;
         }
 
         if (Input.GetMouseButton(0))
@@ -98,17 +96,36 @@ public abstract class Character : MonoBehaviour
 	 * @Params : int spellIndex;
 	 * This method is called with an int argument, which is the index of the spell in the spells list.
 	 * Once the spell is get from the list, we launch the method LaunchSpell inside the spell.
+	 * We also launch the Coroutine LaunchGCD() of each other spells.
 	 **/
     protected virtual void LaunchSpell(int spellIndex)
     {
         Spell spell = spells[spellIndex];
-        spell.LaunchSpell();
+        if (spell.IsSpellLauncheable())
+        {
+            spell.LaunchSpell();
+            if (spell.HasGCD)
+            {
+                for (int i = 0; i < spells.Count; i++)
+                {
+                    if (i != spellIndex && spells[i].HasGCD && spells[i].CurrentCD < spell.SpellGCD)
+                    {
+                        StartCoroutine(spells[i].LaunchGCD());
+                    }
+                }
+            }
+        }
+        else
+        {
+            spell.DisplaySpellNotLauncheable();
+        }
     }
 
     /** AttributePassiveToClass protected virtual void Method.
 	 * This method is called by the Start method. The Objective of the method is to get the Passive spell name in the characterData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, the HandleException(1) is launched.
+	 * After that, we call the AttributePassiveToClass method to give to the GUI all information in requires to display informations about the Passive.
 	 **/
     protected virtual void AttributePassiveToClass()
     {
@@ -118,13 +135,16 @@ public abstract class Character : MonoBehaviour
             HandleException(1);
             return;
         }
-        gameObject.AddComponent(t);
+        passiveBase = (PassiveBase)gameObject.AddComponent(t);
+        GUIPassiveDisplayer passiveDisplayer = GameObject.Find("Passive").GetComponent<GUIPassiveDisplayer>();
+        passiveDisplayer.AttributePassiveToGUI(passiveBase);
     }
 
     /** AttributeAutoAttackToClass protected virtual void Method.
 	 * This method is called by the Start method. The Objective of the method is to get the AutoAttack spell name in the characterData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, the HandleException(2) is launched.
+	 * After that, we call the AttributeAutoAttackToClass method to give to the GUI all information in requires to display informations about the AutoAttack.
 	 **/
     protected virtual void AttributeAutoAttackToClass()
     {
@@ -135,6 +155,9 @@ public abstract class Character : MonoBehaviour
             return;
         }
         autoAttack = (AutoAttackBase)gameObject.AddComponent(t);
+
+        GUIAutoAttackDisplayer autoAttackDisplayer = GameObject.Find("AutoAttack").GetComponent<GUIAutoAttackDisplayer>();
+        autoAttackDisplayer.AttributeAutoAttackToGUI(autoAttack);
     }
 
     /** AttributeSpellsToClass protected virtual void Method.
@@ -156,19 +179,9 @@ public abstract class Character : MonoBehaviour
             Spell spellToAdd = (Spell)gameObject.AddComponent(Type.GetType(SpellName));
             spells.Add(spellToAdd);
 
-
-            AttributeSpellToGUI(spellToAdd, i);
+            GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + i).GetComponent<GUISpellDisplayer>();
+            spellDisplayer.AttributeSpellToGUI(spellToAdd);
         }
-    }
-
-    /** AttributeSpellToGUI private void Method.
-	 * @Params : Spell, int, string
-	 * This method is used to find, on the Canvas, a slot to add a Spell on the GUI and give it the correct spell associated with its description.
-	 **/
-    private void AttributeSpellToGUI(Spell spell, int indexSpell)
-    {
-        GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + indexSpell).GetComponent<GUISpellDisplayer>();
-        spellDisplayer.AttributeSpellToGUI(spell);
     }
 
     /** HandleException private void Method.

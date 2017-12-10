@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,25 +10,84 @@ using System.IO;
  **/
 public abstract class Spell : MonoBehaviour
 {
-    public float spellCD
-    {
-        get;
-        protected set;
-    }
-
-    public float currentCD
-    {
-        get;
-        protected set;
-    }
-
-    public SpellData SpellDefinition
-    {
-        get;
-        protected set;
-    }
+    /** Fields of Spell
+     * The Spell class contains a lot of differents fields.
+     * Here, you can find fin every component of the SpellData that can be found in the JSON file associated to the spell.
+     * All public fields that are set from the SpellDefinition in the Awake method should be used by other scripts.
+     * The spellInUse field is use to tell when a spell is starting and when it is ending. For example, a Charge spell has a real duration in time.
+     * The CurrentCD field is used to know how much time ypu have to wait until the next use of the spell.
+     * The SpellGCD field is used to set a GlobalCooldown to all Spells. Is a Spell is under GCD, the field IsUnderGCD is true.
+     **/
+    #region Fields
+    private SpellData SpellDefinition;
+    public string Name;
+    public string Element;
+    public float CoolDownValue;
+    public bool HasGCD;
+    public int[] Damages;
+    public string[] DamagesType;
+    public string[] OtherValues;
+    public int NumberOfStacks;
+    public GameObject[] Status;
+    public string[] Description;
 
     protected bool spellInUse = false;
+    protected Character champion;
+
+    public float CurrentCD
+    {
+        get;
+        protected set;
+    }
+
+    protected float spellGCD = 1f;
+    public float SpellGCD
+    {
+        get
+        {
+            return spellGCD;
+        }
+        protected set { }
+    }
+
+    public bool IsUnderGCD
+    {
+        get;
+        protected set;
+    }
+    #endregion
+
+    #region Functionnal Methods
+
+    /** Awake protected virtual void Method,
+	 * The Awake method is used to create the Spell from the JSON file and attribute every variables.
+     * You should notice that the Status table contains Status GameObject with an instance of StatusBase attached to it.
+     * We try to pre-warm the StatusBase attached in order to display descriptions and maybe modify the instance.
+	 **/
+    protected virtual void Awake()
+    {
+        LoadSpellData("SpellData.json");
+        Name = SpellDefinition.Name;
+        Element = SpellDefinition.Element;
+        CoolDownValue = SpellDefinition.CoolDownValue;
+        HasGCD = SpellDefinition.HasGCD;
+        Damages = SpellDefinition.Damages;
+        DamagesType = SpellDefinition.DamagesType;
+        OtherValues = SpellDefinition.OtherValues;
+        NumberOfStacks = SpellDefinition.NumberOfStacks;
+        Description = SpellDefinition.Description;
+
+        if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
+        {
+            Status = new GameObject[SpellDefinition.Status.Length];
+            champion = GetComponentInParent<Character>();
+            for (int i = 0; i < SpellDefinition.Status.Length; i++)
+            {
+                Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + SpellDefinition.Status[i], typeof(GameObject));
+                Status[i].GetComponent<StatusBase>().PreWarm();
+            }
+        }
+    }
 
     /** Start protected virtual void Method,
 	 * The Start method first display the name of the spell whe he is created by the Classe.
@@ -37,10 +95,8 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual void Start()
     {
-        LoadSpellData("SpellData.json");
         DisplaySpellCreation(this);
-        currentCD = 0;
-        spellCD = SpellDefinition.CoolDownValue;
+        CurrentCD = 0;
     }
 
     /** Update protected virtual void Method,
@@ -50,7 +106,7 @@ public abstract class Spell : MonoBehaviour
     {
         if (!IsSpellLauncheable())
         {
-            currentCD = Mathf.Clamp(currentCD - Time.deltaTime, 0, spellCD);
+            CurrentCD = Mathf.Clamp(CurrentCD - Time.deltaTime, 0, CoolDownValue);
         }
     }
 
@@ -60,14 +116,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     public virtual void LaunchSpell()
     {
-        if (!IsSpellLauncheable())
-        {
-            DisplaySpellNotLauncheable(this);
-        }
-        else
-        {
-            spellInUse = true;
-        }
+        spellInUse = true;
     }
 
     /** OnSpellLaunched protected virtual void Method,
@@ -76,7 +125,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual void OnSpellLaunched()
     {
-        currentCD = spellCD;
+        CurrentCD = CoolDownValue;
         spellInUse = false;
     }
 
@@ -84,9 +133,9 @@ public abstract class Spell : MonoBehaviour
 	 * This returns if the spell is launcheable or not. In this script, we only check if the spell is under Cooldown or not.
 	 * You should overrie this method is you want to not make your spell launcheable in other conditions
 	 **/
-    protected virtual bool IsSpellLauncheable()
+    public virtual bool IsSpellLauncheable()
     {
-        return (currentCD == 0);
+        return (CurrentCD == 0);
     }
 
     /** IsSpellInUse public bool Method,
@@ -101,9 +150,9 @@ public abstract class Spell : MonoBehaviour
 	 * This displays in the logs a message when the spell is not Launchable whereas the player is trying to launche it.
 	 * In the future, this method will return a string on the screen of the player.
 	 **/
-    protected void DisplaySpellNotLauncheable(Spell spell)
+    public void DisplaySpellNotLauncheable()
     {
-        Debug.Log(spell.GetType().ToString() + " is not available for the moment.");
+        Debug.Log(this.GetType().ToString() + " is not available for the moment.");
     }
 
     /** DisplaySpellCreation protected void Method,
@@ -129,21 +178,16 @@ public abstract class Spell : MonoBehaviour
     /**GetDescriptionGUI, public string Method
 	 * Return the descreiption of our spell built by the SpellDescriptionBuilder of the StringHelper static class.
 	 * This method allows to get a dynamic and colored description on the screen.
-	**/
+	 **/
     public string GetDescriptionGUI()
     {
-        return StringHelper.SpellDescriptionBuilder(this, getDescriptionVariables());
+        return StringHelper.SpellDescriptionBuilder(this);
     }
-
-    /** getDescriptionVariables, protected abstract object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	**/
-    protected abstract object[] getDescriptionVariables();
 
     /** LoadSpellData, protected void
 	 * @Params : string
 	 * Loads the JSON SpellDefinition associated to the spell.
-	**/
+	 **/
     protected void LoadSpellData(string json)
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, json);
@@ -162,28 +206,67 @@ public abstract class Spell : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Cannot load game data!");
+            Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
         }
     }
 
+    /** ApplyStatus, protected virtual GameObject
+     * @Params : GameObject, Transform
+     * @Returns: GameObject
+     * This method should be called by spells that are able to apply a Status on their targets.
+     * The first param (GameObject status) should be a GameObject that has a StatusBase Script attached. 
+     * Most of the time, this gameObject is contained in the SpellDefinition.Status Table, and the Transform is the target one.
+     * The method will instantiate a new Status and attach to it the status that is already attached on the first parameter.
+     * When we instantiate an object, the StatusBase element if reseted, so we need to attach this instance of the StatusBase because of previous modifications,
+     * such as damages or CDReduction of the Status of the player. 
+     * Then, we return the fresh GameObject constructed if we want to use it later.
+     **/
+    protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
+    {
+        GameObject objInst = Instantiate(status, tr);
+        StatusBase statusInst = objInst.GetComponent<StatusBase>();
+        statusInst.StartStatus(status.GetComponent<StatusBase>());
+        return objInst;
+    }
+    #endregion
+
+    #region Ienumerators and Coroutines
+    /** LaunchGCD, public virtual IEnumerator Method
+	 * This Method should be launched by other scripts in order to activate the Global Cooldown of the spell.
+	 * If a spell is stackable and if it has more than 1 stacks, this method can be launched by the spell itself.
+	 **/
+    public virtual IEnumerator LaunchGCD()
+    {
+        CurrentCD = SpellGCD;
+        IsUnderGCD = true;
+        spellInUse = true;
+
+        yield return new WaitForSeconds(SpellGCD);
+
+        spellInUse = false;
+        IsUnderGCD = false;
+    }
+    #endregion
+
+    #region Serializable Classes
     /** SpellData public Serializable class
 	 * This class war created to be at the service of the Spell class
 	 * This class contains all elements to construct a spell from the JSON file.
-	**/
+	 **/
     [System.Serializable]
     public class SpellData
     {
         public string ScriptName;
         public string Name;
-        public string Type;
+        public string Element;
         public float CoolDownValue;
         public bool HasGCD;
-        public int BaseDamage;
-        public int[] AdditionalDamages;
-        public IStatus[] AdditionalEffects;
+        public int[] Damages;
+        public string[] DamagesType;
         public string[] OtherValues;
-        public bool IsStackable;
-        public int NumberOfStack;
+        public int NumberOfStacks;
+        public string[] Status;
         public string[] Description;
     }
+    #endregion
 }

@@ -11,7 +11,7 @@ public class SolarBurnSpell : Spell
 {
     private Camera _cameraPlayer;
     private GameObject throwable;
-
+    private bool _playerTargetingFloor;
     public Vector3 TargetOfSolarBurn;
     /** Start : protected override void Method
 	 * The Start Method is used here to get the camera and the transform associated to the player.
@@ -61,28 +61,47 @@ public class SolarBurnSpell : Spell
 	 * @Params : EntityLivingBase
 	 * When the instance of SolarBurn hits an entity, this method is launched.
 	 * It applies damages on the target.
-	**/
+	 **/
     public void ApplyEffectOnHit(EntityLivingBase entityHit)
     {
-        entityHit.DamageFor(SpellDefinition.BaseDamage);
+        entityHit.DamageFor(Damages[0]);
     }
 
     /** ApplyAdditionalEffect, public void Method
 	 * @Params : EntityLivingBase
 	 * When the instance of SolarBurn hits the floor, an explosion occurs.
 	 * This method is called for every target that are caught by the Explosion.
-	 * It applies damaes to the target.
-	**/
+     **/
     public void ApplyAdditionalEffect(EntityLivingBase entityHit)
     {
-        entityHit.DamageFor(SpellDefinition.AdditionalDamages[0]);
+        entityHit.DamageFor(Damages[1]);
     }
 
-    /** getDescriptionVariables, protected override object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	**/
-    protected override object[] getDescriptionVariables()
+    /** IsSpellLauncheable(), public override bool method
+     * The solar burn spell is launcheable only on ground surfaces.
+     * First we check in a Raycastall if the player is aiming at the ground.
+     * If it is, and if the base.IsSpellLauncheable() is true, then you can cast the spell.
+     **/
+    public override bool IsSpellLauncheable()
     {
-        return new object[] { SpellDefinition.BaseDamage, SpellDefinition.AdditionalDamages[0] };
+        _playerTargetingFloor = false;
+        RaycastHit[] hits = Physics.RaycastAll(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward, Mathf.Infinity);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i].collider.gameObject.tag == "Floor" || hits[i].collider.gameObject.name == "Ground")
+            {
+                _playerTargetingFloor = true;
+                break;
+            }
+        }
+
+        return (base.IsSpellLauncheable() && _playerTargetingFloor);
+    }
+    /** AvailableForGUI(), public override bool method
+     * The Spell is available on the GUI if the player is currently targeting at the floor.
+     **/
+    public override bool AvailableForGUI()
+    {
+        return _playerTargetingFloor;
     }
 }

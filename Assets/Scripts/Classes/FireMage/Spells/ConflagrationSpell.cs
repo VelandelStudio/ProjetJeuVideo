@@ -62,9 +62,8 @@ public class ConflagrationSpell : Spell
 
         foreach (IgniteStatus target in Targets)
         {
-            GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
             EntityLivingBase entity = target.GetComponentInParent<EntityLivingBase>();
-            entity.DamageFor(SpellDefinition.BaseDamage);
+            entity.DamageFor(Damages[0]);
             Collider[] cols = Physics.OverlapSphere(entity.transform.position, 10f);
             TargetsExploded.Add(target.GetComponent<Collider>());
             target.ExplodeIgniteStatus();
@@ -76,8 +75,8 @@ public class ConflagrationSpell : Spell
                     && !TargetsExploded.Contains(col)
                     && !Targets.Contains(col.GetComponent<IgniteStatus>()))
                 {
-                    col.gameObject.GetComponent<EntityLivingBase>().DamageFor(SpellDefinition.AdditionalDamages[0]);
-                    if (Random.Range(0, 100) < int.Parse(SpellDefinition.OtherValues[0]) || CritSuccess)
+                    col.gameObject.GetComponent<EntityLivingBase>().DamageFor(Damages[0]);
+                    if (Random.Range(0, 100) < int.Parse(OtherValues[0]) || CritSuccess)
                     {
                         IgniteStatus ignite = col.gameObject.GetComponentInChildren<IgniteStatus>();
                         if (ignite != null)
@@ -86,7 +85,7 @@ public class ConflagrationSpell : Spell
                         }
                         else
                         {
-                            GameObject newIgnite = Instantiate(igniteToApply, col.transform);
+                            GameObject newIgnite = ApplyStatus(GetComponent<FireBallSpell>().Status[0], col.transform);
                             ignite = newIgnite.GetComponentInChildren<IgniteStatus>();
                         }
                         targetsToAdd.Add(ignite);
@@ -106,7 +105,7 @@ public class ConflagrationSpell : Spell
 	 * This method override the parent one adding a condition to the utilisation of this spell :
 	 * If the targets List is empty (i.e. if there are no igniteStatus in the game), the spell can not be launched.
 	 **/
-    protected override bool IsSpellLauncheable()
+    public override bool IsSpellLauncheable()
     {
         return Targets.Count >= 1 && base.IsSpellLauncheable();
     }
@@ -117,13 +116,5 @@ public class ConflagrationSpell : Spell
     public override bool AvailableForGUI()
     {
         return Targets.Count >= 1;
-    }
-
-    /** getDescriptionVariables, protected override object[]
-	 * Return an array of objects that represents the current variables displayed on the GUI
-	**/
-    protected override object[] getDescriptionVariables()
-    {
-        return new object[] { SpellDefinition.BaseDamage, SpellDefinition.AdditionalDamages[0], SpellDefinition.OtherValues[0] };
     }
 }
