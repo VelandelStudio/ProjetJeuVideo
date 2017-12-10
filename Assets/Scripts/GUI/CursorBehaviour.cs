@@ -47,7 +47,7 @@ public class CursorBehaviour : MonoBehaviour
     public static void DisplayTooltip(string description)
     {
         _tooltip.SetActive(true);
-        _tooltip.transform.position = Input.mousePosition;
+        _tooltip.transform.position = Input.mousePosition+new Vector3(255, -10, 0);
         _tooltip.GetComponentInChildren<Text>().text = description;
     }
 
