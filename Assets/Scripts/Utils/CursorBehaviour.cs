@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /** CursorBehaviour Class
  * This Class is used by Unity to display and Hide the mouse Cursor when the Left Alt button is pressed. 
@@ -7,6 +8,8 @@
  **/
 public class CursorBehaviour : MonoBehaviour
 {
+    private static GameObject _tooltip;
+
     public static bool CursorIsVisible
     {
         get
@@ -22,6 +25,7 @@ public class CursorBehaviour : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        _tooltip = GameObject.Find("TooltipStatus");
     }
 
     /** Start private void
@@ -33,5 +37,23 @@ public class CursorBehaviour : MonoBehaviour
         {
             Cursor.lockState = Cursor.lockState == CursorLockMode.None ? CursorLockMode.Locked : CursorLockMode.None;
         }
+
+        if (_tooltip.activeSelf && Cursor.lockState == CursorLockMode.Locked)
+        {
+            CancelTooltip();
+        }
+    }
+
+    public static void DisplayTooltip(string description)
+    {
+        _tooltip.SetActive(true);
+        _tooltip.transform.position = Input.mousePosition;
+        _tooltip.GetComponentInChildren<Text>().text = description;
+    }
+
+    public static void CancelTooltip()
+    {
+        _tooltip.SetActive(false);
+        _tooltip.GetComponentInChildren<Text>().text = "";
     }
 }

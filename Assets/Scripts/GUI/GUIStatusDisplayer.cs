@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/** GUIStatusDisplayer, public class
+ * Displayer that handles informations when the player receive a Status. 
+ **/
 public class GUIStatusDisplayer : MonoBehaviour
 {
 
@@ -14,6 +17,12 @@ public class GUIStatusDisplayer : MonoBehaviour
 
     private float _duration;
 
+    /** AttributeStatusBase, public void method
+     * @param : StatusBase
+     * This method is launched by the StatusBase when the Status is Applied.
+     * We set everything we need t(o display informations of the Status (passed as a parameter) on the screen.
+     * If the StatusBase implements IBuff then the outline is green, else, it is red.
+     **/
     public void AttributeStatusBase(StatusBase status)
     {
         Status = status;
@@ -30,18 +39,30 @@ public class GUIStatusDisplayer : MonoBehaviour
         }
     }
 
+
+    /** ResetGUIStatus, public void method
+     * This method is launched by the StatusBase when the Status is Reseted.
+     **/
     public void ResetGUIStatus()
     {
         _duration = Status.Duration;
         _CDText.text = ((int)Status.Duration + 1).ToString();
     }
 
+    /** DestroyGUIStatus, public void method
+     * This method is launched by the StatusBase when the Status is Destroyed.
+     **/
     public void DestroyGUIStatus()
     {
         _CDText.text = "";
+        CursorBehaviour.CancelTooltip();
         Destroy(gameObject);
     }
 
+    /** Update, protected void method
+     * The Update method is used to display the correct CD Graphics element on the screen and
+     * calculate, at each frame, what is the remaining time of the StatusBase associated.
+     **/
     protected void Update()
     {
         if (Status == null)
@@ -59,7 +80,8 @@ public class GUIStatusDisplayer : MonoBehaviour
 	 **/
     public void MouseEnter()
     {
-        Debug.Log(StringHelper.DescriptionBuilder(Status, string.Join("", Status.Description)));
+        string description = StringHelper.DescriptionBuilder(Status, string.Join("", Status.Description));
+        CursorBehaviour.DisplayTooltip(description);
     }
 
     /** MouseExit, public void Method
@@ -67,5 +89,6 @@ public class GUIStatusDisplayer : MonoBehaviour
 	 **/
     public void MouseExit()
     {
+        CursorBehaviour.CancelTooltip();
     }
 }
