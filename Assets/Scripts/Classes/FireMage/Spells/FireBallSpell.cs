@@ -9,7 +9,6 @@ public class FireBallSpell : Spell
     private Camera _cameraPlayer;
     private GameObject _throwable;
     private Transform _launcherTransform;
-
     /** Start : protected override void Method
 	 * The Start Method is used here to get the prefab of the fireball.
 	 * Then, the scripts is looking for the origin point of the instantiation (i.e. the hand of our character).
@@ -19,9 +18,8 @@ public class FireBallSpell : Spell
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
         _throwable = (GameObject)Resources.Load("FireMage/FireBall", typeof(GameObject));
-		_launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
-		
-        spellCD = 3.0f;
+        _launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
+
         base.Start();
     }
 
@@ -41,5 +39,35 @@ public class FireBallSpell : Spell
             Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
             base.OnSpellLaunched();
         }
+    }
+
+    /** ApplyEffectOnHit, public void Method
+	 * @Params : EntityLivingBase
+	 * When the instance of FireBall hits an entity, this method is launched.
+	 * It applies damage and refresh Ignite on the target.
+	**/
+    public void ApplyEffectOnHit(EntityLivingBase entityHit)
+    {
+        GameObject igniteToApply = (GameObject)Resources.Load("FireMage/IgniteStatus", typeof(GameObject));
+
+        entityHit.DamageFor(SpellDefinition.BaseDamage);
+        IgniteStatus igniteStatus = entityHit.GetComponentInChildren<IgniteStatus>();
+        if (igniteStatus != null)
+        {
+            igniteStatus.ResetStatus();
+        }
+        else
+        {
+            GameObject ignite = Instantiate(igniteToApply, entityHit.transform);
+            GetComponent<ConflagrationSpell>().Targets.Add(ignite.GetComponent<IgniteStatus>());
+        }
+    }
+
+    /** getDescriptionVariables, protected override object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	**/
+    protected override object[] getDescriptionVariables()
+    {
+        return new object[] { SpellDefinition.BaseDamage };
     }
 }

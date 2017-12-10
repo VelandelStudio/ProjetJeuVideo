@@ -1,4 +1,9 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 /** Spell abstract class.
  * This abstract class is the mother class of all spells in our game. 
@@ -6,8 +11,24 @@ using UnityEngine;
  **/
 public abstract class Spell : MonoBehaviour
 {
-    protected float spellCD;
-    protected float currentCD;
+    public float spellCD
+    {
+        get;
+        protected set;
+    }
+
+    public float currentCD
+    {
+        get;
+        protected set;
+    }
+
+    public SpellData SpellDefinition
+    {
+        get;
+        protected set;
+    }
+
     protected bool spellInUse = false;
 
     /** Start protected virtual void Method,
@@ -16,8 +37,10 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual void Start()
     {
+        LoadSpellData("SpellData.json");
         DisplaySpellCreation(this);
-        currentCD = spellCD;
+        currentCD = 0;
+        spellCD = SpellDefinition.CoolDownValue;
     }
 
     /** Update protected virtual void Method,
@@ -27,7 +50,7 @@ public abstract class Spell : MonoBehaviour
     {
         if (!IsSpellLauncheable())
         {
-            currentCD = Mathf.Clamp(currentCD + Time.deltaTime, 0, spellCD);
+            currentCD = Mathf.Clamp(currentCD - Time.deltaTime, 0, spellCD);
         }
     }
 
@@ -53,7 +76,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual void OnSpellLaunched()
     {
-        currentCD = 0;
+        currentCD = spellCD;
         spellInUse = false;
     }
 
@@ -63,7 +86,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     protected virtual bool IsSpellLauncheable()
     {
-        return (spellCD == currentCD);
+        return (currentCD == 0);
     }
 
     /** IsSpellInUse public bool Method,
@@ -90,5 +113,77 @@ public abstract class Spell : MonoBehaviour
     protected void DisplaySpellCreation(Spell spell)
     {
         Debug.Log(spell.GetType().ToString() + " created.");
+    }
+
+    /** AvailableForGUI public virtual bool Method,
+	 * Each spell is associated to a GUI Spell Slot. 
+	 * Globally this Slot has an image that represents the remaining CD timer of the Spell. 
+	 * If the cooldown is reload, the image is clear. But, sometimes, we have spells that can not be launched in some conditions.
+	 * This is what this method does. By Default, every spell is AvailableForGUI, meaning that the image associated is only CD dependant.
+	 **/
+    public virtual bool AvailableForGUI()
+    {
+        return true;
+    }
+
+    /**GetDescriptionGUI, public string Method
+	 * Return the descreiption of our spell built by the SpellDescriptionBuilder of the StringHelper static class.
+	 * This method allows to get a dynamic and colored description on the screen.
+	**/
+    public string GetDescriptionGUI()
+    {
+        return StringHelper.SpellDescriptionBuilder(this, getDescriptionVariables());
+    }
+
+    /** getDescriptionVariables, protected abstract object[]
+	 * Return an array of objects that represents the current variables displayed on the GUI
+	**/
+    protected abstract object[] getDescriptionVariables();
+
+    /** LoadSpellData, protected void
+	 * @Params : string
+	 * Loads the JSON SpellDefinition associated to the spell.
+	**/
+    protected void LoadSpellData(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+            SpellData[] data = JsonHelper.getJsonArray<SpellData>(jsonFile);
+            foreach (SpellData spell in data)
+            {
+                if (spell.ScriptName == this.GetType().ToString())
+                {
+                    SpellDefinition = spell;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Cannot load game data!");
+        }
+    }
+
+    /** SpellData public Serializable class
+	 * This class war created to be at the service of the Spell class
+	 * This class contains all elements to construct a spell from the JSON file.
+	**/
+    [System.Serializable]
+    public class SpellData
+    {
+        public string ScriptName;
+        public string Name;
+        public string Type;
+        public float CoolDownValue;
+        public bool HasGCD;
+        public int BaseDamage;
+        public int[] AdditionalDamages;
+        public IStatus[] AdditionalEffects;
+        public string[] OtherValues;
+        public bool IsStackable;
+        public int NumberOfStack;
+        public string[] Description;
     }
 }
