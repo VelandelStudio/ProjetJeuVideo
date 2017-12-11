@@ -39,7 +39,6 @@ public class GUIStatusDisplayer : MonoBehaviour
         }
     }
 
-
     /** ResetGUIStatus, public void method
      * This method is launched by the StatusBase when the Status is Reseted.
      **/

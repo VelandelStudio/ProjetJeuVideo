@@ -46,14 +46,14 @@ public class CursorBehaviour : MonoBehaviour
 
     public static void DisplayTooltip(string description)
     {
-        _tooltip.SetActive(true);
-        _tooltip.transform.position = Input.mousePosition+new Vector3(255, -10, 0);
+        _tooltip.GetComponent<Image>().enabled = true;
         _tooltip.GetComponentInChildren<Text>().text = description;
+        _tooltip.transform.position = Input.mousePosition;
     }
 
     public static void CancelTooltip()
     {
-        _tooltip.SetActive(false);
+        _tooltip.GetComponent<Image>().enabled = false;
         _tooltip.GetComponentInChildren<Text>().text = "";
     }
 }

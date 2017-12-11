@@ -21,6 +21,10 @@ public class GUIPassiveDisplayer : MonoBehaviour
     private Text _PassiveDescription;
     private PassiveBase _passive;
 
+    public PassiveBase GetPassive()
+    {
+        return _passive;
+    }
     #endregion
 
     #region Functionnal methods
@@ -83,7 +87,7 @@ public class GUIPassiveDisplayer : MonoBehaviour
 	**/
     public void MouseEnter()
     {
-        GUIDescriptionDisplayer.DisplayDescriptionOnScreen(_PassiveDescription, _PassiveImgDescription, _passive.GetDescriptionGUI());
+        //GUIDescriptionDisplayer.DisplayDescriptionOnScreen(_PassiveDescription, _PassiveImgDescription, _passive.GetDescriptionGUI());
     }
 
     /** MouseExit, public void Method
@@ -91,7 +95,7 @@ public class GUIPassiveDisplayer : MonoBehaviour
 	**/
     public void MouseExit()
     {
-        GUIDescriptionDisplayer.CancelDescriptionOnScreen(_PassiveDescription, _PassiveImgDescription);
+        //GUIDescriptionDisplayer.CancelDescriptionOnScreen(_PassiveDescription, _PassiveImgDescription);
     }
     #endregion
 }
