@@ -7,9 +7,9 @@ using UnityEngine;
 /// This is obviously the script that launch the AutoAttacks
 /// This script is attached to the Windiator Character
 /// </summary>
+[RequireComponent(typeof(MeleAttack))]
 public class AutoAttackWindiator : AutoAttackBase {
 
-    private float _WindiatorGCD = 2f;
     private Animator _anim;
     private WindiatorSimpleAttack _wsa;
 
@@ -21,7 +21,6 @@ public class AutoAttackWindiator : AutoAttackBase {
     /// </summary>
     protected override void Start()
     {
-        GCD = _WindiatorGCD;
         _anim = GetComponent<Animator>();
         _wsa = GetComponentInChildren<WindiatorSimpleAttack>();
 
@@ -66,5 +65,23 @@ public class AutoAttackWindiator : AutoAttackBase {
         }
 
         _anim.SetBool("AutoAttack", false);
+    }
+
+    /// <summary>
+    /// ApplyEffect, protected void method
+    /// Used by the scripts attached to the weapon and deals damaged to the target
+    /// Try also to apply the WindSpiritStatus to an ally
+    /// </summary>
+    /// <param name="hit">Enemy</param>
+    public override void ApplyEffect(EntityLivingBase hit)
+    {
+        hit.DamageFor(Damages[0]);
+
+        PassiveBase passive = GetComponent<PassiveWindiator>();
+        if (hit.tag == "Player")
+        {
+            //passive.ApplyStatus();
+        }
+        
     }
 }

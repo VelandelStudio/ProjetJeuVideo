@@ -117,6 +117,16 @@ public abstract class AutoAttackBase : MonoBehaviour
             Debug.LogError("Cannot load game data!");
         }
     }
+
+    /** ApplyEffect, protected void method
+     *  This method is usually called by a prefab attach to th character who autoAttack to apply Damages and Effects
+     *  In the mother Abstract class the method is empty in the case of nothing is apply to a prefab
+     **/
+    public virtual void ApplyEffect(EntityLivingBase hit)
+    {
+
+    }
+
     #endregion
 
     #region Serializable Classes

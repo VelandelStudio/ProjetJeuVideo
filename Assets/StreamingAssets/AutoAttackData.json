@@ -12,5 +12,19 @@
 			"Launch a small coup d'bouteille that inflicts {Damages[0]} damages to target.\n",
 			"If a monster is damaged, the FireMage is surrounded by a FireShield"
 		]
+	},
+	{
+		"ScriptName":"AutoAttackWindiator",
+		"Name":"Coup d'bambou",
+		"Element":"Storm",
+		"CoolDownValue":"1.2f",
+		"Damages":[7],
+		"DamagesType":["p"],
+		"OtherValues":["15","30"],
+		"Description":
+		[
+			"Hit the enemy with the strength of the wind and the spirit of the bambou and deal {Damages[0]} damages to target.\n",
+			"There is {OtherValues[0]}% chance to trigger WindSpiritStatus for an ally in {OtherValues[1]} distance units."
+		]
 	}
 ]

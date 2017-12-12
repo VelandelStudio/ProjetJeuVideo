@@ -11,5 +11,18 @@
 			"For each monster affected by Ignite, you earn {OtherValues[0]}% additionnal critical rate.\n",
 			"This effect can provide a maximum bonus of {OtherValues[1]}% additionnal critical rate."
 		]
+	},
+	{
+		"ScriptName":"PassiveWindiator",
+		"Name":"WindSpirit",
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":["15","30","10"],
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Each time the autoAttack hits an enemy, you have {OtherValues[0]}% chance to apply WindSpiritFavor in {OtherValues[1]} range's units.\n",
+			"This effect can provide a bonus of {OtherValues[2]}% for all cooldowns."
+		]
 	}
 ]
