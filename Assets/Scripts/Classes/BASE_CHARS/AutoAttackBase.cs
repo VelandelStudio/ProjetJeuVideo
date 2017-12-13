@@ -9,18 +9,19 @@ using System.IO;
  * This abstract class is the mother class of all AutoAttack in our game. 
  * This class handles the behaviour the CD of all AutoAttacks. It also contains the AutoAttack method launched by the Classe.
  **/
-public abstract class AutoAttackBase : MonoBehaviour
+public abstract class AutoAttackBase : MonoBehaviour, IDisplayer
 {
 
     #region Fields
-    private AutoAttackData _autoAttackDefinition;
-    public string Name;
-    public string Element;
-    public float CoolDownValue;
-    public int[] Damages;
-    public string[] DamagesType;
-    public string[] OtherValues;
-    public string[] Description;
+    public AutoAttackData _autoAttackDefinition { get; protected set; }
+    public string Name { get; protected set; }
+    public string Element { get; protected set; }
+    public float CoolDownValue { get; protected set; }
+    public int[] Damages { get; protected set; }
+    public string[] DamagesType { get; protected set; }
+    public string[] OtherValues { get; protected set; }
+    public GameObject[] Status { get; protected set; }
+    public string[] Description { get; protected set; }
 
     public float CurrentCD;
     #endregion
@@ -89,7 +90,7 @@ public abstract class AutoAttackBase : MonoBehaviour
 	 **/
     public string GetDescriptionGUI()
     {
-        return StringHelper.AutoAttackDescriptionBuilder(this);
+        return StringHelper.DescriptionBuilder(this);
     }
 
     /** LoadAutoAttackData, protected void Method
@@ -114,7 +115,7 @@ public abstract class AutoAttackBase : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Cannot load game data!");
+            Debug.LogError("Cannot load Auto-attack data!");
         }
     }
     #endregion

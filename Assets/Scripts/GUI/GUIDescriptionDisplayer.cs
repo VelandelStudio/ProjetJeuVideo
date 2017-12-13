@@ -6,7 +6,8 @@ using UnityEngine.UI;
 /** GUIDescriptionDisplayer, public class
  * This class contains the methods that enable and disable the GUI elements for descriptions.
  **/
-public class GUIDescriptionDisplayer : MonoBehaviour {
+public class GUIDescriptionDisplayer : MonoBehaviour
+{
     [SerializeField] private Image _imageZone;
     [SerializeField] private Text _textZone;
     [SerializeField] private Image _element;
@@ -35,8 +36,8 @@ public class GUIDescriptionDisplayer : MonoBehaviour {
         _imageZone.enabled = true;
         _textZone.enabled = true;
         _textZone.text = spell.GetDescriptionGUI();
-        _element.enabled = spell.Element != null;
-        _type.enabled = spell.DamagesType.Length > 0;
+        SetElementSprite(spell.Element);
+        SetTypeSprite(spell.DamagesType);
     }
 
     public void DisplayAutoAttackDescription(GUIAutoAttackDisplayer autoAttackDisplayer)
@@ -45,8 +46,8 @@ public class GUIDescriptionDisplayer : MonoBehaviour {
         _imageZone.enabled = true;
         _textZone.enabled = true;
         _textZone.text = autoAttack.GetDescriptionGUI();
-        _element.enabled = autoAttack.Element != null;
-        _type.enabled = autoAttack.DamagesType.Length > 0;
+        SetElementSprite(autoAttack.Element);
+        SetTypeSprite(autoAttack.DamagesType);
     }
 
     public void DisplayPassiveDescription(GUIPassiveDisplayer passiveDisplayer)
@@ -55,7 +56,7 @@ public class GUIDescriptionDisplayer : MonoBehaviour {
         _imageZone.enabled = true;
         _textZone.enabled = true;
         _textZone.text = passive.GetDescriptionGUI();
-        _type.enabled = passive.DamagesType.Length > 0;
+        SetTypeSprite(passive.DamagesType);
     }
 
     /** CancelDescriptionOnScreen, public static void
@@ -63,7 +64,37 @@ public class GUIDescriptionDisplayer : MonoBehaviour {
      * Disables text and images for descriptions on the screen and reset the description inside the text field.
      **/
     public void CancelDescription()
-	{
+    {
         Start();
-	}
+    }
+
+    private void SetElementSprite(string element)
+    {
+        if (element != null)
+        {
+            _element.sprite = Resources.Load<Sprite>("Images/Elements/" + element);
+            _element.enabled = true;
+        }
+    }
+
+    private void SetTypeSprite(string[] type)
+    {
+        if (type.Length > 0)
+        {
+            string prevType = type[0];
+            foreach (string t in type)
+            {
+                if (t != prevType)
+                {
+                    prevType = "Hybride";
+                    break;
+                }
+            }
+            if (prevType == "m") { prevType = "Magical"; }
+            if (prevType == "p") { prevType = "Physical"; }
+
+            _type.sprite = Resources.Load<Sprite>("Images/Types/" + prevType);
+            _type.enabled = true;
+        }
+    }
 }

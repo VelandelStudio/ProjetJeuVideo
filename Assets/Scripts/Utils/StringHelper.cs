@@ -11,80 +11,29 @@ using System.Reflection;
  **/
 public static class StringHelper
 {
-    /** SpellDescriptionBuilder, public static string method
-     * @Params : Spell, object[]
-     * This static method is used to construct the Spell Descriptions that will be displayed on the GUI.
-     * This method works as a printf. We get the description from the spell and we replace the variables elements by the descriptionVariables.
-     * First of all, we get the title, the cooldown value and the cost of resources associated to the spell.
-     * Then, we read the description from the JSON file. and pass it to the DescriptionBuilder.
-     **/
-    public static string SpellDescriptionBuilder(Spell spell)
+
+    public static string DescriptionBuilder(IDisplayer displayer)
     {
-        string title = spell.Name;
+        string title = displayer.Name;
         title = "<b><size=14><color=darkblue>" + title + "</color></size></b>";
 
         string resources = "Resources_Value" + " " + "Resources_Type";
         resources = "<b><size=12><color=lightblue>" + resources + "</color></size></b>";
 
-        string cooldown = SecToMinConverter(spell.CoolDownValue) + " cooldown";
-        cooldown = "<b><size=12><color=lightblue>" + cooldown + "</color></size></b>";
+        string cooldown = "";
+        if (displayer.CoolDownValue != 0)
+        {
+            cooldown = SecToMinConverter(displayer.CoolDownValue) + " cooldown";
+            cooldown = cooldown == "0" ? "" : cooldown;
+            cooldown = "<b><size=12><color=lightblue>" + cooldown + "</color></size></b>";
+        }
 
-        string description = string.Join("", spell.Description);
-        description = DescriptionBuilder(spell, description);
+        string description = string.Join("", displayer.Description);
+        description = DescriptionBuilder(displayer, description);
 
         string finaldescription = title + "\n"
                                 + resources + "\n"
                                 + cooldown + "\n"
-                                + "\n"
-                                + description;
-        return finaldescription;
-    }
-
-    /** AutoAttackDescriptionBuilder, public static string method
-     * @Params : AutoAttackBase, object[]
-     * This static method is used to construct the AutoAttack Descriptions that will be displayed on the GUI.
-     * This method works as a printf. We get the description from the spell and we replace the variables elements by the descriptionVariables.
-     * First of all, we get the title and the cost of resources associated to the spell.
-     * Then, we read the description from the JSON file. and pass it to the DescriptionBuilder.
-     **/
-    public static string AutoAttackDescriptionBuilder(AutoAttackBase autoAttack)
-    {
-        string title = autoAttack.Name;
-        title = "<b><size=14><color=darkblue>" + title + "</color></size></b>";
-
-        string resources = "Resources_Value" + " " + "Resources_Type";
-        resources = "<b><size=12><color=lightblue>" + resources + "</color></size></b>";
-
-        string description = string.Join("", autoAttack.Description);
-        description = DescriptionBuilder(autoAttack, description);
-
-
-        string finaldescription = title + "\n"
-                                + "\n"
-                                + description;
-        return finaldescription;
-    }
-
-    /** PassiveDescriptionBuilder, public static string method
-     * @Params : PassiveBase, object[]
-     * This static method is used to construct the Passive Descriptions that will be displayed on the GUI.
-     * This method works as a printf. We get the description from the spell and we replace the variables elements by the descriptionVariables.
-     * First of all, we get the title and the cost of resources associated to the spell.
-     * Then, we read the description from the JSON file. and pass it to the DescriptionBuilder.
-     **/
-    public static string PassiveDescriptionBuilder(PassiveBase passive)
-    {
-        string title = passive.Name;
-        title = "<b><size=14><color=darkblue>" + title + "</color></size></b>";
-
-        string resources = "Resources_Value" + " " + "Resources_Type";
-        resources = "<b><size=12><color=lightblue>" + resources + "</color></size></b>";
-
-        string description = string.Join("", passive.Description);
-        description = DescriptionBuilder(passive, description);
-
-
-        string finaldescription = title + "\n"
                                 + "\n"
                                 + description;
         return finaldescription;
@@ -121,7 +70,7 @@ public static class StringHelper
             }
             else
             {
-                description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + src.GetType().GetField(matches[i].Value).GetValue(src) + "</color></b>");
+                description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + src.GetType().GetProperty(matches[i].Value).GetValue(src, null) + "</color></b>");
             }
         }
         pattern = @"(?<=<<).*?(?=>>)";
@@ -163,7 +112,6 @@ public static class StringHelper
     private static Array GetArrayNameFromString(object src, string str)
     {
         string arrayName = "";
-
         foreach (char c in str)
         {
             if (c == '[')
@@ -175,8 +123,7 @@ public static class StringHelper
                 arrayName += c;
             }
         }
-
-        return (Array)src.GetType().GetField(arrayName).GetValue(src);
+        return (Array)src.GetType().GetProperty(arrayName).GetValue(src, null);
     }
 
     private static int GetIndexFromString(string str)

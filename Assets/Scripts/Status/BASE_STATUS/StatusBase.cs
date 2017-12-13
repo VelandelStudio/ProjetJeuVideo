@@ -9,31 +9,29 @@ using System.IO;
  * This class is the mother class of most of the buffs/debuffs/Status in our game.
  * It aims to simplify the creation of Status, using the Template pattern.
  **/
-public abstract class StatusBase : MonoBehaviour, IStatus
+public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayer
 {
-    public StatusData StatusDefinition
-    {
-        get;
-        protected set;
-    }
+    public StatusData StatusDefinition { get; protected set; }
+    public string Name { get; protected set; }
+    public string Element { get; protected set; }
+    public float CoolDownValue { get; protected set; }
+    public int[] Damages { get; protected set; }
+    public string[] DamagesType { get; protected set; }
+    public string[] OtherValues { get; protected set; }
+    public GameObject[] Status { get; protected set; }
+    public string[] Description { get; protected set; }
+    public float Duration { get; protected set; }
+    public bool IsTickable { get; protected set; }
+    public float[] TicksIntervals { get; protected set; }
+    public float[] TickStarts { get; protected set; }
 
-    public string Name;
-    public string Element;
-    public float Duration;
-    public bool IsTickable;
-    public float[] TicksIntervals;
-    public float[] TickStarts;
-    public int[] Damages;
-    public string[] DamagesType;
-    public string[] OtherValues;
     public bool IsStackable;
     public int NumberOfStacks;
-    public string[] Description;
 
     GameObject statusSection;
     GUIStatusDisplayer statusDisplayer;
 
-#region Functionnal Methods
+    #region Functionnal Methods
     /** Start, protected virtual void
      * Just here to set the local position of the Status to vector3.zero.
      * The main goal of this method is to ensure that every calculation of positions will be based on the zero value. 
@@ -73,7 +71,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus
      **/
     public virtual void StartStatus(StatusBase status)
     {
-        if(status == null)
+        if (status == null)
         {
             PreWarm();
         }
@@ -94,7 +92,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus
         if (transform.parent.gameObject.tag == "Player")
         {
             statusSection = GameObject.Find("StatusSection");
-            GameObject statusGUIInst = (GameObject)Resources.Load("StatusGUI", typeof(GameObject));
+            GameObject statusGUIInst = (GameObject)Resources.Load("GUI/StatusGUI", typeof(GameObject));
             statusGUIInst = Instantiate(statusGUIInst, statusSection.transform);
             statusDisplayer = statusGUIInst.GetComponent<GUIStatusDisplayer>();
             statusDisplayer.AttributeStatusBase(this);
@@ -159,7 +157,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus
 
         Destroy(gameObject);
     }
-#endregion 
+    #endregion
 
     /** LoadStatusData, protected void
 	 * @Params : string
