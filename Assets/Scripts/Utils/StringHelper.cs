@@ -11,43 +11,63 @@ using System.Reflection;
  **/
 public static class StringHelper
 {
-
-    public static string DescriptionBuilder(IDisplayer displayer)
+    /** DescriptionBuilder, public static string
+	 * @param IDisplayable
+	 * This method is used to build the description field of a displayable, by setting the title, the cooldown etc... on the screen.
+	 **/
+    public static string DescriptionBuilder(IDisplayable displayable)
     {
-        string title = displayer.Name;
-        title = "<b><size=14><color=darkblue>" + title + "</color></size></b>";
-
-        string resources = "Resources_Value" + " " + "Resources_Type";
-        resources = "<b><size=12><color=lightblue>" + resources + "</color></size></b>";
-
+        string title = "";
+        string resources = "";
         string cooldown = "";
-        if (displayer.CoolDownValue != 0)
+        string description = "";
+        string statusType = "";
+
+        title = FormateTitle(displayable.Name);
+
+        if (displayable is IStatusDisplayable)
         {
-            cooldown = SecToMinConverter(displayer.CoolDownValue) + " cooldown";
-            cooldown = cooldown == "0" ? "" : cooldown;
-            cooldown = "<b><size=12><color=lightblue>" + cooldown + "</color></size></b>";
+            statusType = FormateStatusType(displayable);
         }
 
-        string description = string.Join("", displayer.Description);
-        description = DescriptionBuilder(displayer, description);
+        /*string resources = FormateResources(displayable.ResourceValue, displayable.ResourceType); */
+        if (displayable.CoolDownValue != 0)
+        {
+            cooldown = FormateCoolDown(SecToMinConverter(displayable.CoolDownValue));
+        }
 
-        string finaldescription = title + "\n"
-                                + resources + "\n"
-                                + cooldown + "\n"
+        description = FormateDescription(displayable, displayable.Description);
+
+        string finaldescription = title
+                                + statusType
+                                + resources
+                                + cooldown
                                 + "\n"
                                 + description;
         return finaldescription;
     }
 
-    /** DescriptionBuilder, private static string
-	 * @Params : object, string
-	 * The method works with reflexions conepts. We get a string from the description inside a {} block.
-     * This string correspond to an array or a value contained inside the object we have in parameters.
-     * We get the string and the field associated to it inside the object. If the Field is a "Damages" one, we try to catch the "DemagesType" inside the object.
-     * After that, we formate and return a string that will be ready the be displayed on the screen
-     * We are also able to detect a <<Status>> Pattern. The pattern will be displayed with its description.
+    /** FormateDescription, public static string
+	 * @param IDisplayable, string[]
+	 * This method is used to formate the Description field (not the title, resources etc...) 
+	 * First we get the Description and Join it to make it a simple string. 
+	 * Then we launch the HandleVariablesDetection and the HandleStatusDetection to attach dynamic references of elements set in the description.
 	 **/
-    public static string DescriptionBuilder(object src, string description)
+    private static string FormateDescription(IDisplayable displayable, string[] descriptionTable)
+    {
+        string description = string.Join("", descriptionTable);
+        description = HandleVariablesDetection(displayable, description);
+        description = HandleStatusDetection(displayable, description);
+        return description;
+    }
+
+    /** HandleVariablesDetection, public static string
+	 * @param IDisplayable, string
+	 * This method is used to detect different variables, set into the pattern {Variable} in the description.
+	 * It can also handles the variables that are arrays. For each elements that conrresponds to the pattern, we try to get the variable in the Class displayable. 
+	 * Then we display its value.
+	 **/
+    private static string HandleVariablesDetection(IDisplayable displayable, string description)
     {
         string pattern = @"(?<=\{).+?(?=\})";
         MatchCollection matches = Regex.Matches(description, pattern, RegexOptions.IgnoreCase);
@@ -55,51 +75,46 @@ public static class StringHelper
         for (int i = 0; i < matches.Count; i++)
         {
             string color = "";
-
             if (matches[i].Value.Contains("[") && matches[i].Value.Contains("]"))
             {
-                int arrayIndex;
-                arrayIndex = GetIndexFromString(matches[i].Value);
+                int arrayIndex = GetIndexFromString(matches[i].Value);
 
                 if (matches[i].Value.Contains("Damages"))
                 {
-                    color = (string)(GetArrayNameFromString(src, "DamagesType").GetValue(arrayIndex)) == "m" ? "cyan" : "maroon";
+                    color = displayable.DamagesType[arrayIndex] == "m" ? "cyan" : "maroon";
                 }
 
-                description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + GetArrayNameFromString(src, matches[i].Value).GetValue(arrayIndex) + "</color></b>");
+                description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + GetArrayNameFromString(displayable, matches[i].Value).GetValue(arrayIndex) + "</color></b>");
             }
             else
             {
-                description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + src.GetType().GetProperty(matches[i].Value).GetValue(src, null) + "</color></b>");
+                description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + displayable.GetType().GetProperty(matches[i].Value).GetValue(displayable, null) + "</color></b>");
             }
         }
-        pattern = @"(?<=<<).*?(?=>>)";
-        matches = Regex.Matches(description, pattern, RegexOptions.IgnoreCase);
+
+        return description;
+    }
+
+    /** HandleStatusDetection, public static string
+	 * @param IDisplayable, string
+	 * This method is used to detect different StatusBase, set into the pattern <<Status>> in the description.
+	 * For each elements that conrresponds to the pattern, we try to get the variable in the Class displayable. 
+	 * Then, we get the description of the status Displayable and call the DescriptionBuilder (Recursivity power <3 ).
+	 **/
+    private static string HandleStatusDetection(IDisplayable displayable, string description)
+    {
+        string pattern = @"(?<=<<).*?(?=>>)";
+        MatchCollection matches = Regex.Matches(description, pattern, RegexOptions.IgnoreCase);
         foreach (Match m in matches)
         {
-            Array statusDescription = GetArrayNameFromString(src, m.Value);
+            Array statusDescription = GetArrayNameFromString(displayable, m.Value);
             int arrayIndex = GetIndexFromString(m.Value);
-            GameObject obj = (GameObject)statusDescription.GetValue(arrayIndex);
-            StatusBase status = obj.GetComponent<StatusBase>();
+            StatusBase status = ((GameObject)statusDescription.GetValue(arrayIndex)).GetComponent<StatusBase>();
 
             description = description.Replace("<<" + m.Value + ">>", "<b><color=lime>" + status.Name + "</color></b>");
 
-            string titleStatus = status.Name;
-            titleStatus = "<b><size=14><color=darkblue>" + status.Name + "</color></size></b>";
-
-            string debuffType = status is IBuff ? "Empowerment" : "Curse";
-            debuffType = "<b><size=12><color=lightblue>" + debuffType + "</color></size></b>";
-
-            string descriptionStatus = DescriptionBuilder(status, string.Join("", status.Description));
-
-            description += "\n___________________________________________________"
-                        + "\n"
-                        + titleStatus
-                        + "\n"
-                        + debuffType
-                        + "\n"
-                        + "\n"
-                        + descriptionStatus;
+            description += "\n___________________________________________________";
+            description += DescriptionBuilder(status);
         }
         return description;
     }
@@ -126,6 +141,11 @@ public static class StringHelper
         return (Array)src.GetType().GetProperty(arrayName).GetValue(src, null);
     }
 
+    /** GetIndexFromString, private static int
+     * @Params : string
+     * This method is used the get an ArrayIndex from a pattern type of NameOfArray[Index].
+	 * We try to get the index inside the [] ans a string parameter.
+     **/
     private static int GetIndexFromString(string str)
     {
         string indexPattern = @"(?<=\[).+?(?=\])";
@@ -146,5 +166,42 @@ public static class StringHelper
         {
             return string.Format("{0:##.#} min.", (seconds / 60.0));
         }
+    }
+
+    /** FormateTitle, private static string
+     * @Params : string
+     * Formates and returns the title of the Displayable
+     **/
+    private static string FormateTitle(string title)
+    {
+        return "<b><size=14><color=darkblue>" + title + "</color></size></b> \n";
+    }
+
+    /** FormateResources, private static string
+     * @Params : float, string
+     * Formates and returns the Resources needed in the Displayable
+     **/
+    private static string FormateResources(float value, string resourceType)
+    {
+        return "<b><size=12><color=lightblue>" + value.ToString() + " " + resourceType + "</color></size></b> \n";
+    }
+
+    /** FormateCoolDown, private static string
+     * @Params : string
+     * Formates and returns the cooldown of the Displayable
+     **/
+    private static string FormateCoolDown(string cooldown)
+    {
+        return "<b><size=12><color=lightblue>" + cooldown + " Cooldown </color></size></b> \n";
+    }
+
+    /** FormateCoolDown, private static string
+     * @Params : IDisplayable
+     * We try to check if we are handling a IStatusDisplayable If it is, we Formate the type of Displayable.
+     **/
+    private static string FormateStatusType(IDisplayable status)
+    {
+        string statusType = status is IBuff ? "Empowerment" : "Curse";
+        return "<b><size=12><color=lightblue>" + statusType + "</color></size></b> \n";
     }
 }

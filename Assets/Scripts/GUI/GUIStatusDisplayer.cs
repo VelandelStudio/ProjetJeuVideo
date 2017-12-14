@@ -79,8 +79,7 @@ public class GUIStatusDisplayer : MonoBehaviour
 	 **/
     public void MouseEnter()
     {
-        string description = StringHelper.DescriptionBuilder(Status, string.Join("", Status.Description));
-        CursorBehaviour.DisplayTooltip(description);
+        CursorBehaviour.DisplayTooltip(StringHelper.DescriptionBuilder(Status));
     }
 
     /** MouseExit, public void Method

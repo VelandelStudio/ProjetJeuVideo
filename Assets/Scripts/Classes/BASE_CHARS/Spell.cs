@@ -8,7 +8,7 @@ using System.IO;
  * This abstract class is the mother class of all spells in our game. 
  * This class handles the behaviour the CD of all spells. It also contains the LaunchSpell method launched by the Classe.
  **/
-public abstract class Spell : MonoBehaviour, IDisplayer
+public abstract class Spell : MonoBehaviour, IDisplayable
 {
     /** Fields of Spell
      * The Spell class contains a lot of differents fields.

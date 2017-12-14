@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IStatusDisplayer : IDisplayer
+
+/** IStatusDisplayble, public interface
+ * @Extends : IDisplayer
+ * Interface that regroups elements that can have a description on the screen, with specific properties foir Status
+ **/
+public interface IStatusDisplayable : IDisplayable
 {
     float Duration { get; }
     bool IsTickable { get; }

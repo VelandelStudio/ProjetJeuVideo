@@ -5,11 +5,11 @@ using System;
 using System.IO;
 
 /** StatusBase public abstract class
- * Implements IStatus.
+ * Implements IStatus, IStatusDisplayable
  * This class is the mother class of most of the buffs/debuffs/Status in our game.
  * It aims to simplify the creation of Status, using the Template pattern.
  **/
-public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayer
+public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
 {
     public StatusData StatusDefinition { get; protected set; }
     public string Name { get; protected set; }
