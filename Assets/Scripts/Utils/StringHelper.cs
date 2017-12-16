@@ -108,13 +108,19 @@ public static class StringHelper
         foreach (Match m in matches)
         {
             Array statusDescription = GetArrayNameFromString(displayable, m.Value);
-            int arrayIndex = GetIndexFromString(m.Value);
-            StatusBase status = ((GameObject)statusDescription.GetValue(arrayIndex)).GetComponent<StatusBase>();
 
-            description = description.Replace("<<" + m.Value + ">>", "<b><color=lime>" + status.Name + "</color></b>");
-
-            description += "\n___________________________________________________";
-            description += DescriptionBuilder(status);
+            if (statusDescription != null)
+            {
+                int arrayIndex = GetIndexFromString(m.Value);
+                StatusBase status = ((GameObject)statusDescription.GetValue(arrayIndex)).GetComponent<StatusBase>();
+                description = description.Replace("<<" + m.Value + ">>", "<b><color=lime>" + status.Name + "</color></b>");
+                description += "\n___________________________________________________";
+                description += DescriptionBuilder(status);
+            }
+            else
+            {
+                description = description.Replace("<<" + m.Value + ">>", "<color=darkblue>" + m.Value + "</color>");
+            }
         }
         return description;
     }
@@ -138,7 +144,14 @@ public static class StringHelper
                 arrayName += c;
             }
         }
-        return (Array)src.GetType().GetProperty(arrayName).GetValue(src, null);
+
+        PropertyInfo prop = src.GetType().GetProperty(arrayName);
+        if (prop == null)
+        {
+            return null;
+        }
+
+        return (Array)prop.GetValue(src, null);
     }
 
     /** GetIndexFromString, private static int

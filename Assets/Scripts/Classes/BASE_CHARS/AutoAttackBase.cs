@@ -13,7 +13,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
 {
 
     #region Fields
-    public AutoAttackData _autoAttackDefinition { get; protected set; }
+    public AutoAttackData AutoAttackDefinition { get; protected set; }
     public string Name { get; protected set; }
     public string Element { get; protected set; }
     public float CoolDownValue { get; protected set; }
@@ -24,6 +24,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     public string[] Description { get; protected set; }
 
     public float CurrentCD;
+    protected Character champion;
     #endregion
 
     #region Functionnal Methods
@@ -36,14 +37,24 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     protected void Awake()
     {
         LoadAutoAttackData("AutoAttackData.json");
-        Debug.Log(_autoAttackDefinition.Name);
-        Name = _autoAttackDefinition.Name;
-        Element = _autoAttackDefinition.Element;
-        CoolDownValue = _autoAttackDefinition.CoolDownValue;
-        Damages = _autoAttackDefinition.Damages;
-        DamagesType = _autoAttackDefinition.DamagesType;
-        OtherValues = _autoAttackDefinition.OtherValues;
-        Description = _autoAttackDefinition.Description;
+        Debug.Log(AutoAttackDefinition.Name);
+        Name = AutoAttackDefinition.Name;
+        Element = AutoAttackDefinition.Element;
+        CoolDownValue = AutoAttackDefinition.CoolDownValue;
+        Damages = AutoAttackDefinition.Damages;
+        DamagesType = AutoAttackDefinition.DamagesType;
+        OtherValues = AutoAttackDefinition.OtherValues;
+        if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
+        {
+            Status = new GameObject[AutoAttackDefinition.Status.Length];
+            champion = GetComponentInParent<Character>();
+            for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
+            {
+                Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + AutoAttackDefinition.Status[i], typeof(GameObject));
+                Status[i].GetComponent<StatusBase>().PreWarm();
+            }
+        }
+        Description = AutoAttackDefinition.Description;
     }
 
     /** Start protected virtual void Method,
@@ -108,7 +119,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
             {
                 if (autoAttack.ScriptName == this.GetType().ToString())
                 {
-                    _autoAttackDefinition = autoAttack;
+                    AutoAttackDefinition = autoAttack;
                     break;
                 }
             }
@@ -134,6 +145,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         public int[] Damages;
         public string[] DamagesType;
         public string[] OtherValues;
+        public string[] Status;
         public string[] Description;
     }
     #endregion
