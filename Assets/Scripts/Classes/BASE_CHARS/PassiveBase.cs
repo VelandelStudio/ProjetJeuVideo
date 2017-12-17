@@ -8,7 +8,7 @@ using System.IO;
  * This class should be the mother class of all Passives of our game.
  * The main goal of this script is to create a passive from its JSON file.
  **/
-public abstract class PassiveBase : MonoBehaviour
+public abstract class PassiveBase : MonoBehaviour, IDisplayable
 {
 
     /** Fields of PassiveBase
@@ -17,13 +17,17 @@ public abstract class PassiveBase : MonoBehaviour
      * We should always work with these public fields and never with the raw data of the JSON.
      **/
     #region Fields  	
-    private PassiveData _passiveDefinition { get; set; }
-    public string Name;
-    public int[] Damages;
-    public string[] DamagesType;
-    public string[] OtherValues;
+    public PassiveData _passiveDefinition { get; protected set; }
+    public string Name { get; protected set; }
+    public string Element { get; protected set; }
+    public float CoolDownValue { get; protected set; }
+    public int[] Damages { get; protected set; }
+    public string[] DamagesType { get; protected set; }
+    public string[] OtherValues { get; protected set; }
+    public GameObject[] Status { get; protected set; }
+    public string[] Description { get; protected set; }
+
     public int NumberOfStacks;
-    public string[] Description;
     #endregion
 
     #region Functional methods
@@ -76,7 +80,7 @@ public abstract class PassiveBase : MonoBehaviour
 	 **/
     public string GetDescriptionGUI()
     {
-        return StringHelper.PassiveDescriptionBuilder(this);
+        return StringHelper.DescriptionBuilder(this);
     }
 
     #endregion
@@ -99,4 +103,3 @@ public abstract class PassiveBase : MonoBehaviour
     }
     #endregion
 }
-

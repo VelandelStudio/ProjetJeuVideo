@@ -25,6 +25,12 @@ public class GUISpellDisplayer : MonoBehaviour
     private Text _spellTextDescription;
     private int _numberOfStacks;
 
+
+    public Spell GetSpell()
+    {
+        return _spell;
+    }
+
     /** Start private void Method
 	 * The start method de-activate the _spellAvailableForGUI component by default.
 	 * Basically, the spell Image is only CD dependant.
@@ -90,21 +96,5 @@ public class GUISpellDisplayer : MonoBehaviour
             _stackImage.enabled = true;
             _backgroundStack.enabled = true;
         }
-    }
-
-    /** MouseEnter, public void Method
-	 * This Method is launched with an event trigger when the mouse enters the spell icon on the screen
-	 **/
-    public void MouseEnter()
-    {
-        GUIDescriptionDisplayer.DisplayDescriptionOnScreen(_spellTextDescription, _spellImgDescription, _spell.GetDescriptionGUI());
-    }
-
-    /** MouseExit, public void Method
-	 * This Method is launched with an event trigger when the mouse exits the spell icon on the screen
-	 **/
-    public void MouseExit()
-    {
-        GUIDescriptionDisplayer.CancelDescriptionOnScreen(_spellTextDescription, _spellImgDescription);
     }
 }
