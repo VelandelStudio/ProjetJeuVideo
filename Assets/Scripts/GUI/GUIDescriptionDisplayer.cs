@@ -24,45 +24,21 @@ public class GUIDescriptionDisplayer : MonoBehaviour
         _type.enabled = false;
     }
 
-    /** DisplaySpellDescription, public void
-	 * Enable graphic elements and display the description of the spell inside the spellDisplayer.
+    /** DisplayDescription, public void
+	 * Enable graphic elements and display the description of the displayable.
 	 * Also enable the element and type images.
 	 **/
-    public void DisplaySpellDescription(GUISpellDisplayer spellDisplayer)
+    public void DisplayDescription(Behaviour obj)
     {
-        Spell spell = spellDisplayer.GetSpell();
-        _imageZone.enabled = true;
-        _textZone.enabled = true;
-        _textZone.text = spell.GetDescriptionGUI();
-        SetElementSprite(spell.Element);
-        SetTypeSprite(spell.DamagesType);
-    }
-
-    /** DisplayAutoAttackDescription, public void
-	 * Enable graphic elements and display the description of the autoAttack inside the autoAttackDisplayer.
-	 * Also enable the element and type images.
-	 **/
-    public void DisplayAutoAttackDescription(GUIAutoAttackDisplayer autoAttackDisplayer)
-    {
-        AutoAttackBase autoAttack = autoAttackDisplayer.GetAutoAttack();
-        _imageZone.enabled = true;
-        _textZone.enabled = true;
-        _textZone.text = autoAttack.GetDescriptionGUI();
-        SetElementSprite(autoAttack.Element);
-        SetTypeSprite(autoAttack.DamagesType);
-    }
-
-    /** DisplayPassiveDescription, public void
-	 * Enable graphic elements and display the description of the passive inside the passiveDisplayer.
-	 * Also enable the element and type images.
-	 **/
-    public void DisplayPassiveDescription(GUIPassiveDisplayer passiveDisplayer)
-    {
-        PassiveBase passive = passiveDisplayer.GetPassive();
-        _imageZone.enabled = true;
-        _textZone.enabled = true;
-        _textZone.text = passive.GetDescriptionGUI();
-        SetTypeSprite(passive.DamagesType);
+        if (obj is IDisplayer)
+        {
+            IDisplayer displayer = (IDisplayer)obj;
+            _imageZone.enabled = true;
+            _textZone.enabled = true;
+            _textZone.text = displayer.Displayable.GetDescriptionGUI();
+            SetElementSprite(displayer.Displayable.Element);
+            SetTypeSprite(displayer.Displayable.DamagesType);
+        }
     }
 
     /** CancelDescriptionOnScreen, public void
