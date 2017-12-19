@@ -15,7 +15,7 @@
 		"Description":
 		[
 			"Your next Conflagration has {OtherValues[0]}% chance to propagate Ignites on targets caught in the explosion.\n",
-			"The Favor of Fire lasts for {Duration} seconds or until the next use of Conflagration."
+			"The Favor of Fire lasts for {Duration} seconds or until the next use of <<Conflagration>>."
 		]
 	},
 	{

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,10 @@ public class GUIAutoAttackDisplayer : MonoBehaviour
     [SerializeField] private Image _autoAttackCD;
 
     private Text _autoAttackDescription;
+    public AutoAttackBase GetAutoAttack()
+    {
+        return _autoAttackBase;
+    }
     #endregion
 
     #region Functionnal Methods	
@@ -49,24 +54,6 @@ public class GUIAutoAttackDisplayer : MonoBehaviour
         {
             autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");
         }
-    }
-    #endregion
-
-    #region Trigger Events	
-    /** MouseEnter, public void Method
-	 * This Method is launched with an event trigger when the mouse enters the autoAttack icon on the screen
-	**/
-    public void MouseEnter()
-    {
-        GUIDescriptionDisplayer.DisplayDescriptionOnScreen(_autoAttackDescription, _autoAttackImgDescription, _autoAttackBase.GetDescriptionGUI());
-    }
-
-    /** MouseExit, public void Method
-	 * This Method is launched with an event trigger when the mouse exits the autoAttack icon on the screen
-	**/
-    public void MouseExit()
-    {
-        GUIDescriptionDisplayer.CancelDescriptionOnScreen(_autoAttackDescription, _autoAttackImgDescription);
     }
     #endregion
 }

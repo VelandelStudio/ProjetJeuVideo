@@ -9,7 +9,6 @@ using UnityEngine;
 public class FireBlessingSpell : Spell
 {
     private GameObject _fireBlessingStatus;
-    private int _durationOfCritSuccess;
 
     /** Start : protected override void Method
 	 * We launch the mother Method to initialize the spell.
@@ -33,8 +32,7 @@ public class FireBlessingSpell : Spell
         {
             return;
         }
-        _durationOfCritSuccess = int.Parse(OtherValues[0]);
-        GameObject fireBlessingInst = ApplyStatus(Status[0], transform);
+        ApplyStatus(Status[0], transform);
         base.OnSpellLaunched();
     }
 }

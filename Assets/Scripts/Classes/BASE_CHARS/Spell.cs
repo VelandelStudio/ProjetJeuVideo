@@ -8,7 +8,7 @@ using System.IO;
  * This abstract class is the mother class of all spells in our game. 
  * This class handles the behaviour the CD of all spells. It also contains the LaunchSpell method launched by the Classe.
  **/
-public abstract class Spell : MonoBehaviour
+public abstract class Spell : MonoBehaviour, IDisplayable
 {
     /** Fields of Spell
      * The Spell class contains a lot of differents fields.
@@ -19,17 +19,18 @@ public abstract class Spell : MonoBehaviour
      * The SpellGCD field is used to set a GlobalCooldown to all Spells. Is a Spell is under GCD, the field IsUnderGCD is true.
      **/
     #region Fields
-    private SpellData SpellDefinition;
-    public string Name;
-    public string Element;
-    public float CoolDownValue;
+    public SpellData SpellDefinition { get; protected set; }
+    public string Name { get; protected set; }
+    public string Element { get; protected set; }
+    public float CoolDownValue { get; protected set; }
+    public int[] Damages { get; protected set; }
+    public string[] DamagesType { get; protected set; }
+    public string[] OtherValues { get; protected set; }
+    public GameObject[] Status { get; protected set; }
+    public string[] Description { get; protected set; }
+
     public bool HasGCD;
-    public int[] Damages;
-    public string[] DamagesType;
-    public string[] OtherValues;
     public int NumberOfStacks;
-    public GameObject[] Status;
-    public string[] Description;
 
     protected bool spellInUse = false;
     protected Character champion;
@@ -181,7 +182,7 @@ public abstract class Spell : MonoBehaviour
 	 **/
     public string GetDescriptionGUI()
     {
-        return StringHelper.SpellDescriptionBuilder(this);
+        return StringHelper.DescriptionBuilder(this);
     }
 
     /** LoadSpellData, protected void
