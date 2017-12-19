@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 /** GUIPassiveDisplayer, public class
  * This Class is attached to the GUI elements that handles the Behaviour of the PassiveSpell of the Player.
  **/
-public class GUIPassiveDisplayer : MonoBehaviour
+public class GUIPassiveDisplayer : MonoBehaviour, IDisplayer
 {
 
     /** Fields of GUIPassiveDisplayer
@@ -15,15 +16,16 @@ public class GUIPassiveDisplayer : MonoBehaviour
      **/
     #region Fields
 
-    [SerializeField] private Image _PassiveImgDescription;
+    [SerializeField] private Image _passiveImgDescription;
     [SerializeField] private Text _stackText;
     [SerializeField] private Image _stackBackground;
-    private Text _PassiveDescription;
+    private Text _passiveDescription;
     private PassiveBase _passive;
 
-    public PassiveBase GetPassive()
+    public IDisplayable Displayable
     {
-        return _passive;
+        get { return _passive; }
+        protected set { }
     }
     #endregion
 
@@ -33,9 +35,8 @@ public class GUIPassiveDisplayer : MonoBehaviour
 	 **/
     private void Start()
     {
-        _PassiveDescription = _PassiveImgDescription.GetComponentInChildren<Text>();
-        _PassiveImgDescription.enabled = false;
-        _PassiveDescription.enabled = false;
+        _passiveDescription = _passiveImgDescription.GetComponentInChildren<Text>();
+        _passiveDescription.enabled = false;
         _stackBackground.enabled = false;
         _stackText.enabled = false;
     }
@@ -59,43 +60,25 @@ public class GUIPassiveDisplayer : MonoBehaviour
         }
     }
 
-    /** AttributeSpellToGUI public void Method
+    /** AttributeDisplayable public void Method
+	 * @Param : IDisplayable
 	 * This method should be only called by the Character class when the class is constructed.
 	 * We get every elements we need to displays informations to the screen (Image, number of stacks, instance of Passive etc..)
 	 **/
-    public void AttributePassiveToGUI(PassiveBase passive)
+    public void AttributeDisplayable(IDisplayable displayable)
     {
-        _passive = passive;
-        Image passiveImage = GetComponent<Image>();
-        passiveImage.sprite = Resources.Load<Sprite>("Images/Passive/" + _passive.GetComponent<Character>().GetType().ToString() + "/" + _passive.GetType());
-        if (passiveImage.sprite == null)
+        _passive = (PassiveBase)displayable;
+        _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/Passive/" + _passive.GetComponent<Character>().GetType().ToString() + "/" + _passive.GetType());
+        if (_passiveImgDescription.sprite == null)
         {
-            passiveImage.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");
+            _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");
         }
 
-        if (passive.NumberOfStacks > 0)
+        if (_passive.NumberOfStacks > 0)
         {
             _stackText.enabled = true;
             _stackBackground.enabled = true;
         }
-    }
-    #endregion
-
-    #region TriggerEvents	
-    /** MouseEnter, public void Method
-	 * This Method is launched with an event trigger when the mouse enters the Passive icon on the screen
-	**/
-    public void MouseEnter()
-    {
-        //GUIDescriptionDisplayer.DisplayDescriptionOnScreen(_PassiveDescription, _PassiveImgDescription, _passive.GetDescriptionGUI());
-    }
-
-    /** MouseExit, public void Method
-	 * This Method is launched with an event trigger when the mouse exits the Passive icon on the screen
-	**/
-    public void MouseExit()
-    {
-        //GUIDescriptionDisplayer.CancelDescriptionOnScreen(_PassiveDescription, _PassiveImgDescription);
     }
     #endregion
 }

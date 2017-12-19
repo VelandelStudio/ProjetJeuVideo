@@ -981,11 +981,11 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114948506711659012}
-          m_MethodName: DisplaySpellDescription
+          m_MethodName: DisplayDescription
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 114332142395119412}
-            m_ObjectArgumentAssemblyTypeName: GUISpellDisplayer, Assembly-CSharp
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -1365,11 +1365,11 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114948506711659012}
-          m_MethodName: DisplaySpellDescription
+          m_MethodName: DisplayDescription
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 114579555397701818}
-            m_ObjectArgumentAssemblyTypeName: GUISpellDisplayer, Assembly-CSharp
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -1445,11 +1445,11 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114948506711659012}
-          m_MethodName: DisplayAutoAttackDescription
+          m_MethodName: DisplayDescription
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 114876423684696734}
-            m_ObjectArgumentAssemblyTypeName: GUIAutoAttackDisplayer, Assembly-CSharp
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -1778,11 +1778,11 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114948506711659012}
-          m_MethodName: DisplaySpellDescription
+          m_MethodName: DisplayDescription
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 114353980219383420}
-            m_ObjectArgumentAssemblyTypeName: GUISpellDisplayer, Assembly-CSharp
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2123,11 +2123,11 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114948506711659012}
-          m_MethodName: DisplaySpellDescription
+          m_MethodName: DisplayDescription
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 114192027803428220}
-            m_ObjectArgumentAssemblyTypeName: GUISpellDisplayer, Assembly-CSharp
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2224,11 +2224,11 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114948506711659012}
-          m_MethodName: DisplayPassiveDescription
+          m_MethodName: DisplayDescription
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 114814222246468650}
-            m_ObjectArgumentAssemblyTypeName: GUIPassiveDisplayer, Assembly-CSharp
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2493,7 +2493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a6de1573438ea479f069d668c45f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _PassiveImgDescription: {fileID: 114383360613707692}
+  _passiveImgDescription: {fileID: 0}
   _stackText: {fileID: 114012995400880504}
   _stackBackground: {fileID: 114456312035988384}
 --- !u!114 &114876423684696734

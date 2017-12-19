@@ -51,7 +51,5 @@ public class IgniteStatus : StatusBase, IDebuff
     public override void StatusTickBehaviour()
     {
         _entity.DamageFor(Damages[0]);
-
-        Debug.Log("IgniteStatus Tick !");
     }
 }

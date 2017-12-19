@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUIAutoAttackDisplayer : MonoBehaviour
+/** GUIAutoAttackDisplayer, public class
+ * @Implements : IDisplayer
+ * This Class is attached to the GUI elements that handles the Behaviour of the AutoAttackBase of the Player.
+ **/
+public class GUIAutoAttackDisplayer : MonoBehaviour, IDisplayer
 {
 
     #region Fields
@@ -14,9 +18,10 @@ public class GUIAutoAttackDisplayer : MonoBehaviour
     [SerializeField] private Image _autoAttackCD;
 
     private Text _autoAttackDescription;
-    public AutoAttackBase GetAutoAttack()
+    public IDisplayable Displayable
     {
-        return _autoAttackBase;
+        get { return _autoAttackBase; }
+        protected set { }
     }
     #endregion
 
@@ -39,15 +44,15 @@ public class GUIAutoAttackDisplayer : MonoBehaviour
         _autoAttackCD.fillAmount = _autoAttackBase.CurrentCD / _autoAttackBase.CoolDownValue;
     }
 
-    /** AttributeAutoAttackToGUI public void Method
-	 * @Params : AutoAttackBase
+    /** AttributeDisplayable public void Method
+	 * @Params : IDisplayable
 	 * This public method should only be called by the Character script so far.
 	 * In this method, we attribute to the Gui the correct autoAttack.
 	 * Then, we try to locate a Sprite associated to the autoAttack in the Image Folder associated to the Character.
 	 **/
-    public void AttributeAutoAttackToGUI(AutoAttackBase autoAttackBase)
+    public void AttributeDisplayable(IDisplayable displayable)
     {
-        _autoAttackBase = autoAttackBase;
+        _autoAttackBase = (AutoAttackBase)displayable;
         Image autoAttackBaseImage = GetComponent<Image>();
         autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/AutoAttacks/" + _autoAttackBase.GetComponent<Character>().GetType().ToString() + "/" + _autoAttackBase.GetType());
         if (autoAttackBaseImage.sprite == null)
