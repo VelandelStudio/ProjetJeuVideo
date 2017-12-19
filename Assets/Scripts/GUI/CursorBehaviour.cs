@@ -44,13 +44,22 @@ public class CursorBehaviour : MonoBehaviour
         }
     }
 
-    public static void DisplayTooltip(string description)
+    /** DisplayTooltip, public static void method
+	 * @param : IDisplayable
+	 * Attribute the Displayable description to the tooltip on the screen.
+	 * Then we enable the tooltip image and text next to the mouse.
+	 **/
+    public static void DisplayTooltip(IDisplayable displayable)
     {
+        string description = displayable.GetDescriptionGUI();
         _tooltip.GetComponent<Image>().enabled = true;
         _tooltip.GetComponentInChildren<Text>().text = description;
         _tooltip.transform.position = Input.mousePosition;
     }
 
+    /** CancelTooltip, public static void method
+	 * Remove the tooltip of the screen.
+	 **/
     public static void CancelTooltip()
     {
         _tooltip.GetComponent<Image>().enabled = false;

@@ -20,7 +20,6 @@ public class FavorOfFireStatus : StatusBase, IBuff
      **/
     public override void OnStatusApplied()
     {
-        Debug.Log("FavorOfFire Created !");
         _conflagration = GetComponentInParent<ConflagrationSpell>();
         _conflagration.CritSuccess = true;
     }

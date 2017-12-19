@@ -13,7 +13,6 @@ public class SolarBall : LinearProjectile
         projectileSpeed = 300f;
         launcher = transform.parent;
         target = launcher.GetComponentInParent<SolarBurnSpell>().TargetOfSolarBurn;
-        Debug.Log(target);
         base.Start();
     }
 

@@ -48,7 +48,7 @@ public class ConflagrationSpell : Spell
 	 * If the random is a success, we instantiate a fresh Ignite child of the target (by adding a new one or reseting the current one).
 	 * After that, we add the new Frsh targets with fresh ignites to the targetsToAdd List. Then, we refresh the targetsExploded list, by adding the target that just exploded
 	 * These steps ensures that targets can not explode 2 times and get a new fresh igniteStatus after an explosion.
-	 * Then, we clear the old ignites on explosed targets and we add the new fresh targets to the target List. We also ensure that CritSuccess is reset to false.
+	 * Then, we clear the old ignites on explosed targets and we add the new fresh targets to the target List. We also ensure that CritSuccess is reset to false and we clear the FireBlessingSpell Status.
 	 * Finally we call the OnSpellLaunched mother method to tell the spell is not in use anymore.
 	 **/
     public override void LaunchSpell()
@@ -97,6 +97,12 @@ public class ConflagrationSpell : Spell
         TargetsExploded.Clear();
         Targets.Clear();
         Targets = targetsToAdd;
+
+        if (CritSuccess)
+        {
+            GetComponentInChildren<FavorOfFireStatus>().DestroyStatus();
+        }
+
         CritSuccess = false;
         base.OnSpellLaunched();
     }
