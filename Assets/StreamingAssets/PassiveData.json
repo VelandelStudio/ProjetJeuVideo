@@ -6,6 +6,7 @@
 		"DamagesType":[],
 		"OtherValues":["20","25"],
 		"NumberOfStacks":0,
+		"Status":[""],
 		"Description":
 		[
 			"For each monster affected by Ignite, you earn {OtherValues[0]}% additionnal critical rate.\n",
@@ -19,6 +20,7 @@
 		"DamagesType":[],
 		"OtherValues":["15","30","10"],
 		"NumberOfStacks":0,
+		"Status":["WindSpiritFavorStatus"],
 		"Description":
 		[
 			"Each time the autoAttack hits an enemy, you have {OtherValues[0]}% chance to apply WindSpiritFavor in {OtherValues[1]} range's units.\n",
