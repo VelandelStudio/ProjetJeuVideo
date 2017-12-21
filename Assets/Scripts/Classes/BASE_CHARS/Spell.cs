@@ -177,7 +177,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
     }
 
     /**GetDescriptionGUI, public string Method
-	 * Return the descreiption of our spell built by the SpellDescriptionBuilder of the StringHelper static class.
+	 * Return the description of our spell built by the DescriptionBuilder of the StringHelper static class.
 	 * This method allows to get a dynamic and colored description on the screen.
 	 **/
     public string GetDescriptionGUI()

@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /** GUISpellDisplayer class
+ * @Implements : IDisplayer
  * This script should be associated to GUI Slots that represents Spells on the screen.
  * This script is used to display images, CD, descriptions and every informations we have about spells.
  **/
-public class GUISpellDisplayer : MonoBehaviour
+public class GUISpellDisplayer : MonoBehaviour, IDisplayer
 {
     /** Fields contains a Spell, associated to the Displayer and two images.
 	 * The _CDSpellImage is a rotative image filler that is filled by the CD value of the spell.
@@ -25,10 +26,10 @@ public class GUISpellDisplayer : MonoBehaviour
     private Text _spellTextDescription;
     private int _numberOfStacks;
 
-
-    public Spell GetSpell()
+    public IDisplayable Displayable
     {
-        return _spell;
+        get { return _spell; }
+        protected set { }
     }
 
     /** Start private void Method
@@ -74,15 +75,15 @@ public class GUISpellDisplayer : MonoBehaviour
         }
     }
 
-    /** AttributeSpellToGUI public void Method
-	 * @Params : Spell
+    /** AttributeDisplayable public void Method
+	 * @Params : IDisplayable
 	 * This public method should only be called by the Character script so far.
 	 * In this method, we attribute to the Gui the correct spell.
 	 * Then, we try to locate a Sprite associated to the spell in the Image Folder associated to the Character.
 	 **/
-    public void AttributeSpellToGUI(Spell spell)
+    public void AttributeDisplayable(IDisplayable displayable)
     {
-        _spell = spell;
+        _spell = (Spell)displayable;
         Image spellImage = GetComponent<Image>();
         spellImage.sprite = Resources.Load<Sprite>("Images/Spells/" + _spell.GetComponent<Character>().GetType().ToString() + "/" + _spell.GetType());
         if (spellImage.sprite == null)
@@ -90,7 +91,7 @@ public class GUISpellDisplayer : MonoBehaviour
             spellImage.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");
         }
 
-        if (spell is StackableSpell)
+        if (_spell is StackableSpell)
         {
             _stackText.enabled = true;
             _stackImage.enabled = true;

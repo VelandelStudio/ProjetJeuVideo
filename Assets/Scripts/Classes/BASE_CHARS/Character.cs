@@ -125,7 +125,7 @@ public abstract class Character : MonoBehaviour
 	 * This method is called by the Start method. The Objective of the method is to get the Passive spell name in the characterData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, the HandleException(1) is launched.
-	 * After that, we call the AttributePassiveToClass method to give to the GUI all information in requires to display informations about the Passive.
+	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about the Passive.
 	 **/
     protected virtual void AttributePassiveToClass()
     {
@@ -137,14 +137,14 @@ public abstract class Character : MonoBehaviour
         }
         passiveBase = (PassiveBase)gameObject.AddComponent(t);
         GUIPassiveDisplayer passiveDisplayer = GameObject.Find("Passive").GetComponent<GUIPassiveDisplayer>();
-        passiveDisplayer.AttributePassiveToGUI(passiveBase);
+        passiveDisplayer.AttributeDisplayable(passiveBase);
     }
 
     /** AttributeAutoAttackToClass protected virtual void Method.
 	 * This method is called by the Start method. The Objective of the method is to get the AutoAttack spell name in the characterData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, the HandleException(2) is launched.
-	 * After that, we call the AttributeAutoAttackToClass method to give to the GUI all information in requires to display informations about the AutoAttack.
+	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about the AutoAttack.
 	 **/
     protected virtual void AttributeAutoAttackToClass()
     {
@@ -157,14 +157,14 @@ public abstract class Character : MonoBehaviour
         autoAttack = (AutoAttackBase)gameObject.AddComponent(t);
 
         GUIAutoAttackDisplayer autoAttackDisplayer = GameObject.Find("AutoAttack").GetComponent<GUIAutoAttackDisplayer>();
-        autoAttackDisplayer.AttributeAutoAttackToGUI(autoAttack);
+        autoAttackDisplayer.AttributeDisplayable(autoAttack);
     }
 
     /** AttributeSpellsToClass protected virtual void Method.
 	 * This method is called by the Start method. The Objective of the method is to get the spell names in the characterData instance.
 	 * Then, it get all of the script in the scripts library and attach it to the player.
 	 * If one of the scripts is not found or mispelled, the HandleException(3) is launched.
-	 * After that, we call the AttributeSpellToGUI method to give to the GUI all information in requires to display informations about each spell.
+	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about each spell.
 	 **/
     protected virtual void AttributeSpellsToClass()
     {
@@ -180,7 +180,7 @@ public abstract class Character : MonoBehaviour
             spells.Add(spellToAdd);
 
             GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + i).GetComponent<GUISpellDisplayer>();
-            spellDisplayer.AttributeSpellToGUI(spellToAdd);
+            spellDisplayer.AttributeDisplayable(spellToAdd);
         }
     }
 

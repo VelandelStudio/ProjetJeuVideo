@@ -95,7 +95,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
             GameObject statusGUIInst = (GameObject)Resources.Load("GUI/StatusGUI", typeof(GameObject));
             statusGUIInst = Instantiate(statusGUIInst, statusSection.transform);
             statusDisplayer = statusGUIInst.GetComponent<GUIStatusDisplayer>();
-            statusDisplayer.AttributeStatusBase(this);
+            statusDisplayer.AttributeDisplayable(this);
         }
 
         OnStatusApplied();
@@ -127,8 +127,6 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
      **/
     public virtual void ResetStatus()
     {
-        Debug.Log("Reset Status");
-
         if (transform.parent.gameObject.tag == "Player")
         {
             statusDisplayer.ResetGUIStatus();
@@ -157,6 +155,15 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
 
         Destroy(gameObject);
     }
+
+    /** GetDescriptionGUI, public string method
+	 * return a formated string of the description of the Statusthat will be displayed on the screen.
+	 **/
+    public string GetDescriptionGUI()
+    {
+        return StringHelper.DescriptionBuilder(this);
+    }
+
     #endregion
 
     /** LoadStatusData, protected void

@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /** GUIStatusDisplayer, public class
+ * @Implements IDisplayer 
  * Displayer that handles informations when the player receive a Status. 
  **/
-public class GUIStatusDisplayer : MonoBehaviour
+public class GUIStatusDisplayer : MonoBehaviour, IDisplayer
 {
-
-    public StatusBase Status;
+    private StatusBase _status;
     [SerializeField] private Image _StatusImage;
     [SerializeField] private Image _CDImage;
     [SerializeField] private Text _CDText;
@@ -17,19 +17,24 @@ public class GUIStatusDisplayer : MonoBehaviour
 
     private float _duration;
 
-    /** AttributeStatusBase, public void method
-     * @param : StatusBase
+    public IDisplayable Displayable
+    {
+        get { return _status; }
+        protected set { }
+    }
+    /** AttributeDisplayable, public void method
+     * @param : IDisplayable
      * This method is launched by the StatusBase when the Status is Applied.
-     * We set everything we need t(o display informations of the Status (passed as a parameter) on the screen.
+     * We set everything we need to display informations of the Status (passed as a parameter) on the screen.
      * If the StatusBase implements IBuff then the outline is green, else, it is red.
      **/
-    public void AttributeStatusBase(StatusBase status)
+    public void AttributeDisplayable(IDisplayable displayable)
     {
-        Status = status;
-        _duration = status.Duration;
+        _status = (StatusBase)displayable;
+        _duration = _status.Duration;
         _CDImage.fillAmount = 0;
-        _CDText.text = ((int)Status.Duration + 1).ToString();
-        if (status is IBuff)
+        _CDText.text = ((int)_status.Duration + 1).ToString();
+        if (_status is IBuff)
         {
             _outline.effectColor = Color.green;
         }
@@ -44,8 +49,8 @@ public class GUIStatusDisplayer : MonoBehaviour
      **/
     public void ResetGUIStatus()
     {
-        _duration = Status.Duration;
-        _CDText.text = ((int)Status.Duration + 1).ToString();
+        _duration = _status.Duration;
+        _CDText.text = ((int)_status.Duration + 1).ToString();
     }
 
     /** DestroyGUIStatus, public void method
@@ -64,14 +69,14 @@ public class GUIStatusDisplayer : MonoBehaviour
      **/
     protected void Update()
     {
-        if (Status == null)
+        if (_status == null)
         {
             return;
         }
 
         _duration -= Time.deltaTime;
         _CDText.text = ((int)_duration + 1).ToString();
-        _CDImage.fillAmount = 1 - _duration / Status.Duration;
+        _CDImage.fillAmount = 1 - _duration / _status.Duration;
     }
 
     /** MouseEnter, public void Method
@@ -79,7 +84,7 @@ public class GUIStatusDisplayer : MonoBehaviour
 	 **/
     public void MouseEnter()
     {
-        CursorBehaviour.DisplayTooltip(StringHelper.DescriptionBuilder(Status));
+        CursorBehaviour.DisplayTooltip(Displayable);
     }
 
     /** MouseExit, public void Method
