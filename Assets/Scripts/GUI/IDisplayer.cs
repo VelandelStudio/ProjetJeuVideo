@@ -4,4 +4,5 @@
 public interface IDisplayer
 {
     IDisplayable Displayable { get; }
+    void AttributeDisplayable(IDisplayable displayable);
 }
