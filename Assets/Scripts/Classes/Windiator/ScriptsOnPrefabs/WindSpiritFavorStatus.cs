@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class WindSpiritFavorStatus : StatusBase, IBuff
 {
+    private EntityLivingBase _entity;
+    private List<GameObject> _statusApplier;
+
+    protected override void Start()
+    {
+        _entity = GetComponentInParent<EntityLivingBase>();
+    }
+
     public override void OnStatusApplied()
     {
         Debug.Log("Buffed");
+
+        
     }
 
     public override void StatusTickBehaviour()

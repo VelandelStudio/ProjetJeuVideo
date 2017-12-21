@@ -22,6 +22,7 @@
 		"Damages":[7],
 		"DamagesType":["p"],
 		"OtherValues":["15","30"],
+		"Status":[""],
 		"Description":
 		[
 			"Hit the enemy with the strength of the wind and the spirit of the bambou and deal {Damages[0]} damages to target.\n",
