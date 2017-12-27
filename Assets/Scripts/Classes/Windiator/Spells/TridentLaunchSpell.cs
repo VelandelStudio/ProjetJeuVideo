@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TridentLaunch : Spell {
-
+public class TridentLaunchSpell : Spell {
 
 }

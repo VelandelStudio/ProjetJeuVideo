@@ -6,8 +6,8 @@ using UnityEngine;
 /// MeleAttack class
 /// This Abstract class contains all methods to do an Attack with a physical weapon (sword, spear etc...)
 /// </summary>
-[RequireComponent(typeof(Collider))]
-public abstract class MeleAttack : MonoBehaviour {
+//[RequireComponent(typeof(Collider))]
+public class MeleAttack : MonoBehaviour {
 
     protected Collider _arme;
 
@@ -27,7 +27,10 @@ public abstract class MeleAttack : MonoBehaviour {
     /// Will be called in the child class to Check if the Weapon touch an enemy
     /// </summary>
     /// <param name="other">is an Enemy (EntityLivingBase)</param>
-    protected abstract void OnTriggerEnter(Collider other);
+    protected void OnTriggerEnter(Collider other)
+    {
+
+    }
 
     /// <summary>
     /// SwapEnableArmeCol method

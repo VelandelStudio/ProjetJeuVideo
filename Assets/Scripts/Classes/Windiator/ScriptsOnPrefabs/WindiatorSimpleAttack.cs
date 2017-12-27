@@ -24,7 +24,7 @@ public class WindiatorSimpleAttack : MeleAttack {
     /// If true it applies damages and disable the Collider of the weapon
     /// </summary>
     /// <param name="other">is an Enemy (EntityLivingBase)</param>
-    protected override void OnTriggerEnter(Collider other)
+    protected new void OnTriggerEnter(Collider other)
     {
         EntityLivingBase entityHit = other.gameObject.GetComponent<EntityLivingBase>();
   

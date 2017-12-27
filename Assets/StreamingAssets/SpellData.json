@@ -50,6 +50,22 @@
 		]
 	},
 	{
+		"ScriptName":"GustSpell",
+		"Name":"Gust",
+		"Element":"Storm",
+		"CoolDownValue":30.0,
+		"HasGCD":true,
+		"Damages":[],
+		"DamagesType":["m"],
+		"OtherValues":[25,30],
+		"NumberOfStacks":0,
+		"Status":["GustStatus"],
+		"Description":
+		[
+			""
+		]
+	},
+	{
 		"ScriptName":"SolarBurnSpell",
 		"Name":"Solar Burn",
 		"Element":"Fire",
@@ -66,6 +82,54 @@
 			"At the impact, if the Solar Burn hits an entity, it sudden {Damages[0]} damages.\n",
 			"Otherwise, every target caught in the explosion sudden {Damages[1]} damages.\n",
 			"Critical hits inflicts 4x more damages instand of 2x."
+		]
+	},
+	{
+		"ScriptName":"StormWallSpell",
+		"Name":"StormWall",
+		"Element":"Storm",
+		"CoolDownValue":12.0,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[15,20,10],
+		"NumberOfStacks":0,
+		"Status":["BackWindStatus","InsideStormStatus"],
+		"Description":
+		[
+			""
+		]
+	},
+	{
+		"ScriptName":"TridentLaunchSpell",
+		"Name":"TridentLaunch",
+		"Element":"Storm",
+		"CoolDownValue":6.0,
+		"HasGCD":true,
+		"Damages":[50],
+		"DamagesType":["p"],
+		"OtherValues":[15],
+		"NumberOfStacks":0,
+		"Status":[],
+		"Description":
+		[
+			""
+		]
+	},
+	{
+		"ScriptName":"WindStrikeSpell",
+		"Name":"WindStrike",
+		"Element":"Storm",
+		"CoolDownValue":10.0,
+		"HasGCD":true,
+		"Damages":[30],
+		"DamagesType":["p"],
+		"OtherValues":[5,0.5],
+		"NumberOfStacks":0,
+		"Status":["KnockupStatus"],
+		"Description":
+		[
+			""
 		]
 	}
 ]

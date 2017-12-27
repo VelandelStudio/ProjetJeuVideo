@@ -1,5 +1,23 @@
 [
 	{
+		"ScriptName":"BackWindStatus",
+		"Name":"BackWind",
+		"Element":"Storm",
+		"Duration":3,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":["m"],
+		"OtherValues":[30],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			""
+		]
+	},
+	{
 		"ScriptName":"FavorOfFireStatus",
 		"Name":"Favor of Fire",
 		"Element":"Fire",
@@ -17,6 +35,39 @@
 			"Your next Conflagration has {OtherValues[0]}% chance to propagate Ignites on targets caught in the explosion.\n",
 			"The Favor of Fire lasts for {Duration} seconds or until the next use of <<Conflagration>>."
 		]
+	},
+	{
+		"ScriptName":"GustStatus",
+		"Name":"Wind Gust",
+		"Element":"Storm",
+		"Duration":12,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":["m"],
+		"OtherValues":[25],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			""
+		]
+	},
+	{
+		"ScriptName":"HighlightStatus",
+		"Name":"Highlight",
+		"Element":"",
+		"Duration":0.05,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[""],
+		"OtherValues":[""],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":[""]
 	},
 	{
 		"ScriptName":"IgniteStatus",
@@ -37,19 +88,40 @@
 		]
 	},
 	{
-		"ScriptName":"HighlightStatus",
-		"Name":"Highlight",
-		"Element":"",
-		"Duration":0.05,
+		"ScriptName":"InsideStormStatus",
+		"Name":"InsideStorm",
+		"Element":"Storm",
+		"Duration":3,
 		"IsTickable":false,
 		"TicksIntervals":[],
 		"TickStarts":[],
 		"Damages":[],
-		"DamagesType":[""],
-		"OtherValues":[""],
+		"DamagesType":["m"],
+		"OtherValues":[30],
 		"IsStackable":false,
 		"NumberOfStacks":0,
-		"Description":[""]
+		"Description":
+		[
+			""
+		]
+	},
+		{
+		"ScriptName":"KnockupStatus",
+		"Name":"WindPush",
+		"Element":"Storm",
+		"Duration":0.5,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			""
+		]
 	},
 	{
 		"ScriptName":"TransparentStatus",

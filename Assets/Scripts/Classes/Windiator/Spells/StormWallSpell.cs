@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gust : Spell {
-
+public class StormWallSpell : Spell {
 
 }

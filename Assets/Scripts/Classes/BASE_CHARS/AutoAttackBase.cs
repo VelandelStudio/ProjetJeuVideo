@@ -37,7 +37,6 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     protected void Awake()
     {
         LoadAutoAttackData("AutoAttackData.json");
-        Debug.Log(AutoAttackDefinition.Name);
         Name = AutoAttackDefinition.Name;
         Element = AutoAttackDefinition.Element;
         CoolDownValue = AutoAttackDefinition.CoolDownValue;
