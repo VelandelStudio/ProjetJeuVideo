@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnockupStatus : StatusBase
+public class WindPushStatus : StatusBase
 {
     public override void OnStatusApplied()
     {

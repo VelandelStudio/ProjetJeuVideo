@@ -126,7 +126,7 @@
 		"DamagesType":["p"],
 		"OtherValues":[5,0.5],
 		"NumberOfStacks":0,
-		"Status":["KnockupStatus"],
+		"Status":["WindPushStatus"],
 		"Description":
 		[
 			""

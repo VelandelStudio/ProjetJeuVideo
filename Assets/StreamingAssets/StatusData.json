@@ -1,7 +1,7 @@
 [
 	{
 		"ScriptName":"BackWindStatus",
-		"Name":"BackWind",
+		"Name":"Back Wind",
 		"Element":"Storm",
 		"Duration":3,
 		"IsTickable":false,
@@ -38,7 +38,7 @@
 	},
 	{
 		"ScriptName":"GustStatus",
-		"Name":"Wind Gust",
+		"Name":"Gust",
 		"Element":"Storm",
 		"Duration":12,
 		"IsTickable":false,
@@ -89,7 +89,7 @@
 	},
 	{
 		"ScriptName":"InsideStormStatus",
-		"Name":"InsideStorm",
+		"Name":"Inside Storm",
 		"Element":"Storm",
 		"Duration":3,
 		"IsTickable":false,
@@ -106,8 +106,8 @@
 		]
 	},
 		{
-		"ScriptName":"KnockupStatus",
-		"Name":"WindPush",
+		"ScriptName":"WindPushStatus",
+		"Name":"Wind Push",
 		"Element":"Storm",
 		"Duration":0.5,
 		"IsTickable":false,
@@ -140,7 +140,7 @@
 	},
 	{
 		"ScriptName":"WindSpiritFavorStatus",
-		"Name":"WindSpiritFavor",
+		"Name":"Wind Spirit Favor",
 		"Element":"Storm",
 		"Duration":8,
 		"IsTickable":false,
