@@ -9,7 +9,7 @@
 		"Name":"Windiator",
 		"Passive":"PassiveWindiator",
 		"AutoAttack":"AutoAttackWindiator",
-		"ActiveSpells":["WindStrike", "StormWall", "TridentLaunch", "Gust"]
+		"ActiveSpells":["WindStrikeSpell", "StormWallSpell", "TridentLaunchSpell", "GustSpell"]
 	},
 	{
 		"Name":"Test",
