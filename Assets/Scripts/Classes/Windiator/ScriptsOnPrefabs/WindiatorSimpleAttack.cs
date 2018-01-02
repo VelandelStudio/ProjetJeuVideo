@@ -14,8 +14,16 @@ public class WindiatorSimpleAttack : MeleAttack {
     protected override void Start()
     {
         base.Start();
+    }
 
-        autoAttackWindiator = GetComponentInParent<AutoAttackWindiator>();
+    /// <summary>
+    /// AttributeAutoAttack method
+    /// Build the MeleAttack with the corresponding AutoAttack in parents
+    /// </summary>
+    /// <param name="autoAttack">Parent AutoAttack</param>
+    public void AttributeAutoAttack(AutoAttackWindiator autoAttack)
+    {
+        autoAttackWindiator = autoAttack;
     }
 
     /// <summary>

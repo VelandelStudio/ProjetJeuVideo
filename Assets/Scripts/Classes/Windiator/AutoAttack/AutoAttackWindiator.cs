@@ -7,7 +7,6 @@ using UnityEngine;
 /// This is obviously the script that launch the AutoAttacks
 /// This script is attached to the Windiator Character
 /// </summary>
-[RequireComponent(typeof(MeleAttack))]
 public class AutoAttackWindiator : AutoAttackBase {
 
     private Animator _anim;
@@ -23,6 +22,8 @@ public class AutoAttackWindiator : AutoAttackBase {
     {
         _anim = GetComponent<Animator>();
         _wsa = GetComponentInChildren<WindiatorSimpleAttack>();
+
+        _wsa.AttributeAutoAttack(this);
 
         base.Start();
     }
