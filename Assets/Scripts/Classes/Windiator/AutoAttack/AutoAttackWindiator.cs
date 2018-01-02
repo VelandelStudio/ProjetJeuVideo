@@ -78,10 +78,11 @@ public class AutoAttackWindiator : AutoAttackBase {
     {
         hit.DamageFor(Damages[0]);
 
-        PassiveBase passive = GetComponent<PassiveWindiator>();
-        if (hit.tag == "Player")
+        PassiveWindiator passive = GetComponent<PassiveWindiator>();
+        if (hit.tag != "Player")
         {
-            //passive.ApplyStatus();
+            // Need table of player so I apply status on Windiator before new features
+            passive.ProcPassive(this.gameObject);
         }
         
     }
