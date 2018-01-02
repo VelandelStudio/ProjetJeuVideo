@@ -18,6 +18,11 @@ public abstract class Character : MonoBehaviour
     protected AutoAttackBase autoAttack;
     protected CharacterData characterData;
 
+    public string Name
+    {
+        get { return characterData.Name; }
+        protected set { }
+    }
     /** Start protected virtual void Method.
 	 * The Start methos is here to construct the class, attributing the spells passive and auto-attack.
 	 * First at all, we try to read the CharacterData.json file. After that, we collect every CharacterData declared in the JSON file.

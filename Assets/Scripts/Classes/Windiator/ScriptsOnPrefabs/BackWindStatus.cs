@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackWindStatus : StatusBase
+public class BackWindStatus : StatusBase, IDebuff
 {
     public override void OnStatusApplied()
     {

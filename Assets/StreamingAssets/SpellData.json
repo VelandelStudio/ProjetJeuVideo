@@ -56,7 +56,7 @@
 		"CoolDownValue":30.0,
 		"HasGCD":true,
 		"Damages":[],
-		"DamagesType":["m"],
+		"DamagesType":[],
 		"OtherValues":[25,30],
 		"NumberOfStacks":0,
 		"Status":["GustStatus"],
@@ -90,8 +90,8 @@
 		"Element":"Storm",
 		"CoolDownValue":12.0,
 		"HasGCD":true,
-		"Damages":[0],
-		"DamagesType":["m"],
+		"Damages":[],
+		"DamagesType":[],
 		"OtherValues":[15,20,10],
 		"NumberOfStacks":0,
 		"Status":["BackWindStatus","InsideStormStatus"],
@@ -126,7 +126,7 @@
 		"DamagesType":["p"],
 		"OtherValues":[5,0.5],
 		"NumberOfStacks":0,
-		"Status":["WindPushStatus"],
+		"Status":["KnockupStatus"],
 		"Description":
 		[
 			""

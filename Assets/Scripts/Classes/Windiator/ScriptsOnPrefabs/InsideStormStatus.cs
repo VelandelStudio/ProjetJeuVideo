@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InsideStormStatus : StatusBase
+public class InsideStormStatus : StatusBase, IBuff
 {
     public override void OnStatusApplied()
     {

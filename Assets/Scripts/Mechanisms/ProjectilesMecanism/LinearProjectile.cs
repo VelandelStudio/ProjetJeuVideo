@@ -12,15 +12,17 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
-public abstract class LinearProjectile : MonoBehaviour, IProjectile {
+public abstract class LinearProjectile : MonoBehaviour, IProjectile
+{
 
-    protected Transform launcher;  
+    protected Transform launcher;
     protected EntityLivingBase eHit;
 
     protected float timeOfFly;
     protected float spellRange = 2000f;
     protected float projectileSpeed = 1000f;
-	protected Vector3 target;
+    protected Vector3 target;
+
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
     /// called when the player press the key associated to the spell.
@@ -31,16 +33,17 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     protected virtual void Start()
     {
         launcher = transform.parent;
+        gameObject.tag = launcher.gameObject.tag;
         GetComponent<Collider>().isTrigger = true;
         transform.parent = null;
-		if(target == Vector3.zero)
-		{
-			LaunchProjectile();
-		}
-		else
-		{
-			LaunchProjectile(target);
-		}
+        if (target == Vector3.zero)
+        {
+            LaunchProjectile();
+        }
+        else
+        {
+            LaunchProjectile(target);
+        }
         timeOfFly = CalculTimeOfFly(projectileSpeed, spellRange);
         Destroy(gameObject, timeOfFly);
     }
@@ -63,7 +66,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
             {
                 ApplyEffect(col);
             }
-			AdditionalEffects();
+            AdditionalEffects();
             Destroy(gameObject);
         }
     }
@@ -90,7 +93,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
         Vector3 target;
         RaycastHit hit;
 
-        bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(launcher), cameraPlayer.transform.forward, 
+        bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(launcher), cameraPlayer.transform.forward,
                                                 out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
 
         if (hasFoundHitPoint)
@@ -111,13 +114,13 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
             particles.Play();
         }
     }
-	
-	/** LaunchProjectile protected virtual void 
+
+    /** LaunchProjectile protected virtual void 
 	 * @params : Vector3 target
 	 * This method is used to override the classical way of launching projectiles. 
 	 * It is launched by daughter classes when they are linear projectiles bu follow a different way than the classical "From Hand to Point".
 	 **/
-	protected virtual void LaunchProjectile(Vector3 target)
+    protected virtual void LaunchProjectile(Vector3 target)
     {
         transform.LookAt(target);
         GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
@@ -135,10 +138,10 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     /// <param name="speed">float value used also to apply force to the bullet</param>
     /// <param name="distance">float value, length that a projectile can travel </param>
     /// <returns>the time that travel a projectile before autodestuction</returns>
-    protected float CalculTimeOfFly (float speed, float distance)
+    protected float CalculTimeOfFly(float speed, float distance)
     {
         return distance / speed;
     }
-	
-	protected virtual void AdditionalEffects(){}
+
+    protected virtual void AdditionalEffects() { }
 }

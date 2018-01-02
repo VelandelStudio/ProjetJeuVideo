@@ -28,6 +28,12 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     public bool IsStackable;
     public int NumberOfStacks;
 
+    public float CurrentTimer
+    {
+        get { return statusDisplayer.CurrentTimerOnScreen; }
+        protected set { }
+    }
+
     GameObject statusSection;
     GUIStatusDisplayer statusDisplayer;
 
@@ -68,12 +74,32 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
      * It is used to Start the Status already applied on a target.
      * The Status should be started with another Status instance (because of instanciation of gameobjects on unity)
      * If the param is null, the Status is reloaded (Prewarm) from it's JSON file.
+	 * If we detect that the same Status is attached to the GameObject Parent, then we add the Destroy the old Status and add the new one.
+	 * Note that the Old Status will be removed only if it was at least one second on the gameObject
      **/
     public virtual void StartStatus(StatusBase status)
     {
         if (status == null)
         {
             PreWarm();
+        }
+
+        StatusBase[] statusOnTarget = transform.parent.GetComponentsInChildren<StatusBase>(true);
+        for (int i = 0; i < statusOnTarget.Length; i++)
+        {
+            Debug.Log(statusOnTarget[i]);
+            if (statusOnTarget[i].Name == status.Name)
+            {
+                if (transform.parent.gameObject.tag == "Player" && statusOnTarget[i].CurrentTimer > status.Duration - 1f)
+                {
+                    Destroy(gameObject);
+                    return;
+                }
+                else
+                {
+                    statusOnTarget[i].DestroyStatus();
+                }
+            }
         }
 
         Name = status.Name;
