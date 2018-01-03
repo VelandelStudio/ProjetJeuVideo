@@ -11,7 +11,6 @@ public class StormWallSpell : Spell
         // @Veltouille : Tu verras dans cette méthode Start que j'ai ajouté une ionstanciation du mur, c'etait simplement pour tester le mur en lui même,
         // Tu peux faire péter ce block (ou le reprendre pour gérer ton instanciation + placement du wall depuis le spell).
         GameObject _throwable = (GameObject)Resources.Load(champion.Name + "/StormWall", typeof(GameObject));
-        Debug.Log(champion.Name + "/StormWall");
         Instantiate(_throwable, transform.position + new Vector3(5, 0, 0), transform.rotation, this.transform);
     }
 

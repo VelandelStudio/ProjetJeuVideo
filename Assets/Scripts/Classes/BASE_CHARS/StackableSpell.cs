@@ -23,7 +23,6 @@ public abstract class StackableSpell : Spell
         base.Start();
         CurrentNumberOfStacks = NumberOfStacks;
         StackCD = CoolDownValue;
-        Debug.Log(StackCD);
     }
 
     /** OnSpellLaunched protected virtual void Method,

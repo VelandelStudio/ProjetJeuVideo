@@ -90,8 +90,14 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
             Debug.Log(statusOnTarget[i]);
             if (statusOnTarget[i].Name == status.Name)
             {
-                if (transform.parent.gameObject.tag == "Player" && statusOnTarget[i].CurrentTimer > status.Duration - 1f)
+                if (transform.GetComponentInParent<IProjectile>() != null)
                 {
+                    Destroy(gameObject);
+                    return;
+                }
+
+                if (transform.parent.gameObject.tag == "Player" && statusOnTarget[i].CurrentTimer > status.Duration - 1f)
+                { 
                     Destroy(gameObject);
                     return;
                 }
@@ -115,8 +121,9 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         NumberOfStacks = status.NumberOfStacks;
         Description = status.Description;
 
-        if (transform.parent.gameObject.tag == "Player")
+        if (transform.parent.gameObject.tag == "Player" && transform.GetComponentInParent<IProjectile>() == null)
         {
+            Debug.Log("hello");
             statusSection = GameObject.Find("StatusSection");
             GameObject statusGUIInst = (GameObject)Resources.Load("GUI/StatusGUI", typeof(GameObject));
             statusGUIInst = Instantiate(statusGUIInst, statusSection.transform);
