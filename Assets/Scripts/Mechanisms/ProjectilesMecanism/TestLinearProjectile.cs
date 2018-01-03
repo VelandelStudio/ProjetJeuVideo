@@ -17,4 +17,13 @@ public class TestLinearProjectile : LinearProjectile
     {
         Debug.Log("Touché " + col.gameObject.name + " from " + launcher.name);
     }
+
+    /** AttributeSpeedAndRange, public override void,
+     * This method is used to attribute an initial SpellRange and ProjectileSpeed
+     **/
+    public override void AttributeSpeedAndRange()
+    {
+        SpellRange = 20;
+        ProjectileSpeed = 100f;
+    }
 }

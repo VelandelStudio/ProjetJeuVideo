@@ -12,39 +12,66 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
-public abstract class LinearProjectile : MonoBehaviour, IProjectile {
+public abstract class LinearProjectile : MonoBehaviour, IProjectile
+{
 
-    protected Transform launcher;  
+    protected Transform launcher;
     protected EntityLivingBase eHit;
 
     protected float timeOfFly;
-    protected float spellRange = 2000f;
-    protected float projectileSpeed = 1000f;
-	protected Vector3 target;
+    [SerializeField] protected float spellRange;
+    [SerializeField] protected float projectileSpeed;
+
+    public float SpellRange
+    {
+        get { return spellRange; }
+        protected set { spellRange = value; }
+    }
+
+    public float ProjectileSpeed
+    {
+        get { return projectileSpeed; }
+        protected set { projectileSpeed = value; }
+    }
+
+    protected Vector3 target;
+    protected Vector3 origin;
+
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
     /// called when the player press the key associated to the spell.
-    /// This method store the parent at the origin of the Instantiation of the projectil.
-    /// Detach itself from the parent to have a good linear pathway
-    /// And Start the Launch method before being destroy by the time
+    /// This method store the parent at the origin of the Instantiation of the projectile.
+    /// Detach itself from the parent to have a good linear pathway and Start the Launch method.
     /// </summary>
     protected virtual void Start()
     {
+        AttributeSpeedAndRange();
         launcher = transform.parent;
         GetComponent<Collider>().isTrigger = true;
+        origin = transform.position;
         transform.parent = null;
-		if(target == Vector3.zero)
-		{
-			LaunchProjectile();
-		}
-		else
-		{
-			LaunchProjectile(target);
-		}
-        timeOfFly = CalculTimeOfFly(projectileSpeed, spellRange);
-        Destroy(gameObject, timeOfFly);
+
+        if (target == Vector3.zero)
+        {
+            LaunchProjectile();
+        }
+        else
+        {
+            LaunchProjectile(target);
+        }
+        timeOfFly = CalculTimeOfFly(ProjectileSpeed, SpellRange);
     }
 
+    /** Update, protected virtual void 
+	 * The Update Method is used to checj
+	 **/
+    protected virtual void Update()
+    {
+        if (Vector3.Distance(origin, transform.position) >= SpellRange)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     /// <summary>
     /// OnTriggerEnter method from Unity called after a collision between two colliders
@@ -63,10 +90,18 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
             {
                 ApplyEffect(col);
             }
-			AdditionalEffects();
+
+            AdditionalEffects();
             Destroy(gameObject);
         }
     }
+
+    /** AttributeSpeedAndRange, public abstract void,
+	 * This abstract method should be implemented in all daughter classes. 
+	 * This method is used to attribute an initial SpellRange and ProjectileSpeed
+	 **/
+    public abstract void AttributeSpeedAndRange();
+
 
     /// <summary>
     /// ApplyEffect abstract method implemented by IProjectile
@@ -90,7 +125,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
         Vector3 target;
         RaycastHit hit;
 
-        bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(launcher), cameraPlayer.transform.forward, 
+        bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(launcher), cameraPlayer.transform.forward,
                                                 out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
 
         if (hasFoundHitPoint)
@@ -111,13 +146,13 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
             particles.Play();
         }
     }
-	
-	/** LaunchProjectile protected virtual void 
+
+    /** LaunchProjectile protected virtual void 
 	 * @params : Vector3 target
 	 * This method is used to override the classical way of launching projectiles. 
 	 * It is launched by daughter classes when they are linear projectiles bu follow a different way than the classical "From Hand to Point".
 	 **/
-	protected virtual void LaunchProjectile(Vector3 target)
+    protected virtual void LaunchProjectile(Vector3 target)
     {
         transform.LookAt(target);
         GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
@@ -135,10 +170,30 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile {
     /// <param name="speed">float value used also to apply force to the bullet</param>
     /// <param name="distance">float value, length that a projectile can travel </param>
     /// <returns>the time that travel a projectile before autodestuction</returns>
-    protected float CalculTimeOfFly (float speed, float distance)
+    protected float CalculTimeOfFly(float speed, float distance)
     {
         return distance / speed;
     }
-	
-	protected virtual void AdditionalEffects(){}
+
+    /** AccelerateProjectile, public void 
+     * @param : float
+     * This method should be called by toher scripts to accelerate the LinearProjectile
+     **/
+    public void AccelerateProjectile(float speed)
+    {
+        ProjectileSpeed += speed;
+        GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
+    }
+
+    /** SlowDownProjectile, public void 
+     * @param : float
+     * This method should be called by toher scripts to slow down the LinearProjectile
+     **/
+    public void SlowDownProjectile(float speed)
+    {
+        ProjectileSpeed -= speed;
+        GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
+    }
+
+    protected virtual void AdditionalEffects() { }
 }
