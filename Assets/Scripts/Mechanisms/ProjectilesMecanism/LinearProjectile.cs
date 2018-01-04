@@ -19,8 +19,8 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     protected EntityLivingBase eHit;
 
     protected float timeOfFly;
-    [SerializeField] protected float spellRange;
-    [SerializeField] protected float projectileSpeed;
+    protected float spellRange;
+    protected float projectileSpeed;
 
     public float SpellRange
     {
@@ -63,7 +63,9 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     }
 
     /** Update, protected virtual void 
-	 * The Update Method is used to checj
+	 * The Update Method is used to check if the LinearProjectile has reached the SpellRange.
+     * If the Distance between the origin and the current position is greater than the SpellRange, 
+     * then, the GameObject is Destroyed.
 	 **/
     protected virtual void Update()
     {
