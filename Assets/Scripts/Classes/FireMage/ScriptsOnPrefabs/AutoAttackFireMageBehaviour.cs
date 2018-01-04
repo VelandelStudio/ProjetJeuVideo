@@ -20,4 +20,13 @@ public class AutoAttackFireMageBehaviour : LinearProjectile
             launcher.GetComponent<AutoAttackFireMage>().OnAttackHit(eHit);
         }
     }
+
+    /** AttributeSpeedAndRange, public override void,
+     * This method is used to attribute an initial SpellRange and ProjectileSpeed
+     **/
+    public override void AttributeSpeedAndRange()
+    {
+        SpellRange = 20;
+        ProjectileSpeed = 1000f;
+    }
 }
