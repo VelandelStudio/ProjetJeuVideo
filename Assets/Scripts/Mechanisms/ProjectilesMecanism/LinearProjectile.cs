@@ -19,23 +19,44 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     protected EntityLivingBase eHit;
 
     protected float timeOfFly;
-    protected float spellRange = 2000f;
-    protected float projectileSpeed = 1000f;
+
+    protected float spellRange;
+    protected float projectileSpeed;
+
+    public float SpellRange
+    {
+        get { return spellRange; }
+        protected set { spellRange = value; }
+    }
+
+    public float ProjectileSpeed
+    {
+        get { return projectileSpeed; }
+        protected set { projectileSpeed = value; }
+    }
+
     protected Vector3 target;
+    protected Vector3 origin;
+    protected Rigidbody rb;
+    protected Vector3 startVelocity;
+
 
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
     /// called when the player press the key associated to the spell.
-    /// This method store the parent at the origin of the Instantiation of the projectil.
-    /// Detach itself from the parent to have a good linear pathway
-    /// And Start the Launch method before being destroy by the time
+    /// This method store the parent at the origin of the Instantiation of the projectile.
+    /// Detach itself from the parent to have a good linear pathway and Start the Launch method.
     /// </summary>
     protected virtual void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        AttributeSpeedAndRange();
         launcher = transform.parent;
         gameObject.tag = launcher.gameObject.tag;
         GetComponent<Collider>().isTrigger = true;
+        origin = transform.position;
         transform.parent = null;
+
         if (target == Vector3.zero)
         {
             LaunchProjectile();
@@ -44,10 +65,21 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
         {
             LaunchProjectile(target);
         }
-        timeOfFly = CalculTimeOfFly(projectileSpeed, spellRange);
-        Destroy(gameObject, timeOfFly);
+        timeOfFly = CalculTimeOfFly(ProjectileSpeed, SpellRange);
     }
 
+    /** Update, protected virtual void 
+	 * The Update Method is used to check if the LinearProjectile has reached the SpellRange.
+     * If the Distance between the origin and the current position is greater than the SpellRange, 
+     * then, the GameObject is Destroyed.
+	 **/
+    protected virtual void Update()
+    {
+        if (Vector3.Distance(origin, transform.position) >= SpellRange)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     /// <summary>
     /// OnTriggerEnter method from Unity called after a collision between two colliders
@@ -66,10 +98,18 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
             {
                 ApplyEffect(col);
             }
+
             AdditionalEffects();
             Destroy(gameObject);
         }
     }
+
+    /** AttributeSpeedAndRange, public abstract void,
+	 * This abstract method should be implemented in all daughter classes. 
+	 * This method is used to attribute an initial SpellRange and ProjectileSpeed
+	 **/
+    public abstract void AttributeSpeedAndRange();
+
 
     /// <summary>
     /// ApplyEffect abstract method implemented by IProjectile
@@ -141,6 +181,34 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     protected float CalculTimeOfFly(float speed, float distance)
     {
         return distance / speed;
+    }
+
+    /** AccelerateProjectile, public void 
+    * @param : float
+    * This method should be called by toher scripts to accelerate the LinearProjectile
+    **/
+    public void AccelerateProjectile(float speed)
+    {
+        if (startVelocity == Vector3.zero) //|| startVelocity == Vector3.zero)
+        {
+            startVelocity = rb.velocity;
+        }
+
+        rb.velocity += startVelocity * (speed / 100.0f);
+    }
+
+    /** SlowDownProjectile, public void 
+    * @param : float
+    * This method should be called by toher scripts to slow down the LinearProjectile
+    **/
+    public void SlowDownProjectile(float speed)
+    {
+        if (startVelocity == Vector3.zero)
+        {
+            startVelocity = rb.velocity;
+        }
+
+        rb.velocity -= startVelocity * (speed / 100.0f);
     }
 
     protected virtual void AdditionalEffects() { }

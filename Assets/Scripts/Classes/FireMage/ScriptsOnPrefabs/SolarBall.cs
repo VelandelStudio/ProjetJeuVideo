@@ -50,4 +50,13 @@ public class SolarBall : LinearProjectile
             Instantiate(_particlesOnFloor.gameObject, v, _particlesOnFloor.rotation);
         }
     }
+
+    /** AttributeSpeedAndRange, public override void,
+     * This method is used to attribute an initial SpellRange and ProjectileSpeed
+     **/
+    public override void AttributeSpeedAndRange()
+    {
+        SpellRange = 20;
+        ProjectileSpeed = 500f;
+    }
 }
