@@ -36,6 +36,8 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
 
     protected Vector3 target;
     protected Vector3 origin;
+    protected Rigidbody rb;
+    protected Vector3 startVelocity;
 
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
@@ -45,6 +47,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     /// </summary>
     protected virtual void Start()
     {
+        rb = GetComponent<Rigidbody>();
         AttributeSpeedAndRange();
         launcher = transform.parent;
         GetComponent<Collider>().isTrigger = true;
@@ -178,23 +181,31 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     }
 
     /** AccelerateProjectile, public void 
-     * @param : float
-     * This method should be called by toher scripts to accelerate the LinearProjectile
-     **/
+    * @param : float
+    * This method should be called by toher scripts to accelerate the LinearProjectile
+    **/
     public void AccelerateProjectile(float speed)
     {
-        ProjectileSpeed += speed;
-        GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
+        if (startVelocity == Vector3.zero) //|| startVelocity == Vector3.zero)
+        {
+            startVelocity = rb.velocity;
+        }
+
+        rb.velocity += startVelocity * (speed / 100.0f);
     }
 
     /** SlowDownProjectile, public void 
-     * @param : float
-     * This method should be called by toher scripts to slow down the LinearProjectile
-     **/
+    * @param : float
+    * This method should be called by toher scripts to slow down the LinearProjectile
+    **/
     public void SlowDownProjectile(float speed)
     {
-        ProjectileSpeed -= speed;
-        GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
+        if (startVelocity == Vector3.zero)
+        {
+            startVelocity = rb.velocity;
+        }
+
+        rb.velocity -= startVelocity * (speed / 100.0f);
     }
 
     protected virtual void AdditionalEffects() { }
