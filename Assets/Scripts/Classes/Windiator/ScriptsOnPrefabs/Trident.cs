@@ -8,6 +8,11 @@ using UnityEngine;
  **/
 public class Trident : LinearProjectile
 {
+    public override void AttributeSpeedAndRange()
+    {
+        SpellRange = 30;
+        ProjectileSpeed = 200;
+    }
 
     /** OnCollisionEnter private void.
 	 * When the Trident is colliding something if it is an entity (not a player),

@@ -181,7 +181,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
      **/
     public virtual void DestroyStatus()
     {
-        if (transform.parent.gameObject.tag == "Player")
+        if (transform.parent.gameObject.tag == "Player" && transform.GetComponentInParent<IProjectile>() == null)
         {
             statusDisplayer.DestroyGUIStatus();
         }

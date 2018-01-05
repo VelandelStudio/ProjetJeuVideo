@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StormWallSpell : Spell
 {
-
     protected override void Start()
     {
         base.Start();
@@ -38,16 +37,9 @@ public class StormWallSpell : Spell
         }
 
         IProjectile projectile = collider.GetComponent<IProjectile>();
-        if (projectile != null)
+        if (projectile != null && collider.gameObject.tag != "Player")
         {
-            if (collider.gameObject.tag == "Player")
-            {
-                ApplyStatus(Status[1], collider.transform);
-            }
-            else
-            {
-                ApplyStatus(Status[0], collider.transform);
-            }
+            ApplyStatus(Status[0], collider.transform);
         }
     }
 }

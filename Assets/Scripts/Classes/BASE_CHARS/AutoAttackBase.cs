@@ -78,7 +78,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     /** AutoAttackIsReady protected bool Method,
 	 * This returns if the auto-attack is launchea&ble or not. In this script, we only check if the auto-attack is under Cooldown or not.
 	 **/
-    protected bool AutoAttackIsReady()
+    protected virtual bool AutoAttackIsReady()
     {
         return (CurrentCD == 0);
     }

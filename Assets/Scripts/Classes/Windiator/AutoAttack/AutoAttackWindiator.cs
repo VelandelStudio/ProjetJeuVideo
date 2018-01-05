@@ -39,14 +39,10 @@ public class AutoAttackWindiator : AutoAttackBase {
     {
         if (AutoAttackIsReady())
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                _wsa.SwapEnableArmeCol();
-                _anim.SetBool("AutoAttack", true);
-                StartCoroutine(CoroutineOneSec());
-            }
-
             base.AutoAttack();
+            _wsa.SwapEnableArmeCol();
+            _anim.SetBool("AutoAttack", true);
+            StartCoroutine(CoroutineOneSec());
         }
     }
 
@@ -58,7 +54,10 @@ public class AutoAttackWindiator : AutoAttackBase {
     /// <returns>1 sec waiting</returns>
     IEnumerator CoroutineOneSec()
     {
-        yield return new WaitForSeconds(1f);
+        AnimatorStateInfo animationState = _anim.GetCurrentAnimatorStateInfo(0);
+        AnimatorClipInfo[] myAnimatorClip = _anim.GetCurrentAnimatorClipInfo(0);
+        float myTime = myAnimatorClip[0].clip.length * animationState.normalizedTime;
+        yield return new WaitForSeconds(myTime);
 
         if (_wsa.GetValueColArme())
         {
@@ -84,6 +83,5 @@ public class AutoAttackWindiator : AutoAttackBase {
             // Need table of player so I apply status on Windiator before new features
             passive.ProcPassive(this.gameObject);
         }
-        
     }
 }

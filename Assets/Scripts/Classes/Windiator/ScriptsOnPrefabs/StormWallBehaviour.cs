@@ -22,12 +22,33 @@ public class StormWallBehaviour : MonoBehaviour
         transform.parent = null;
     }
 
+    /** OnTriggerEnter private void method
+	 * @Param : Collider
+	 * This method is thanks to the collider trigger.
+	 * When something stays inside the wall, whatever it is, we launch the ApplyEffect method of the associated StormWallSpell.
+	 **/
+    private void OnTriggerEnter(Collider other)
+    {
+        _parentSpell.ApplyEffect(other);
+    }
+
+
     /** OnTriggerStay private void method
 	 * @Param : Collider
 	 * This method is thanks to the collider trigger.
 	 * When something stays inside the wall, whatever it is, we launch the ApplyEffect method of the associated StormWallSpell.
 	 **/
     private void OnTriggerStay(Collider other)
+    {
+        _parentSpell.ApplyEffect(other);
+    }
+
+    /** OnTriggerStay private void method
+	 * @Param : Collider
+	 * This method is thanks to the collider trigger.
+	 * When something stays inside the wall, whatever it is, we launch the ApplyEffect method of the associated StormWallSpell.
+	 **/
+    private void OnTriggerExit(Collider other)
     {
         _parentSpell.ApplyEffect(other);
     }

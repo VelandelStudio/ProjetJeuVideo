@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GustStatus : StatusBase
+public class GustStatus : StatusBase, IBuff
 {
     public override void OnStatusApplied()
     {

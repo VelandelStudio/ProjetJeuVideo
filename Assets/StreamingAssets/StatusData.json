@@ -151,6 +151,6 @@
 		"OtherValues":["15"],
 		"IsStackable":false,
 		"NumberOfStacks":0,
-		"Description":["You have the spirit of the storm, all your cooldown are reduced by {OtherValues[0}%."]
+		"Description":["You have the spirit of the storm, all your cooldown are reduced by {OtherValues[0]}%."]
 	}
 ]
