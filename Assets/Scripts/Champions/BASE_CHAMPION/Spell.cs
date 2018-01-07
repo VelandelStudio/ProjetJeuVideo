@@ -33,7 +33,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
     public int NumberOfStacks;
 
     protected bool spellInUse = false;
-    protected Character champion;
+    protected Champion champion;
 
     public float CurrentCD
     {
@@ -81,7 +81,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
         if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
         {
             Status = new GameObject[SpellDefinition.Status.Length];
-            champion = GetComponentInParent<Character>();
+            champion = GetComponentInParent<Champion>();
             for (int i = 0; i < SpellDefinition.Status.Length; i++)
             {
                 Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + SpellDefinition.Status[i], typeof(GameObject));

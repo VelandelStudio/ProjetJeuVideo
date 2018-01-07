@@ -46,15 +46,15 @@ public class GUIAutoAttackDisplayer : MonoBehaviour, IDisplayer
 
     /** AttributeDisplayable public void Method
 	 * @Params : IDisplayable
-	 * This public method should only be called by the Character script so far.
+	 * This public method should only be called by the Champion script so far.
 	 * In this method, we attribute to the Gui the correct autoAttack.
-	 * Then, we try to locate a Sprite associated to the autoAttack in the Image Folder associated to the Character.
+	 * Then, we try to locate a Sprite associated to the autoAttack in the Image Folder associated to the Champion.
 	 **/
     public void AttributeDisplayable(IDisplayable displayable)
     {
         _autoAttackBase = (AutoAttackBase)displayable;
         Image autoAttackBaseImage = GetComponent<Image>();
-        autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/AutoAttacks/" + _autoAttackBase.GetComponent<Character>().GetType().ToString() + "/" + _autoAttackBase.GetType());
+        autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/AutoAttacks/" + _autoAttackBase.GetComponent<Champion>().GetType().ToString() + "/" + _autoAttackBase.GetType());
         if (autoAttackBaseImage.sprite == null)
         {
             autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");

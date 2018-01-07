@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Warrior : Character {
+public class FireMage : Champion {
 
-	protected override void Start() 
+    protected override void Start() 
 	{
 		base.Start();
 	}

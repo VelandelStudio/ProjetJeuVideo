@@ -62,13 +62,13 @@ public class GUIPassiveDisplayer : MonoBehaviour, IDisplayer
 
     /** AttributeDisplayable public void Method
 	 * @Param : IDisplayable
-	 * This method should be only called by the Character class when the class is constructed.
+	 * This method should be only called by the Champion class when the class is constructed.
 	 * We get every elements we need to displays informations to the screen (Image, number of stacks, instance of Passive etc..)
 	 **/
     public void AttributeDisplayable(IDisplayable displayable)
     {
         _passive = (PassiveBase)displayable;
-        _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/Passive/" + _passive.GetComponent<Character>().GetType().ToString() + "/" + _passive.GetType());
+        _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/Passive/" + _passive.GetComponent<Champion>().GetType().ToString() + "/" + _passive.GetType());
         if (_passiveImgDescription.sprite == null)
         {
             _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");

@@ -5,13 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-/** Character abstract class.
+/** Champion abstract class.
  * This abstract class is the mother class of all classes in our game. It ensures that the class is well constructed with all of the spells, passive and auto-attack.
  * This script also detects the input keys of the player, and launches the spells.
  * In order to build correctly a class, you have to write the names of all your spells in the CharacterData.json
  * This script ensure that a class can be self constructed with informations you give in the JSON file.
  **/
-public abstract class Character : MonoBehaviour
+public abstract class Champion : MonoBehaviour
 {
     protected PassiveBase passiveBase;
     protected List<Spell> spells = new List<Spell>();
@@ -26,7 +26,7 @@ public abstract class Character : MonoBehaviour
     /** Start protected virtual void Method.
 	 * The Start methos is here to construct the class, attributing the spells passive and auto-attack.
 	 * First at all, we try to read the CharacterData.json file. After that, we collect every CharacterData declared in the JSON file.
-	 * Then, we parse the Array of CharacterData and try to find the one corresponding to the Character name.
+	 * Then, we parse the Array of CharacterData and try to find the one corresponding to the Champion name.
 	 * If we find one, we construct the class.
 	 * These elements are constructed in three separated methods.
 	 **/
@@ -191,7 +191,7 @@ public abstract class Character : MonoBehaviour
 
     /** HandleException private void Method.
 	 * @Params : int e;
-	 * This method is called when the Character could not be constructed correctly because one component is absent or mispelled.
+	 * This method is called when the Champion could not be constructed correctly because one component is absent or mispelled.
 	 * The int e (for error) field is used for the switc case statement, in order to display the good informations to the developpers.
 	 * Please note that if you did a mistake and if this method is launched, the Editor stops the game Simulation. 
 	 **/
@@ -209,7 +209,7 @@ public abstract class Character : MonoBehaviour
     }
 
     /** CharacterData protected Serializable class.
-	 * This class were designed to be at the service of the Character class.
+	 * This class were designed to be at the service of the Champion class.
 	 * It is used as a JSON Object to stock every variables read from the JSON file.
 	 **/
     [System.Serializable]
