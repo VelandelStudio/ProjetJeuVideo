@@ -4,22 +4,33 @@ using UnityEngine;
 
 public class StormWallSpell : Spell
 {
+    private GameObject _throwable;
+    private GameObject _throwableInst;
+
     protected override void Start()
     {
+        _throwable = (GameObject)Resources.Load(champion.Name + "/StormWall", typeof(GameObject));
         base.Start();
-        // @Veltouille : Tu verras dans cette méthode Start que j'ai ajouté une ionstanciation du mur, c'etait simplement pour tester le mur en lui même,
-        // Tu peux faire péter ce block (ou le reprendre pour gérer ton instanciation + placement du wall depuis le spell).
-        GameObject _throwable = (GameObject)Resources.Load(champion.Name + "/StormWall", typeof(GameObject));
-        Instantiate(_throwable, transform.position + new Vector3(5, 0, 0), transform.rotation, this.transform);
+    }
+
+    public override void LaunchSpell()
+    {
+        base.LaunchSpell();
+
+        if (IsSpellLauncheable())
+        {
+            _throwableInst = Instantiate(_throwable, transform.position + transform.forward * 2, transform.rotation, transform);
+            base.OnSpellLaunched();
+        }
     }
 
     /** ApplyEffect, public void Method
-	 * @Params : Collider
-	 * When something passes through the wall or stay inside, this method is launched.
-	 * First of all, we detect if the collider is a trigger or not. Projectiles are triggers where as players and monsters are solids.
-	 * Then, is we detect something Ally (Projectile or Player), we apply the Status[1]
-     * is we detect something Enemy (Projectile or Monster), we apply the Status[0]
-     **/
+    * @Params : Collider
+    * When something passes through the wall or stay inside, this method is launched.
+    * First of all, we detect if the collider is a trigger or not. Projectiles are triggers where as players and monsters are solids.
+    * Then, is we detect something Ally (Projectile or Player), we apply the Status[1]
+    * is we detect something Enemy (Projectile or Monster), we apply the Status[0]
+    **/
     public void ApplyEffect(Collider collider)
     {
         if (collider.isTrigger)
