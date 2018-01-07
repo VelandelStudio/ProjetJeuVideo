@@ -77,15 +77,15 @@ public class GUISpellDisplayer : MonoBehaviour, IDisplayer
 
     /** AttributeDisplayable public void Method
 	 * @Params : IDisplayable
-	 * This public method should only be called by the Character script so far.
+	 * This public method should only be called by the Champion script so far.
 	 * In this method, we attribute to the Gui the correct spell.
-	 * Then, we try to locate a Sprite associated to the spell in the Image Folder associated to the Character.
+	 * Then, we try to locate a Sprite associated to the spell in the Image Folder associated to the Champion.
 	 **/
     public void AttributeDisplayable(IDisplayable displayable)
     {
         _spell = (Spell)displayable;
         Image spellImage = GetComponent<Image>();
-        spellImage.sprite = Resources.Load<Sprite>("Images/Spells/" + _spell.GetComponent<Character>().GetType().ToString() + "/" + _spell.GetType());
+        spellImage.sprite = Resources.Load<Sprite>("Images/Spells/" + _spell.GetComponent<Champion>().GetType().ToString() + "/" + _spell.GetType());
         if (spellImage.sprite == null)
         {
             spellImage.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");

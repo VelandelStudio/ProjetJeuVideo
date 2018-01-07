@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /** Start : private void method
-	 * Used to get every component of the Character.
+	 * Used to get every component of the Champion.
 	 * Also used to call the SetupAnimator method.
 	**/
     private void Start()
