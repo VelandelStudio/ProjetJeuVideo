@@ -24,7 +24,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     public string[] Description { get; protected set; }
 
     public float CurrentCD;
-    protected Character champion;
+    protected Champion champion;
     #endregion
 
     #region Functionnal Methods
@@ -47,7 +47,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
         {
             Status = new GameObject[AutoAttackDefinition.Status.Length];
-            champion = GetComponentInParent<Character>();
+            champion = GetComponentInParent<Champion>();
             for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
             {
                 Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + AutoAttackDefinition.Status[i], typeof(GameObject));
