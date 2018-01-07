@@ -14,9 +14,7 @@ public class WindSpiritFavorStatus : StatusBase, IBuff
 
     public override void OnStatusApplied()
     {
-        Debug.Log("Buffed");
-
-        
+        Debug.Log("WindcSpiritFavorStatus successfully appllied");
     }
 
     public override void StatusTickBehaviour()

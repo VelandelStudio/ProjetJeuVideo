@@ -27,7 +27,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     public GameObject[] Status { get; protected set; }
     public string[] Description { get; protected set; }
 
-    protected Character champion;
+    protected Champion champion;
 
     public int NumberOfStacks;
     #endregion
@@ -52,7 +52,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
         if (_passiveDefinition.Status.Length > 0 && _passiveDefinition.Status[0] != "")
         {
             Status = new GameObject[_passiveDefinition.Status.Length];
-            champion = GetComponentInParent<Character>();
+            champion = GetComponentInParent<Champion>();
             for (int i = 0; i < _passiveDefinition.Status.Length; i++)
             {
                 Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + _passiveDefinition.Status[i], typeof(GameObject));

@@ -51,8 +51,10 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     {
         rb = GetComponent<Rigidbody>();
         AttributeSpeedAndRange();
+
         launcher = transform.parent;
-        gameObject.tag = launcher.gameObject.tag;
+        gameObject.tag = launcher.gameObject.tag == "Player" ? "AllyEntity":"EnemyEntity";
+
         GetComponent<Collider>().isTrigger = true;
         origin = transform.position;
         transform.parent = null;

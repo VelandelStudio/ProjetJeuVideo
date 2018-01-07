@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Character Class Windiator
 /// </summary>
-public class Windiator : Character {
+public class Windiator : Champion {
 
     protected override void Start()
     {
