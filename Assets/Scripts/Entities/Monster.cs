@@ -18,14 +18,6 @@ public abstract class Monster : EntityLivingBase, IMonster
     [SerializeField] private double maxDistanceTarget;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Monster"/> class.
-    /// </summary>
-    public Monster()
-    {
-        _target = null;
-    }
-
-    /// <summary>
     /// Called when [trigger enter].
     /// </summary>
     /// <param name="other">The collider of another object.</param>
@@ -105,7 +97,7 @@ public abstract class Monster : EntityLivingBase, IMonster
         {
             if (IsPlayerDetected)
             {
-                return Vector3.Distance(this.transform.position, Target.transform.position);
+                return Vector3.Distance(transform.position, Target.transform.position);
             }
 
             return Mathf.Infinity;
