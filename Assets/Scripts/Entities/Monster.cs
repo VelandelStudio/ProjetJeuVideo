@@ -113,6 +113,7 @@ public abstract class Monster : EntityLivingBase, IMonster
 
         if (IsPlayerDetected && DistanceToTarget > maxDistanceTarget)
         {
+            Debug.Log("Hello");
             ResetTarget();
         }
     }

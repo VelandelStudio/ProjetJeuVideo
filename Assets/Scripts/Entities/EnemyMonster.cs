@@ -9,6 +9,8 @@ public class EnemyMonster : Monster
     [SerializeField] private float range;
     [SerializeField] private float attackCD;
     private float nextAttackTimer;
+
+    private Vector3 originalPosition;
     /// <summary>
     /// The start method get the NavMeshAgent component
     /// </summary>
@@ -16,10 +18,12 @@ public class EnemyMonster : Monster
     {
         _agent = GetComponent<NavMeshAgent>();
         nextAttackTimer = 0f;
+        originalPosition = transform.position;
     }
 
     protected override void Update()
     {
+        Debug.Log(originalPosition);
         base.Update();
         if (Target != null)
         {
@@ -51,7 +55,16 @@ public class EnemyMonster : Monster
         Debug.Log("Monster is defoncing " + Target);
     }
 
-    public override void OnLoseTarget() {}
+    public override void OnLoseTarget()
+    {
+        Debug.Log(originalPosition);
+        var lookPos = originalPosition - transform.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10);
+
+        _agent.SetDestination(originalPosition);
+    }
 
     public override void OnTargetSelected() {}
 }

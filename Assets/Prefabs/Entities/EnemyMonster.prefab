@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114838379982565682}
   m_Layer: 0
   m_Name: EnemyMonster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,7 +129,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1059397386712724}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -1.4694235, y: 51, z: 5.699898}
+  m_LocalPosition: {x: -3.1, y: 51, z: -0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4206191736298024}
@@ -316,7 +316,7 @@ MonoBehaviour:
   _HP: 0
   _regenHpPerSec: 3
   _HPMax: 0
-  maxDistanceTarget: 50
+  maxDistanceTarget: 20
   range: 5
   attackCD: 3
 --- !u!135 &135267300386641218
@@ -353,7 +353,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
