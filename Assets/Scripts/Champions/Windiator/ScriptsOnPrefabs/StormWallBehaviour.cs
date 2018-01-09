@@ -85,7 +85,8 @@ public class StormWallBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// DestroyItself method
+    /// Include inside the start with Invoke to destroy the wall after few seconds
     /// </summary>
     private void DestroyItself()
     {
@@ -93,18 +94,20 @@ public class StormWallBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// ModifySpeed method
+    /// Ticky method called into update to slow down the wall speed.
     /// </summary>
     private void ModifySpeed()
     {
-        if (Vector3.Distance(transform.position, origin) >= ((75f/100f) * _maxRange))
+        if (Vector3.Distance(transform.position, origin) >= ((66f/100f) * _maxRange))
         {
             _speedWall /= 2;
         }
     }
 
     /// <summary>
-    /// 
+    /// FitFloor method
+    /// Call into the update method to ensure that the wall fit correctly with the "Floor" gameObject.
     /// </summary>
     private void FitFloor()
     {
