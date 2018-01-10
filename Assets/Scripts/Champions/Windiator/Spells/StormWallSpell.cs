@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class StormWallSpell : Spell
 {
-    private GameObject _throwable;
-    private GameObject _throwableInst;
+    private GameObject _stormWallPrefab;
 
     protected override void Start()
     {
-        _throwable = (GameObject)Resources.Load(champion.Name + "/StormWall", typeof(GameObject));
+        _stormWallPrefab = (GameObject)Resources.Load(champion.Name + "/StormWall", typeof(GameObject));
         base.Start();
     }
 
@@ -19,7 +18,7 @@ public class StormWallSpell : Spell
 
         if (IsSpellLauncheable())
         {
-            _throwableInst = Instantiate(_throwable, transform.position + transform.forward * 2, transform.rotation, transform);
+            Instantiate(_stormWallPrefab, transform.position + transform.forward * 2, transform.rotation, transform);
             base.OnSpellLaunched();
         }
     }
