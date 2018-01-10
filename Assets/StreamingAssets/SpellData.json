@@ -62,7 +62,8 @@
 		"Status":["GustStatus"],
 		"Description":
 		[
-			""
+			"Some gust of wind which boost the all the Ally the the area of {OtherValues[1]} radius.\n",
+			"The sprit of the wind give ally <<stands[0] for {OtherValues[0]}% Cooldown reduction."
 		]
 	},
 	{
@@ -97,7 +98,10 @@
 		"Status":["BackWindStatus","InsideStormStatus"],
 		"Description":
 		[
-			""
+			"Focus the strength in the air to create a wall of wind inducing different effects.\n",
+			"The wall goes {OtherValues[1]} radius forward and stands {OtherValues[2]}sec.\n",
+			"For all Ally entities touched, it applies <<Status[0]>> and increases it speed by {OtherValues[0]}%.\n",
+			"For all Enemy entities touched, <<Status[1]>> decreases it by {OtherValues[0]%."
 		]
 	},
 	{

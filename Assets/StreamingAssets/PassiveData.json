@@ -23,7 +23,7 @@
 		"Status":["WindSpiritFavorStatus"],
 		"Description":
 		[
-			"Each time the autoAttack hits an enemy, you have {OtherValues[0]}% chance to apply WindSpiritFavor in {OtherValues[1]} range's units.\n",
+			"Each time the autoAttack hits an enemy, you have {OtherValues[0]}% chance to apply <<Status[0]>> in {OtherValues[1]} range's units.\n",
 			"This effect can provide a bonus of {OtherValues[2]}% for all cooldowns."
 		]
 	}
