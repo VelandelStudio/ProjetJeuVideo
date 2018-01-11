@@ -14,7 +14,7 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			""
+			"This strong wind is destabilizing you, reducing your move speed by {OtherValues[0]}% during {Duration} seconds."
 		]
 	},
 	{
@@ -51,7 +51,8 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			""
+			"You are proud to fight for the god of Storms.\n",
+			"Reduces your cooldown by {OtherValues[0]}% during {Duration} sec."
 		]
 	},
 	{
@@ -102,10 +103,11 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			""
+			"The wind in your back makes you move faster.\n",
+			"Increases your move speed by {OtherValues[0]}% during {Duration} seconds."
 		]
 	},
-		{
+	{
 		"ScriptName":"WindPushStatus",
 		"Name":"Wind Push",
 		"Element":"Storm",
@@ -120,7 +122,8 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			""
+			"Bumps the enemy in the air for {Duration} sec.\n",
+			"When the enemy is bumped, it can not move or attack."
 		]
 	},
 	{
@@ -151,6 +154,9 @@
 		"OtherValues":["15"],
 		"IsStackable":false,
 		"NumberOfStacks":0,
-		"Description":["You have the spirit of the storm, all your cooldown are reduced by {OtherValues[0]}%."]
+		"Description":
+		[
+			"You have the spirit of the storm, all your cooldown are reduced by {OtherValues[0]}% during {Duration} seconds."
+		]
 	}
 ]

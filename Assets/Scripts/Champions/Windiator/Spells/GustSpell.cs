@@ -20,7 +20,7 @@ public class GustSpell : Spell
 
         if (IsSpellLauncheable())
         {
-            Collider[] cols = Physics.OverlapSphere(transform.position, float.Parse(OtherValues[1]));
+            Collider[] cols = Physics.OverlapSphere(transform.position, float.Parse(OtherValues[0]));
             for (int i = 0; i < cols.Length; i++)
             {
                 if (!cols[i].isTrigger && cols[i].gameObject.tag == "Player")

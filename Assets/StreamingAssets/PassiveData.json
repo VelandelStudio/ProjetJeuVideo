@@ -15,16 +15,15 @@
 	},
 	{
 		"ScriptName":"PassiveWindiator",
-		"Name":"WindSpirit",
+		"Name":"Wind Spirit",
 		"Damages":[],
 		"DamagesType":[],
-		"OtherValues":["15","30","10"],
+		"OtherValues":["30"],
 		"NumberOfStacks":0,
 		"Status":["WindSpiritFavorStatus"],
 		"Description":
 		[
-			"Each time the autoAttack hits an enemy, you have {OtherValues[0]}% chance to apply <<Status[0]>> in {OtherValues[1]} range's units.\n",
-			"This effect can provide a bonus of {OtherValues[2]}% for all cooldowns."
+			"When activated by the <<Coup d'bambou>>, the Wind Spirit applies <<Status[0]>> to you or an ally, in {OtherValues[0]} radius units."
 		]
 	}
 ]

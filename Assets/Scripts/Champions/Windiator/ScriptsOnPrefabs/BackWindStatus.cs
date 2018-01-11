@@ -21,7 +21,7 @@ public class BackWindStatus : StatusBase, IDebuff
         projectile = transform.GetComponentInParent<IProjectile>();
         if (projectile != null)
         {
-            projectile.SlowDownProjectile(50f);
+            projectile.SlowDownProjectile(float.Parse(OtherValues[0]));
         }
     }
 
@@ -33,13 +33,11 @@ public class BackWindStatus : StatusBase, IDebuff
     {
         if (projectile != null)
         {
-            projectile.AccelerateProjectile(50f);
+            projectile.AccelerateProjectile(float.Parse(OtherValues[0]));
         }
         base.DestroyStatus();
     }
 
-    public override void StatusTickBehaviour()
-    {
+    public override void StatusTickBehaviour() { }
 
-    }
 }

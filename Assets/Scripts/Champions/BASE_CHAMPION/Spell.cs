@@ -28,9 +28,10 @@ public abstract class Spell : MonoBehaviour, IDisplayable
     public string[] OtherValues { get; protected set; }
     public GameObject[] Status { get; protected set; }
     public string[] Description { get; protected set; }
+    public int NumberOfStacks { get; protected set; }
 
     public bool HasGCD;
-    public int NumberOfStacks;
+
 
     protected bool spellInUse = false;
     protected Champion champion;

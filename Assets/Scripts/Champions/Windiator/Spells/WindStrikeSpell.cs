@@ -18,7 +18,7 @@ public class WindStrikeSpell : Spell
 	 **/
     protected override void Start()
     {
-        _slash = (GameObject)Resources.Load(champion.Name + "/WindStrikePivot", typeof(GameObject));
+        _slash = (GameObject)Resources.Load(champion.Name + "/WindStrikeSwing", typeof(GameObject));
         base.Start();
     }
 

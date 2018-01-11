@@ -21,7 +21,14 @@ public class WindStrikeSwing : MonoBehaviour
     private void Start()
     {
         _parentSpell = GetComponentInParent<WindStrikeSpell>();
+
         _collider = GetComponent<BoxCollider>();
+        _collider.center = new Vector3(_collider.center.x, _collider.center.y, float.Parse(_parentSpell.OtherValues[0]) / 2.0f);
+        _collider.size = new Vector3(_collider.size.x, _collider.size.y, float.Parse(_parentSpell.OtherValues[0]));
+        Transform area = transform.GetChild(0);
+        area.localPosition = new Vector3(0, 0, float.Parse(_parentSpell.OtherValues[0]) / 2.0f);
+        area.localScale = new Vector3(area.lossyScale.x, area.lossyScale.y, float.Parse(_parentSpell.OtherValues[0]));
+
         _anim = GetComponent<Animator>();
         _anim.SetTrigger("WindStrike");
     }

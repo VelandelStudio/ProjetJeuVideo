@@ -21,7 +21,7 @@ public class InsideStormStatus : StatusBase, IBuff
         projectile = transform.GetComponentInParent<IProjectile>();
         if (projectile != null)
         {
-            projectile.AccelerateProjectile(50f);
+            projectile.AccelerateProjectile(float.Parse(OtherValues[0]));
         }
     }
 
@@ -33,13 +33,10 @@ public class InsideStormStatus : StatusBase, IBuff
     {
         if (projectile != null)
         {
-            projectile.SlowDownProjectile(50f);
+            projectile.SlowDownProjectile(float.Parse(OtherValues[0]));
         }
         base.DestroyStatus();
     }
 
-    public override void StatusTickBehaviour()
-    {
-
-    }
+    public override void StatusTickBehaviour() { }
 }

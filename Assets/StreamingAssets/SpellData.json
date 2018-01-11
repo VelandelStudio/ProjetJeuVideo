@@ -57,13 +57,12 @@
 		"HasGCD":true,
 		"Damages":[],
 		"DamagesType":[],
-		"OtherValues":[25,30],
+		"OtherValues":[30],
 		"NumberOfStacks":0,
 		"Status":["GustStatus"],
 		"Description":
 		[
-			"Some gust of wind which boost the all the Ally the the area of {OtherValues[1]} radius.\n",
-			"The sprit of the wind give ally <<stands[0] for {OtherValues[0]}% Cooldown reduction."
+			"Some gust of wind which applies <<Status[0]>> to all allies in an area of {OtherValues[0]} units radius."
 		]
 	},
 	{
@@ -87,53 +86,55 @@
 	},
 	{
 		"ScriptName":"StormWallSpell",
-		"Name":"StormWall",
+		"Name":"Storm Wall",
 		"Element":"Storm",
 		"CoolDownValue":12.0,
 		"HasGCD":true,
 		"Damages":[],
 		"DamagesType":[],
-		"OtherValues":[15,7,8],
+		"OtherValues":[7,8],
 		"NumberOfStacks":0,
-		"Status":["BackWindStatus","InsideStormStatus"],
+		"Status":["InsideStormStatus","BackWindStatus"],
 		"Description":
 		[
 			"Focus the strength in the air to create a wall of wind inducing different effects.\n",
-			"The wall goes {OtherValues[1]} radius forward and stands {OtherValues[2]}sec.\n",
-			"For all Ally entities touched, it applies <<Status[0]>> and increases it speed by {OtherValues[0]}%.\n",
-			"For all Enemy entities touched, <<Status[1]>> decreases it by {OtherValues[0]%."
+			"The wall goes {OtherValues[0]} units forward and stands during {OtherValues[1]} sec.\n",
+			"Ally entities or projectiles that passes through receive a <<Status[0]>>.\n",
+			"Enemy entities or projectiles that passes through receive a <<Status[1]>>."
 		]
 	},
 	{
 		"ScriptName":"TridentLaunchSpell",
-		"Name":"TridentLaunch",
+		"Name":"Trident Launch",
 		"Element":"Storm",
 		"CoolDownValue":6.0,
 		"HasGCD":true,
 		"Damages":[50],
 		"DamagesType":["p"],
-		"OtherValues":[15],
+		"OtherValues":[],
 		"NumberOfStacks":2,
 		"Status":[],
 		"Description":
 		[
-			""
+			"Launch a trident in front of you that deals {Damages[0]} damages to monsters.\n",
+			"Tridents are stackable to a maximum of {NumberOfStacks}."
 		]
 	},
 	{
 		"ScriptName":"WindStrikeSpell",
-		"Name":"WindStrike",
+		"Name":"Wind Strike",
 		"Element":"Storm",
 		"CoolDownValue":10.0,
 		"HasGCD":true,
 		"Damages":[30],
 		"DamagesType":["p"],
-		"OtherValues":[5,0.5],
+		"OtherValues":[3],
 		"NumberOfStacks":0,
 		"Status":["WindPushStatus"],
 		"Description":
 		[
-			""
+			"You empower your weapon with the power of the storms. It allows you to sweep the area in a {OtherValues[0]} unit radius.\n",
+			"Inflicts {Damages[0]} damages and applies <<Status[0]>> to each monster caught in the attack."
 		]
 	}
 ]

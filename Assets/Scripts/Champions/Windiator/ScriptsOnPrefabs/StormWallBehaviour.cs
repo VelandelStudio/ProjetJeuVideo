@@ -28,14 +28,14 @@ public class StormWallBehaviour : MonoBehaviour
         _collider = GetComponent<BoxCollider>();
         origin = transform.position;
         transform.parent = null;
-        transform.position += new Vector3(0, transform.lossyScale.y/2, 0);
+        transform.position += new Vector3(0, transform.lossyScale.y / 2, 0);
 
         if (_parentSpell != null)
         {
-            _maxRange = float.Parse(_parentSpell.OtherValues[1]);
+            _maxRange = float.Parse(_parentSpell.OtherValues[0]);
         }
 
-        Invoke("DestroyItself", float.Parse(_parentSpell.OtherValues[2]));
+        Invoke("DestroyItself", float.Parse(_parentSpell.OtherValues[1]));
     }
 
     private void Update()
@@ -99,7 +99,7 @@ public class StormWallBehaviour : MonoBehaviour
     /// </summary>
     private void ModifySpeed()
     {
-        if (Vector3.Distance(transform.position, origin) >= ((66f/100f) * _maxRange))
+        if (Vector3.Distance(transform.position, origin) >= ((66f / 100f) * _maxRange))
         {
             _speedWall /= 2;
         }
@@ -118,7 +118,7 @@ public class StormWallBehaviour : MonoBehaviour
         {
             if (hit.collider.tag == "Floor")
             {
-                transform.position = new Vector3(transform.position.x, hit.point.y + transform.lossyScale.y/2, transform.position.z);
+                transform.position = new Vector3(transform.position.x, hit.point.y + transform.lossyScale.y / 2, transform.position.z);
             }
         }
     }

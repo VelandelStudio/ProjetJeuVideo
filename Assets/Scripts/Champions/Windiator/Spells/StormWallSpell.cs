@@ -34,13 +34,13 @@ public class StormWallSpell : Spell
     {
         if (collider.isTrigger)
         {
-            if (collider.gameObject.tag == "EnemyEntity")
+            if (collider.gameObject.tag == "AllyEntity")
             {
                 ApplyStatus(Status[0], collider.transform);
                 return;
             }
 
-            if (collider.gameObject.tag == "AllyEntity")
+            if (collider.gameObject.tag == "EnemyEntity")
             {
                 ApplyStatus(Status[1], collider.transform);
                 return;
@@ -48,17 +48,17 @@ public class StormWallSpell : Spell
         }
         else
         {
-            if (collider.gameObject.tag == "Monster")
+            if (collider.gameObject.tag == "Player")
             {
                 ApplyStatus(Status[0], collider.transform);
                 return;
             }
 
-            if (collider.gameObject.tag == "Player")
+            if (collider.gameObject.tag == "Monster")
             {
                 ApplyStatus(Status[1], collider.transform);
                 return;
-            } 
+            }
         }
     }
 }
