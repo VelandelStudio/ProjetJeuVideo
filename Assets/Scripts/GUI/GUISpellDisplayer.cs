@@ -22,7 +22,7 @@ public class GUISpellDisplayer : MonoBehaviour, IDisplayer
     [SerializeField] private Image _stackImage;
     [SerializeField] private Image _backgroundStack;
 
-    private Text _stackText;
+    [SerializeField] private Text _stackText;
     private Text _spellTextDescription;
     private int _numberOfStacks;
 
@@ -32,11 +32,11 @@ public class GUISpellDisplayer : MonoBehaviour, IDisplayer
         protected set { }
     }
 
-    /** Start private void Method
-	 * The start method de-activate the _spellAvailableForGUI component by default.
+    /** Awake private void Method
+	 * The Awake method de-activate the _spellAvailableForGUI component by default.
 	 * Basically, the spell Image is only CD dependant.
 	 **/
-    private void Start()
+    private void Awake()
     {
         _spellAvailableForGUI.enabled = false;
         _spellTextDescription = _spellImgDescription.GetComponentInChildren<Text>();

@@ -40,31 +40,14 @@ public class AutoAttackWindiator : AutoAttackBase {
         if (AutoAttackIsReady())
         {
             base.AutoAttack();
-            _wsa.SwapEnableArmeCol();
-            _anim.SetBool("AutoAttack", true);
-            StartCoroutine(CoroutineOneSec());
+
+            if (!_wsa.GetValueColArme())
+            {
+                _wsa.SwapEnableArmeCol();
+            }
+
+            _anim.SetTrigger("AutoAttack");
         }
-    }
-
-    /// <summary>
-    /// CoroutineOneSec Coroutine...
-    /// Wait for 1 sec before disable the Collider's weapon
-    /// Put to false the anim to return animator to the Idle State
-    /// </summary>
-    /// <returns>1 sec waiting</returns>
-    IEnumerator CoroutineOneSec()
-    {
-        AnimatorStateInfo animationState = _anim.GetCurrentAnimatorStateInfo(0);
-        AnimatorClipInfo[] myAnimatorClip = _anim.GetCurrentAnimatorClipInfo(0);
-        float myTime = myAnimatorClip[0].clip.length * animationState.normalizedTime;
-        yield return new WaitForSeconds(myTime);
-
-        if (_wsa.GetValueColArme())
-        {
-            _wsa.SwapEnableArmeCol();
-        }
-
-        _anim.SetBool("AutoAttack", false);
     }
 
     /// <summary>
@@ -76,12 +59,18 @@ public class AutoAttackWindiator : AutoAttackBase {
     public override void ApplyEffect(EntityLivingBase hit)
     {
         hit.DamageFor(Damages[0]);
+        Debug.Log("Deal " + Damages[0] + " Damage point to " + hit.name);
 
         PassiveWindiator passive = GetComponent<PassiveWindiator>();
         if (hit.tag != "Player")
         {
             // Need table of player so I apply status on Windiator before new features
             passive.ProcPassive(this.gameObject);
+        }
+
+        if (_wsa.GetValueColArme())
+        {
+            _wsa.SwapEnableArmeCol();
         }
     }
 }

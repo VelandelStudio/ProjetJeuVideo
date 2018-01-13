@@ -23,14 +23,14 @@ public abstract class Champion : MonoBehaviour
         get { return characterData.Name; }
         protected set { }
     }
-    /** Start protected virtual void Method.
-	 * The Start methos is here to construct the class, attributing the spells passive and auto-attack.
-	 * First at all, we try to read the CharacterData.json file. After that, we collect every CharacterData declared in the JSON file.
-	 * Then, we parse the Array of CharacterData and try to find the one corresponding to the Champion name.
-	 * If we find one, we construct the class.
-	 * These elements are constructed in three separated methods.
-	 **/
-    protected virtual void Start()
+
+    /// <summary>
+    /// The Awake methos is here to construct the class, attributing the spells passive and auto-attack.
+	/// First at all, we try to read the CharacterData.json file.After that, we collect every CharacterData declared in the JSON file.
+    /// Then, we parse the Array of CharacterData and try to find the one corresponding to the Champion name.
+    /// If we find one, we construct the class.
+    /// </summary>
+    private void Awake()
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, "CharacterData.json");
         if (File.Exists(filePath))
@@ -50,7 +50,14 @@ public abstract class Champion : MonoBehaviour
         {
             Debug.LogError("Cannot load game data!");
         }
+    }
 
+    /** Start protected virtual void Method.
+     * From the Awake Method
+	 * These elements are constructed in three separated methods.
+	 **/
+    protected virtual void Start()
+    {
         AttributePassiveToClass();
         AttributeAutoAttackToClass();
         AttributeSpellsToClass();

@@ -38,6 +38,11 @@ public class StormWallBehaviour : MonoBehaviour
         Invoke("DestroyItself", float.Parse(_parentSpell.OtherValues[1]));
     }
 
+    /// <summary>
+    /// Private Update method
+    /// Check if the wall is moving to stop it until it reach the max range
+    /// Call some methods to stay on the ground and modidy its speed
+    /// </summary>
     private void Update()
     {
         if (_wallMoving)

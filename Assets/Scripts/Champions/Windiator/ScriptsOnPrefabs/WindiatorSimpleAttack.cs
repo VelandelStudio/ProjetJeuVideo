@@ -9,11 +9,31 @@ using UnityEngine;
 /// </summary>
 public class WindiatorSimpleAttack : MeleAttack {
 
-    private AutoAttackWindiator autoAttackWindiator;
+    private AutoAttackWindiator _autoAttackWindiator;
 
+    /// <summary>
+    /// Start Method used to start parameters in the mother Class
+    /// </summary>
     protected override void Start()
     {
         base.Start();
+    }
+
+    /// <summary>
+    /// Update check the state of the collider of the weapon.
+    /// If the attack touch nothing, the collider stay enable, so we need to disable it.
+    /// But we need to do it at the moment where the autoAttack stopped
+    /// </summary>
+    private void Update()
+    {
+        if (_arme.enabled)
+        {
+            Invoke("SwapEnableArmeCol", _autoAttackWindiator.CoolDownValue);
+        }
+        else
+        {
+            CancelInvoke();
+        }
     }
 
     /// <summary>
@@ -23,7 +43,7 @@ public class WindiatorSimpleAttack : MeleAttack {
     /// <param name="autoAttack">Parent AutoAttack</param>
     public void AttributeAutoAttack(AutoAttackWindiator autoAttack)
     {
-        autoAttackWindiator = autoAttack;
+        _autoAttackWindiator = autoAttack;
     }
 
     /// <summary>
@@ -38,8 +58,7 @@ public class WindiatorSimpleAttack : MeleAttack {
   
         if (entityHit != null && entityHit.tag != "player")
         {
-            // Apply something to the enemy
-            autoAttackWindiator.ApplyEffect(entityHit);
+            _autoAttackWindiator.ApplyEffect(entityHit);
             _arme.enabled = false;
         }
     }

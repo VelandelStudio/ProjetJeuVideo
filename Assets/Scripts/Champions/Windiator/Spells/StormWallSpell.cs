@@ -6,12 +6,22 @@ public class StormWallSpell : Spell
 {
     private GameObject _stormWallPrefab;
 
+    /// <summary>
+    /// Override Start method
+    /// Load the wall from the ressources and call the mother method
+    /// </summary>
     protected override void Start()
     {
         _stormWallPrefab = (GameObject)Resources.Load(champion.Name + "/StormWall", typeof(GameObject));
         base.Start();
     }
 
+    /// <summary>
+    /// LaunchSpell method :
+    /// Start calling the mother method
+    /// then pop the wall in front of the played who lauch the wall and call OnSpellLaunched to start the cooldown
+    /// and disable the using of the spell
+    /// </summary>
     public override void LaunchSpell()
     {
         base.LaunchSpell();
