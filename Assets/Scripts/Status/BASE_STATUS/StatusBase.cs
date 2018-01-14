@@ -25,6 +25,8 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     public float[] TicksIntervals { get; protected set; }
     public float[] TickStarts { get; protected set; }
 
+    private Boolean _isLoaded = false;
+
     public bool IsStackable;
     public int NumberOfStacks;
 
@@ -215,13 +217,38 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
                 if (status.ScriptName == this.GetType().ToString())
                 {
                     StatusDefinition = status;
+                    _isLoaded = true;
                     break;
                 }
+            }
+
+            if (!_isLoaded)
+            {
+                LoadDefaultStatus(json);
             }
         }
         else
         {
             Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
+        }
+    }
+
+    protected void LoadDefaultStatus(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+
+            StatusData[] data = JsonHelper.getJsonArray<StatusData>(jsonFile);
+            foreach (StatusData status in data)
+            {
+                if (status.ScriptName == "DefaultStatus")
+                {
+                    StatusDefinition = status;
+                    break;
+                }
+            }
         }
     }
 

@@ -23,6 +23,8 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     public GameObject[] Status { get; protected set; }
     public string[] Description { get; protected set; }
 
+    private Boolean _isLoaded = false;
+
     public float CurrentCD;
     protected Champion champion;
     #endregion
@@ -119,13 +121,37 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
                 if (autoAttack.ScriptName == this.GetType().ToString())
                 {
                     AutoAttackDefinition = autoAttack;
+                    _isLoaded = true;
                     break;
                 }
+            }
+
+            if (!_isLoaded)
+            {
+                LoadDeafaultAutoAttack(json);
             }
         }
         else
         {
             Debug.LogError("Cannot load Auto-attack data!");
+        }
+    }
+
+    protected void LoadDeafaultAutoAttack(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+            AutoAttackData[] data = JsonHelper.getJsonArray<AutoAttackData>(jsonFile);
+            foreach (AutoAttackData autoAttack in data)
+            {
+                if (autoAttack.ScriptName == "AutoAttackDefault")
+                {
+                    AutoAttackDefinition = autoAttack;
+                    break;
+                }
+            }
         }
     }
 

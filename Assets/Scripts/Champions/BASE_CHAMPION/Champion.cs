@@ -18,6 +18,8 @@ public abstract class Champion : MonoBehaviour
     protected AutoAttackBase autoAttack;
     protected CharacterData characterData;
 
+    private Boolean _isLoaded = false;
+
     public string Name
     {
         get { return characterData.Name; }
@@ -42,8 +44,14 @@ public abstract class Champion : MonoBehaviour
                 if (character.Name == this.GetType().ToString())
                 {
                     characterData = character;
+                    _isLoaded = true;
                     break;
                 }
+            }
+
+            if (!_isLoaded)
+            {
+                LoadDeafaultChamp();
             }
         }
         else
@@ -213,6 +221,24 @@ public abstract class Champion : MonoBehaviour
             default: break;
         }
         UnityEditor.EditorApplication.isPlaying = false;
+    }
+
+    protected void LoadDeafaultChamp()
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, "CharacterData.json");
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+            CharacterData[] data = JsonHelper.getJsonArray<CharacterData>(jsonFile);
+            foreach (CharacterData character in data)
+            {
+                if (character.Name == "DefaultChampion")
+                {
+                    characterData = character;
+                    break;
+                }
+            }
+        }
     }
 
     /** CharacterData protected Serializable class.

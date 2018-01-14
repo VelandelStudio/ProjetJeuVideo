@@ -32,6 +32,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
 
     public bool HasGCD;
 
+    private Boolean _isLoaded = false;
 
     protected bool spellInUse = false;
     protected Champion champion;
@@ -202,13 +203,37 @@ public abstract class Spell : MonoBehaviour, IDisplayable
                 if (spell.ScriptName == this.GetType().ToString())
                 {
                     SpellDefinition = spell;
+                    _isLoaded = true;
                     break;
                 }
+            }
+
+            if (!_isLoaded)
+            {
+                LoadDefaultSpell(json);
             }
         }
         else
         {
             Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
+        }
+    }
+
+    protected void LoadDefaultSpell(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+            SpellData[] data = JsonHelper.getJsonArray<SpellData>(jsonFile);
+            foreach (SpellData spell in data)
+            {
+                if (spell.ScriptName == "DefaultSpell")
+                {
+                    SpellDefinition = spell;
+                    break;
+                }
+            }
         }
     }
 

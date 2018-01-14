@@ -18,6 +18,24 @@
 		]
 	},
 	{
+		"ScriptName":"DefaultStatus",
+		"Name":"Default Status",
+		"Element":"none",
+		"Duration":5,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"A Default Status to Apply."
+		]
+	},
+	{
 		"ScriptName":"FavorOfFireStatus",
 		"Name":"Favor of Fire",
 		"Element":"Fire",

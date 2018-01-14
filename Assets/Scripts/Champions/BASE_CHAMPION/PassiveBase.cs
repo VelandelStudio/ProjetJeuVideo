@@ -27,6 +27,8 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     public GameObject[] Status { get; protected set; }
     public string[] Description { get; protected set; }
 
+    private Boolean _isLoaded = false;
+
     protected Champion champion;
 
     public int NumberOfStacks;
@@ -77,13 +79,37 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
                 if (passive.ScriptName == this.GetType().ToString())
                 {
                     _passiveDefinition = passive;
+                    _isLoaded = true;
                     break;
                 }
+            }
+
+            if (!_isLoaded)
+            {
+                LoadDeafaultPassiv(json);
             }
         }
         else
         {
             Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
+        }
+    }
+
+    protected void LoadDeafaultPassiv(string json)
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, json);
+        if (File.Exists(filePath))
+        {
+            string jsonFile = File.ReadAllText(filePath);
+            PassiveData[] data = JsonHelper.getJsonArray<PassiveData>(jsonFile);
+            foreach (PassiveData passive in data)
+            {
+                if (passive.ScriptName == "DefaultPassive")
+                {
+                    _passiveDefinition = passive;
+                    break;
+                }
+            }
         }
     }
 
