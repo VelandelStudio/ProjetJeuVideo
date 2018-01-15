@@ -87,7 +87,6 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         StatusBase[] statusOnTarget = transform.parent.GetComponentsInChildren<StatusBase>(true);
         for (int i = 0; i < statusOnTarget.Length; i++)
         {
-            Debug.Log(statusOnTarget[i]);
             if (statusOnTarget[i].Name == status.Name)
             {
                 if (transform.GetComponentInParent<IProjectile>() != null)

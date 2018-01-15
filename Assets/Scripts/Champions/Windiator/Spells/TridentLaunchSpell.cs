@@ -16,10 +16,10 @@ public class TridentLaunchSpell : StackableSpell
 
     protected override void Start()
     {
-        base.Start();
         _cameraPlayer = this.GetComponentInChildren<Camera>();
         _launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
-        _throwable = (GameObject)Resources.Load("Windiator/Trident", typeof(GameObject));
+        _throwable = LoadResource("Trident");
+        base.Start();
     }
 
     /** LaunchSpell : public override void Method

@@ -43,13 +43,14 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         Damages = AutoAttackDefinition.Damages;
         DamagesType = AutoAttackDefinition.DamagesType;
         OtherValues = AutoAttackDefinition.OtherValues;
+        champion = GetComponentInParent<Champion>();
+
         if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
         {
             Status = new GameObject[AutoAttackDefinition.Status.Length];
-            champion = GetComponentInParent<Champion>();
             for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
             {
-                Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + AutoAttackDefinition.Status[i], typeof(GameObject));
+                Status[i] = LoadResource(AutoAttackDefinition.Status[i]);
                 Status[i].GetComponent<StatusBase>().PreWarm();
             }
         }
@@ -73,6 +74,16 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         {
             CurrentCD = Mathf.Clamp(CurrentCD - Time.deltaTime, 0, CoolDownValue);
         }
+    }
+
+    /** LoadResource, protected virtual GameObject Method
+	 * @param : string,
+	 * @return : GameObject
+	 * This method is used to load a GameObject prefab inside the champion folder.
+	 **/
+    protected virtual GameObject LoadResource(string prefabName)
+    {
+        return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
     }
 
     /** AutoAttackIsReady protected bool Method,

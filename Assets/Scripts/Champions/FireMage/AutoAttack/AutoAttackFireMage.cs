@@ -23,8 +23,8 @@ public class AutoAttackFireMage : AutoAttackBase
     protected override void Start()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
-        _throwable = (GameObject)Resources.Load("FireMage/AutoAttackFireMage", typeof(GameObject));
-        _shieldObject = (GameObject)Resources.Load("FireMage/FireMageShield", typeof(GameObject));
+        _throwable = LoadResource("AutoAttackFireMage");
+        _shieldObject = LoadResource("FireMageShield");
         _launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
 
         base.Start();
