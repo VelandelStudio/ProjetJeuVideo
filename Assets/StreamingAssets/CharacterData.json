@@ -3,7 +3,7 @@
 		"Name":"DefaultChampion",
 		"Passive":"DefaultPassive",
 		"AutoAttack":"AutoAttackDefault",
-		"ActiveSpells":["DefaultSpell1", "DefaultSpell2", "DefaultSpell3", "DefaultSpell4"]
+		"ActiveSpells":["DefaultSpell"]
 	},
 	{
 		"Name":"FireMage",
