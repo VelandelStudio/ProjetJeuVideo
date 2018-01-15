@@ -20,7 +20,7 @@ public class SolarBurnSpell : Spell
     protected override void Start()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
-        throwable = (GameObject)Resources.Load("FireMage/SolarBall", typeof(GameObject));
+        throwable = LoadResource("SolarBall");
         base.Start();
     }
 

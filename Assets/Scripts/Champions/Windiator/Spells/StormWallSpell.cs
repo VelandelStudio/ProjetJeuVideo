@@ -12,7 +12,7 @@ public class StormWallSpell : Spell
     /// </summary>
     protected override void Start()
     {
-        _stormWallPrefab = (GameObject)Resources.Load(champion.Name + "/StormWall", typeof(GameObject));
+        _stormWallPrefab = LoadResource("StormWall");
         base.Start();
     }
 

@@ -17,7 +17,7 @@ public class FireBallSpell : Spell
     protected override void Start()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
-        _throwable = (GameObject)Resources.Load("FireMage/FireBall", typeof(GameObject));
+        _throwable = LoadResource("FireBall");
         _launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
 
         base.Start();

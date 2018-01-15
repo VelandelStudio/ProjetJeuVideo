@@ -8,7 +8,7 @@ using System.IO;
 /** Champion abstract class.
  * This abstract class is the mother class of all classes in our game. It ensures that the class is well constructed with all of the spells, passive and auto-attack.
  * This script also detects the input keys of the player, and launches the spells.
- * In order to build correctly a class, you have to write the names of all your spells in the CharacterData.json
+ * In order to build correctly a class, you have to write the names of all your spells in the ChampionData.json
  * This script ensure that a class can be self constructed with informations you give in the JSON file.
  **/
 public abstract class Champion : MonoBehaviour
@@ -16,34 +16,34 @@ public abstract class Champion : MonoBehaviour
     protected PassiveBase passiveBase;
     protected List<Spell> spells = new List<Spell>();
     protected AutoAttackBase autoAttack;
-    protected CharacterData characterData;
+    protected ChampionData championData;
 
     private Boolean _isLoaded = false;
 
     public string Name
     {
-        get { return characterData.Name; }
+        get { return championData.Name; }
         protected set { }
     }
 
     /// <summary>
     /// The Awake methos is here to construct the class, attributing the spells passive and auto-attack.
-	/// First at all, we try to read the CharacterData.json file.After that, we collect every CharacterData declared in the JSON file.
-    /// Then, we parse the Array of CharacterData and try to find the one corresponding to the Champion name.
+	/// First at all, we try to read the ChampionData.json file.After that, we collect every ChampionData declared in the JSON file.
+    /// Then, we parse the Array of ChampionData and try to find the one corresponding to the Champion name.
     /// If we find one, we construct the class.
     /// </summary>
     private void Awake()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "CharacterData.json");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "ChampionData.json");
         if (File.Exists(filePath))
         {
             string jsonFile = File.ReadAllText(filePath);
-            CharacterData[] data = JsonHelper.getJsonArray<CharacterData>(jsonFile);
-            foreach (CharacterData character in data)
+            ChampionData[] data = JsonHelper.getJsonArray<ChampionData>(jsonFile);
+            foreach (ChampionData character in data)
             {
                 if (character.Name == this.GetType().ToString())
                 {
-                    characterData = character;
+                    championData = character;
                     _isLoaded = true;
                     break;
                 }
@@ -142,14 +142,14 @@ public abstract class Champion : MonoBehaviour
     }
 
     /** AttributePassiveToClass protected virtual void Method.
-	 * This method is called by the Start method. The Objective of the method is to get the Passive spell name in the characterData instance.
+	 * This method is called by the Start method. The Objective of the method is to get the Passive spell name in the championData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, the HandleException(1) is launched.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about the Passive.
 	 **/
     protected virtual void AttributePassiveToClass()
     {
-        Type t = Type.GetType(characterData.Passive);
+        Type t = Type.GetType(championData.Passive);
         if (t == null)
         {
             HandleException(1);
@@ -161,14 +161,14 @@ public abstract class Champion : MonoBehaviour
     }
 
     /** AttributeAutoAttackToClass protected virtual void Method.
-	 * This method is called by the Start method. The Objective of the method is to get the AutoAttack spell name in the characterData instance.
+	 * This method is called by the Start method. The Objective of the method is to get the AutoAttack spell name in the championData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, the HandleException(2) is launched.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about the AutoAttack.
 	 **/
     protected virtual void AttributeAutoAttackToClass()
     {
-        Type t = Type.GetType(characterData.AutoAttack);
+        Type t = Type.GetType(championData.AutoAttack);
         if (t == null)
         {
             HandleException(2);
@@ -181,7 +181,7 @@ public abstract class Champion : MonoBehaviour
     }
 
     /** AttributeSpellsToClass protected virtual void Method.
-	 * This method is called by the Start method. The Objective of the method is to get the spell names in the characterData instance.
+	 * This method is called by the Start method. The Objective of the method is to get the spell names in the championData instance.
 	 * Then, it get all of the script in the scripts library and attach it to the player.
 	 * If one of the scripts is not found or mispelled, the HandleException(3) is launched.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about each spell.
@@ -190,7 +190,7 @@ public abstract class Champion : MonoBehaviour
     {
         for (int i = 1; i <= 4; i++)
         {
-            string SpellName = characterData.ActiveSpells[i - 1];
+            string SpellName = championData.ActiveSpells[i - 1];
             if (Type.GetType(SpellName) == null)
             {
                 HandleException(3);
@@ -214,8 +214,8 @@ public abstract class Champion : MonoBehaviour
     {
         switch (e)
         {
-            case 1: Debug.LogError("Passive null ou inexistante (faute de frappe ?) PassiveClassName : " + characterData.Passive); break;
-            case 2: Debug.LogError("AutoAttack null ou inexistante (faute de frappe ?) AutoAttackClassName : " + characterData.AutoAttack); break;
+            case 1: Debug.LogError("Passive null ou inexistante (faute de frappe ?) PassiveClassName : " + championData.Passive); break;
+            case 2: Debug.LogError("AutoAttack null ou inexistante (faute de frappe ?) AutoAttackClassName : " + championData.AutoAttack); break;
             case 3: Debug.LogError("Liste de sorts null ou Sort inexistant (faute de frappe ?)"); break;
 
             default: break;
@@ -241,12 +241,12 @@ public abstract class Champion : MonoBehaviour
         }
     }
 
-    /** CharacterData protected Serializable class.
+    /** ChampionData protected Serializable class.
 	 * This class were designed to be at the service of the Champion class.
 	 * It is used as a JSON Object to stock every variables read from the JSON file.
 	 **/
     [System.Serializable]
-    protected class CharacterData
+    protected class ChampionData
     {
         public string Name;
         public string Passive;

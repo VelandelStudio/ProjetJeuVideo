@@ -80,13 +80,13 @@ public abstract class Spell : MonoBehaviour, IDisplayable
         NumberOfStacks = SpellDefinition.NumberOfStacks;
         Description = SpellDefinition.Description;
 
+        champion = GetComponentInParent<Champion>();
         if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
         {
             Status = new GameObject[SpellDefinition.Status.Length];
-            champion = GetComponentInParent<Champion>();
             for (int i = 0; i < SpellDefinition.Status.Length; i++)
             {
-                Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + SpellDefinition.Status[i], typeof(GameObject));
+                Status[i] = LoadResource(SpellDefinition.Status[i]);
                 Status[i].GetComponent<StatusBase>().PreWarm();
             }
         }
@@ -120,6 +120,16 @@ public abstract class Spell : MonoBehaviour, IDisplayable
     public virtual void LaunchSpell()
     {
         spellInUse = true;
+    }
+
+    /** LoadResource, protected virtual GameObject Method
+	 * @param : string,
+	 * @return : GameObject
+	 * This method is used to load a GameObject prefab inside the champion folder.
+	 **/
+    protected virtual GameObject LoadResource(string prefabName)
+    {
+        return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
     }
 
     /** OnSpellLaunched protected virtual void Method,

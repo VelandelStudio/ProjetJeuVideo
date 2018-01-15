@@ -17,7 +17,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
      * We should always work with these public fields and never with the raw data of the JSON.
      **/
     #region Fields  	
-    public PassiveData _passiveDefinition { get; protected set; }
+    public PassiveData PassiveDefinition { get; protected set; }
     public string Name { get; protected set; }
     public string Element { get; protected set; }
     public float CoolDownValue { get; protected set; }
@@ -42,22 +42,22 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     protected void Awake()
     {
         LoadSpellData("PassiveData.json");
-        NumberOfStacks = _passiveDefinition.NumberOfStacks;
-        Description = _passiveDefinition.Description;
-        Name = _passiveDefinition.Name;
-        Damages = _passiveDefinition.Damages;
-        DamagesType = _passiveDefinition.DamagesType;
-        OtherValues = _passiveDefinition.OtherValues;
-        NumberOfStacks = _passiveDefinition.NumberOfStacks;
-        Description = _passiveDefinition.Description;
+        NumberOfStacks = PassiveDefinition.NumberOfStacks;
+        Description = PassiveDefinition.Description;
+        Name = PassiveDefinition.Name;
+        Damages = PassiveDefinition.Damages;
+        DamagesType = PassiveDefinition.DamagesType;
+        OtherValues = PassiveDefinition.OtherValues;
+        NumberOfStacks = PassiveDefinition.NumberOfStacks;
+        Description = PassiveDefinition.Description;
 
-        if (_passiveDefinition.Status.Length > 0 && _passiveDefinition.Status[0] != "")
+        champion = GetComponentInParent<Champion>();
+        if (PassiveDefinition.Status.Length > 0 && PassiveDefinition.Status[0] != "")
         {
-            Status = new GameObject[_passiveDefinition.Status.Length];
-            champion = GetComponentInParent<Champion>();
-            for (int i = 0; i < _passiveDefinition.Status.Length; i++)
+            Status = new GameObject[PassiveDefinition.Status.Length];
+            for (int i = 0; i < PassiveDefinition.Status.Length; i++)
             {
-                Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + _passiveDefinition.Status[i], typeof(GameObject));
+                Status[i] = LoadResource(PassiveDefinition.Status[i]);
                 Status[i].GetComponent<StatusBase>().PreWarm();
             }
         }
@@ -78,7 +78,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
             {
                 if (passive.ScriptName == this.GetType().ToString())
                 {
-                    _passiveDefinition = passive;
+                    PassiveDefinition = passive;
                     _isLoaded = true;
                     break;
                 }
@@ -111,6 +111,16 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
                 }
             }
         }
+     }
+	
+    /** LoadResource, protected virtual GameObject Method
+	 * @param : string,
+	 * @return : GameObject
+	 * This method is used to load a GameObject prefab inside the champion folder.
+	 **/
+    protected virtual GameObject LoadResource(string prefabName)
+    {
+        return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
     }
 
     /**GetDescriptionGUI, public string Method
