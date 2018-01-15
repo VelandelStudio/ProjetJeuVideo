@@ -229,12 +229,12 @@ public abstract class Champion : MonoBehaviour
         if (File.Exists(filePath))
         {
             string jsonFile = File.ReadAllText(filePath);
-            CharacterData[] data = JsonHelper.getJsonArray<CharacterData>(jsonFile);
-            foreach (CharacterData character in data)
+            ChampionData[] data = JsonHelper.getJsonArray<ChampionData>(jsonFile);
+            foreach (ChampionData character in data)
             {
                 if (character.Name == "DefaultChampion")
                 {
-                    characterData = character;
+                    championData = character;
                     break;
                 }
             }

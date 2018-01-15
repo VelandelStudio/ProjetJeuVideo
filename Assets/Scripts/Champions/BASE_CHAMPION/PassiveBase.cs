@@ -106,7 +106,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
             {
                 if (passive.ScriptName == "DefaultPassive")
                 {
-                    _passiveDefinition = passive;
+                    PassiveDefinition = passive;
                     break;
                 }
             }

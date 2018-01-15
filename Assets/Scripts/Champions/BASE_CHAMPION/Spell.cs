@@ -86,8 +86,15 @@ public abstract class Spell : MonoBehaviour, IDisplayable
             Status = new GameObject[SpellDefinition.Status.Length];
             for (int i = 0; i < SpellDefinition.Status.Length; i++)
             {
-                Status[i] = LoadResource(SpellDefinition.Status[i]);
-                Status[i].GetComponent<StatusBase>().PreWarm();
+                if (SpellDefinition.Status[i] != null)
+                {
+                    Status[i] = LoadResource(SpellDefinition.Status[i]);
+                    Status[i].GetComponent<StatusBase>().PreWarm();
+                }
+                else
+                {
+                    Debug.Log("Status[" + i + "] is null. Please Ensure that this Status exists as a Prefabs with the same Script Name associated to it.");
+                }
             }
         }
     }

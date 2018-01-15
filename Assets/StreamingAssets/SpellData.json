@@ -18,7 +18,7 @@
 	},
 	{
 		"ScriptName":"DefaultSpell",
-		"Name":"Default Spell]",
+		"Name":"Default Spell",
 		"Element":"none",
 		"CoolDownValue":1,
 		"HasGCD":true,
@@ -26,7 +26,7 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["DefaultStatus"],
+		"Status":[""],
 		"Description":
 		[
 			"the DefaultStatus loaded."
@@ -101,7 +101,7 @@
 		]
 	},
 	{
-		"ScriptName":"StormWallSpell",
+		"ScriptName":"StormWall",
 		"Name":"Storm Wall",
 		"Element":"Storm",
 		"CoolDownValue":12.0,
