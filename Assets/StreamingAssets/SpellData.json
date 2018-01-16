@@ -1,0 +1,140 @@
+[
+	 {
+		"ScriptName":"ConflagrationSpell",
+		"Name":"Conflagration",
+		"Element":"Fire",
+		"CoolDownValue":12.0,
+		"HasGCD":true,
+		"Damages":[20,10],
+		"DamagesType":["m","m"],
+		"OtherValues":["50"],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Make every Ignite explodes and inflicts {Damages[0]} damages to target.\n",
+			"Every monster taken in the explosion sudden {Damages[1]} damages and has {OtherValues[0]}% of chances to be affected by a new Ignite."
+		]
+	},
+	{
+		"ScriptName":"FireBallSpell",
+		"Name":"FireBall",
+		"Element":"Fire",
+		"CoolDownValue":3.0,
+		"HasGCD":true,
+		"Damages":[5],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["IgniteStatus"],
+		"Description":
+		[
+			"Launch a Fireball in front of the player.\n",
+			"If the Fireball hits a monster,it sudden {Damages[0]} damages and apply <<Status[0]>>"
+		]
+	},
+	{
+		"ScriptName":"FireBlessingSpell",
+		"Name":"Fire Blessing",
+		"Element":"Fire",
+		"CoolDownValue":30.0,
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":["5"],
+		"NumberOfStacks":0,
+		"Status":["FavorOfFireStatus"],
+		"Description":
+		[ 
+			"The Goddess of fire gives you a <<Status[0]>>."
+		]
+	},
+	{
+		"ScriptName":"GustSpell",
+		"Name":"Gust",
+		"Element":"Storm",
+		"CoolDownValue":30.0,
+		"HasGCD":true,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"NumberOfStacks":0,
+		"Status":["GustStatus"],
+		"Description":
+		[
+			"Some gust of wind which applies <<Status[0]>> to all allies in an area of {OtherValues[0]} units radius."
+		]
+	},
+	{
+		"ScriptName":"SolarBurnSpell",
+		"Name":"Solar Burn",
+		"Element":"Fire",
+		"CoolDownValue":7.0,
+		"HasGCD":true,
+		"Damages":[100,100],
+		"DamagesType":["m","m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Invokes an enormous eruption from the sky that explodes at the targeted point.\n",
+			"At the impact, if the Solar Burn hits an entity, it sudden {Damages[0]} damages.\n",
+			"Otherwise, every target caught in the explosion sudden {Damages[1]} damages.\n",
+			"Critical hits inflicts 4x more damages instand of 2x."
+		]
+	},
+	{
+		"ScriptName":"StormWallSpell",
+		"Name":"Storm Wall",
+		"Element":"Storm",
+		"CoolDownValue":12.0,
+		"HasGCD":true,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[7,8],
+		"NumberOfStacks":0,
+		"Status":["InsideStormStatus","BackWindStatus"],
+		"Description":
+		[
+			"Focus the strength in the air to create a wall of wind inducing different effects.\n",
+			"The wall goes {OtherValues[0]} units forward and stands during {OtherValues[1]} sec.\n",
+			"Ally entities or projectiles that passes through receive a <<Status[0]>>.\n",
+			"Enemy entities or projectiles that passes through receive a <<Status[1]>>."
+		]
+	},
+	{
+		"ScriptName":"TridentLaunchSpell",
+		"Name":"Trident Launch",
+		"Element":"Storm",
+		"CoolDownValue":6.0,
+		"HasGCD":true,
+		"Damages":[50],
+		"DamagesType":["p"],
+		"OtherValues":[],
+		"NumberOfStacks":2,
+		"Status":[],
+		"Description":
+		[
+			"Launch a trident in front of you that deals {Damages[0]} damages to monsters.\n",
+			"Tridents are stackable to a maximum of {NumberOfStacks}."
+		]
+	},
+	{
+		"ScriptName":"WindStrikeSpell",
+		"Name":"Wind Strike",
+		"Element":"Storm",
+		"CoolDownValue":10.0,
+		"HasGCD":true,
+		"Damages":[30],
+		"DamagesType":["p"],
+		"OtherValues":[3],
+		"NumberOfStacks":0,
+		"Status":["WindPushStatus"],
+		"Description":
+		[
+			"You empower your weapon with the power of the storms. It allows you to sweep the area in a {OtherValues[0]} unit radius.\n",
+			"Inflicts {Damages[0]} damages and applies <<Status[0]>> to each monster caught in the attack."
+		]
+	}
+]

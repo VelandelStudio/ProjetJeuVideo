@@ -16,6 +16,46 @@ public abstract class EntityLivingBase : MonoBehaviour
     private bool IsAlive { get { return !IsDead; } }
     private bool _startDespawn;
 
+    /** Awake, protected virtual void
+	 * First of all, we are checking that all LivingEntities that are not players have a Rigidbody that fits with the game rules. Which are.
+	 * Living Entities must have a rigidbody which uses gravity and is not kinematic.
+	 * Position are not frozen.
+	 * Only X and Z Rotation are frozen.
+     * Be aware that RigidbodyConstraints are sum of bytes, this is why we always use a simple | in test.
+	 **/
+    protected virtual void Awake()
+    {
+        if (gameObject.tag != "Player")
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb == null)
+            {
+                rb = (Rigidbody)gameObject.AddComponent(typeof(Rigidbody));
+                Debug.Log(gameObject.name + " est une EntityLivingBase sans Rigidbody. Il a été ajouté automatiquement. Merci de corriger le prefab.");
+            }
+
+            if (!rb.useGravity)
+            {
+                rb.useGravity = true;
+                Debug.Log(gameObject.name + " porte un Rigidbody sans gravité. Gravité activée automatiquement. Merci de corriger le prefab.");
+            }
+
+            if (rb.isKinematic)
+            {
+                rb.isKinematic = false;
+                Debug.Log(gameObject.name + " porte un Rigidbody kinematic. Kinematic désactivé automatiquement. Merci de corriger le prefab.");
+            }
+
+            if (rb.constraints != (RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ))
+            {
+                rb.constraints = RigidbodyConstraints.None;
+                rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                Debug.Log(gameObject.name + " porte un Rigidbody dont l'une des Constraints est érronée. Les positions ont été Defreeze automatiquement."
+                         + "Seuls les roations en X et Z ont été Freeze. Merci de corriger le prefab.");
+            }
+        }
+    }
+
     /** InitializeLivingEntity public method.
      * This method is used when an entity is created. It will set the parameters HP and HPMax of the entity.
      **/
@@ -93,11 +133,16 @@ public abstract class EntityLivingBase : MonoBehaviour
 
     /** EntityDies protected method.
      * This method is called when HP reaches 0.
-     * When launched, this method should launch the death animation of the element.
+     * When launched, this method should launch the death animation of the element and clear all Status present on the entity.
      * Then it starts the coroutine DespawnEntity.
      **/
     protected void EntityDies()
     {
+        IStatus[] status = GetComponentsInChildren<IStatus>();
+        foreach (IStatus s in status)
+        {
+            s.DestroyStatus();
+        }
         /// TODO : We need to add HERE the death Animation.
         StartCoroutine(DespawnEntity());
     }

@@ -3,25 +3,23 @@
 /** GameObjectDetector Script
  * The GameObjectDetector class is used to detect object in front of and behind the player in his environnement.
  * This script has two main aims : Detect if items in front of the player are interractable and MakeTransparent items behind the player.
- * In order to shoot Raycast properly, we are using 2 empty GameObjects (backDetector and frontDetector) attached to the player.
  * These gameObjects are used as "origin" of all of the raycasts.
  **/
 public class GameObjectDetector : MonoBehaviour
 {
-    [SerializeField] private GameObject _backDetector;
-    [SerializeField] private GameObject _frontDetector;
-
-    [SerializeField] private float _rayCastMaxRange = 5f;
-
-    public Vector3 OriginPoint;
+    [SerializeField] private float _rayCastMaxRange;
     private int _layerMask;
     private Transform _cameraTransform;
+    private Ray _cameraAim;
+    private float _playerHeight;
+
     /** Start, private void method.
 	 * The start Method is used the get the layerMask TriggerInterractableEntity as an integer.
 	 * This layer is used for Interractable gameObjects launched by trigers only.
 	 **/
     private void Start()
     {
+        _playerHeight = GetComponent<CharacterController>().height * transform.localScale.y + 0.1f;
         _layerMask = LayerMask.NameToLayer("TriggerInterractableEntity");
         _cameraTransform = GetComponentInChildren<Camera>().transform;
     }
@@ -29,45 +27,61 @@ public class GameObjectDetector : MonoBehaviour
     /** FixedUpdate Method 
      * This method to fire all of the Raycasts.
 	 *
-	 * First of all, we launch the RayCast in front off the player.
-	 * The Origin point of the raycast is the projected vector of the frontDetector + the distance between the player and the camera in the projected plan.
-	 * Then, we shoot this raycast towards the camera transfmorm.forward direction. In this way, the player (irl person) can aim with the mouse.
-	 * Please note that there are two Raycasts : one to detect solid interractables and one to detect triggers interractable.
-     * When an interractable is detected, we check is he is elligible for the detection (in order to not highlight a trigger instead of a collider for example).
-	 * 
-	 * After that, we launch the behind the player, from the camera, to the backDetector.
-	 * Then, we collect all of the GameObjects and make them Transparent if they are elligible for that.
+	 * First of all, we launch the RayCastAll from the camera to the camera.transform.forward and we collect every gameObjects.
+	 * After that, we parse all of the gameObjects detected and launch a RayCast from the player to this GameObject.
+	 * With this Raycast we are able to know if a gameObject is in front of the Player or behind the player.
+	 * After that we threat each case sepratly and apply Transparency on all GameObjects behind the player and highlight the first interractable encountered in front of the player.
      **/
     private void FixedUpdate()
     {
-        Vector3 vPlayerProjected = Vector3.Project(_frontDetector.transform.position - _cameraTransform.position, _cameraTransform.forward);
-        Vector3 originPointFront = _cameraTransform.position + vPlayerProjected;
-        float offSet = Vector3.Distance(_backDetector.transform.position, _cameraTransform.position);
-
-        Debug.DrawRay(originPointFront, _cameraTransform.forward * _rayCastMaxRange, Color.green);
-
-        RaycastHit hitInFrontCollider;
-        OriginPoint = originPointFront;
-        bool interractableCollider = Physics.Raycast(originPointFront, _cameraTransform.forward, out hitInFrontCollider, _rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
-        if (interractableCollider && IsElligibleForHighlight(hitInFrontCollider))
+        _cameraAim = _cameraTransform.GetComponent<Camera>().ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        RaycastHit[] rayCastHits = Physics.RaycastAll(_cameraAim, 20f);
+        foreach (RaycastHit cameraHit in rayCastHits)
         {
-            SetBehaviorOfObjectsInFront(hitInFrontCollider);
-        }
+			if(cameraHit.transform.gameObject.tag == "Player")
+			{
+				continue;
+			}
+			
+            Vector3 cameraHitPoint = cameraHit.point;
+            RaycastHit playerHit;
 
-        RaycastHit hitInFrontTrigger;
-        bool interractableTrigger = Physics.Raycast(originPointFront, _cameraTransform.forward, out hitInFrontTrigger, _rayCastMaxRange, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
-        if (interractableTrigger && IsElligibleForHighlight(hitInFrontTrigger))
-        {
-            SetBehaviorOfObjectsInFront(hitInFrontTrigger);
-        }
-        Debug.DrawRay(_cameraTransform.position, (_backDetector.transform.position - _cameraTransform.position), Color.yellow);
-        RaycastHit[] hitsBehind;
-        hitsBehind = Physics.RaycastAll(_cameraTransform.position, _backDetector.transform.position - _cameraTransform.position, offSet);
-        foreach (RaycastHit hit in hitsBehind)
-        {
-            if (hit.transform.tag != "Player" && IsElligibleForTransparency(hit))
+            if (Physics.Raycast(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), out playerHit, 20f, LayerMask.NameToLayer("DefaultRaycastLayers"), QueryTriggerInteraction.Collide))
             {
-                SetBehaviorOfObjectsBehind(hit);
+                float playerDistance = playerHit.distance;
+                Vector3 distanceToTarget = (playerHit.point - transform.position).normalized;
+                if (Vector3.Dot(distanceToTarget, transform.forward) > 0)
+                {
+                    if (playerHit.collider.gameObject.layer == LayerMask.NameToLayer("TriggerInterractableEntity")
+)
+                    {
+                        if (playerDistance <= _rayCastMaxRange && playerHit.collider == cameraHit.collider && IsElligibleForHighlight(playerHit))
+                        {
+                            Debug.DrawLine(_cameraAim.origin, cameraHit.point, Color.green);
+                            Debug.DrawRay(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), Color.red);
+                            SetBehaviorOfObjectsInFront(playerHit);
+                        }
+                    }
+                    else if (Physics.Raycast(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), out playerHit, 20f, LayerMask.NameToLayer("DefaultRaycastLayers"), QueryTriggerInteraction.Ignore))
+                    {
+                        if (playerDistance <= _rayCastMaxRange && playerHit.collider == cameraHit.collider && IsElligibleForHighlight(playerHit))
+                        {
+                            Debug.DrawLine(_cameraAim.origin, cameraHit.point, Color.green);
+                            Debug.DrawRay(transform.position + new Vector3(0f, _playerHeight, 0f), cameraHitPoint - transform.position - new Vector3(0f, _playerHeight, 0f), Color.red);
+                            SetBehaviorOfObjectsInFront(playerHit);
+                        }
+                    }
+
+                }
+
+                else
+                {
+                    if (IsElligibleForTransparency(cameraHit))
+                    {
+						Debug.Log(cameraHit.transform.gameObject);
+                        SetBehaviorOfObjectsBehind(cameraHit);
+                    }
+                }
             }
         }
     }
@@ -84,19 +98,18 @@ public class GameObjectDetector : MonoBehaviour
             GameObject objectInFrontOfPlayer = hit.transform.gameObject;
             IInterractableEntity interractable = hit.transform.GetComponent<IInterractableEntity>();
             interractable.DisplayTextOfInterractable();
-            Debug.Log(hit.collider.name);
-
-            MakeGameObjectHighlighted scriptExisting = objectInFrontOfPlayer.GetComponent<MakeGameObjectHighlighted>();
+            HighlightStatus scriptExisting = objectInFrontOfPlayer.GetComponentInChildren<HighlightStatus>();
             if (scriptExisting == null)
             {
-                objectInFrontOfPlayer.AddComponent<MakeGameObjectHighlighted>();
+                GameObject obj = (GameObject)Resources.Load("Status/Utils/HighlightStatus", typeof(GameObject));
+                Instantiate(obj, objectInFrontOfPlayer.transform.position, objectInFrontOfPlayer.transform.rotation, objectInFrontOfPlayer.transform);
             }
             else
             {
-                scriptExisting.BeHighLighted();
+                scriptExisting.ResetStatus();
             }
 
-            if (Input.GetKeyDown(InputsProperties.activate))
+            if (Input.GetKeyDown(InputsProperties.Activate) && !CursorBehaviour.CursorIsVisible)
             {
                 interractable.ActivateInterractable();
             }
@@ -106,8 +119,7 @@ public class GameObjectDetector : MonoBehaviour
     /** SetBehaviorOfObjectsBehind Method 
      * @Params : RaycastHit
      * Set the behavior of Objects detected behind the player. 
-     * The method add an instance of MakeGameObjectTransparent script on the gameObject and launch the method BeTransparent of that script.
-     * This will change the transparency of all the gameobjects behind the character allowing a better visibility for the player.
+     * The method add an instance of TransparentStatus script on the gameObject.
 	 * The method will check for all the children GameObjects of the detected one. It will next test if the children is INSIDE the parent.
      **/
     private void SetBehaviorOfObjectsBehind(RaycastHit hit)
@@ -122,14 +134,24 @@ public class GameObjectDetector : MonoBehaviour
                 continue;
             }
 
-            MakeGameObjectTransparent scriptExisting = obj.GetComponent<MakeGameObjectTransparent>();
-            if (scriptExisting == null)
+            TransparentStatus scriptExisting;
+            if (obj.transform.childCount >= 1)
             {
-                obj.AddComponent<MakeGameObjectTransparent>();
+                scriptExisting = obj.transform.GetChild(obj.transform.childCount - 1).GetComponent<TransparentStatus>();
             }
             else
             {
-                scriptExisting.BeTransparent();
+                scriptExisting = obj.GetComponentInChildren<TransparentStatus>();
+            }
+
+            if (scriptExisting == null)
+            {
+                GameObject instance = (GameObject)Resources.Load("Status/Utils/TransparentStatus", typeof(GameObject));
+                Instantiate(instance, tr.position, tr.rotation, tr);
+            }
+            else
+            {
+                scriptExisting.ResetStatus();
             }
         }
     }
@@ -141,7 +163,7 @@ public class GameObjectDetector : MonoBehaviour
      **/
     private bool IsElligibleForHighlight(RaycastHit hit)
     {
-        return (!hit.collider.isTrigger || hit.collider.gameObject.layer == _layerMask);
+        return ((!hit.collider.isTrigger || hit.collider.gameObject.layer == _layerMask) && hit.transform.GetComponent<IInterractableEntity>() != null);
     }
 
     /** IsElligibleForTransparency private bool Method 

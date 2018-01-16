@@ -8,14 +8,17 @@
  * Finally, a PNJ Requires a Component SphereCollider to detect the nearest player. 
  **/
 [RequireComponent(typeof(SphereCollider))]
-public class SimpleNPC : EntityLivingBase, IInterractableEntity {
+public class SimpleNPC : EntityLivingBase, IInterractableEntity
+{
 
-    /** Awake private method
+    /** Awake protected override method
     * Before everything starts, we ensure that the SphereCollider is a trigger. 
     * In that way, the player can be detected when he goes through the trigger.
+	* We obviously call the mother Awake.
     **/
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         GetComponent<SphereCollider>().isTrigger = true;
     }
 
@@ -42,7 +45,7 @@ public class SimpleNPC : EntityLivingBase, IInterractableEntity {
         var lookPos = target.position - transform.position;
         lookPos.y = 0;
         var rotation = Quaternion.LookRotation(lookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime *10);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10);
     }
 
     /** ActivateInterractable Method
@@ -62,6 +65,6 @@ public class SimpleNPC : EntityLivingBase, IInterractableEntity {
     **/
     public void DisplayTextOfInterractable()
     {
-        Debug.Log("Press " + InputsProperties.activate.ToString() + " to activate.");
+        Debug.Log("Press " + InputsProperties.Activate.ToString() + " to activate.");
     }
 }
