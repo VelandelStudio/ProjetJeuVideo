@@ -14,9 +14,6 @@ public class StatusTest : StatusBase
      **/
     public override void OnStatusApplied()
     {
-        maxDuration = 10;
-        tickInterval = 1f;
-        delay = tickInterval;
         Debug.Log("StatusTest Created !");
     }
 
