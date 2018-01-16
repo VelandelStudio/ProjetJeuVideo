@@ -37,20 +37,20 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     protected void Awake()
     {
         LoadAutoAttackData("AutoAttackData.json");
-        Debug.Log(AutoAttackDefinition.Name);
         Name = AutoAttackDefinition.Name;
         Element = AutoAttackDefinition.Element;
         CoolDownValue = AutoAttackDefinition.CoolDownValue;
         Damages = AutoAttackDefinition.Damages;
         DamagesType = AutoAttackDefinition.DamagesType;
         OtherValues = AutoAttackDefinition.OtherValues;
+        champion = GetComponentInParent<Champion>();
+
         if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
         {
             Status = new GameObject[AutoAttackDefinition.Status.Length];
-            champion = GetComponentInParent<Champion>();
             for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
             {
-                Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + AutoAttackDefinition.Status[i], typeof(GameObject));
+                Status[i] = LoadResource(AutoAttackDefinition.Status[i]);
                 Status[i].GetComponent<StatusBase>().PreWarm();
             }
         }
@@ -76,10 +76,20 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         }
     }
 
+    /** LoadResource, protected virtual GameObject Method
+	 * @param : string,
+	 * @return : GameObject
+	 * This method is used to load a GameObject prefab inside the champion folder.
+	 **/
+    protected virtual GameObject LoadResource(string prefabName)
+    {
+        return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
+    }
+
     /** AutoAttackIsReady protected bool Method,
 	 * This returns if the auto-attack is launchea&ble or not. In this script, we only check if the auto-attack is under Cooldown or not.
 	 **/
-    protected bool AutoAttackIsReady()
+    protected virtual bool AutoAttackIsReady()
     {
         return (CurrentCD == 0);
     }
@@ -129,6 +139,16 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
             Debug.LogError("Cannot load Auto-attack data!");
         }
     }
+
+    /** ApplyEffect, protected void method
+     *  This method is usually called by a prefab attach to th character who autoAttack to apply Damages and Effects
+     *  In the mother Abstract class the method is empty in the case of nothing is apply to a prefab
+     **/
+    public virtual void ApplyEffect(EntityLivingBase hit)
+    {
+
+    }
+
     #endregion
 
     #region Serializable Classes

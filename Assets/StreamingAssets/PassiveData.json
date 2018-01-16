@@ -6,10 +6,24 @@
 		"DamagesType":[],
 		"OtherValues":["20","25"],
 		"NumberOfStacks":0,
+		"Status":[""],
 		"Description":
 		[
 			"For each monster affected by Ignite, you earn {OtherValues[0]}% additionnal critical rate.\n",
 			"This effect can provide a maximum bonus of {OtherValues[1]}% additionnal critical rate."
+		]
+	},
+	{
+		"ScriptName":"PassiveWindiator",
+		"Name":"Wind Spirit",
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":["30"],
+		"NumberOfStacks":0,
+		"Status":["WindSpiritFavorStatus"],
+		"Description":
+		[
+			"When activated by the <<Coup d'bambou>>, the Wind Spirit applies <<Status[0]>> to you or an ally, in {OtherValues[0]} radius units."
 		]
 	}
 ]

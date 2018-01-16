@@ -22,6 +22,12 @@ public class GUIStatusDisplayer : MonoBehaviour, IDisplayer
         get { return _status; }
         protected set { }
     }
+
+    public float CurrentTimerOnScreen
+    {
+        get { return _duration; }
+        protected set { }
+    }
     /** AttributeDisplayable, public void method
      * @param : IDisplayable
      * This method is launched by the StatusBase when the Status is Applied.
@@ -47,8 +53,16 @@ public class GUIStatusDisplayer : MonoBehaviour, IDisplayer
     /** ResetGUIStatus, public void method
      * This method is launched by the StatusBase when the Status is Reseted.
      **/
-    public void ResetGUIStatus()
+    public IEnumerator ResetGUIStatus()
     {
+        if (_duration > 1f)
+        {
+            yield return new WaitForSeconds(0.3f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0f);
+        }
         _duration = _status.Duration;
         _CDText.text = ((int)_status.Duration + 1).ToString();
     }

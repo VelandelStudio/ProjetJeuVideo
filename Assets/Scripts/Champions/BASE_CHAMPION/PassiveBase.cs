@@ -17,7 +17,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
      * We should always work with these public fields and never with the raw data of the JSON.
      **/
     #region Fields  	
-    public PassiveData _passiveDefinition { get; protected set; }
+    public PassiveData PassiveDefinition { get; protected set; }
     public string Name { get; protected set; }
     public string Element { get; protected set; }
     public float CoolDownValue { get; protected set; }
@@ -26,6 +26,8 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     public string[] OtherValues { get; protected set; }
     public GameObject[] Status { get; protected set; }
     public string[] Description { get; protected set; }
+
+    protected Champion champion;
 
     public int NumberOfStacks;
     #endregion
@@ -38,14 +40,25 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     protected void Awake()
     {
         LoadSpellData("PassiveData.json");
-        NumberOfStacks = _passiveDefinition.NumberOfStacks;
-        Description = _passiveDefinition.Description;
-        Name = _passiveDefinition.Name;
-        Damages = _passiveDefinition.Damages;
-        DamagesType = _passiveDefinition.DamagesType;
-        OtherValues = _passiveDefinition.OtherValues;
-        NumberOfStacks = _passiveDefinition.NumberOfStacks;
-        Description = _passiveDefinition.Description;
+        NumberOfStacks = PassiveDefinition.NumberOfStacks;
+        Description = PassiveDefinition.Description;
+        Name = PassiveDefinition.Name;
+        Damages = PassiveDefinition.Damages;
+        DamagesType = PassiveDefinition.DamagesType;
+        OtherValues = PassiveDefinition.OtherValues;
+        NumberOfStacks = PassiveDefinition.NumberOfStacks;
+        Description = PassiveDefinition.Description;
+
+        champion = GetComponentInParent<Champion>();
+        if (PassiveDefinition.Status.Length > 0 && PassiveDefinition.Status[0] != "")
+        {
+            Status = new GameObject[PassiveDefinition.Status.Length];
+            for (int i = 0; i < PassiveDefinition.Status.Length; i++)
+            {
+                Status[i] = LoadResource(PassiveDefinition.Status[i]);
+                Status[i].GetComponent<StatusBase>().PreWarm();
+            }
+        }
     }
 
     /** LoadSpellData, protected void
@@ -63,7 +76,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
             {
                 if (passive.ScriptName == this.GetType().ToString())
                 {
-                    _passiveDefinition = passive;
+                    PassiveDefinition = passive;
                     break;
                 }
             }
@@ -72,6 +85,16 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
         {
             Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
         }
+    }
+
+    /** LoadResource, protected virtual GameObject Method
+	 * @param : string,
+	 * @return : GameObject
+	 * This method is used to load a GameObject prefab inside the champion folder.
+	 **/
+    protected virtual GameObject LoadResource(string prefabName)
+    {
+        return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
     }
 
     /**GetDescriptionGUI, public string Method
@@ -83,6 +106,24 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
         return StringHelper.DescriptionBuilder(this);
     }
 
+    /** ApplyStatus, protected virtual GameObject
+     * @Params : GameObject, Transform
+     * @Returns: GameObject
+     * This method should be called by Passive that are able to apply a Status on their targets.
+     * The first param (GameObject status) should be a GameObject that has a StatusBase Script attached. 
+     * Most of the time, this gameObject is contained in the SpellDefinition.Status Table, and the Transform is the target one.
+     * The method will instantiate a new Status and attach to it the status that is already attached on the first parameter.
+     * When we instantiate an object, the StatusBase element if reseted, so we need to attach this instance of the StatusBase because of previous modifications,
+     * such as damages or CDReduction of the Status of the player. 
+     * Then, we return the fresh GameObject constructed if we want to use it later.
+     **/
+    protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
+    {
+        GameObject objInst = Instantiate(status, tr);
+        StatusBase statusInst = objInst.GetComponent<StatusBase>();
+        statusInst.StartStatus(status.GetComponent<StatusBase>());
+        return objInst;
+    }
     #endregion
 
     #region Serializable Classes
@@ -99,6 +140,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
         public string[] DamagesType;
         public string[] OtherValues;
         public int NumberOfStacks;
+        public string[] Status;
         public string[] Description;
     }
     #endregion

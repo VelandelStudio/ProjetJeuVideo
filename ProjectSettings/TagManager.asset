@@ -7,6 +7,8 @@ TagManager:
   - Monster
   - Fire
   - Floor
+  - AllyEntity
+  - EnemyEntity
   layers:
   - Default
   - TransparentFX
