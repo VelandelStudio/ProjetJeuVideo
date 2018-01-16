@@ -18,8 +18,6 @@ public abstract class Champion : MonoBehaviour
     protected AutoAttackBase autoAttack;
     protected ChampionData championData;
 
-    private Boolean _isLoaded = false;
-
     public string Name
     {
         get { return championData.Name; }
@@ -41,15 +39,14 @@ public abstract class Champion : MonoBehaviour
             ChampionData[] data = JsonHelper.getJsonArray<ChampionData>(jsonFile);
             foreach (ChampionData character in data)
             {
-                if (character.Name == this.GetType().ToString())
+                if (character.Name == GetType().ToString())
                 {
                     championData = character;
-                    _isLoaded = true;
                     break;
                 }
             }
 
-            if (!_isLoaded)
+            if (championData == null)
             {
                 LoadDeafaultChamp();
             }
@@ -191,14 +188,19 @@ public abstract class Champion : MonoBehaviour
         for (int i = 1; i <= 4; i++)
         {
             string SpellName = championData.ActiveSpells[i - 1];
+            Spell spellToAdd;
+
             if (Type.GetType(SpellName) == null)
             {
                 HandleException(3);
-                return;
+                spellToAdd = (Spell)gameObject.AddComponent(Type.GetType("DefaultSpell"));
+    }
+            else
+            {
+                spellToAdd = (Spell)gameObject.AddComponent(Type.GetType(SpellName));
             }
-            Spell spellToAdd = (Spell)gameObject.AddComponent(Type.GetType(SpellName));
-            spells.Add(spellToAdd);
 
+            spells.Add(spellToAdd);
             GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + i).GetComponent<GUISpellDisplayer>();
             spellDisplayer.AttributeDisplayable(spellToAdd);
         }
@@ -214,18 +216,18 @@ public abstract class Champion : MonoBehaviour
     {
         switch (e)
         {
-            case 1: Debug.LogError("Passive null ou inexistante (faute de frappe ?) PassiveClassName : " + championData.Passive); break;
-            case 2: Debug.LogError("AutoAttack null ou inexistante (faute de frappe ?) AutoAttackClassName : " + championData.AutoAttack); break;
-            case 3: Debug.LogError("Liste de sorts null ou Sort inexistant (faute de frappe ?)"); break;
+            case 1: Debug.Log("Passive null ou inexistante (faute de frappe ?) PassiveClassName : " + championData.Passive); break;
+            case 2: Debug.Log("AutoAttack null ou inexistante (faute de frappe ?) AutoAttackClassName : " + championData.AutoAttack); break;
+            case 3: Debug.Log("Liste de sorts null ou Sort inexistant (faute de frappe ?)"); break;
 
             default: break;
         }
-        UnityEditor.EditorApplication.isPlaying = false;
     }
 
     protected void LoadDeafaultChamp()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "CharacterData.json");
+        Debug.Log("Champion could not be created. Please check the ChampionData.json file. A DefaultChampion is created.");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "ChampionData.json");
         if (File.Exists(filePath))
         {
             string jsonFile = File.ReadAllText(filePath);
@@ -239,6 +241,16 @@ public abstract class Champion : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ReplaceByDefaultSpell(Spell brokenSpell)
+    {
+        Spell defaultSpell = (Spell)gameObject.AddComponent(Type.GetType("DefaultSpell"));
+        int i = spells.IndexOf(brokenSpell);
+        spells[i] = defaultSpell;
+        GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + (i + 1)).GetComponent<GUISpellDisplayer>();
+        spellDisplayer.AttributeDisplayable(defaultSpell);
+        Destroy(brokenSpell);
     }
 
     /** ChampionData protected Serializable class.

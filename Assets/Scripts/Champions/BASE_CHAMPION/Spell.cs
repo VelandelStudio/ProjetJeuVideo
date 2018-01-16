@@ -32,7 +32,8 @@ public abstract class Spell : MonoBehaviour, IDisplayable
 
     public bool HasGCD;
 
-    private Boolean _isLoaded = false;
+    private bool _isLoaded = false;
+    public bool IsLoaded { get; protected set; }
 
     protected bool spellInUse = false;
     protected Champion champion;
@@ -69,31 +70,35 @@ public abstract class Spell : MonoBehaviour, IDisplayable
 	 **/
     protected virtual void Awake()
     {
-        LoadSpellData("SpellData.json");
-        Name = SpellDefinition.Name;
-        Element = SpellDefinition.Element;
-        CoolDownValue = SpellDefinition.CoolDownValue;
-        HasGCD = SpellDefinition.HasGCD;
-        Damages = SpellDefinition.Damages;
-        DamagesType = SpellDefinition.DamagesType;
-        OtherValues = SpellDefinition.OtherValues;
-        NumberOfStacks = SpellDefinition.NumberOfStacks;
-        Description = SpellDefinition.Description;
-
         champion = GetComponentInParent<Champion>();
-        if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
+
+        LoadSpellData("SpellData.json");
+        if (_isLoaded)
         {
-            Status = new GameObject[SpellDefinition.Status.Length];
-            for (int i = 0; i < SpellDefinition.Status.Length; i++)
+            Name = SpellDefinition.Name;
+            Element = SpellDefinition.Element;
+            CoolDownValue = SpellDefinition.CoolDownValue;
+            HasGCD = SpellDefinition.HasGCD;
+            Damages = SpellDefinition.Damages;
+            DamagesType = SpellDefinition.DamagesType;
+            OtherValues = SpellDefinition.OtherValues;
+            NumberOfStacks = SpellDefinition.NumberOfStacks;
+            Description = SpellDefinition.Description;
+
+            if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
             {
-                if (SpellDefinition.Status[i] != null)
+                Status = new GameObject[SpellDefinition.Status.Length];
+                for (int i = 0; i < SpellDefinition.Status.Length; i++)
                 {
-                    Status[i] = LoadResource(SpellDefinition.Status[i]);
-                    Status[i].GetComponent<StatusBase>().PreWarm();
-                }
-                else
-                {
-                    Debug.Log("Status[" + i + "] is null. Please Ensure that this Status exists as a Prefabs with the same Script Name associated to it.");
+                    if (SpellDefinition.Status[i] != null)
+                    {
+                        Status[i] = LoadResource(SpellDefinition.Status[i]);
+                        Status[i].GetComponent<StatusBase>().PreWarm();
+                    }
+                    else
+                    {
+                        Debug.Log("Status[" + i + "] is null. Please Ensure that this Status exists as a Prefabs with the same Script Name associated to it.");
+                    }
                 }
             }
         }
@@ -105,7 +110,15 @@ public abstract class Spell : MonoBehaviour, IDisplayable
 	 **/
     protected virtual void Start()
     {
-        DisplaySpellCreation(this);
+        if (!_isLoaded)
+        {
+            champion.ReplaceByDefaultSpell(this);
+            Debug.Log("Error when loading the json data of : " + this.GetType().Name + ". Please, check your SpellData.Json. DefaultSpell was substitued.");
+        }
+        else
+        {
+            DisplaySpellCreation(this);
+        }
         CurrentCD = 0;
     }
 
@@ -224,33 +237,10 @@ public abstract class Spell : MonoBehaviour, IDisplayable
                     break;
                 }
             }
-
-            if (!_isLoaded)
-            {
-                LoadDefaultSpell(json);
-            }
         }
         else
         {
             Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
-        }
-    }
-
-    protected void LoadDefaultSpell(string json)
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, json);
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            SpellData[] data = JsonHelper.getJsonArray<SpellData>(jsonFile);
-            foreach (SpellData spell in data)
-            {
-                if (spell.ScriptName == "DefaultSpell")
-                {
-                    SpellDefinition = spell;
-                    break;
-                }
-            }
         }
     }
 

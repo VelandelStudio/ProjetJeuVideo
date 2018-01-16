@@ -101,7 +101,7 @@
 		]
 	},
 	{
-		"ScriptName":"StormWall",
+		"ScriptName":"StormWallSpell",
 		"Name":"Storm Wall",
 		"Element":"Storm",
 		"CoolDownValue":12.0,
