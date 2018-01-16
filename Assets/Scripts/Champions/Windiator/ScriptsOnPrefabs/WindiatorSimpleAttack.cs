@@ -60,6 +60,7 @@ public class WindiatorSimpleAttack : MeleAttack {
         {
             _autoAttackWindiator.ApplyEffect(entityHit);
             _arme.enabled = false;
+            colArme = false;
         }
     }
 }

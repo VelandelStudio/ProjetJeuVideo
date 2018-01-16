@@ -10,7 +10,7 @@ using UnityEngine;
 public class AutoAttackWindiator : AutoAttackBase {
 
     private Animator _anim;
-    private WindiatorSimpleAttack _wsa;
+    private WindiatorSimpleAttack _windiatorSimpleAttack;
 
     /// <summary>
     /// Start Method
@@ -21,9 +21,9 @@ public class AutoAttackWindiator : AutoAttackBase {
     protected override void Start()
     {
         _anim = GetComponent<Animator>();
-        _wsa = GetComponentInChildren<WindiatorSimpleAttack>();
+        _windiatorSimpleAttack = GetComponentInChildren<WindiatorSimpleAttack>();
 
-        _wsa.AttributeAutoAttack(this);
+        _windiatorSimpleAttack.AttributeAutoAttack(this);
 
         base.Start();
     }
@@ -41,9 +41,9 @@ public class AutoAttackWindiator : AutoAttackBase {
         {
             base.AutoAttack();
 
-            if (!_wsa.GetValueColArme())
+            if (!_windiatorSimpleAttack.colArme)
             {
-                _wsa.SwapEnableArmeCol();
+                _windiatorSimpleAttack.SwapEnableArmeCol();
             }
 
             _anim.SetTrigger("AutoAttack");
@@ -68,9 +68,9 @@ public class AutoAttackWindiator : AutoAttackBase {
             passive.ProcPassive(this.gameObject);
         }
 
-        if (_wsa.GetValueColArme())
+        if (_windiatorSimpleAttack.colArme)
         {
-            _wsa.SwapEnableArmeCol();
+            _windiatorSimpleAttack.SwapEnableArmeCol();
         }
     }
 }
