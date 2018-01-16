@@ -9,6 +9,7 @@ using UnityEngine;
 //[RequireComponent(typeof(Collider))]
 public class MeleAttack : MonoBehaviour {
 
+    public bool colArme { get; set; }
     protected Collider _arme;
 
     /// <summary>
@@ -19,7 +20,7 @@ public class MeleAttack : MonoBehaviour {
     protected virtual void Start()
     {
         _arme = GetComponent<Collider>();
-        _arme.enabled = false;
+        colArme = _arme.enabled;
     }
 
     /// <summary>
@@ -41,8 +42,10 @@ public class MeleAttack : MonoBehaviour {
     public void SwapEnableArmeCol()
     {
         _arme.enabled = !_arme.enabled;
+        colArme = !colArme;
     }
 
+    /*
     /// <summary>
     /// Getter of the Collider's weapon
     /// </summary>
@@ -51,4 +54,5 @@ public class MeleAttack : MonoBehaviour {
     {
         return _arme.enabled;
     }
+    */
 }

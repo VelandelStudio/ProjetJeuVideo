@@ -35,7 +35,8 @@ public class StormWallBehaviour : MonoBehaviour
             _maxRange = float.Parse(_parentSpell.OtherValues[0]);
         }
 
-        Invoke("DestroyItself", float.Parse(_parentSpell.OtherValues[1]));
+        Destroy(gameObject, float.Parse(_parentSpell.OtherValues[1]));
+        //Invoke("DestroyItself", float.Parse(_parentSpell.OtherValues[1]));
     }
 
     /// <summary>
@@ -89,6 +90,7 @@ public class StormWallBehaviour : MonoBehaviour
         _parentSpell.ApplyEffect(other);
     }
 
+    /*
     /// <summary>
     /// DestroyItself method
     /// Include inside the start with Invoke to destroy the wall after few seconds
@@ -97,6 +99,7 @@ public class StormWallBehaviour : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    */
 
     /// <summary>
     /// ModifySpeed method
