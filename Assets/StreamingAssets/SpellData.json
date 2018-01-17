@@ -75,7 +75,7 @@
 		"DamagesType":[],
 		"OtherValues":[30],
 		"NumberOfStacks":0,
-		"Status":["GustStatus"],
+		"Status":["GustSta"],
 		"Description":
 		[
 			"Some gust of wind which applies <<Status[0]>> to all allies in an area of {OtherValues[0]} units radius."

@@ -1,6 +1,6 @@
 [	
 	{
-		"ScriptName":"AutoAttackDefault",
+		"ScriptName":"DefaultAutoAttack",
 		"Name":"DefaultAttack",
 		"Element":"none",
 		"CoolDownValue":"1",

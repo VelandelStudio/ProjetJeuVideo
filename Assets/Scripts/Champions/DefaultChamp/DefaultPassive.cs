@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class DefaultPassive : PassiveBase
 {
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         Debug.Log("Default Passive Loaded !");
     }
 }

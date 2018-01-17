@@ -28,7 +28,7 @@ public abstract class Champion : MonoBehaviour
     /// The Awake methos is here to construct the class, attributing the spells passive and auto-attack.
 	/// First at all, we try to read the ChampionData.json file.After that, we collect every ChampionData declared in the JSON file.
     /// Then, we parse the Array of ChampionData and try to find the one corresponding to the Champion name.
-    /// If we find one, we construct the class.
+    /// If we find one, we construct the class. If we do not, we Load the DefaultChampion.
     /// </summary>
     private void Awake()
     {
@@ -141,7 +141,7 @@ public abstract class Champion : MonoBehaviour
     /** AttributePassiveToClass protected virtual void Method.
 	 * This method is called by the Start method. The Objective of the method is to get the Passive spell name in the championData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
-	 * If the script is not found or mispelled, the HandleException(1) is launched.
+	 * If the script is not found or mispelled, we load a DefaultPassive instead.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about the Passive.
 	 **/
     protected virtual void AttributePassiveToClass()
@@ -149,10 +149,13 @@ public abstract class Champion : MonoBehaviour
         Type t = Type.GetType(championData.Passive);
         if (t == null)
         {
-            HandleException(1);
-            return;
+            Debug.Log("The Passive : " + championData.Passive + " can not be loaded. Please cheack the Passive name inside the ChampionData.json file. DefaultPassive substitued.");
+            passiveBase = (PassiveBase)gameObject.AddComponent(Type.GetType("DefaultPassive"));
         }
-        passiveBase = (PassiveBase)gameObject.AddComponent(t);
+        else
+        {
+            passiveBase = (PassiveBase)gameObject.AddComponent(t);
+        }
         GUIPassiveDisplayer passiveDisplayer = GameObject.Find("Passive").GetComponent<GUIPassiveDisplayer>();
         passiveDisplayer.AttributeDisplayable(passiveBase);
     }
@@ -160,7 +163,7 @@ public abstract class Champion : MonoBehaviour
     /** AttributeAutoAttackToClass protected virtual void Method.
 	 * This method is called by the Start method. The Objective of the method is to get the AutoAttack spell name in the championData instance.
 	 * Then, it get the script in the scripts library and attach it to the player.
-	 * If the script is not found or mispelled, the HandleException(2) is launched.
+	 * If the script is not found or mispelled, we load a DefaultAutoAttack instead.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about the AutoAttack.
 	 **/
     protected virtual void AttributeAutoAttackToClass()
@@ -168,10 +171,13 @@ public abstract class Champion : MonoBehaviour
         Type t = Type.GetType(championData.AutoAttack);
         if (t == null)
         {
-            HandleException(2);
-            return;
+            Debug.Log("The AutoAttack : " + championData.AutoAttack + " can not be loaded. Please cheack the AutoAttack name inside the ChampionData.json file. DefaultAutoAttack substitued.");
+            autoAttack = (AutoAttackBase)gameObject.AddComponent(Type.GetType("DefaultAutoAttack"));
         }
-        autoAttack = (AutoAttackBase)gameObject.AddComponent(t);
+        else
+        {
+            autoAttack = (AutoAttackBase)gameObject.AddComponent(t);
+        }
 
         GUIAutoAttackDisplayer autoAttackDisplayer = GameObject.Find("AutoAttack").GetComponent<GUIAutoAttackDisplayer>();
         autoAttackDisplayer.AttributeDisplayable(autoAttack);
@@ -180,7 +186,7 @@ public abstract class Champion : MonoBehaviour
     /** AttributeSpellsToClass protected virtual void Method.
 	 * This method is called by the Start method. The Objective of the method is to get the spell names in the championData instance.
 	 * Then, it get all of the script in the scripts library and attach it to the player.
-	 * If one of the scripts is not found or mispelled, the HandleException(3) is launched.
+	 * If one of the scripts is not found or mispelled, we load a DefaultSpell instead.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about each spell.
 	 **/
     protected virtual void AttributeSpellsToClass()
@@ -192,9 +198,9 @@ public abstract class Champion : MonoBehaviour
 
             if (Type.GetType(SpellName) == null)
             {
-                HandleException(3);
+                Debug.Log("The Spell : " + SpellName + " can not be loaded. Please cheack the Spell names inside the ChampionData.json file. DefaultSpell substitued. ");
                 spellToAdd = (Spell)gameObject.AddComponent(Type.GetType("DefaultSpell"));
-    }
+            }
             else
             {
                 spellToAdd = (Spell)gameObject.AddComponent(Type.GetType(SpellName));
@@ -206,24 +212,11 @@ public abstract class Champion : MonoBehaviour
         }
     }
 
-    /** HandleException private void Method.
-	 * @Params : int e;
-	 * This method is called when the Champion could not be constructed correctly because one component is absent or mispelled.
-	 * The int e (for error) field is used for the switc case statement, in order to display the good informations to the developpers.
-	 * Please note that if you did a mistake and if this method is launched, the Editor stops the game Simulation. 
+    /** LoadDeafaultChamp, protected void method
+	 * This method should always be launched from the Awake one, when the ChampionData could not be loaded.
+	 * As the Awake method, we just parse the Champion.json file in order to substitute a broken to champion to a Default one.
+	 * This method is used for dev' so far.
 	 **/
-    private void HandleException(int e)
-    {
-        switch (e)
-        {
-            case 1: Debug.Log("Passive null ou inexistante (faute de frappe ?) PassiveClassName : " + championData.Passive); break;
-            case 2: Debug.Log("AutoAttack null ou inexistante (faute de frappe ?) AutoAttackClassName : " + championData.AutoAttack); break;
-            case 3: Debug.Log("Liste de sorts null ou Sort inexistant (faute de frappe ?)"); break;
-
-            default: break;
-        }
-    }
-
     protected void LoadDeafaultChamp()
     {
         Debug.Log("Champion could not be created. Please check the ChampionData.json file. A DefaultChampion is created.");
@@ -243,14 +236,38 @@ public abstract class Champion : MonoBehaviour
         }
     }
 
-    public void ReplaceByDefaultSpell(Spell brokenSpell)
+    /** ReplaceByDefaultDisplayable public void Method
+	 * @param : IDisplayable
+	 * This method should be called by Displayables (Spells, AutoAttacks and Passives) when they are not able to load their own descriptions.
+	 * When launched, this methods checks which script called her and substitute the Displayable element by a Default one. In that way, if something went wrong during the loadind,
+	 * You van not have a broken champion. Please note that the method substitute the GUI element also.
+	 **/
+    public void ReplaceByDefaultDisplayable(IDisplayable brokenDisplayable)
     {
-        Spell defaultSpell = (Spell)gameObject.AddComponent(Type.GetType("DefaultSpell"));
-        int i = spells.IndexOf(brokenSpell);
-        spells[i] = defaultSpell;
-        GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + (i + 1)).GetComponent<GUISpellDisplayer>();
-        spellDisplayer.AttributeDisplayable(defaultSpell);
-        Destroy(brokenSpell);
+        if (brokenDisplayable is Spell)
+        {
+            Spell defaultSpell = (Spell)gameObject.AddComponent(Type.GetType("DefaultSpell"));
+            int i = spells.IndexOf((Spell)brokenDisplayable);
+            spells[i] = defaultSpell;
+            GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + (i + 1)).GetComponent<GUISpellDisplayer>();
+            spellDisplayer.AttributeDisplayable(defaultSpell);
+        }
+
+        if (brokenDisplayable is PassiveBase)
+        {
+            passiveBase = (PassiveBase)gameObject.AddComponent(Type.GetType("DefaultPassive"));
+            GUIPassiveDisplayer passiveDisplayer = GameObject.Find("Passive").GetComponent<GUIPassiveDisplayer>();
+            passiveDisplayer.AttributeDisplayable(passiveBase);
+        }
+
+        if (brokenDisplayable is AutoAttackBase)
+        {
+            autoAttack = (AutoAttackBase)gameObject.AddComponent(Type.GetType("DefaultAutoAttack"));
+            GUIAutoAttackDisplayer autoAttackDisplayer = GameObject.Find("AutoAttack").GetComponent<GUIAutoAttackDisplayer>();
+            autoAttackDisplayer.AttributeDisplayable(autoAttack);
+        }
+
+        Destroy((Behaviour)brokenDisplayable);
     }
 
     /** ChampionData protected Serializable class.

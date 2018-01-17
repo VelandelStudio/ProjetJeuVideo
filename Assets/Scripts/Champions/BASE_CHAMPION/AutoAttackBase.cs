@@ -23,7 +23,8 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     public GameObject[] Status { get; protected set; }
     public string[] Description { get; protected set; }
 
-    private Boolean _isLoaded = false;
+    private bool _isLoaded = false;
+    public bool IsLoaded { get; protected set; }
 
     public float CurrentCD;
     protected Champion champion;
@@ -31,39 +32,60 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
 
     #region Functionnal Methods
 
-    /** Awake, Protected void Method
-	 * This method is used to launch the Loading of Data from a JSON File.
-	 * If the loading is a success, we set all the public fields with the elements we have found in the JSON. 
-	 * These fields must be used by other scripts.
+    /** Awake protected virtual void Method,
+	 * The Awake method is used to create the AutoAttackBase from the JSON file and attribute every variables.
+     * You should notice that the Status table contains Status GameObject with an instance of StatusBase attached to it.
+     * We try to pre-warm the StatusBase attached in order to display descriptions and maybe modify the instance.
+	 * If we do not find a Status prefab that correspond to the information in the AutoAttackData.json file or if we are not able to pre-warm the Status, 
+	 * then, the Status is substitued by a DefaultStatus.
 	 **/
     protected void Awake()
     {
-        LoadAutoAttackData("AutoAttackData.json");
-        Name = AutoAttackDefinition.Name;
-        Element = AutoAttackDefinition.Element;
-        CoolDownValue = AutoAttackDefinition.CoolDownValue;
-        Damages = AutoAttackDefinition.Damages;
-        DamagesType = AutoAttackDefinition.DamagesType;
-        OtherValues = AutoAttackDefinition.OtherValues;
         champion = GetComponentInParent<Champion>();
 
-        if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
+        LoadAutoAttackData("AutoAttackData.json");
+        if (_isLoaded)
         {
-            Status = new GameObject[AutoAttackDefinition.Status.Length];
-            for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
+            Name = AutoAttackDefinition.Name;
+            Element = AutoAttackDefinition.Element;
+            CoolDownValue = AutoAttackDefinition.CoolDownValue;
+            Damages = AutoAttackDefinition.Damages;
+            DamagesType = AutoAttackDefinition.DamagesType;
+            OtherValues = AutoAttackDefinition.OtherValues;
+
+            if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
             {
-                Status[i] = LoadResource(AutoAttackDefinition.Status[i]);
-                Status[i].GetComponent<StatusBase>().PreWarm();
+                Status = new GameObject[AutoAttackDefinition.Status.Length];
+                for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
+                {
+                    Status[i] = LoadResource(AutoAttackDefinition.Status[i]);
+                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
+                    {
+                        Debug.Log(AutoAttackDefinition.Status[i] + " can not be loaded. "
+                                 + "Please Ensure that the Status Name is correct in the SpellData.json file "
+                                 + "or that this Status exists as a Prefab with the same Script Name associated to it. "
+                                 + "DefaultStatus substitued");
+                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
+                        Status[i].GetComponent<StatusBase>().PreWarm();
+                    }
+                }
             }
+            Description = AutoAttackDefinition.Description;
         }
-        Description = AutoAttackDefinition.Description;
     }
 
     /** Start protected virtual void Method,
-	 * The Start method initializes the CD of the auto-attack.
+	 * Before everything, we check if the AutoAttack was correctly loaded from the JSON file. If it is not the case, we notify the Champion class to replace the broken AutoAttack by a DefaultAutoAttack.
+	 * Then, we initialize the CD of the spell.
 	 **/
     protected virtual void Start()
     {
+        if (!_isLoaded)
+        {
+            champion.ReplaceByDefaultDisplayable(this);
+            Debug.Log("Error when loading the json data of : " + this.GetType().Name + ". Please, check your AutoAttackData.Json. DefaultAutoAttack was substitued.");
+        }
+
         CurrentCD = 0;
     }
 
@@ -118,7 +140,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
 
     /** LoadAutoAttackData, protected void Method
 	 * This Method is launched by the Awake one. Once launched, we try to locate a JSON File associated to this AutoAttack.
-	 * If we find the AutoAttack in the file, then we build the AutoAttack from the elements indise the JSON.
+	 * If we find the AutoAttack in the file, then we build the AutoAttack from the elements indise the JSON and _isLoaded = true.
 	 **/
     protected void LoadAutoAttackData(string json)
     {
@@ -136,33 +158,10 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
                     break;
                 }
             }
-
-            if (!_isLoaded)
-            {
-                LoadDeafaultAutoAttack(json);
-            }
         }
         else
         {
             Debug.LogError("Cannot load Auto-attack data!");
-        }
-    }
-
-    protected void LoadDeafaultAutoAttack(string json)
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, json);
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            AutoAttackData[] data = JsonHelper.getJsonArray<AutoAttackData>(jsonFile);
-            foreach (AutoAttackData autoAttack in data)
-            {
-                if (autoAttack.ScriptName == "AutoAttackDefault")
-                {
-                    AutoAttackDefinition = autoAttack;
-                    break;
-                }
-            }
         }
     }
 
