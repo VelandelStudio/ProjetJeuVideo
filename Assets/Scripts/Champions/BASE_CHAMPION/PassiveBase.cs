@@ -20,6 +20,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     public PassiveData PassiveDefinition { get; protected set; }
     public string Name { get; protected set; }
     public string Element { get; protected set; }
+    public string Type { get; protected set; }
     public float CoolDownValue { get; protected set; }
     public int[] Damages { get; protected set; }
     public string[] DamagesType { get; protected set; }
@@ -53,6 +54,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
             NumberOfStacks = PassiveDefinition.NumberOfStacks;
             Description = PassiveDefinition.Description;
             Name = PassiveDefinition.Name;
+            Type = PassiveDefinition.Type;
             Damages = PassiveDefinition.Damages;
             DamagesType = PassiveDefinition.DamagesType;
             OtherValues = PassiveDefinition.OtherValues;
@@ -168,6 +170,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     {
         public string ScriptName;
         public string Name;
+        public string Type;
         public int[] Damages;
         public string[] DamagesType;
         public string[] OtherValues;

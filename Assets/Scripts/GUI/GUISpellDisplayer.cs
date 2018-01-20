@@ -80,15 +80,16 @@ public class GUISpellDisplayer : MonoBehaviour, IDisplayer
 	 * This public method should only be called by the Champion script so far.
 	 * In this method, we attribute to the Gui the correct spell.
 	 * Then, we try to locate a Sprite associated to the spell in the Image Folder associated to the Champion.
+     * If the spell is stackable, we enable every GUI component that displays the number of stack and reloading states.
 	 **/
     public void AttributeDisplayable(IDisplayable displayable)
     {
         _spell = (Spell)displayable;
         Image spellImage = GetComponent<Image>();
-        spellImage.sprite = Resources.Load<Sprite>("Images/Spells/" + _spell.GetComponent<Champion>().GetType().ToString() + "/" + _spell.GetType());
+        spellImage.sprite = Resources.Load<Sprite>("Images/Champions/" + _spell.GetComponent<Champion>().Name + "/" + _spell.GetType());
         if (spellImage.sprite == null)
         {
-            spellImage.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");
+            spellImage.sprite = Resources.Load<Sprite>("Images/DefaultSprite");
         }
 
         if (_spell is StackableSpell)
@@ -96,6 +97,12 @@ public class GUISpellDisplayer : MonoBehaviour, IDisplayer
             _stackText.enabled = true;
             _stackImage.enabled = true;
             _backgroundStack.enabled = true;
+        }
+        else
+        {
+            _stackText.enabled = false;
+            _stackImage.enabled = false;
+            _backgroundStack.enabled = false;
         }
     }
 }

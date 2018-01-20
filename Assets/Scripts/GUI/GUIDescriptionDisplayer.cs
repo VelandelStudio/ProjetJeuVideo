@@ -12,6 +12,7 @@ public class GUIDescriptionDisplayer : MonoBehaviour
     [SerializeField] private Text _textZone;
     [SerializeField] private Image _element;
     [SerializeField] private Image _type;
+    [SerializeField] private Image _typeAttack;
 
     /** Start, private void
 	 * The start Method is used to disableevery graphic elements when there are not used.
@@ -22,6 +23,7 @@ public class GUIDescriptionDisplayer : MonoBehaviour
         _textZone.enabled = false;
         _element.enabled = false;
         _type.enabled = false;
+        _typeAttack.enabled = false;
     }
 
     /** DisplayDescription, public void
@@ -38,6 +40,7 @@ public class GUIDescriptionDisplayer : MonoBehaviour
             _textZone.text = displayer.Displayable.GetDescriptionGUI();
             SetElementSprite(displayer.Displayable.Element);
             SetTypeSprite(displayer.Displayable.DamagesType);
+            SetTypeAttack(displayer.Displayable.Type);
         }
     }
 
@@ -55,11 +58,24 @@ public class GUIDescriptionDisplayer : MonoBehaviour
      * Get the string element name of a Displayer element inside parameters and attributes the corresponding sprite on the screen.
      **/
     private void SetElementSprite(string element)
-    {
-        if (element != null)
+    { 
+        if (element != null && element != "")
         {
             _element.sprite = Resources.Load<Sprite>("Images/Elements/" + element);
             _element.enabled = true;
+        }
+    }
+
+    /** SetTypeAttack,private void
+     * @Params : string
+     * Get the string element name of a Displayer element inside parameters and attributes the corresponding sprite on the screen.
+     **/
+    private void SetTypeAttack(string typeAttack)
+    {
+        if (typeAttack != null && typeAttack !="")
+        {
+            _typeAttack.sprite = Resources.Load<Sprite>("Images/Types/" + typeAttack);
+            _typeAttack.enabled = true;
         }
     }
 
@@ -69,22 +85,10 @@ public class GUIDescriptionDisplayer : MonoBehaviour
      **/
     private void SetTypeSprite(string[] type)
     {
-        if (type.Length > 0)
+        string typeToLoad = StringHelper.GetDisplayableType(type);
+        if (typeToLoad != "")
         {
-            string prevType = type[0];
-            foreach (string t in type)
-            {
-                if (t != prevType)
-                {
-                    prevType = "Hybride";
-                    break;
-                }
-            }
-
-            if (prevType == "m") { prevType = "Magical"; }
-            if (prevType == "p") { prevType = "Physical"; }
-
-            _type.sprite = Resources.Load<Sprite>("Images/Types/" + prevType);
+            _type.sprite = Resources.Load<Sprite>("Images/Types/" + typeToLoad);
             _type.enabled = true;
         }
     }

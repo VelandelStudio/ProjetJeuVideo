@@ -1084,7 +1084,7 @@ GameObject:
   - component: {fileID: 114981389069871528}
   - component: {fileID: 114091128741565504}
   m_Layer: 0
-  m_Name: PlayerV3
+  m_Name: FireMage
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2249,6 +2249,7 @@ MonoBehaviour:
     BaseGravity: 50
     ResetGravityValue: 1.2
   Movement:
+    MovementSpeed: 5
     JumpSpeed: 3
     JumpTime: 0.5
 --- !u!114 &114091128741565504

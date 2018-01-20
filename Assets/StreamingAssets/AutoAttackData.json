@@ -3,6 +3,7 @@
 		"ScriptName":"DefaultAutoAttack",
 		"Name":"DefaultAttack",
 		"Element":"none",
+		"Type":"",
 		"CoolDownValue":"1",
 		"Damages":[0],
 		"DamagesType":["p"],
@@ -16,6 +17,7 @@
 	{
 		"ScriptName":"AutoAttackFireMage",
 		"Name":"Coup d'bouteille",
+		"Type":"Ranged",
 		"Element":"Fire",
 		"CoolDownValue":"1.5f",
 		"Damages":[5],
@@ -31,6 +33,7 @@
 	{
 		"ScriptName":"AutoAttackWindiator",
 		"Name":"Coup d'bambou",
+		"Type":"Melee",
 		"Element":"Storm",
 		"CoolDownValue":"1.2f",
 		"Damages":[7],

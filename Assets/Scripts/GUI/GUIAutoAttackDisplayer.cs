@@ -54,10 +54,10 @@ public class GUIAutoAttackDisplayer : MonoBehaviour, IDisplayer
     {
         _autoAttackBase = (AutoAttackBase)displayable;
         Image autoAttackBaseImage = GetComponent<Image>();
-        autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/AutoAttacks/" + _autoAttackBase.GetComponent<Champion>().GetType().ToString() + "/" + _autoAttackBase.GetType());
+        autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/Champions/" + _autoAttackBase.GetComponent<Champion>().GetType().ToString() + "/" + _autoAttackBase.GetType());
         if (autoAttackBaseImage.sprite == null)
         {
-            autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");
+            autoAttackBaseImage.sprite = Resources.Load<Sprite>("Images/DefaultSprite");
         }
     }
     #endregion

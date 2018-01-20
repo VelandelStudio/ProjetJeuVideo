@@ -9,6 +9,7 @@ public interface IDisplayable
 {
     string Name { get; }
     string Element { get; }
+    string Type { get; }
     float CoolDownValue { get; }
     int[] Damages { get; }
     string[] DamagesType { get; }

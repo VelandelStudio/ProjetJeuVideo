@@ -68,10 +68,10 @@ public class GUIPassiveDisplayer : MonoBehaviour, IDisplayer
     public void AttributeDisplayable(IDisplayable displayable)
     {
         _passive = (PassiveBase)displayable;
-        _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/Passive/" + _passive.GetComponent<Champion>().GetType().ToString() + "/" + _passive.GetType());
+        _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/Champions/" + _passive.GetComponent<Champion>().GetType().ToString() + "/" + _passive.GetType());
         if (_passiveImgDescription.sprite == null)
         {
-            _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/Spells/DefaultSpell");
+            _passiveImgDescription.sprite = Resources.Load<Sprite>("Images/DefaultSprite");
         }
 
         if (_passive.NumberOfStacks > 0)

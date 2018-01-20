@@ -14,6 +14,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     public StatusData StatusDefinition { get; protected set; }
     public string Name { get; protected set; }
     public string Element { get; protected set; }
+    public string Type { get; protected set; }
     public float CoolDownValue { get; protected set; }
     public int[] Damages { get; protected set; }
     public string[] DamagesType { get; protected set; }

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// MeleAttack class
+/// MeleeAttack class
 /// This Abstract class contains all methods to do an Attack with a physical weapon (sword, spear etc...)
 /// </summary>
 //[RequireComponent(typeof(Collider))]
-public class MeleAttack : MonoBehaviour {
+public class MeleeAttack : MonoBehaviour {
 
     public bool colArme { get; set; }
     protected Collider _arme;
