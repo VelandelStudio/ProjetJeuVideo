@@ -49,7 +49,7 @@ public class GUIStatusDisplayer : MonoBehaviour, IDisplayer
             _outline.effectColor = Color.red;
         }
 
-        _StatusImage.sprite = Resources.Load<Sprite>("Images/Status/" + _status.name);
+        _StatusImage.sprite = Resources.Load<Sprite>("Images/Status/" + _status.GetType());
         if (!_StatusImage.sprite)
         {
             _StatusImage.sprite = Resources.Load<Sprite>("Images/DefaultSprite");

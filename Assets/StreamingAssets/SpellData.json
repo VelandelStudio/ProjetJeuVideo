@@ -36,7 +36,7 @@
 	},
 	{
 		"ScriptName":"FireBallSpell",
-		"Name":"FireBall",
+		"Name":"Fire Ball",
 		"Element":"Fire",
 		"Type":"Ranged",
 		"CoolDownValue":3.0,

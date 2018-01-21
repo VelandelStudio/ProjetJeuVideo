@@ -9,8 +9,6 @@ using UnityEngine;
  **/
 public class MenusDisplayer : MonoBehaviour {
 
-    [SerializeField] private GameObject _championSelectionMenu;
-
     /** Update private void 
      * If one of the Key associated with a menu is pressed, then we Activate or De-activate the GameObject associated.
      **/
@@ -18,7 +16,7 @@ public class MenusDisplayer : MonoBehaviour {
     {
 		if(Input.GetKeyDown(KeyCode.K))
         {
-            _championSelectionMenu.SetActive(!_championSelectionMenu.activeSelf);
+            Debug.Log("K pressed");
         }
 	}
 }

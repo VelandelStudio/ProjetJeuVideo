@@ -25,15 +25,21 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
     [SerializeField] private Image _championElement;
     [SerializeField] private GameObject _tagBar;
 
+    [SerializeField] private GameObject invokeButton;
+
     /** LoadAndDisplayData, public void
      * @param : string, string[], string, string, string[]
      * This method is launched when a ChampionButton is pressed.
-     * When launched, we load every eelement from json files (please see other method description).
+     * When launched, we load every element from json files (please see other method description).
+     * Please note that the invokeButton is not interractable if we are playing the champion we are looking at.
      **/
     public void LoadAndDisplayData(ChampionSelectionPanel.ChampionData data)
     {
         _championName = data.Name;
+        Champion oldChampion = Camera.main.GetComponentInParent<Champion>();
 
+        invokeButton.GetComponent<Button>().interactable = oldChampion == null || oldChampion.Name != _championName;
+  
         _championDescription.text = "<i>"+string.Join("", data.Description)+"</i>";
         _championElement.sprite = Resources.Load<Sprite>("Images/Elements/" + data.Element);
         Sprite spritechamp = Resources.Load<Sprite>("Images/Champions/" + data.Name + "/" + data.Name);
@@ -146,7 +152,7 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
      **/
     public void InvokeChampion()
     {
-        Champion oldChampion = Camera.main.gameObject.GetComponentInParent<Champion>();
+        GameObject oldChampion = Camera.main.transform.parent.gameObject;
         GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + _championName);
         Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
         Destroy(oldChampion.gameObject);
