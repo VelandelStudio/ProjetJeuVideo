@@ -11,6 +11,17 @@ public class ChampionSelectionButton : MonoBehaviour {
 
     private ChampionSelectionPanel.ChampionData _championData;
     private GameObject _championDescriptionPanel;
+    public string ButtonName
+    {
+        get { return _championData.Name; }
+        private set { }
+    }
+
+    public ChampionSelectionPanel.ChampionData ChampionData
+    {
+        get { return _championData; }
+        private set { }
+    }
 
     /** AttributeElements, public void method
      * @param : GameObject, ChampionSelectionPanel.ChampionData
