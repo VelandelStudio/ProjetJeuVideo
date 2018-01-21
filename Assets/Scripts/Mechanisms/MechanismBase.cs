@@ -10,7 +10,7 @@
 public abstract class MechanismBase : MonoBehaviour, IInterractableEntity
 {
     protected bool isActivated;
-
+    protected bool isActivable = true;
     /** Start Method
      * Set the mechanism activable and not activated yet.
      **/

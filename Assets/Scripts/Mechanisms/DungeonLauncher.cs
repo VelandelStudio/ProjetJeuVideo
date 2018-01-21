@@ -15,8 +15,22 @@ public class DungeonLauncher : MechanismBase
     protected override void Start()
     {
         base.Start();
+        isActivable = false;
+
         generator = GetComponent<MapGenerator>();
         generator.Seed = Random.Range(0, 50);
+    }
+
+    public void ActivateDungeonLauncher()
+    {
+        isActivable = true;
+        GetComponentInChildren<ParticleSystem>().Play();
+    }
+
+    public void DeactivateDungeonLauncher()
+    {
+        isActivable = false;
+        GetComponentInChildren<ParticleSystem>().Stop();
     }
 
     /** ActivateInterractable Method
@@ -27,7 +41,7 @@ public class DungeonLauncher : MechanismBase
      */
     public override void ActivateInterractable()
     {
-        if (!isActivated)
+        if (!isActivated && isActivable)
         {
             Debug.Log("Launching new Dunjon");
 
@@ -37,9 +51,7 @@ public class DungeonLauncher : MechanismBase
             // Placement of the Player
             SpawnPos();
 
-            base.ActivateInterractable();
         }
-        Destroy(this);
     }
 
     /** SpawnPos Method
