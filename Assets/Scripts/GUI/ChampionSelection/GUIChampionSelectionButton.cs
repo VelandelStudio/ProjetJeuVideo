@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/** ChampionSelectionButton public class,
- * This class handles the behaviour of the ChampionSelectionButton. The main goal of this class is to transmit informations
+/** GUIChampionSelectionButton public class,
+ * This class handles the behaviour of the GUIChampionSelectionButton. The main goal of this class is to transmit informations
  * from the ChampionSelection Panel to the ChampionDescriptionPanel
  **/
-public class ChampionSelectionButton : MonoBehaviour {
+public class GUIChampionSelectionButton : MonoBehaviour {
 
     private ChampionSelectionPanel.ChampionData _championData;
     private GameObject _championDescriptionPanel;

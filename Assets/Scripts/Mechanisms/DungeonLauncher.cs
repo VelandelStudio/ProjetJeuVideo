@@ -21,12 +21,20 @@ public class DungeonLauncher : MechanismBase
         generator.Seed = Random.Range(0, 50);
     }
 
+    /** ActivateDungeonLauncher, public void method
+     * As we use a boolean to check if this Activable is ready or not, we need to use this method to make the Mechanisme activable
+     * This Method should be called by the Summoning area only.
+     **/
     public void ActivateDungeonLauncher()
     {
         isActivable = true;
         GetComponentInChildren<ParticleSystem>().Play();
     }
 
+    /** DeactivateDungeonLauncher, public void method
+     * As we use a boolean to check if this Activable is ready or not, we need to use this method to make the Mechanisme not activable
+     * This Method should be called by the Summoning area only.
+     **/
     public void DeactivateDungeonLauncher()
     {
         isActivable = false;

@@ -10,7 +10,7 @@ using UnityEngine;
 public class SummoningArea : MonoBehaviour {
 
     [SerializeField] private DungeonLauncher dungeonLauncher;
-
+    private bool championLoaded = false;
     /** OnTriggerExit, private void
      * @param : Collider
      * This method is used to detect if a player leaves the area.
@@ -27,6 +27,22 @@ public class SummoningArea : MonoBehaviour {
                 champion.DestroyChampion();
                 dungeonLauncher.DeactivateDungeonLauncher();
             }
+            championLoaded = false;
+            dungeonLauncher.DeactivateDungeonLauncher();
+        }
+    }
+
+    /** OnTriggerStay, private void
+     * @param : Collider
+     * While players are inside the Area, we try to catch the frame when they choos to summon a champion.
+     * Once it is done, we notify the dungeonLauncher to activate it.
+     **/
+    private void OnTriggerStay(Collider other)
+    {
+        if(!championLoaded && other.tag == "Player" && other.GetComponent<Champion>())
+        {
+            championLoaded = true;
+            dungeonLauncher.ActivateDungeonLauncher();
         }
     }
 }

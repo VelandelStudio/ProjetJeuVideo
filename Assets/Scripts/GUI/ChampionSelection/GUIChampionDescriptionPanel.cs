@@ -4,7 +4,7 @@ using System.IO;
 
 /** GUIChampionDescriptionPanel, public class
  * This class handles the behaviour of the GUIChampionDescriptionPanel.
- * You should notice that this script is called by the ChampionSelectionButton which handles only string elements of a champion.
+ * You should notice that this script is called by the GUIChampionSelectionButton which handles only string elements of a champion.
  * In that way, we need, in that script, to load every json file associated to every component of a champion.
  **/
 public class GUIChampionDescriptionPanel : MonoBehaviour {

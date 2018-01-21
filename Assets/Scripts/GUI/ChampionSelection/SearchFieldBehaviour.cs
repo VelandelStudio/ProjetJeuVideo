@@ -21,13 +21,13 @@ public class SearchFieldBehaviour : MonoBehaviour {
     private bool _advancedPanelOpen = false;
 
     /** Update, private void method
-     * This method is used to check if every ChampionSelectionButton fit to the Criterias of the search.
+     * This method is used to check if every GUIChampionSelectionButton fit to the Criterias of the search.
      * At any moment, if the player changes one value of the search panel, the Champion list will be automatically updated
      **/
     private void Update()
     {
         textInput = _inputFieldText.text;
-        ChampionSelectionButton[] buttons = _gridOfChampions.GetComponentsInChildren<ChampionSelectionButton>(true);
+        GUIChampionSelectionButton[] buttons = _gridOfChampions.GetComponentsInChildren<GUIChampionSelectionButton>(true);
         for (int i = 0; i < buttons.Length; i++)
         {
             buttons[i].gameObject.SetActive(ButtonCorrespondsToCriterias(buttons[i]));
@@ -94,7 +94,7 @@ public class SearchFieldBehaviour : MonoBehaviour {
     }
 
     /** ButtonCorrespondsToCriterias public bool,
-     * @param : ChampionSelectionButton
+     * @param : GUIChampionSelectionButton
      * This method is launched by the Update method of this script.
      * We try to check each frame if something in the search panel moved in order to re-organize the list of champions.
      * Please note that we will display only champion that are fill theses conditions :
@@ -105,7 +105,7 @@ public class SearchFieldBehaviour : MonoBehaviour {
      *  If we Select 1 Role and 1 Element for example, you will get only champions that have both of them.
      * However, if you chose 2 Roles, you will see all champions that belongs to one or an other role.
      **/
-    private bool ButtonCorrespondsToCriterias (ChampionSelectionButton button)
+    private bool ButtonCorrespondsToCriterias (GUIChampionSelectionButton button)
     {
         bool isSearchedInTextField = button.ButtonName.Contains(textInput) || textInput == "";
         bool hasCorrectElement = _elements.Count == 0;

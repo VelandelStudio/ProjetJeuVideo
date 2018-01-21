@@ -38,7 +38,7 @@ public class ChampionSelectionPanel : MonoBehaviour {
                 GameObject objInst = Instantiate(_championButton,_grid.transform);
                 
                 objInst.GetComponentInChildren<Text>().text = _championData[i].Name;
-                ChampionSelectionButton button = objInst.GetComponent<ChampionSelectionButton>();
+                GUIChampionSelectionButton button = objInst.GetComponent<GUIChampionSelectionButton>();
                 button.AttributeElements(_championDescriptionPanel, _championData[i]);
             }
         }

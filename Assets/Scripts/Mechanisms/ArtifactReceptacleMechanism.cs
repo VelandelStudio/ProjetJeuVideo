@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/** ArtifactReceptacleMechanism, public class
+ * this script is associated with the ArtifactReceptacle prefab
+ * It is used to display the ChampionSelection panel
+ **/
 public class ArtifactReceptacleMechanism : MechanismBase {
     [SerializeField] private GameObject _activableMenus;
-    [SerializeField] private DungeonLauncher dungeonLauncher;
-
-    private bool artifactLoaded = false;
 
     /** ActivateInterractable Method
      * This Method overrides the parent one.
@@ -22,11 +23,10 @@ public class ArtifactReceptacleMechanism : MechanismBase {
         }
     }
 
-    public void ArtifactIsLoaded()
-    {
-        dungeonLauncher.ActivateDungeonLauncher();
-    }
-
+    /** OnTriggerExit, protected void method,
+     * @param : Collider
+     * This trigger is used th close th menu if the player goes too far.
+     **/
     protected void OnTriggerExit(Collider other)
     {
         if(other.gameObject.tag == "Player")

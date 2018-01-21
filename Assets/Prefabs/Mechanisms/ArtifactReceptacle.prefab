@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 135306520264596504}
   - component: {fileID: 114143866591995426}
   m_Layer: 0
-  m_Name: ArtifactRecaptacle
+  m_Name: ArtifactReceptacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
