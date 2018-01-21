@@ -4,28 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /** ChampionSelectionButton public class,
- * This class handles the behaviour of the ChampionSelectionButton. The maingoal of this class is to transmit informations
+ * This class handles the behaviour of the ChampionSelectionButton. The main goal of this class is to transmit informations
  * from the ChampionSelection Panel to the ChampionDescriptionPanel
  **/
 public class ChampionSelectionButton : MonoBehaviour {
 
-    private string _championName;
-    private string _passive;
-    private string _autoAttack;
-    private string[] _spells;
+    private ChampionSelectionPanel.ChampionData _championData;
     private GameObject _championDescriptionPanel;
 
     /** AttributeElements, public void method
-     * @param : GameObject, string, string, string, string[]
+     * @param : GameObject, ChampionSelectionPanel.ChampionData
      * This method should be called by the GUIChampionSelectionPanel to passe its information to the button associated to the champion.
      **/
-    public void AttributeElements(GameObject championDescriptionPanel, string championName, string passive, string autoAttack, string[] spells)
+    public void AttributeElements(GameObject championDescriptionPanel, ChampionSelectionPanel.ChampionData data)
     {
         _championDescriptionPanel = championDescriptionPanel;
-        _championName = championName;
-        _passive = passive;
-        _autoAttack = autoAttack;
-        _spells = spells;
+        _championData = data;
     }
 
     /** DisplayDescription, public void method
@@ -36,6 +30,6 @@ public class ChampionSelectionButton : MonoBehaviour {
     public void DisplayDescription()
     {
         _championDescriptionPanel.SetActive(true);
-        _championDescriptionPanel.GetComponent<GUIChampionDescriptionPanel>().LoadAndDisplayData(_championName, _passive, _autoAttack,_spells);
+        _championDescriptionPanel.GetComponent<GUIChampionDescriptionPanel>().LoadAndDisplayData(_championData);
     }
 }

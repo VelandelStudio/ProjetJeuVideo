@@ -281,5 +281,8 @@ public abstract class Champion : MonoBehaviour
         public string Passive;
         public string AutoAttack;
         public string[] ActiveSpells;
+        public string Element;
+        public string[] Description;
+        public string[] Tags;
     }
 }

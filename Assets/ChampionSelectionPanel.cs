@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 
 /** ChampionSelectionPanel, public class
@@ -42,7 +39,7 @@ public class ChampionSelectionPanel : MonoBehaviour {
                 
                 objInst.GetComponentInChildren<Text>().text = _championData[i].Name;
                 ChampionSelectionButton button = objInst.GetComponent<ChampionSelectionButton>();
-                button.AttributeElements(_championDescriptionPanel, _championData[i].Name, _championData[i].Passive, _championData[i].AutoAttack, _championData[i].ActiveSpells);
+                button.AttributeElements(_championDescriptionPanel, _championData[i]);
             }
         }
         else
@@ -56,11 +53,14 @@ public class ChampionSelectionPanel : MonoBehaviour {
 	 * It is used as a JSON Object to stock every variables read from the JSON file.
 	 **/
     [System.Serializable]
-    protected class ChampionData
+    public class ChampionData
     {
         public string Name;
         public string Passive;
         public string AutoAttack;
         public string[] ActiveSpells;
+        public string Element;
+        public string[] Description;
+        public string[] Tags;
     }
 }

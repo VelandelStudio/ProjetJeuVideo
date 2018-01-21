@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using System;
 
 /** GUIChampionDescriptionPanel, public class
  * This class handles the behaviour of the GUIChampionDescriptionPanel.
@@ -23,17 +20,29 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
     [SerializeField] private GameObject PassiveField;
     [SerializeField] private GameObject[] SpellFields;
 
+    [SerializeField] private Image _championImage;
+    [SerializeField] private Text _championDescription;
+    [SerializeField] private Image _championElement;
+    [SerializeField] private GameObject _tagBar;
+
     /** LoadAndDisplayData, public void
-     * @param : string, string, string, string[]
+     * @param : string, string[], string, string, string[]
      * This method is launched when a ChampionButton is pressed.
      * When launched, we load every eelement from json files (please see other method description).
      **/
-    public void LoadAndDisplayData(string championName, string passive, string autoAttack, string[] spells)
+    public void LoadAndDisplayData(ChampionSelectionPanel.ChampionData data)
     {
-        _championName = championName;
-        LoadSpellData(spells);
-        LoadPassiveData(passive);
-        LoadAutoAttackData(autoAttack);
+        _championName = data.Name;
+
+        _championDescription.text = "<i>"+string.Join("", data.Description)+"</i>";
+        _championElement.sprite = Resources.Load<Sprite>("Images/Elements/" + data.Element);
+        Sprite spritechamp = Resources.Load<Sprite>("Images/Champions/" + data.Name + "/" + data.Name);
+        _championImage.sprite = spritechamp;
+
+        LoadSpellData(data.ActiveSpells);
+        LoadPassiveData(data.Passive);
+        LoadAutoAttackData(data.AutoAttack);
+        SetTagsSprites(_tagBar, data.Tags);
     }
 
     /** LoadAutoAttackData, private void Method
@@ -120,7 +129,6 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
                         Sprite spriteElement = Resources.Load<Sprite>("Images/Elements/" + _spellDefinition[i].Element);
                         Sprite spriteType = Resources.Load<Sprite>("Images/Types/" + StringHelper.GetDisplayableType(_spellDefinition[i].DamagesType));
                         Sprite typeAttack = Resources.Load<Sprite>("Images/Types/" + _spellDefinition[i].Type);
-                        Debug.Log(_spellDefinition[i] + " type :" + typeAttack);
                         SetSpritesToImages(SpellFields[i], spriteSpell, spriteElement, spriteType, typeAttack);
                         WrapperDisplayable wrapper = new WrapperDisplayable(_spellDefinition[i], _championName);
                         SetDescriptionsToTexts(SpellFields[i], wrapper.GetDescriptionGUI());
@@ -179,6 +187,21 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
         Transform descriptionText = texts.Find("Description");
 
         descriptionText.GetComponent<Text>().text = description;
+    }
+
+    private void SetTagsSprites(GameObject tagBar, string[] tags)
+    {
+        GameObject tagObj = (GameObject)Resources.Load("GUI/Tag");
+        foreach (Transform child in tagBar.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < tags.Length; i++)
+        {
+            tagObj.GetComponent<Image>().sprite =  Resources.Load<Sprite>("Images/Types/" + tags[i]);
+            Instantiate(tagObj, tagBar.transform);
+        }
     }
 
     /** SpellData public Serializable class
