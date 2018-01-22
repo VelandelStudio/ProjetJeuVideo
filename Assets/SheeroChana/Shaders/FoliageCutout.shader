@@ -70,6 +70,8 @@ Shader "Custom/FolliageCutout"
 			v2f leaves(appData v)
 			{
 				v2f o;
+				UNITY_INITIALIZE_OUTPUT(v2f,o)
+
 				v.color *= _windScale;
 				half phase = v.vertex.y * _windFreq.z + (v.vertex.x + v.vertex.z) * _windFreq.w;
 				v.vertex.xyz += v.normal.xyz * cos(_Time.x * _windFreq.x + phase ) * v.color.r;
@@ -149,6 +151,8 @@ Shader "Custom/FolliageCutout"
 			v2f leaves(appData v)
 			{
 				v2f o;
+				UNITY_INITIALIZE_OUTPUT(v2f,o)
+
 				v.color *= _windScale;
 				half phase = v.vertex.y * _windFreq.z + (v.vertex.x + v.vertex.z) * _windFreq.w;
 				v.vertex.xyz += v.normal.xyz * cos(_Time.x * _windFreq.x + phase ) * v.color.r;
