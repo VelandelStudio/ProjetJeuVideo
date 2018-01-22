@@ -80,8 +80,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - PixelSnap: 0
-    - _AO: 2.4
-    - _BaseLight: 0.35
+    - _AO: 7.09
+    - _BaseLight: 0.176
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -94,7 +94,7 @@ Material:
     - _Metallic: 0
     - _Mode: 1
     - _MotionAmount: 0
-    - _Occlusion: 7.5
+    - _Occlusion: 7.92
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Shininess: 0.078125
@@ -104,7 +104,7 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - _windScale: 0.045
+    - _windScale: 0.02
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -114,4 +114,4 @@ Material:
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
-    - _windFreq: {r: 50, g: 10, b: 1, a: 0}
+    - _windFreq: {r: 60, g: 2, b: 2, a: 0}
