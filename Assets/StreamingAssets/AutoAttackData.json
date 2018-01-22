@@ -1,4 +1,18 @@
-[
+[	
+	{
+		"ScriptName":"DefaultAutoAttack",
+		"Name":"DefaultAttack",
+		"Element":"none",
+		"CoolDownValue":"1",
+		"Damages":[0],
+		"DamagesType":["p"],
+		"OtherValues":[],
+		"Status":[""],
+		"Description":
+		[
+			"The AutoAttack when nothing can be load."
+		]
+	},
 	{
 		"ScriptName":"AutoAttackFireMage",
 		"Name":"Coup d'bouteille",

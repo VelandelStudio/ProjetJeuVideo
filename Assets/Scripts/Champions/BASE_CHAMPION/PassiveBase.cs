@@ -27,43 +27,74 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     public GameObject[] Status { get; protected set; }
     public string[] Description { get; protected set; }
 
+    private bool _isLoaded = false;
+    public bool IsLoaded { get; protected set; }
+
     protected Champion champion;
 
     public int NumberOfStacks;
     #endregion
 
     #region Functional methods
-    /** Awake protected void Method
-	 * The Awake ensure a good construction of the passive from the JSON by calling the LoadSpellData.
-	 * After that, we transmit all values to public fields that will be used by the other scripts.
+    /** Awake protected virtual void Method,
+	 * The Awake method is used to create the PassiveBase from the JSON file and attribute every variables.
+     * You should notice that the Status table contains Status GameObject with an instance of StatusBase attached to it.
+     * We try to pre-warm the StatusBase attached in order to display descriptions and maybe modify the instance.
+	 * If we do not find a Status prefab that correspond to the information in the PassiveData.json file or if we are not able to pre-warm the Status, 
+	 * then, the Status is substitued by a DefaultStatus.
 	 **/
     protected void Awake()
     {
-        LoadSpellData("PassiveData.json");
-        NumberOfStacks = PassiveDefinition.NumberOfStacks;
-        Description = PassiveDefinition.Description;
-        Name = PassiveDefinition.Name;
-        Damages = PassiveDefinition.Damages;
-        DamagesType = PassiveDefinition.DamagesType;
-        OtherValues = PassiveDefinition.OtherValues;
-        NumberOfStacks = PassiveDefinition.NumberOfStacks;
-        Description = PassiveDefinition.Description;
-
         champion = GetComponentInParent<Champion>();
-        if (PassiveDefinition.Status.Length > 0 && PassiveDefinition.Status[0] != "")
+
+        LoadSpellData("PassiveData.json");
+        if (_isLoaded)
         {
-            Status = new GameObject[PassiveDefinition.Status.Length];
-            for (int i = 0; i < PassiveDefinition.Status.Length; i++)
+            NumberOfStacks = PassiveDefinition.NumberOfStacks;
+            Description = PassiveDefinition.Description;
+            Name = PassiveDefinition.Name;
+            Damages = PassiveDefinition.Damages;
+            DamagesType = PassiveDefinition.DamagesType;
+            OtherValues = PassiveDefinition.OtherValues;
+            NumberOfStacks = PassiveDefinition.NumberOfStacks;
+            Description = PassiveDefinition.Description;
+
+            if (PassiveDefinition.Status.Length > 0 && PassiveDefinition.Status[0] != "")
             {
-                Status[i] = LoadResource(PassiveDefinition.Status[i]);
-                Status[i].GetComponent<StatusBase>().PreWarm();
+                Status = new GameObject[PassiveDefinition.Status.Length];
+                for (int i = 0; i < PassiveDefinition.Status.Length; i++)
+                {
+                    Status[i] = LoadResource(PassiveDefinition.Status[i]);
+                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
+                    {
+                        Debug.Log(PassiveDefinition.Status[i] + " can not be loaded. "
+                                 + "Please Ensure that the Status Name is correct in the SpellData.json file "
+                                 + "or that this Status exists as a Prefab with the same Script Name associated to it. "
+                                 + "DefaultStatus substitued");
+                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
+                        Status[i].GetComponent<StatusBase>().PreWarm();
+                    }
+                }
             }
+        }
+    }
+
+    /** Start protected virtual void Method,
+	 * Before everything, we check if the Passive was correctly loaded from the JSON file. If it is not the case, we notify the Champion class to replace the broken Passive by a DefaultPassive.
+	 **/
+    protected virtual void Start()
+    {
+        if (!_isLoaded)
+        {
+            champion.ReplaceByDefaultDisplayable(this);
+            Debug.Log("Error when loading the json data of : " + this.GetType().Name + ". Please, check your PassiveData.Json. DefaultPassive was substitued.");
         }
     }
 
     /** LoadSpellData, protected void
 	 * @Params : string
 	 * Loads the JSON PassiveData associated to the Passive.
+	 * If the loading is a success, then _isLoaded = true.
 	 **/
     protected void LoadSpellData(string json)
     {
@@ -77,6 +108,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
                 if (passive.ScriptName == this.GetType().ToString())
                 {
                     PassiveDefinition = passive;
+                    _isLoaded = true;
                     break;
                 }
             }

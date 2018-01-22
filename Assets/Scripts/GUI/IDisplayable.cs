@@ -17,4 +17,5 @@ public interface IDisplayable
     string[] Description { get; }
 
     string GetDescriptionGUI();
+    bool IsLoaded { get; }
 }

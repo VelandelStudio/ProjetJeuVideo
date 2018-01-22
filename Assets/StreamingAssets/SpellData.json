@@ -17,6 +17,22 @@
 		]
 	},
 	{
+		"ScriptName":"DefaultSpell",
+		"Name":"Default Spell",
+		"Element":"none",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"the DefaultStatus loaded."
+		]
+	},
+	{
 		"ScriptName":"FireBallSpell",
 		"Name":"FireBall",
 		"Element":"Fire",

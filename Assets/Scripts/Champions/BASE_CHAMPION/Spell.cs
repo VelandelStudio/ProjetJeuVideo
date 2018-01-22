@@ -32,6 +32,8 @@ public abstract class Spell : MonoBehaviour, IDisplayable
 
     public bool HasGCD;
 
+    private bool _isLoaded = false;
+    public bool IsLoaded { get; protected set; }
 
     protected bool spellInUse = false;
     protected Champion champion;
@@ -65,39 +67,63 @@ public abstract class Spell : MonoBehaviour, IDisplayable
 	 * The Awake method is used to create the Spell from the JSON file and attribute every variables.
      * You should notice that the Status table contains Status GameObject with an instance of StatusBase attached to it.
      * We try to pre-warm the StatusBase attached in order to display descriptions and maybe modify the instance.
+	 * If we do not find a Status prefab that correspond to the information in the SpellData.json file or if we are not able to pre-warm the Status, 
+	 * then, the Status is substitued by a DefaultStatus.
 	 **/
     protected virtual void Awake()
     {
-        LoadSpellData("SpellData.json");
-        Name = SpellDefinition.Name;
-        Element = SpellDefinition.Element;
-        CoolDownValue = SpellDefinition.CoolDownValue;
-        HasGCD = SpellDefinition.HasGCD;
-        Damages = SpellDefinition.Damages;
-        DamagesType = SpellDefinition.DamagesType;
-        OtherValues = SpellDefinition.OtherValues;
-        NumberOfStacks = SpellDefinition.NumberOfStacks;
-        Description = SpellDefinition.Description;
-
         champion = GetComponentInParent<Champion>();
-        if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
+
+        LoadSpellData("SpellData.json");
+        if (_isLoaded)
         {
-            Status = new GameObject[SpellDefinition.Status.Length];
-            for (int i = 0; i < SpellDefinition.Status.Length; i++)
+            Name = SpellDefinition.Name;
+            Element = SpellDefinition.Element;
+            CoolDownValue = SpellDefinition.CoolDownValue;
+            HasGCD = SpellDefinition.HasGCD;
+            Damages = SpellDefinition.Damages;
+            DamagesType = SpellDefinition.DamagesType;
+            OtherValues = SpellDefinition.OtherValues;
+            NumberOfStacks = SpellDefinition.NumberOfStacks;
+            Description = SpellDefinition.Description;
+
+            if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
             {
-                Status[i] = LoadResource(SpellDefinition.Status[i]);
-                Status[i].GetComponent<StatusBase>().PreWarm();
+                Status = new GameObject[SpellDefinition.Status.Length];
+                for (int i = 0; i < SpellDefinition.Status.Length; i++)
+                {
+                    Status[i] = LoadResource(SpellDefinition.Status[i]);
+                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
+                    {
+                        Debug.Log(SpellDefinition.Status[i] + " can not be loaded. "
+                                 + "Please Ensure that the Status Name is correct in the SpellData.json file, "
+                                 + "or that this Status exists as a Prefab with the same Script Name associated to it, "
+                                 + "or that the Status Name is correct in the StatusData.json file. "
+                                 + "DefaultStatus substitued");
+                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
+                        Status[i].GetComponent<StatusBase>().PreWarm();
+                    }
+                }
             }
         }
     }
 
     /** Start protected virtual void Method,
-	 * The Start method first display the name of the spell whe he is created by the Classe.
-	 * Then, it initialize the CD of the spell.
+	 * Before everything, we check if the Spell was correctly loaded from the JSON file. If it is not the case, we notify the Champion class to replace the broken spell by a DefaultSpell.
+	 * If the loading was a success, we display it on the screen and initialize the CD of the spell.
 	 **/
     protected virtual void Start()
     {
-        DisplaySpellCreation(this);
+        if (!_isLoaded)
+        {
+            champion.ReplaceByDefaultDisplayable(this);
+            Debug.Log("Error when loading the json data of : " + this.GetType().Name + ". Please, check your SpellData.Json. DefaultSpell was substitued.");
+        }
+        else
+        {
+            DisplaySpellCreation(this);
+        }
+
         CurrentCD = 0;
     }
 
@@ -199,6 +225,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
     /** LoadSpellData, protected void
 	 * @Params : string
 	 * Loads the JSON SpellDefinition associated to the spell.
+	 * If the loading is a success, then _isLoaded = true.
 	 **/
     protected void LoadSpellData(string json)
     {
@@ -212,6 +239,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
                 if (spell.ScriptName == this.GetType().ToString())
                 {
                     SpellDefinition = spell;
+                    _isLoaded = true;
                     break;
                 }
             }

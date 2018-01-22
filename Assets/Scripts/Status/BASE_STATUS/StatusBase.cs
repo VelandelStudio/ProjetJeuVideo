@@ -25,6 +25,9 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     public float[] TicksIntervals { get; protected set; }
     public float[] TickStarts { get; protected set; }
 
+    private bool _isLoaded = false;
+    public bool IsLoaded { get; protected set; }
+
     public bool IsStackable;
     public int NumberOfStacks;
 
@@ -47,25 +50,30 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         transform.localPosition = Vector3.zero;
     }
 
-    /** PreWarm, public virtual void 
+    /** PreWarm, public virtual bool 
      * This method is called by other scripts (mainly spells)
      * This method is used to load an instance of a Status from a JSON File.
+	 * We return true is the Status is correctly loaded.
      **/
-    public virtual void PreWarm()
+    public virtual bool PreWarm()
     {
         LoadStatusData("StatusData.json");
-        Name = StatusDefinition.Name;
-        Element = StatusDefinition.Element;
-        Duration = StatusDefinition.Duration;
-        IsTickable = StatusDefinition.IsTickable;
-        TicksIntervals = StatusDefinition.TicksIntervals;
-        TickStarts = StatusDefinition.TickStarts;
-        Damages = StatusDefinition.Damages;
-        DamagesType = StatusDefinition.DamagesType;
-        OtherValues = StatusDefinition.OtherValues;
-        IsStackable = StatusDefinition.IsStackable;
-        NumberOfStacks = StatusDefinition.NumberOfStacks;
-        Description = StatusDefinition.Description;
+        if (_isLoaded)
+        {
+            Name = StatusDefinition.Name;
+            Element = StatusDefinition.Element;
+            Duration = StatusDefinition.Duration;
+            IsTickable = StatusDefinition.IsTickable;
+            TicksIntervals = StatusDefinition.TicksIntervals;
+            TickStarts = StatusDefinition.TickStarts;
+            Damages = StatusDefinition.Damages;
+            DamagesType = StatusDefinition.DamagesType;
+            OtherValues = StatusDefinition.OtherValues;
+            IsStackable = StatusDefinition.IsStackable;
+            NumberOfStacks = StatusDefinition.NumberOfStacks;
+            Description = StatusDefinition.Description;
+        }
+        return _isLoaded;
     }
 
     /** StartStatus, public virtual void 
@@ -96,7 +104,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
                 }
 
                 if (transform.parent.gameObject.tag == "Player" && statusOnTarget[i].CurrentTimer > status.Duration - 1f)
-                { 
+                {
                     Destroy(gameObject);
                     return;
                 }
@@ -200,6 +208,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     /** LoadStatusData, protected void
 	 * @Params : string
 	 * Loads the JSON StatusDefinition associated to the spell.
+	 * If the loading is a success, then _isLoaded = true.
 	 **/
     protected void LoadStatusData(string json)
     {
@@ -214,6 +223,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
                 if (status.ScriptName == this.GetType().ToString())
                 {
                     StatusDefinition = status;
+                    _isLoaded = true;
                     break;
                 }
             }

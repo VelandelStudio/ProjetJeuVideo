@@ -1,5 +1,18 @@
 [
 	{
+		"ScriptName":"DefaultPassive",
+		"Name":"Default Passive",
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[""],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Passive load if nothing found."
+		]
+	},
+	{
 		"ScriptName":"PassiveFireMage",
 		"Name":"Fiery rage",
 		"Damages":[],
