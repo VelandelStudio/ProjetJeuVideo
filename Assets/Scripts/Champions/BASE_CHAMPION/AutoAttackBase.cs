@@ -16,6 +16,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     public AutoAttackData AutoAttackDefinition { get; protected set; }
     public string Name { get; protected set; }
     public string Element { get; protected set; }
+    public string Type { get; protected set; }
     public float CoolDownValue { get; protected set; }
     public int[] Damages { get; protected set; }
     public string[] DamagesType { get; protected set; }
@@ -48,6 +49,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         {
             Name = AutoAttackDefinition.Name;
             Element = AutoAttackDefinition.Element;
+            Type = AutoAttackDefinition.Type;
             CoolDownValue = AutoAttackDefinition.CoolDownValue;
             Damages = AutoAttackDefinition.Damages;
             DamagesType = AutoAttackDefinition.DamagesType;
@@ -186,6 +188,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         public string ScriptName;
         public string Name;
         public string Element;
+        public string Type;
         public float CoolDownValue;
         public int[] Damages;
         public string[] DamagesType;

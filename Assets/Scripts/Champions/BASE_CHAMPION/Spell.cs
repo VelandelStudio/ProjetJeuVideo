@@ -22,6 +22,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
     public SpellData SpellDefinition { get; protected set; }
     public string Name { get; protected set; }
     public string Element { get; protected set; }
+    public string Type { get; protected set; }
     public float CoolDownValue { get; protected set; }
     public int[] Damages { get; protected set; }
     public string[] DamagesType { get; protected set; }
@@ -79,6 +80,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
         {
             Name = SpellDefinition.Name;
             Element = SpellDefinition.Element;
+            Type = SpellDefinition.Type;
             CoolDownValue = SpellDefinition.CoolDownValue;
             HasGCD = SpellDefinition.HasGCD;
             Damages = SpellDefinition.Damages;
@@ -299,6 +301,7 @@ public abstract class Spell : MonoBehaviour, IDisplayable
         public string ScriptName;
         public string Name;
         public string Element;
+        public string Type;
         public float CoolDownValue;
         public bool HasGCD;
         public int[] Damages;

@@ -18,6 +18,7 @@ public abstract class Champion : MonoBehaviour
     protected AutoAttackBase autoAttack;
     protected ChampionData championData;
 
+    protected SpellBarBehaviour spellBar;
     public string Name
     {
         get { return championData.Name; }
@@ -63,6 +64,9 @@ public abstract class Champion : MonoBehaviour
 	 **/
     protected virtual void Start()
     {
+        spellBar = GameObject.Find("SpellBar").GetComponent<SpellBarBehaviour>();
+        spellBar.SetChildrenActives(true);
+
         AttributePassiveToClass();
         AttributeAutoAttackToClass();
         AttributeSpellsToClass();
@@ -99,6 +103,14 @@ public abstract class Champion : MonoBehaviour
         {
             LaunchSpell(3);
         }
+    }
+
+    public void DestroyChampion()
+    {
+        GameObject normalPlayer = (GameObject) Resources.Load("Player/Summoner");
+        spellBar.SetChildrenActives(false);
+        Instantiate(normalPlayer,transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 
     /** AutoAttack protected virtual void Method.
@@ -281,5 +293,8 @@ public abstract class Champion : MonoBehaviour
         public string Passive;
         public string AutoAttack;
         public string[] ActiveSpells;
+        public string Element;
+        public string[] Description;
+        public string[] Tags;
     }
 }

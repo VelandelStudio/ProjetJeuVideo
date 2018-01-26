@@ -15,6 +15,7 @@
 	{
 		"ScriptName":"PassiveFireMage",
 		"Name":"Fiery rage",
+		"Type":"",
 		"Damages":[],
 		"DamagesType":[],
 		"OtherValues":["20","25"],
@@ -29,6 +30,7 @@
 	{
 		"ScriptName":"PassiveWindiator",
 		"Name":"Wind Spirit",
+		"Type":"",
 		"Damages":[],
 		"DamagesType":[],
 		"OtherValues":["30"],

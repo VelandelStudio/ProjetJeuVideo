@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
     private float _sensitivity = 0.02f;
 
     //Clamp vertical values of rotation : the player can not see under his own foot.
-    private float _xMinLimit = -10f;
+    private float _xMinLimit = -50;
     private float _xMaxLimit = 80f;
 
     //Clamp zoom values of the camera

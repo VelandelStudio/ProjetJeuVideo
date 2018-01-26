@@ -42,7 +42,6 @@ public static class StringHelper
                                 + statusType
                                 + resources
                                 + cooldown
-                                + "\n"
                                 + description;
         return finaldescription;
     }
@@ -114,7 +113,7 @@ public static class StringHelper
                 int arrayIndex = GetIndexFromString(m.Value);
                 StatusBase status = ((GameObject)statusDescription.GetValue(arrayIndex)).GetComponent<StatusBase>();
                 description = description.Replace("<<" + m.Value + ">>", "<b><color=lime>" + status.Name + "</color></b>");
-                description += "\n___________________________________________________";
+                description += "\n___________________________________________________\n";
                 description += DescriptionBuilder(status);
             }
             else
@@ -178,6 +177,36 @@ public static class StringHelper
         else
         {
             return string.Format("{0:##.#} min.", (seconds / 60.0));
+        }
+    }
+
+    /** GetDisplayableType, public static string
+     * @param : string[]
+     * Return a string that correspond to the DamagesType of a Displayable.
+     * This method is use to load the Type Images so far.
+     **/
+    public static string GetDisplayableType(string[] types)
+    {
+        if (types.Length > 0)
+        {
+            string prevType = types[0];
+            for (int i = 0; i < types.Length; i++)
+            {
+                if (types[i] != prevType)
+                {
+                    prevType = "Hybride";
+                    break;
+                }
+            }
+
+            if (prevType == "m") { prevType = "Magical"; }
+            if (prevType == "p") { prevType = "Physical"; }
+
+            return prevType;
+        }
+        else
+        {
+            return "";
         }
     }
 
