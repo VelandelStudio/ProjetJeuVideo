@@ -1,7 +1,23 @@
-[
+[	
+	{
+		"ScriptName":"DefaultAutoAttack",
+		"Name":"DefaultAttack",
+		"Element":"none",
+		"Type":"",
+		"CoolDownValue":"1",
+		"Damages":[0],
+		"DamagesType":["p"],
+		"OtherValues":[],
+		"Status":[""],
+		"Description":
+		[
+			"The AutoAttack when nothing can be load."
+		]
+	},
 	{
 		"ScriptName":"AutoAttackFireMage",
 		"Name":"Coup d'bouteille",
+		"Type":"Ranged",
 		"Element":"Fire",
 		"CoolDownValue":"1.5f",
 		"Damages":[5],
@@ -12,6 +28,22 @@
 		[
 			"Launch a small coup d'bouteille that inflicts {Damages[0]} damages to target.\n",
 			"If a monster is damaged, the FireMage is surrounded by a <<FireShield>>"
+		]
+	},
+	{
+		"ScriptName":"AutoAttackWindiator",
+		"Name":"Coup d'bambou",
+		"Type":"Melee",
+		"Element":"Storm",
+		"CoolDownValue":"1.2f",
+		"Damages":[7],
+		"DamagesType":["p"],
+		"OtherValues":["15"],
+		"Status":[""],
+		"Description":
+		[
+			"Hit the enemy with the strength of the wind and the spirit of the bambou and deal {Damages[0]} damages to target.\n",
+			"When a target is hit, you have {OtherValues[0]}% chance to trigger <<WindSpirit>>."
 		]
 	}
 ]

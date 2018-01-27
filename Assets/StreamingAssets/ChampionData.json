@@ -1,0 +1,52 @@
+[
+	{
+		"Name":"DefaultChampion",
+		"Passive":"DefaultPassive",
+		"AutoAttack":"AutoAttackDefault",
+		"ActiveSpells":["DefaultSpell","DefaultSpell","DefaultSpell","DefaultSpell"],
+		"Element":"",
+		"Description":
+		[
+			""
+		],
+		"Tags":[""]
+	},
+	{
+		"Name":"FireMage",
+		"Passive":"PassiveFireMage",
+		"AutoAttack":"AutoAttackFireMage",
+		"ActiveSpells":["FireBallSpell", "ConflagrationSpell", "FireBlessingSpell", "SolarBurnSpell"],
+		"Element":"Fire",
+		"Description":
+		[
+			"The FireMage is a powerfull wizard wich is specialized in the manipulation of fire.\n",
+			"Very familiar with big explosions, this champion releases all his power againts big packs of monsters.\n",
+			"However, you should be very careful because of its lack of defensive stats."
+		],
+		"Tags":["Ranged","Magical","MultiTarget","DPS"]
+	},
+	{
+		"Name":"Windiator",
+		"Passive":"PassiveWindiator",
+		"AutoAttack":"AutoAttackWindiator",
+		"ActiveSpells":["WindStrikeSpell", "StormWallSpell", "TridentLaunchSpell", "GustSpell"],
+		"Element":"Storm",
+		"Description":
+		[
+			"This is a description of the Windiator"
+		],
+		"Tags":["Melee","Physical","MonoTarget","DPS"]
+	},
+	{
+		"Name":"Test",
+		"Passive":"PassiveTest",
+		"AutoAttack":"AutoAttackTest",
+		"ActiveSpells":["TestSpell1", "TestSpell2", "TestSpell3", "TestSpell4"],
+		"Element":"",
+		"Description":
+		[
+			""
+		],
+		"Tags":[""]
+	}
+]

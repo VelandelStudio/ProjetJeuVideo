@@ -20,7 +20,7 @@ public class PassiveFireMage : PassiveBase
     /** Start : protected override void Method
 	 * The Start Method is used here to get the ConflagrationSpell associated to the player and the NumBer Of Ignites in the game.
 	 **/
-    private void Start()
+    protected override void Start()
     {
         _conflagrationSpell = GetComponent<ConflagrationSpell>();
     }

@@ -16,6 +16,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     public AutoAttackData AutoAttackDefinition { get; protected set; }
     public string Name { get; protected set; }
     public string Element { get; protected set; }
+    public string Type { get; protected set; }
     public float CoolDownValue { get; protected set; }
     public int[] Damages { get; protected set; }
     public string[] DamagesType { get; protected set; }
@@ -23,45 +24,70 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
     public GameObject[] Status { get; protected set; }
     public string[] Description { get; protected set; }
 
+    private bool _isLoaded = false;
+    public bool IsLoaded { get; protected set; }
+
     public float CurrentCD;
     protected Champion champion;
     #endregion
 
     #region Functionnal Methods
 
-    /** Awake, Protected void Method
-	 * This method is used to launch the Loading of Data from a JSON File.
-	 * If the loading is a success, we set all the public fields with the elements we have found in the JSON. 
-	 * These fields must be used by other scripts.
+    /** Awake protected virtual void Method,
+	 * The Awake method is used to create the AutoAttackBase from the JSON file and attribute every variables.
+     * You should notice that the Status table contains Status GameObject with an instance of StatusBase attached to it.
+     * We try to pre-warm the StatusBase attached in order to display descriptions and maybe modify the instance.
+	 * If we do not find a Status prefab that correspond to the information in the AutoAttackData.json file or if we are not able to pre-warm the Status, 
+	 * then, the Status is substitued by a DefaultStatus.
 	 **/
     protected void Awake()
     {
+        champion = GetComponentInParent<Champion>();
+
         LoadAutoAttackData("AutoAttackData.json");
-        Debug.Log(AutoAttackDefinition.Name);
-        Name = AutoAttackDefinition.Name;
-        Element = AutoAttackDefinition.Element;
-        CoolDownValue = AutoAttackDefinition.CoolDownValue;
-        Damages = AutoAttackDefinition.Damages;
-        DamagesType = AutoAttackDefinition.DamagesType;
-        OtherValues = AutoAttackDefinition.OtherValues;
-        if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
+        if (_isLoaded)
         {
-            Status = new GameObject[AutoAttackDefinition.Status.Length];
-            champion = GetComponentInParent<Champion>();
-            for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
+            Name = AutoAttackDefinition.Name;
+            Element = AutoAttackDefinition.Element;
+            Type = AutoAttackDefinition.Type;
+            CoolDownValue = AutoAttackDefinition.CoolDownValue;
+            Damages = AutoAttackDefinition.Damages;
+            DamagesType = AutoAttackDefinition.DamagesType;
+            OtherValues = AutoAttackDefinition.OtherValues;
+
+            if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
             {
-                Status[i] = (GameObject)Resources.Load(champion.GetType().ToString() + "/" + AutoAttackDefinition.Status[i], typeof(GameObject));
-                Status[i].GetComponent<StatusBase>().PreWarm();
+                Status = new GameObject[AutoAttackDefinition.Status.Length];
+                for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
+                {
+                    Status[i] = LoadResource(AutoAttackDefinition.Status[i]);
+                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
+                    {
+                        Debug.Log(AutoAttackDefinition.Status[i] + " can not be loaded. "
+                                 + "Please Ensure that the Status Name is correct in the SpellData.json file "
+                                 + "or that this Status exists as a Prefab with the same Script Name associated to it. "
+                                 + "DefaultStatus substitued");
+                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
+                        Status[i].GetComponent<StatusBase>().PreWarm();
+                    }
+                }
             }
+            Description = AutoAttackDefinition.Description;
         }
-        Description = AutoAttackDefinition.Description;
     }
 
     /** Start protected virtual void Method,
-	 * The Start method initializes the CD of the auto-attack.
+	 * Before everything, we check if the AutoAttack was correctly loaded from the JSON file. If it is not the case, we notify the Champion class to replace the broken AutoAttack by a DefaultAutoAttack.
+	 * Then, we initialize the CD of the spell.
 	 **/
     protected virtual void Start()
     {
+        if (!_isLoaded)
+        {
+            champion.ReplaceByDefaultDisplayable(this);
+            Debug.Log("Error when loading the json data of : " + this.GetType().Name + ". Please, check your AutoAttackData.Json. DefaultAutoAttack was substitued.");
+        }
+
         CurrentCD = 0;
     }
 
@@ -76,10 +102,20 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         }
     }
 
+    /** LoadResource, protected virtual GameObject Method
+	 * @param : string,
+	 * @return : GameObject
+	 * This method is used to load a GameObject prefab inside the champion folder.
+	 **/
+    protected virtual GameObject LoadResource(string prefabName)
+    {
+        return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
+    }
+
     /** AutoAttackIsReady protected bool Method,
 	 * This returns if the auto-attack is launchea&ble or not. In this script, we only check if the auto-attack is under Cooldown or not.
 	 **/
-    protected bool AutoAttackIsReady()
+    protected virtual bool AutoAttackIsReady()
     {
         return (CurrentCD == 0);
     }
@@ -106,7 +142,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
 
     /** LoadAutoAttackData, protected void Method
 	 * This Method is launched by the Awake one. Once launched, we try to locate a JSON File associated to this AutoAttack.
-	 * If we find the AutoAttack in the file, then we build the AutoAttack from the elements indise the JSON.
+	 * If we find the AutoAttack in the file, then we build the AutoAttack from the elements indise the JSON and _isLoaded = true.
 	 **/
     protected void LoadAutoAttackData(string json)
     {
@@ -120,6 +156,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
                 if (autoAttack.ScriptName == this.GetType().ToString())
                 {
                     AutoAttackDefinition = autoAttack;
+                    _isLoaded = true;
                     break;
                 }
             }
@@ -129,6 +166,16 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
             Debug.LogError("Cannot load Auto-attack data!");
         }
     }
+
+    /** ApplyEffect, protected void method
+     *  This method is usually called by a prefab attach to th character who autoAttack to apply Damages and Effects
+     *  In the mother Abstract class the method is empty in the case of nothing is apply to a prefab
+     **/
+    public virtual void ApplyEffect(EntityLivingBase hit)
+    {
+
+    }
+
     #endregion
 
     #region Serializable Classes
@@ -141,6 +188,7 @@ public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
         public string ScriptName;
         public string Name;
         public string Element;
+        public string Type;
         public float CoolDownValue;
         public int[] Damages;
         public string[] DamagesType;

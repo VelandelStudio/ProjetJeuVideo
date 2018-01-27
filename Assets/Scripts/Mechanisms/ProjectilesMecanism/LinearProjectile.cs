@@ -19,6 +19,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     protected EntityLivingBase eHit;
 
     protected float timeOfFly;
+
     protected float spellRange;
     protected float projectileSpeed;
 
@@ -39,6 +40,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     protected Rigidbody rb;
     protected Vector3 startVelocity;
 
+
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
     /// called when the player press the key associated to the spell.
@@ -49,7 +51,10 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     {
         rb = GetComponent<Rigidbody>();
         AttributeSpeedAndRange();
+
         launcher = transform.parent;
+        gameObject.tag = launcher.gameObject.tag == "Player" ? "AllyEntity":"EnemyEntity";
+
         GetComponent<Collider>().isTrigger = true;
         origin = transform.position;
         transform.parent = null;

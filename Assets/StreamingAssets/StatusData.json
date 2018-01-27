@@ -1,5 +1,41 @@
 [
 	{
+		"ScriptName":"BackWindStatus",
+		"Name":"Back Wind",
+		"Element":"Storm",
+		"Duration":3,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"This strong wind is destabilizing you, reducing your move speed by {OtherValues[0]}% during {Duration} seconds."
+		]
+	},
+	{
+		"ScriptName":"DefaultStatus",
+		"Name":"Default Status",
+		"Element":"none",
+		"Duration":5,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"A Default Status to Apply."
+		]
+	},
+	{
 		"ScriptName":"FavorOfFireStatus",
 		"Name":"Favor of Fire",
 		"Element":"Fire",
@@ -17,6 +53,40 @@
 			"Your next Conflagration has {OtherValues[0]}% chance to propagate Ignites on targets caught in the explosion.\n",
 			"The Favor of Fire lasts for {Duration} seconds or until the next use of <<Conflagration>>."
 		]
+	},
+	{
+		"ScriptName":"GustStatus",
+		"Name":"Gust",
+		"Element":"Storm",
+		"Duration":12,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[25],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"You are proud to fight for the god of Storms.\n",
+			"Reduces your cooldown by {OtherValues[0]}% during {Duration} sec."
+		]
+	},
+	{
+		"ScriptName":"HighlightStatus",
+		"Name":"Highlight",
+		"Element":"",
+		"Duration":0.05,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[""],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":[""]
 	},
 	{
 		"ScriptName":"IgniteStatus",
@@ -37,19 +107,42 @@
 		]
 	},
 	{
-		"ScriptName":"HighlightStatus",
-		"Name":"Highlight",
-		"Element":"",
-		"Duration":0.05,
+		"ScriptName":"InsideStormStatus",
+		"Name":"Inside Storm",
+		"Element":"Storm",
+		"Duration":3,
 		"IsTickable":false,
 		"TicksIntervals":[],
 		"TickStarts":[],
 		"Damages":[],
-		"DamagesType":[""],
-		"OtherValues":[""],
+		"DamagesType":[],
+		"OtherValues":[30],
 		"IsStackable":false,
 		"NumberOfStacks":0,
-		"Description":[""]
+		"Description":
+		[
+			"The wind in your back makes you move faster.\n",
+			"Increases your move speed by {OtherValues[0]}% during {Duration} seconds."
+		]
+	},
+	{
+		"ScriptName":"WindPushStatus",
+		"Name":"Wind Push",
+		"Element":"Storm",
+		"Duration":0.5,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Bumps the enemy in the air for {Duration} sec.\n",
+			"When the enemy is bumped, it can not move or attack."
+		]
 	},
 	{
 		"ScriptName":"TransparentStatus",
@@ -65,5 +158,23 @@
 		"IsStackable":false,
 		"NumberOfStacks":0,
 		"Description":[""]
+	},
+	{
+		"ScriptName":"WindSpiritFavorStatus",
+		"Name":"Wind Spirit Favor",
+		"Element":"Storm",
+		"Duration":8,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":["15"],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"You have the spirit of the storm, all your cooldown are reduced by {OtherValues[0]}% during {Duration} seconds."
+		]
 	}
 ]

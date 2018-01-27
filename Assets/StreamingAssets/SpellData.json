@@ -3,6 +3,7 @@
 		"ScriptName":"ConflagrationSpell",
 		"Name":"Conflagration",
 		"Element":"Fire",
+		"Type":"",
 		"CoolDownValue":12.0,
 		"HasGCD":true,
 		"Damages":[20,10],
@@ -17,9 +18,27 @@
 		]
 	},
 	{
+		"ScriptName":"DefaultSpell",
+		"Name":"Default Spell",
+		"Element":"none",
+		"Type":"",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"the DefaultStatus loaded."
+		]
+	},
+	{
 		"ScriptName":"FireBallSpell",
-		"Name":"FireBall",
+		"Name":"Fire Ball",
 		"Element":"Fire",
+		"Type":"Ranged",
 		"CoolDownValue":3.0,
 		"HasGCD":true,
 		"Damages":[5],
@@ -37,6 +56,7 @@
 		"ScriptName":"FireBlessingSpell",
 		"Name":"Fire Blessing",
 		"Element":"Fire",
+		"Type":"",
 		"CoolDownValue":30.0,
 		"HasGCD":false,
 		"Damages":[],
@@ -50,8 +70,26 @@
 		]
 	},
 	{
+		"ScriptName":"GustSpell",
+		"Name":"Gust",
+		"Element":"Storm",
+		"Type":"",
+		"CoolDownValue":30.0,
+		"HasGCD":true,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"NumberOfStacks":0,
+		"Status":["GustStatus"],
+		"Description":
+		[
+			"Some gust of wind which applies <<Status[0]>> to all allies in an area of {OtherValues[0]} units radius."
+		]
+	},
+	{
 		"ScriptName":"SolarBurnSpell",
 		"Name":"Solar Burn",
+		"Type":"Ranged",
 		"Element":"Fire",
 		"CoolDownValue":7.0,
 		"HasGCD":true,
@@ -66,6 +104,62 @@
 			"At the impact, if the Solar Burn hits an entity, it sudden {Damages[0]} damages.\n",
 			"Otherwise, every target caught in the explosion sudden {Damages[1]} damages.\n",
 			"Critical hits inflicts 4x more damages instand of 2x."
+		]
+	},
+	{
+		"ScriptName":"StormWallSpell",
+		"Name":"Storm Wall",
+		"Type":"",
+		"Element":"Storm",
+		"CoolDownValue":12.0,
+		"HasGCD":true,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[7,8],
+		"NumberOfStacks":0,
+		"Status":["InsideStormStatus","BackWindStatus"],
+		"Description":
+		[
+			"Focus the strength in the air to create a wall of wind inducing different effects.\n",
+			"The wall goes {OtherValues[0]} units forward and stands during {OtherValues[1]} sec.\n",
+			"Ally entities or projectiles that passes through receive a <<Status[0]>>.\n",
+			"Enemy entities or projectiles that passes through receive a <<Status[1]>>."
+		]
+	},
+	{
+		"ScriptName":"TridentLaunchSpell",
+		"Name":"Trident Launch",
+		"Element":"Storm",
+		"Type":"Ranged",
+		"CoolDownValue":6.0,
+		"HasGCD":true,
+		"Damages":[50],
+		"DamagesType":["p"],
+		"OtherValues":[],
+		"NumberOfStacks":2,
+		"Status":[],
+		"Description":
+		[
+			"Launch a trident in front of you that deals {Damages[0]} damages to monsters.\n",
+			"Tridents are stackable to a maximum of {NumberOfStacks}."
+		]
+	},
+	{
+		"ScriptName":"WindStrikeSpell",
+		"Name":"Wind Strike",
+		"Element":"Storm",
+		"Type":"Melee",
+		"CoolDownValue":10.0,
+		"HasGCD":true,
+		"Damages":[30],
+		"DamagesType":["p"],
+		"OtherValues":[3],
+		"NumberOfStacks":0,
+		"Status":["WindPushStatus"],
+		"Description":
+		[
+			"You empower your weapon with the power of the storms. It allows you to sweep the area in a {OtherValues[0]} unit radius.\n",
+			"Inflicts {Damages[0]} damages and applies <<Status[0]>> to each monster caught in the attack."
 		]
 	}
 ]
