@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/** EnemyMonster, public class
+ * @extends Monster
+ * This script is used to set the Behaviour of an ennemy monster that is able to locate a player, follow and attack him.
+ **/
 public class EnemyMonster : Monster
 {
     private NavMeshAgent _agent;
@@ -21,9 +25,13 @@ public class EnemyMonster : Monster
         originalPosition = transform.position;
     }
 
+    /** Update, protected override void method.
+     * Firs of all, we ensure that the base method is launched. Then, if your monster has a tagrt (Player),
+     * We update his position and his rotation to make him follow and watch the Player.
+     * If the Monster is close enought to the playe, the monster attacks.
+     **/
     protected override void Update()
     {
-        Debug.Log(originalPosition);
         base.Update();
         if (Target != null)
         {
@@ -49,15 +57,22 @@ public class EnemyMonster : Monster
         }
     }
 
+    /** MonsterAutoAttack, public override void method.
+     * Reset the CD of the attacks and displays a Debug.Log. 
+     * This script will evole to apply damages or status to a Player.
+     **/
     public override void MonsterAutoAttack()
     {
         nextAttackTimer = attackCD;
         Debug.Log("Monster is defoncing " + Target);
     }
 
+
+    /** OnLoseTarget, public override void method.
+     * When the mosnter looses the target, he goes back to its initial position.
+     **/
     public override void OnLoseTarget()
     {
-        Debug.Log(originalPosition);
         var lookPos = originalPosition - transform.position;
         lookPos.y = 0;
         var rotation = Quaternion.LookRotation(lookPos);
