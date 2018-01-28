@@ -2,6 +2,8 @@
 	{
 		"ScriptName":"DefaultPassive",
 		"Name":"Default Passive",
+		"Element":"",
+		"Type":"",
 		"Damages":[],
 		"DamagesType":[],
 		"OtherValues":[""],
@@ -15,6 +17,7 @@
 	{
 		"ScriptName":"PassiveFireMage",
 		"Name":"Fiery rage",
+		"Element":"",
 		"Type":"",
 		"Damages":[],
 		"DamagesType":[],
@@ -30,6 +33,7 @@
 	{
 		"ScriptName":"PassiveWindiator",
 		"Name":"Wind Spirit",
+		"Element":"",
 		"Type":"",
 		"Damages":[],
 		"DamagesType":[],
