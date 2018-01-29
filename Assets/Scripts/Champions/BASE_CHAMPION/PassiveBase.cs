@@ -54,6 +54,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
             NumberOfStacks = PassiveDefinition.NumberOfStacks;
             Description = PassiveDefinition.Description;
             Name = PassiveDefinition.Name;
+            Element = PassiveDefinition.Element;
             Type = PassiveDefinition.Type;
             Damages = PassiveDefinition.Damages;
             DamagesType = PassiveDefinition.DamagesType;
@@ -170,6 +171,7 @@ public abstract class PassiveBase : MonoBehaviour, IDisplayable
     {
         public string ScriptName;
         public string Name;
+        public string Element;
         public string Type;
         public int[] Damages;
         public string[] DamagesType;
