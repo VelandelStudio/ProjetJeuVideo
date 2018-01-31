@@ -9,6 +9,8 @@ TagManager:
   - Floor
   - AllyEntity
   - EnemyEntity
+  - StartRoom
+  - EndRoom
   layers:
   - Default
   - TransparentFX
