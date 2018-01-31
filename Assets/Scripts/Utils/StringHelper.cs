@@ -172,7 +172,7 @@ public static class StringHelper
     {
         if (seconds < 60)
         {
-            return seconds + " sec.";
+            return string.Format("{0:00:00} sec.", seconds);
         }
         else
         {

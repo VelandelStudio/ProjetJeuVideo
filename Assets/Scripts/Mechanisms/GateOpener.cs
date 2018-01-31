@@ -63,6 +63,7 @@ public class GateOpener : ActivableMechanism
         if (transform.parent.tag == "StartRoom")
         {
             GetComponentInParent<DungeonManager>().Instance.StartDungeon();
+            Debug.Log("Hello");
         }
 
         if (transform.parent.tag == "EndRoom")

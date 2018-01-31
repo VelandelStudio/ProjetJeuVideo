@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DungeonManager : MonoBehaviour
  {
+    [SerializeField] private Text _dungeonTimer;
+
 	private static DungeonManager instance;
 	public DungeonManager Instance
 	{
@@ -37,7 +40,8 @@ public class DungeonManager : MonoBehaviour
 	public void StartDungeon()
 	{
 		dungeonStarted = true;
-	}
+        _dungeonTimer.gameObject.SetActive(true);
+    }
 	
 	public void EndDungeon()
 	{
@@ -49,7 +53,7 @@ public class DungeonManager : MonoBehaviour
 		if(dungeonStarted)
 		{
 			timerDungeon += Time.deltaTime;
-			Debug.Log(StringHelper.SecToMinConverter(timerDungeon));
+            _dungeonTimer.text = StringHelper.SecToMinConverter(timerDungeon);
 		}
 	}
 }
