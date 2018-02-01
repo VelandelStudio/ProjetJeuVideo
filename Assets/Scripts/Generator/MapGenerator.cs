@@ -29,10 +29,8 @@ public class MapGenerator : MonoBehaviour {
 
     #region methods
 
-    private void Start()
+    private void Awake()
     {
-        StoreAndSuffleBoardPositions();
-
         if (transform.Find(holderName))
         {
             DestroyImmediate(transform.Find(holderName).gameObject);
@@ -47,6 +45,7 @@ public class MapGenerator : MonoBehaviour {
      **/
     public void GenerationMap()
     {
+        StoreAndSuffleBoardPositions();
         PlaceStartEnd();
 
         for (int x = 0; x < map.mapSize.x * 100 -100; x += 100)

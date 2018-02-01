@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// RoomBehaviour Class
+/// This script define the cycle of life of a room in the dungeon.
+/// </summary>
 public class RoomBehaviour : MonoBehaviour {
 
     public List<GameObject> monster = new List<GameObject>();
@@ -21,19 +25,34 @@ public class RoomBehaviour : MonoBehaviour {
 		protected set{}
 	}
 
+    /// <summary>
+    /// Start Method
+    /// Contact the Dungeon manager and attribute a theme to itself
+    /// </summary>
 	private void Start()
     {
         GetComponentInParent<DungeonManager>().AttributeNewRoom(this);
 		Theme theme = new Theme();
 		Debug.Log(theme.Value);
     }
-	
+
+    /// <summary>
+    /// InitiateRoom method
+    /// This method is called by the InitializerRoomTrigger
+    /// Call methods to fullfill the room
+    /// Get the levers to say when it can activate it !
+    /// </summary>
     public void InitiateRoom()
     {
         InitiateMonster();
         StoreLevers();
     }
 
+    /// <summary>
+    /// InitiateMonster method
+    /// this method is called by the InitiateRoom
+    /// place the monster inside the room.
+    /// </summary>
     private void InitiateMonster()
     {
         Debug.Log("Hello");
@@ -44,6 +63,11 @@ public class RoomBehaviour : MonoBehaviour {
 		}
     }
 
+    /// <summary>
+    /// StoreLevers method
+    /// called by the InitiateRoom method
+    /// get all the levers scripts inside the the room.
+    /// </summary>
     private void StoreLevers()
     {
 		_insideLevers = GetComponentsInChildren<GateOpener>();
