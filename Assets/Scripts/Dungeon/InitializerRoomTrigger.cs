@@ -8,7 +8,6 @@ using UnityEngine;
  **/
 public class InitializerRoomTrigger : MonoBehaviour 
 {
-
 	RoomBehaviour roomBehaviour;
 	GateOpener gateOpener;
 	
@@ -26,7 +25,7 @@ public class InitializerRoomTrigger : MonoBehaviour
 		gateOpener = transform.parent.GetComponentInChildren<GateOpener>();
 		if(other.tag == "Player")
 		{
-			if(!roomBehaviour.IsClean)
+			if(roomBehaviour && !roomBehaviour.IsClean)
 			{
 				roomBehaviour.InitiateRoom();
 			}
@@ -34,6 +33,11 @@ public class InitializerRoomTrigger : MonoBehaviour
 			if(gateOpener && !gateOpener.IsOpen)
 			{
 				gateOpener.OpenDoor();
+
+                if (gameObject.tag == "EndRoom")
+                {
+                    GetComponentInParent<DungeonManager>().EndDungeon();
+                } 
 			}
 			
 			Destroy(gameObject);

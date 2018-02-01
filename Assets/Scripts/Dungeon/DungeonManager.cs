@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class DungeonManager : MonoBehaviour
  {
     [SerializeField] private Text _dungeonTimer;
+    private MapGenerator _mapGenerator;
 
 	private static DungeonManager instance;
 	public DungeonManager Instance
@@ -27,8 +28,14 @@ public class DungeonManager : MonoBehaviour
 			instance = this;
 		}
 	}
-   
-	private List<RoomBehaviour> _roomList = new List<RoomBehaviour>();
+
+    private void Start()
+    {
+        _mapGenerator = GetComponent<MapGenerator>();
+        _mapGenerator.GenerationMap();
+    }
+
+    private List<RoomBehaviour> _roomList = new List<RoomBehaviour>();
 	private float timerDungeon;
 	private bool dungeonStarted;
 	
@@ -40,6 +47,7 @@ public class DungeonManager : MonoBehaviour
 	public void StartDungeon()
 	{
 		dungeonStarted = true;
+
         _dungeonTimer.gameObject.SetActive(true);
     }
 	
@@ -50,7 +58,7 @@ public class DungeonManager : MonoBehaviour
 		
 	private void Update()
 	{
-		if(dungeonStarted)
+		if(dungeonStarted && _dungeonTimer)
 		{
 			timerDungeon += Time.deltaTime;
             _dungeonTimer.text = StringHelper.FormateFloatToClock(timerDungeon);

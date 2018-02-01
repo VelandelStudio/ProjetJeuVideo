@@ -18,7 +18,6 @@ public class DungeonLauncher : MechanismBase
         isActivable = false;
 
         generator = GetComponent<MapGenerator>();
-        generator.Seed = Random.Range(0, 50);
     }
 
     /** ActivateDungeonLauncher, public void method
@@ -69,15 +68,12 @@ public class DungeonLauncher : MechanismBase
      */
     private void SpawnPos()
     {
-        // Select a random number inside the rooms
-        int rand = Random.Range(0, generator.rooms.Count);
+        //int rand = Random.Range(0, generator.rooms.Count);
 
-        // Get the corresponding room and remove it from the list
-        Transform spawnRoom = generator.rooms[rand].transform;
-        generator.rooms.RemoveAt(rand);
+        //Transform spawnRoom = generator.rooms[rand].transform;
+        //generator.rooms.RemoveAt(rand);
 
-        // Get the player in the scene and teleport him inside the room
         GameObject player = GameObject.FindWithTag("Player");
-        player.transform.position = spawnRoom.position;
+        //player.transform.position = spawnRoom.position;
     }
 }

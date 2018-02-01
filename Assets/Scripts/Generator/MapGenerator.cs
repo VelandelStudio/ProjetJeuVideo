@@ -9,112 +9,141 @@ using UnityEngine;
  **/
 public class MapGenerator : MonoBehaviour {
 
-    public int Seed { get; set; }                               // for the random generation Map
-    public List<GameObject> rooms = new List<GameObject>();     // List of all rooms in the game
-    public Transform[] roomTypes;
+    private string holderName = "Generated Dungeon";
+    private Transform _dungeonHolder;
+    private List<Coord> _BoardCoord = new List<Coord>();
+    private List<Coord> _innerRooms = new List<Coord>();
+    private Queue<Coord> _ShuffleBoardCoord;
 
-    // room[0] need to be with 4 corridors
-    // room[1] need to be with 3 corridors
-    // room[2] need to be with 2 corridors in an Elbow shape
+    public Map map;
+    public List<GameObject> rooms = new List<GameObject>();
 
-    [SerializeField]
-    private int min = 2;            // define the shape of the dungeon with a minimum number of rows and columns
-    [SerializeField]
-    private int max = 5;            // define the shape of the dungeon with a minimum number of rows and columns    
-    private Vector2 sizeMap;        // Vector2 that define the width and length of the dungeon
+    public Transform innerRoom;
+    public Transform startRoom;
+    public Transform endRoom;
+    public Transform door;
+    public Transform Wall;
+    public Transform corridor;
+
+    public int seed;
+
+    #region methods
+
+    private void Start()
+    {
+        StoreAndSuffleBoardPositions();
+
+        if (transform.Find(holderName))
+        {
+            DestroyImmediate(transform.Find(holderName).gameObject);
+        }
+
+        _dungeonHolder = new GameObject(holderName).transform;
+        _dungeonHolder.parent = transform;
+    }
 
     /** generation map Method
      *  the idea is to place the rooms
      **/
     public void GenerationMap()
     {
-        RandSizeDungeon(Seed);
+        PlaceStartEnd();
 
-        // to build th dungeon inside a empty GameObject
-        string holderName = "Generated Dungeon";
-        if (transform.Find(holderName))
+        for (int x = 0; x < map.mapSize.x * 100 -100; x += 100)
         {
-            DestroyImmediate(transform.Find(holderName).gameObject);
-        }
-
-        Transform dungeonHolder = new GameObject(holderName).transform;
-        dungeonHolder.parent = transform;
-
-        // The grid to place the rooms
-        for (int x = 0; x < sizeMap.x; x+=100)
-        {
-            for (int y = 0; y < sizeMap.y; y+=100)
+            for (int y = 0; y < map.mapSize.y * 100 -100; y += 100)
             {
-                Transform newRoom = PlacementRoom(x, y);
-                rooms.Add(newRoom.gameObject);
-
-                // And make the new room being a child of dungeonHolder
-                newRoom.parent = dungeonHolder;
+                if ((x != 0 && x != map.mapSize.x) && (y != 0 && y != map.mapSize.y))
+                {
+                    PlacementRoom(x, y, innerRoom).parent = _dungeonHolder;
+                }
             }
         }
-
-        Debug.Log(rooms.Count);
-    }
-
-    /** randSizeDungeon Method
-     *  This is the random size of the map
-     *  We can multiply by 100 cause of the size of our prefab rooms
-     **/
-    private void RandSizeDungeon (int seed)
-    {
-        System.Random prng = new System.Random(seed);
-
-        sizeMap.x = prng.Next(min, max) * 100;
-        sizeMap.y = prng.Next(min, max) * 100;
     }
 
     /** placementRoom Method
      *  Here to place the good prefab at the good place
      **/
-    private Transform PlacementRoom(int x, int y)
+    private Transform PlacementRoom(int x, int y, Transform roomTransform)
     {
-        Vector3 roomPosition = new Vector3(-sizeMap.x / 2 + 100f + x, 0, -sizeMap.y / 2 + 100f + y);
-        Transform newRoom = null ;
-
-        // Check all the possibility of a room placement
-
-        var line = y == 0 ? 0 : (y == sizeMap.y - 100 ? 2 : 1);
-        var col = x == 0 ? 0 : (x == sizeMap.x - 100 ? 2 : 1);
-
-        switch (line + " | " + col)
-        {
-            case "0 | 0":
-                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
-                break;
-            case "0 | 1":
-                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
-                break;
-            case "0 | 2":
-                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * 90)) as Transform;
-                break;
-            case "1 | 0":
-                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * 180)) as Transform;
-                break;
-            case "1 | 1":
-                newRoom = Instantiate(roomTypes[0], roomPosition, Quaternion.identity) as Transform;
-                break;
-            case "1 | 2":
-                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.identity) as Transform;
-                break;
-            case "2 | 0":
-                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
-                break;
-            case "2 | 1":
-                newRoom = Instantiate(roomTypes[1], roomPosition, Quaternion.Euler(Vector3.up * -90)) as Transform;
-                break;
-            case "2 | 2":
-                newRoom = Instantiate(roomTypes[2], roomPosition, Quaternion.identity) as Transform;
-                break;
-            default:
-                newRoom = null;
-                break;
-        }
+        Vector3 roomPosition = new Vector3(-(map.mapSize.x *100) / 2 + 100f + x, 0, -(map.mapSize.y *100) / 2 + 100f + y);
+        Transform newRoom = Instantiate(roomTransform, roomPosition, Quaternion.identity) as Transform;
 
         return newRoom;
     }
+
+    private void PlaceStartEnd()
+    {
+        Coord randomCoord = _ShuffleBoardCoord.Dequeue();
+        PlacementRoom(randomCoord.x, randomCoord.y, startRoom).parent = _dungeonHolder;
+        randomCoord = _ShuffleBoardCoord.Dequeue();
+        PlacementRoom(randomCoord.x, randomCoord.y, endRoom).parent = _dungeonHolder;
+    }
+
+    private void StoreAndSuffleBoardPositions()
+    {
+        for (int x = 0; x < map.mapSize.x * 100; x += 100)
+        {
+            for (int y = 0; y < map.mapSize.y * 100; y += 100)
+            {
+                if ( IsBoarder(x, y) && !IsCorner(x, y))
+                {
+                    _BoardCoord.Add(new Coord(x, y));
+                }
+            }
+        }
+
+        _ShuffleBoardCoord= new Queue<Coord> (DungeonUtility.SuffleArray(_BoardCoord.ToArray(), seed));
+    }
+
+    private void StoreInnerPositions()
+    {
+        for (int x = 0; x < map.mapSize.x * 100; x += 100)
+        {
+            for (int y = 0; y < map.mapSize.y * 100; y += 100)
+            {
+                if ( (x != 0 && x != map.mapSize.x) && (x != 0 && x != map.mapSize.x)) 
+                {
+                    _innerRooms.Add(new Coord(x, y));
+                }
+            }
+        }
+    }
+
+    private bool IsBoarder(int x, int y)
+    {
+        return (x == 0 || x == map.mapSize.x * 100 || y == 0 || y == map.mapSize.y * 100);
+    }
+
+    private bool IsCorner(int x, int y)
+    {
+        return (x == 0 && y == 0) || (x == 0 && y == map.mapSize.y * 100) ||
+               (x == map.mapSize.x * 100 && y == 0) || (x == map.mapSize.x * 100 && y == map.mapSize.y * 100);
+    }
+
+    #endregion methods
+
+    #region innerClassAndStruct
+
+    [System.Serializable]
+    public struct Coord
+    {
+        public int x;
+        public int y;
+
+        public Coord (int _x, int _y)
+        {
+            x = _x;
+            y = _y;
+        }
+    }
+
+    [System.Serializable]
+    public class Map
+    {
+        public Coord mapSize;
+    }
+
+    #endregion innerClassAndStruct
+
 }
