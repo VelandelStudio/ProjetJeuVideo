@@ -12,8 +12,8 @@ public abstract class EntityLivingBase : MonoBehaviour
     [SerializeField] private int _HP;
     [SerializeField] private int _regenHpPerSec = 3;
     [SerializeField] private int _HPMax;
-    private bool IsDead { get { return _HP <= 0; } }
-    private bool IsAlive { get { return !IsDead; } }
+    public bool IsDead { get { return _HP <= 0; } }
+    public bool IsAlive { get { return !IsDead; } }
     private bool _startDespawn;
 
     /** Awake, protected virtual void
