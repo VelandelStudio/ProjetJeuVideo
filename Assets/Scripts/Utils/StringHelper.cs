@@ -172,12 +172,19 @@ public static class StringHelper
     {
         if (seconds < 60)
         {
-            return string.Format("{0:00:00} sec.", seconds);
+            return string.Format("{0:00} sec.", seconds);
         }
         else
         {
             return string.Format("{0:##.#} min.", (seconds / 60.0));
         }
+    }
+
+    public static string FormateFloatToClock(float seconds)
+    {
+        string secondsFormate = string.Format("{0:00}", seconds % 60);
+        string minutesFormate = string.Format("{0:00}", seconds / 120);
+        return minutesFormate + ":" + secondsFormate;
     }
 
     /** GetDisplayableType, public static string

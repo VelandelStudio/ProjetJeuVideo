@@ -53,7 +53,7 @@ public class DungeonManager : MonoBehaviour
 		if(dungeonStarted)
 		{
 			timerDungeon += Time.deltaTime;
-            _dungeonTimer.text = StringHelper.SecToMinConverter(timerDungeon);
-		}
+            _dungeonTimer.text = StringHelper.FormateFloatToClock(timerDungeon);
+        }
 	}
 }
