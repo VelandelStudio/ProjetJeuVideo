@@ -8,7 +8,7 @@ public static class DungeonUtility {
     {
         System.Random prng = new System.Random(seed);
 
-        for (int i = 0; i < array.Length -1; i++)
+        for (int i = 0; i < array.Length; i++)
         {
             int randomIndex = prng.Next(i, array.Length);
             T temp = array[randomIndex];

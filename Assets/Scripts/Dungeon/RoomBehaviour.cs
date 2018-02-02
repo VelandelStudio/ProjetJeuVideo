@@ -9,7 +9,7 @@ using UnityEngine;
 public class RoomBehaviour : MonoBehaviour {
 
     public List<GameObject> monster = new List<GameObject>();
-
+    public bool RoomSelected = false;
     private GateOpener[] _insideLevers;
     private bool _playerAreInside;
 
