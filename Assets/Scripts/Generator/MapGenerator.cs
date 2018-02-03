@@ -10,6 +10,7 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour {
 
     private string holderName = "Generated Dungeon";
+    private int _maxRand = 5;
     private Transform _dungeonHolder;
     private List<Coord> _BoardCoord = new List<Coord>();
     private List<Coord> _innerRooms = new List<Coord>();
@@ -63,18 +64,21 @@ public class MapGenerator : MonoBehaviour {
         }
 
         BuildShortestPath(startRoom, endRoom);
-        // Action here !
-        /* IL MECLAIRE QUAND IL BRILLE DANS LA NUIIIIIIIIIIIIIIIIIT
-         * On a à présent une tableau de transform roomTable qui contient les transform des rooms.
-         * On a bouclé sur l'ensemble de tableau pour trouver un chemin valide et court.
-         * Toutes les salles selectionnées dans ce chemin se sont vu attribuée un booleen = true dans leur RoomBehaviour
-         * Il s'agit du RoomSelected qui vaut true à présent.
-         * La méthode suivante ClearUnselectedRooms parcourt ce tableau et supprime les GameObjects qui portent un RoomSelected = false.
-         * Le but est d'essayer d'ajouter juste ici une methode qui permette de parcourir le tableau et d'ajouter de manière plus ou moins aléatoires
-         * des salles dont la valeur de RoomSelected seriant = true  pour éviter qu'elles ne soient détruite. Attention, il faudra que ces salles
-         * soient adjacentes aux salles qui ont deja été selectionnées.
-         **/
-        //ClearUnselectedRooms();
+
+        for (int i = 0; i < roomTable.GetLength(0); i++)
+        {
+            for (int j = 0; j < roomTable.GetLength(1); j++)
+            {
+                RoomBehaviour roomBehaviour = roomTable[i, j].GetComponent<RoomBehaviour>();
+
+                if (roomBehaviour.RoomSelectedByShortpath && !roomBehaviour.RoomSelectedByExternalAdd)
+                { 
+                    BuildExternalRoom(i, j, roomTable[i, j], _maxRand);
+                }
+            }
+        }       
+
+        ClearUnselectedRooms();
     }
 
     /** placementRoom Method
@@ -191,10 +195,48 @@ public class MapGenerator : MonoBehaviour {
             }
         }
 
-        nextRoomA.GetComponent<RoomBehaviour>().RoomSelected = true;
-        nextRoomB.GetComponent<RoomBehaviour>().RoomSelected = true;
+        nextRoomA.GetComponent<RoomBehaviour>().RoomSelectedByShortpath = true;
+        nextRoomB.GetComponent<RoomBehaviour>().RoomSelectedByShortpath = true;
 
         BuildShortestPath(nextRoomA,nextRoomB);
+    }
+
+    private void BuildExternalRoom(int i, int j, Transform roomSelected, int maxRand)
+    {
+        int rand = 0;
+
+        for (int modulo = -1; modulo <= 1; modulo += 2)
+        {
+            if ((i > 0 && modulo == -1) || (i < roomTable.GetLength(0) -1 && modulo == 1))
+            {
+                if (!roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomSelectedByShortpath
+                && !roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd)
+                {
+                    rand = Random.Range(1, maxRand);
+
+                    if (rand == 1)
+                    {
+                        roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd = true;
+                        BuildExternalRoom(i + modulo, j, roomTable[i + modulo, j], maxRand + 1);
+                    }
+                }
+            }
+
+            if ((j > 0 && modulo == -1) || (j < roomTable.GetLength(1) -1 && modulo == 1))
+            {
+                if (!roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomSelectedByShortpath
+                    && !roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd)
+                {
+                    rand = Random.Range(1, maxRand);
+
+                    if (rand == 1)
+                    {
+                        roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd = true;
+                        BuildExternalRoom(i, j + modulo, roomTable[i, j + modulo], maxRand + 1);
+                    }
+                }
+            }
+        }
     }
 
     private Transform GetAdjacentInnerRoom(Transform boarderRoom)
@@ -219,14 +261,15 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int j = 0; j < roomTable.GetLength(1); j++)
             {
-                RoomBehaviour rb = roomTable[i, j].GetComponent<RoomBehaviour>();
-                if (!rb.RoomSelected)
+                RoomBehaviour roomBehaviour = roomTable[i, j].GetComponent<RoomBehaviour>();
+                if (!roomBehaviour.RoomSelectedByShortpath && !roomBehaviour.RoomSelectedByExternalAdd)
                 {
-                    Destroy(rb.gameObject);
+                    Destroy(roomBehaviour.gameObject);
                 }
             }
         }
     }
+
     private int CenterOnGrid(float position)
     {
         return (int)position / 100 - 1;
