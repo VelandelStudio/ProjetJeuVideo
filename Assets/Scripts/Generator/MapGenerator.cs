@@ -17,7 +17,7 @@ public class MapGenerator : MonoBehaviour {
 
     public Map map;
     public List<GameObject> rooms = new List<GameObject>();
-    public Transform[,] roomTable;
+    [SerializeField]public Transform[,] roomTable;
 
     public Transform innerRoom;
     public Transform startRoom;
@@ -52,9 +52,9 @@ public class MapGenerator : MonoBehaviour {
         StoreAndSuffleBoardPositions();
         PlaceStartEnd();
 
-        for (int x = map.MinInnerX; x <= map.MaxInnerX; x += 100)
+        for (int y = map.MinInnerY; y <= map.MaxInnerY; y += 100)
         {
-            for (int y = map.MinInnerY; y <= map.MaxInnerX; y += 100)
+            for (int x = map.MinInnerX; x <= map.MaxInnerX; x += 100)
             {
                 Transform newRoom = PlacementRoom(x, y, innerRoom);
                 newRoom.parent = _dungeonHolder;
@@ -62,7 +62,19 @@ public class MapGenerator : MonoBehaviour {
             }
         }
 
-        GetShortestDistance(startRoom, endRoom);
+        BuildShortestPath(startRoom, endRoom);
+        // Action here !
+        /* IL MECLAIRE QUAND IL BRILLE DANS LA NUIIIIIIIIIIIIIIIIIT
+         * On a à présent une tableau de transform roomTable qui contient les transform des rooms.
+         * On a bouclé sur l'ensemble de tableau pour trouver un chemin valide et court.
+         * Toutes les salles selectionnées dans ce chemin se sont vu attribuée un booleen = true dans leur RoomBehaviour
+         * Il s'agit du RoomSelected qui vaut true à présent.
+         * La méthode suivante ClearUnselectedRooms parcourt ce tableau et supprime les GameObjects qui portent un RoomSelected = false.
+         * Le but est d'essayer d'ajouter juste ici une methode qui permette de parcourir le tableau et d'ajouter de manière plus ou moins aléatoires
+         * des salles dont la valeur de RoomSelected seriant = true  pour éviter qu'elles ne soient détruite. Attention, il faudra que ces salles
+         * soient adjacentes aux salles qui ont deja été selectionnées.
+         **/
+        //ClearUnselectedRooms();
     }
 
     /** placementRoom Method
@@ -79,14 +91,12 @@ public class MapGenerator : MonoBehaviour {
     private void PlaceStartEnd()
     {
         Coord randomCoord = _ShuffleBoardCoord.Dequeue();
-        //startRoom = PlacementRoom(randomCoord.x, randomCoord.y, startRoom);
-        startRoom = PlacementRoom(0, 200, startRoom);
+        startRoom = PlacementRoom(randomCoord.x, randomCoord.y, startRoom);
         startRoom.parent = _dungeonHolder;
         SetRotationBoarderRooms(startRoom);
 
         randomCoord = _ShuffleBoardCoord.Dequeue();
-        //endRoom = PlacementRoom(randomCoord.x, randomCoord.y, endRoom);
-        endRoom = PlacementRoom(600, 200, endRoom);
+        endRoom = PlacementRoom(randomCoord.x, randomCoord.y, endRoom);
         endRoom.parent = _dungeonHolder;
         SetRotationBoarderRooms(endRoom);
     }
@@ -138,53 +148,88 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    private void GetShortestDistance(Transform roomA, Transform roomB)
+    private void BuildShortestPath(Transform roomA, Transform roomB)
     {
+
         int HorizontalDist = (int)(roomA.position.x / 100 - roomB.position.x / 100);
         int VerticalDist = (int)(roomA.position.z / 100 - roomB.position.z / 100);
-
         int rand;
-        Transform nextRoom = roomA;
 
-        if (Mathf.Abs(HorizontalDist) == 0 && Math.Abs(VerticalDist) == 0)
+        Transform nextRoomA = roomA;
+        Transform nextRoomB = roomB;
+
+        if(roomA.transform.position == roomB.transform.position)
         {
             return;
         }
 
-        if(Mathf.Abs(HorizontalDist) > 0 && Mathf.Abs(VerticalDist) > 0)
+        if (IsBoarder((int)roomA.position.x, (int)roomA.position.z) && IsBoarder((int)roomB.position.x, (int)roomB.position.z))
         {
-            rand = Random.Range(1, 2);
+            nextRoomA = GetAdjacentInnerRoom(roomA);
+            nextRoomB = GetAdjacentInnerRoom(roomB);
         }
         else
         {
-            rand = Mathf.Abs(HorizontalDist) > 0 ? 1:2;
+            if (Mathf.Abs(HorizontalDist) > 0 && Mathf.Abs(VerticalDist) > 0)
+            {
+                rand = Random.Range(1, 3);
+            }
+            else
+            {
+                rand = Mathf.Abs(HorizontalDist) > 0 ? 1 : 2;
+            }
+
+            if (rand == 1)
+            {
+                int modulo = roomA.position.x < roomB.position.x ? 1 : -1;
+                nextRoomA = roomTable[CenterOnGrid(roomA.position.x) +modulo, CenterOnGrid(roomA.position.z)];
+            }
+            else
+            {
+                int modulo = roomA.position.z < roomB.position.z ? 1 : -1;
+                nextRoomA = roomTable[CenterOnGrid(roomA.position.x), CenterOnGrid(roomA.position.z) +modulo];
+            }
         }
 
-        if(rand == 1)
+        nextRoomA.GetComponent<RoomBehaviour>().RoomSelected = true;
+        nextRoomB.GetComponent<RoomBehaviour>().RoomSelected = true;
+
+        BuildShortestPath(nextRoomA,nextRoomB);
+    }
+
+    private Transform GetAdjacentInnerRoom(Transform boarderRoom)
+    {
+        int moduloX = 0;
+        int moduloZ = 0;
+        if (boarderRoom.position.x == map.MinBoarderX || boarderRoom.position.x == map.MaxBoarderX)
         {
-            if (roomA.position.x == map.MinBoarderX)
-            {
-                nextRoom = roomTable[0, (int)roomA.position.z / 100 -1];
-            }
-
-            if(roomA.position.x == map.MaxBoarderX)
-            {
-                nextRoom = roomTable[((int)roomA.position.x / 100)-1, (int)roomA.position.z / 100];
-            }
-
-            if(roomA.position.x != map.MinBoarderX && roomA.position.x != map.MaxBoarderX)
-            {
-                int modulo = HorizontalDist > 0 ? 1 : -1;
-                Debug.Log(VerticalDist);
-                nextRoom = roomTable[((int)roomA.position.x/100)+modulo, (int)roomA.position.z / 100];
-            }
+            moduloX = boarderRoom.position.x == map.MinBoarderX ? 1 : -1;
         }
-        else
+        if (boarderRoom.position.z == map.MinBoarderY || boarderRoom.position.z == map.MaxBoarderY)
         {
-
+            moduloZ = boarderRoom.position.z == map.MinBoarderY ? 1 : -1;
         }
-        nextRoom.GetComponent<RoomBehaviour>().RoomSelected = true;
-        GetShortestDistance(nextRoom,roomB);
+
+        return roomTable[CenterOnGrid(boarderRoom.position.x) + moduloX, CenterOnGrid(boarderRoom.position.z) + moduloZ];
+    }
+
+    private void ClearUnselectedRooms()
+    {
+        for (int i = 0; i < roomTable.GetLength(0); i++)
+        {
+            for (int j = 0; j < roomTable.GetLength(1); j++)
+            {
+                RoomBehaviour rb = roomTable[i, j].GetComponent<RoomBehaviour>();
+                if (!rb.RoomSelected)
+                {
+                    Destroy(rb.gameObject);
+                }
+            }
+        }
+    }
+    private int CenterOnGrid(float position)
+    {
+        return (int)position / 100 - 1;
     }
 
     private bool IsBoarder(int x, int y)
