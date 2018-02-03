@@ -33,6 +33,8 @@ public class DungeonManager : MonoBehaviour
     {
         _mapGenerator = GetComponent<MapGenerator>();
         _mapGenerator.GenerationMap();
+        GameObject player = GameObject.FindWithTag("Player");
+        player.transform.position = GameObject.FindWithTag("StartRoom").transform.position;
     }
 
     private List<RoomBehaviour> _roomList = new List<RoomBehaviour>();
