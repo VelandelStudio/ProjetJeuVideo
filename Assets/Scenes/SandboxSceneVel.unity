@@ -77,15 +77,17 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFiltering: 0
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousColorSigma: 1
-    m_PVRFilteringAtrousNormalSigma: 1
-    m_PVRFilteringAtrousPositionSigma: 1
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 0
 --- !u!196 &4
@@ -107,6 +109,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 410022f10ef6d8f46a8bbe76fe2748e5, type: 2}
 --- !u!114 &132769635 stripped
 MonoBehaviour:
@@ -184,7 +188,7 @@ MonoBehaviour:
   startRoom: {fileID: 4382341818378990, guid: a5d7c4547317092489a3f79649fae7a7, type: 2}
   endRoom: {fileID: 4458751763676816, guid: 9c9e1995bde26ce4aaa1586445f0d8e2, type: 2}
   door: {fileID: 4263559220517666, guid: 7a11370eba6965740b0e1876ea48ceb4, type: 2}
-  Wall: {fileID: 4630369992625708, guid: b918d3266b0f77d4eb1b8f06ec8fc016, type: 2}
+  wall: {fileID: 4918421010221060, guid: fbfbdd409657ee3458429833b458a5de, type: 2}
   corridor: {fileID: 4100443917182480, guid: 4961ce2a749d7494b8bc496e02502acb, type: 2}
   seed: 31
 --- !u!1001 &533055843
@@ -327,12 +331,12 @@ Prefab:
     - target: {fileID: 224518102175603226, guid: d7d6466aed9c5e745b09508c0c45a5ac,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -475
       objectReference: {fileID: 0}
     - target: {fileID: 224844918761947142, guid: d7d6466aed9c5e745b09508c0c45a5ac,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 224002162394446344, guid: d7d6466aed9c5e745b09508c0c45a5ac,
         type: 2}
@@ -352,12 +356,12 @@ Prefab:
     - target: {fileID: 224932577237611514, guid: d7d6466aed9c5e745b09508c0c45a5ac,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -960
       objectReference: {fileID: 0}
     - target: {fileID: 224932577237611514, guid: d7d6466aed9c5e745b09508c0c45a5ac,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -540
       objectReference: {fileID: 0}
     - target: {fileID: 224452117506259114, guid: d7d6466aed9c5e745b09508c0c45a5ac,
         type: 2}
@@ -575,7 +579,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!4 &622134314
 Transform:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour {
     public Transform startRoom;
     public Transform endRoom;
     public Transform door;
-    public Transform Wall;
+    public Transform wall;
     public Transform corridor;
 
     public int seed;
@@ -94,13 +94,20 @@ public class MapGenerator : MonoBehaviour {
 
     private void PlaceStartEnd()
     {
-        Coord randomCoord = _ShuffleBoardCoord.Dequeue();
-        startRoom = PlacementRoom(randomCoord.x, randomCoord.y, startRoom);
+        Coord randomCoordStart = _ShuffleBoardCoord.Dequeue();
+        Coord randomCoordEnd = _ShuffleBoardCoord.Dequeue();
+
+        while (Mathf.Abs(randomCoordStart.x / 100 - randomCoordEnd.x / 100) < 4
+        || Mathf.Abs(randomCoordStart.y / 100 - randomCoordEnd.y / 100) < 4)
+        {
+            randomCoordEnd = _ShuffleBoardCoord.Dequeue();
+        }
+
+        startRoom = PlacementRoom(randomCoordStart.x, randomCoordStart.y, startRoom);
         startRoom.parent = _dungeonHolder;
         SetRotationBoarderRooms(startRoom);
 
-        randomCoord = _ShuffleBoardCoord.Dequeue();
-        endRoom = PlacementRoom(randomCoord.x, randomCoord.y, endRoom);
+        endRoom = PlacementRoom(randomCoordEnd.x, randomCoordEnd.y, endRoom);
         endRoom.parent = _dungeonHolder;
         SetRotationBoarderRooms(endRoom);
     }
@@ -187,11 +194,15 @@ public class MapGenerator : MonoBehaviour {
             {
                 int modulo = roomA.position.x < roomB.position.x ? 1 : -1;
                 nextRoomA = roomTable[CenterOnGrid(roomA.position.x) +modulo, CenterOnGrid(roomA.position.z)];
+                AddCorridor(roomA, new Vector3(0, modulo * 90.0f, 0), new Vector3(50f * modulo, 0, 0));
+                AddDoorOrWall(door, roomA, nextRoomA,  new Vector3(0, modulo * 90.0f, 0), new Vector3(25f * modulo,0, 0));
             }
             else
             {
                 int modulo = roomA.position.z < roomB.position.z ? 1 : -1;
                 nextRoomA = roomTable[CenterOnGrid(roomA.position.x), CenterOnGrid(roomA.position.z) +modulo];
+                AddCorridor(roomA, new Vector3(0, modulo * 180.0f, 0), new Vector3(0, 0, 50f * modulo));
+                AddDoorOrWall(door, roomA, nextRoomA, new Vector3(0, modulo * 180.0f, 0), new Vector3(0, 0, 25f * modulo));
             }
         }
 
@@ -207,7 +218,7 @@ public class MapGenerator : MonoBehaviour {
 
         for (int modulo = -1; modulo <= 1; modulo += 2)
         {
-            if ((i > 0 && modulo == -1) || (i < roomTable.GetLength(0) -1 && modulo == 1))
+            if ((i > 0 && modulo == -1) || (i < roomTable.GetLength(0) - 1 && modulo == 1))
             {
                 if (!roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomSelectedByShortpath
                 && !roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd)
@@ -218,8 +229,18 @@ public class MapGenerator : MonoBehaviour {
                     {
                         roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd = true;
                         BuildExternalRoom(i + modulo, j, roomTable[i + modulo, j], maxRand + 1);
+                        AddCorridor(roomSelected, new Vector3(0, modulo * 90f, 0), new Vector3(50f * modulo, 0, 0));
+                        AddDoorOrWall(door, roomSelected, roomTable[i + modulo, j], new Vector3(0, modulo * 90f, 0), new Vector3(25f * modulo, 0, 0));
+                    }
+                    else
+                    {
+                        AddDoorOrWall(wall, roomSelected, roomTable[i + modulo, j], new Vector3(0, modulo * 90, 0), new Vector3(25f * modulo, 0, 0));
                     }
                 }
+            }
+            else if((i == 0 && modulo == -1) || (i == roomTable.GetLength(0) - 1 && modulo == 1))
+            {
+                AddNextRoomDoorOrWall(wall, roomSelected, new Vector3(0, modulo * 90, 0), new Vector3(-25f * modulo, 0, 0));
             }
 
             if ((j > 0 && modulo == -1) || (j < roomTable.GetLength(1) -1 && modulo == 1))
@@ -233,8 +254,19 @@ public class MapGenerator : MonoBehaviour {
                     {
                         roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd = true;
                         BuildExternalRoom(i, j + modulo, roomTable[i, j + modulo], maxRand + 1);
+                        AddCorridor(roomSelected, new Vector3(0, modulo * 180f, 0), new Vector3(0, 0, 50f * modulo));
+                        AddDoorOrWall(door, roomSelected, roomTable[i, j + modulo], new Vector3(0, modulo * 180f, 0), new Vector3(0, 0, 25f * modulo));
+                    }
+                    else
+                    {
+                        AddDoorOrWall(wall, roomSelected, roomTable[i, j + modulo], new Vector3(0, modulo * 180f, 0), new Vector3(0, 0, 25f * modulo));
                     }
                 }
+            }
+            else if((j == 0 && modulo == -1) || (j == roomTable.GetLength(1) - 1 && modulo == 1))
+            {
+                AddNextRoomDoorOrWall(wall, roomSelected, new Vector3(0, modulo * 180f, 0), new Vector3(0, 0, -25f * modulo));
+
             }
         }
     }
@@ -243,16 +275,21 @@ public class MapGenerator : MonoBehaviour {
     {
         int moduloX = 0;
         int moduloZ = 0;
+        Vector3 rotationNextDoor = Vector3.zero; 
         if (boarderRoom.position.x == map.MinBoarderX || boarderRoom.position.x == map.MaxBoarderX)
         {
             moduloX = boarderRoom.position.x == map.MinBoarderX ? 1 : -1;
+            rotationNextDoor = new Vector3(0, moduloX * 90, 0);
         }
         if (boarderRoom.position.z == map.MinBoarderY || boarderRoom.position.z == map.MaxBoarderY)
         {
             moduloZ = boarderRoom.position.z == map.MinBoarderY ? 1 : -1;
+            rotationNextDoor = new Vector3(0, moduloZ * 180, 0);
         }
 
-        return roomTable[CenterOnGrid(boarderRoom.position.x) + moduloX, CenterOnGrid(boarderRoom.position.z) + moduloZ];
+        Transform nextRoom = roomTable[CenterOnGrid(boarderRoom.position.x) + moduloX, CenterOnGrid(boarderRoom.position.z) + moduloZ];
+        AddNextRoomDoorOrWall(door, nextRoom, rotationNextDoor, new Vector3(25f * moduloX, 0, 25f * moduloZ));
+        return nextRoom;
     }
 
     private void ClearUnselectedRooms()
@@ -268,6 +305,34 @@ public class MapGenerator : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void AddCorridor(Transform parent, Vector3 eulerRotation, Vector3 addedPosition)
+    {
+        Quaternion rotation = Quaternion.identity;
+        rotation.eulerAngles = eulerRotation;
+        Transform newCorridor = Instantiate(corridor, parent.position + addedPosition, rotation) as Transform;
+        newCorridor.parent = parent;
+    }
+
+    private void AddNextRoomDoorOrWall(Transform gameObj, Transform nextRoom, Vector3 eulerRotation, Vector3 addedPosition)
+    {
+        Quaternion rotation = Quaternion.identity;
+
+        rotation.eulerAngles = rotation.eulerAngles = eulerRotation == new Vector3(0f, -180f, 0f) ? Vector3.zero : -eulerRotation;
+        Transform newDoor = Instantiate(gameObj, nextRoom.position - addedPosition, rotation) as Transform;
+        newDoor.position += gameObj.position;
+        newDoor.parent = nextRoom;
+    }
+    private void AddDoorOrWall(Transform gameObj, Transform parent, Transform nextRoom, Vector3 eulerRotation, Vector3 addedPosition)
+    {
+        Quaternion rotation = Quaternion.identity;
+        rotation.eulerAngles = eulerRotation == new Vector3(0f,180f,0f) ? Vector3.zero: eulerRotation;
+        Transform newDoor = Instantiate(gameObj, parent.position + addedPosition, rotation) as Transform;
+        newDoor.position += gameObj.position;
+        newDoor.parent = parent;
+
+        AddNextRoomDoorOrWall(gameObj, nextRoom, eulerRotation, addedPosition);
     }
 
     private int CenterOnGrid(float position)

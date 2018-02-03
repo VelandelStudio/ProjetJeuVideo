@@ -162,7 +162,7 @@ public class BoardCreator : MonoBehaviour {
                 // ... and instantiate a floor tile for it.
                 InstantiateFromArray(floorTiles, i, j);
 
-                // If the tile type is Wall...
+                // If the tile type is wall...
                 if (tiles[i][j] == ObjectType.Wall)
                 {
                     // ... instantiate a wall over the top.
