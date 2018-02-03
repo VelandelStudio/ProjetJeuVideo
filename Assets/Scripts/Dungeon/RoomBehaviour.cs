@@ -12,6 +12,11 @@ public class RoomBehaviour : MonoBehaviour {
     public bool RoomSelectedByShortpath = false;
     public bool RoomSelectedByExternalAdd = false;
 
+    public Transform RoomNorth;
+    public Transform RoomSouth;
+    public Transform RoomEast;
+    public Transform RoomWest;
+
     private GateOpener[] _insideLevers;
     private bool _playerAreInside;
 
