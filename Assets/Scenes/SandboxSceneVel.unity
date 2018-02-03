@@ -173,8 +173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map:
     mapSize:
-      x: 5
-      y: 5
+      x: 4
+      y: 4
     MinInnerX: 100
     MinInnerY: 100
     MaxInnerX: 0
