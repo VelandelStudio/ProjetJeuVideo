@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DungeonManager : MonoBehaviour
  {
-    [SerializeField] private Text _dungeonTimer;
+    [SerializeField] private GameObject _dungeonTimer;
     private MapGenerator _mapGenerator;
 
 	private static DungeonManager instance;
@@ -50,7 +50,7 @@ public class DungeonManager : MonoBehaviour
 	{
 		dungeonStarted = true;
 
-        _dungeonTimer.gameObject.SetActive(true);
+        _dungeonTimer.SetActive(true);
     }
 	
 	public void EndDungeon()
@@ -63,7 +63,7 @@ public class DungeonManager : MonoBehaviour
 		if(dungeonStarted && _dungeonTimer)
 		{
 			timerDungeon += Time.deltaTime;
-            _dungeonTimer.text = StringHelper.FormateFloatToClock(timerDungeon);
+            _dungeonTimer.GetComponent<Text>().text = StringHelper.FormateFloatToClock(timerDungeon);
         }
 	}
 }

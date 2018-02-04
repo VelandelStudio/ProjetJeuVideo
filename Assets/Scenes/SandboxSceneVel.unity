@@ -118,79 +118,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 533055843}
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
---- !u!1 &172617860
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 172617862}
-  - component: {fileID: 172617861}
-  - component: {fileID: 172617863}
-  m_Layer: 0
-  m_Name: Dongeon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &172617861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 172617860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c7b8d2399bbd3f4a83616f17571677f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dungeonTimer: {fileID: 132769635}
---- !u!4 &172617862
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 172617860}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 75.24999, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &172617863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 172617860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d2ca9e2c33d606429f082dcf9a60628, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  map:
-    mapSize:
-      x: 8
-      y: 8
-    MinInnerX: 100
-    MinInnerY: 100
-    MaxInnerX: 0
-    MaxInnerY: 0
-    MinBoarderX: 0
-    MinBoarderY: 0
-    MaxBoarderX: 0
-    MaxBoarderY: 0
-  rooms: []
-  innerRoom: {fileID: 4015228814209258, guid: 3a06be03bfdc7b447a23a6d95a3d0f40, type: 2}
-  startRoom: {fileID: 4382341818378990, guid: a5d7c4547317092489a3f79649fae7a7, type: 2}
-  endRoom: {fileID: 4458751763676816, guid: 9c9e1995bde26ce4aaa1586445f0d8e2, type: 2}
-  door: {fileID: 4263559220517666, guid: 7a11370eba6965740b0e1876ea48ceb4, type: 2}
-  wall: {fileID: 4918421010221060, guid: fbfbdd409657ee3458429833b458a5de, type: 2}
-  corridor: {fileID: 4100443917182480, guid: 4961ce2a749d7494b8bc496e02502acb, type: 2}
-  seed: 31
 --- !u!1001 &533055843
 Prefab:
   m_ObjectHideFlags: 0
@@ -643,4 +570,51 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a34237487e4cd75468ba4caf6d0bdb82, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &1408867395
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 75.24999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114482297300790020, guid: b5f0500c3f563314db904a6508456711,
+        type: 2}
+      propertyPath: _dungeonTimer
+      value: 
+      objectReference: {fileID: 132769635}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: b5f0500c3f563314db904a6508456711, type: 2}
   m_IsPrefabParent: 0
