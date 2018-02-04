@@ -112,12 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 410022f10ef6d8f46a8bbe76fe2748e5, type: 2}
---- !u!114 &132769635 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114915471901553744, guid: d7d6466aed9c5e745b09508c0c45a5ac,
-    type: 2}
-  m_PrefabInternal: {fileID: 533055843}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &533055843
 Prefab:
   m_ObjectHideFlags: 0
@@ -397,6 +391,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7d6466aed9c5e745b09508c0c45a5ac, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &614613237 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1334973846452122, guid: d7d6466aed9c5e745b09508c0c45a5ac,
+    type: 2}
+  m_PrefabInternal: {fileID: 533055843}
 --- !u!1 &622134307
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +579,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 75.24999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4230139158630202, guid: b5f0500c3f563314db904a6508456711, type: 2}
       propertyPath: m_LocalPosition.y
@@ -614,7 +613,7 @@ Prefab:
         type: 2}
       propertyPath: _dungeonTimer
       value: 
-      objectReference: {fileID: 132769635}
+      objectReference: {fileID: 614613237}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b5f0500c3f563314db904a6508456711, type: 2}
   m_IsPrefabParent: 0

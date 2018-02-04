@@ -204,7 +204,7 @@ public class MapGenerator : MonoBehaviour {
                 else
                 {
                     roomA.GetComponent<RoomBehaviour>().RoomEast = nextRoomA;
-                    nextRoomA.GetComponent<RoomBehaviour>().RoomNorth = roomA;
+                    nextRoomA.GetComponent<RoomBehaviour>().RoomWest = roomA;
                 }
             }
             else
