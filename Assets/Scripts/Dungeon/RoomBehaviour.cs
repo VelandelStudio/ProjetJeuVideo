@@ -6,16 +6,11 @@ using UnityEngine;
 /// RoomBehaviour Class
 /// This script define the cycle of life of a room in the dungeon.
 /// </summary>
-public class RoomBehaviour : MonoBehaviour {
+public class RoomBehaviour : RoomBase {
 
     public List<GameObject> monster = new List<GameObject>();
     public bool RoomSelectedByShortpath = false;
     public bool RoomSelectedByExternalAdd = false;
-
-    public Transform RoomNorth;
-    public Transform RoomSouth;
-    public Transform RoomEast;
-    public Transform RoomWest;
 
     private GateOpener[] _insideLevers;
     private bool _playerAreInside;
@@ -111,7 +106,7 @@ public class RoomBehaviour : MonoBehaviour {
 		public void RandTheme()
 		{
 			Theme[] themes = new Theme[]{Fire, Water, Nature, Storm};
-			Value = themes[Random.Range(0,themes.Length-1)].Value;
+			Value = themes[Random.Range(0,themes.Length)].Value;
 		}
 	}
 }

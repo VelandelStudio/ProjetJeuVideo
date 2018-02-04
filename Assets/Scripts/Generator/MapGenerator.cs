@@ -13,12 +13,10 @@ public class MapGenerator : MonoBehaviour {
     private int _maxRand = 5;
     private Transform _dungeonHolder;
     private List<Coord> _BoardCoord = new List<Coord>();
-    private List<Coord> _innerRooms = new List<Coord>();
     private Queue<Coord> _ShuffleBoardCoord;
 
     public Map map;
-    public List<GameObject> rooms = new List<GameObject>();
-    [SerializeField]public Transform[,] roomTable;
+    public Transform[,] roomTable;
 
     public Transform innerRoom;
     public Transform startRoom;
@@ -72,11 +70,11 @@ public class MapGenerator : MonoBehaviour {
                 RoomBehaviour roomBehaviour = roomTable[i, j].GetComponent<RoomBehaviour>();
 
                 if (roomBehaviour.RoomSelectedByShortpath && !roomBehaviour.RoomSelectedByExternalAdd)
-                { 
+                {
                     BuildExternalRoom(i, j, roomTable[i, j], _maxRand);
                 }
             }
-        }       
+        }
 
         ClearUnselectedRooms();
     }
@@ -115,7 +113,7 @@ public class MapGenerator : MonoBehaviour {
     private void SetRotationBoarderRooms(Transform boarderRoom)
     {
         Quaternion rotation = Quaternion.identity;
-        if(boarderRoom.position.x == map.MinBoarderX)
+        if (boarderRoom.position.x == map.MinBoarderX)
         {
             rotation.eulerAngles = new Vector3(0, 90, 0);
         }
@@ -145,18 +143,7 @@ public class MapGenerator : MonoBehaviour {
             }
         }
 
-        _ShuffleBoardCoord= new Queue<Coord> (DungeonUtility.SuffleArray(_BoardCoord.ToArray(), seed));
-    }
-
-    private void StoreInnerPositions()
-    {
-        for (int x = map.MinInnerX; x <= map.MaxInnerX; x += 100)
-        {
-            for (int y = map.MinInnerY; y <= map.MaxInnerY; y += 100)
-            {
-                _innerRooms.Add(new Coord(x, y));
-            }
-        }
+        _ShuffleBoardCoord = new Queue<Coord>(DungeonUtility.SuffleArray(_BoardCoord.ToArray(), seed));
     }
 
     private void BuildShortestPath(Transform roomA, Transform roomB)
@@ -169,7 +156,7 @@ public class MapGenerator : MonoBehaviour {
         Transform nextRoomA = roomA;
         Transform nextRoomB = roomB;
 
-        if(roomA.transform.position == roomB.transform.position)
+        if (roomA.transform.position == roomB.transform.position)
         {
             return;
         }
@@ -193,43 +180,23 @@ public class MapGenerator : MonoBehaviour {
             if (rand == 1)
             {
                 int modulo = roomA.position.x < roomB.position.x ? 1 : -1;
-                nextRoomA = roomTable[CenterOnGrid(roomA.position.x) +modulo, CenterOnGrid(roomA.position.z)];
+                nextRoomA = roomTable[CenterOnGrid(roomA.position.x) + modulo, CenterOnGrid(roomA.position.z)];
                 AddCorridor(roomA, new Vector3(0, modulo * 90.0f, 0), new Vector3(50f * modulo, 0, 0));
-
-                if (modulo == -1)
-                {
-                    roomA.GetComponent<RoomBehaviour>().RoomWest = nextRoomA;
-                    nextRoomA.GetComponent<RoomBehaviour>().RoomEast = roomA;
-                }
-                else
-                {
-                    roomA.GetComponent<RoomBehaviour>().RoomEast = nextRoomA;
-                    nextRoomA.GetComponent<RoomBehaviour>().RoomWest = roomA;
-                }
+                LinkTwoRooms(roomA, nextRoomA);
             }
             else
             {
                 int modulo = roomA.position.z < roomB.position.z ? 1 : -1;
-                nextRoomA = roomTable[CenterOnGrid(roomA.position.x), CenterOnGrid(roomA.position.z) +modulo];
+                nextRoomA = roomTable[CenterOnGrid(roomA.position.x), CenterOnGrid(roomA.position.z) + modulo];
                 AddCorridor(roomA, new Vector3(0, modulo * 180.0f, 0), new Vector3(0, 0, 50f * modulo));
-
-                if (modulo == -1)
-                {
-                    roomA.GetComponent<RoomBehaviour>().RoomSouth = nextRoomA;
-                    nextRoomA.GetComponent<RoomBehaviour>().RoomNorth = roomA;
-                }
-                else
-                {
-                    roomA.GetComponent<RoomBehaviour>().RoomNorth = nextRoomA;
-                    nextRoomA.GetComponent<RoomBehaviour>().RoomSouth = roomA;
-                }
+                LinkTwoRooms(roomA, nextRoomA);
             }
         }
 
         nextRoomA.GetComponent<RoomBehaviour>().RoomSelectedByShortpath = true;
         nextRoomB.GetComponent<RoomBehaviour>().RoomSelectedByShortpath = true;
 
-        BuildShortestPath(nextRoomA,nextRoomB);
+        BuildShortestPath(nextRoomA, nextRoomB);
     }
 
     private void BuildExternalRoom(int i, int j, Transform roomSelected, int maxRand)
@@ -248,25 +215,14 @@ public class MapGenerator : MonoBehaviour {
                     if (rand == 1)
                     {
                         roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd = true;
-                        if(modulo == -1)
-                        {
-                            selectRoomBehaviour.RoomWest = roomTable[i + modulo, j];
-                            roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomEast = roomSelected;
-                        }
-                        else
-                        {
-                            selectRoomBehaviour.RoomEast = roomTable[i + modulo, j];
-                            roomTable[i + modulo, j].GetComponent<RoomBehaviour>().RoomWest = roomSelected;
-                        }
-
+                        LinkTwoRooms(roomSelected, roomTable[i + modulo, j]);
                         BuildExternalRoom(i + modulo, j, roomTable[i + modulo, j], maxRand + 1);
-
                         AddCorridor(roomSelected, new Vector3(0, modulo * 90f, 0), new Vector3(50f * modulo, 0, 0));
                     }
                 }
             }
 
-            if ((j > 0 && modulo == -1) || (j < roomTable.GetLength(1) -1 && modulo == 1))
+            if ((j > 0 && modulo == -1) || (j < roomTable.GetLength(1) - 1 && modulo == 1))
             {
                 if (!roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomSelectedByShortpath
                     && !roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd)
@@ -275,18 +231,8 @@ public class MapGenerator : MonoBehaviour {
 
                     if (rand == 1)
                     {
-                        if (modulo == -1)
-                        {
-                            selectRoomBehaviour.RoomSouth = roomTable[i, j + modulo];
-                            roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomNorth = roomSelected;
-                        }
-                        else
-                        {
-                            selectRoomBehaviour.RoomNorth = roomTable[i, j + modulo];
-                            roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomSouth = roomSelected;
-                        }
-
                         roomTable[i, j + modulo].GetComponent<RoomBehaviour>().RoomSelectedByExternalAdd = true;
+                        LinkTwoRooms(roomSelected, roomTable[i, j + modulo]);
                         BuildExternalRoom(i, j + modulo, roomTable[i, j + modulo], maxRand + 1);
                         AddCorridor(roomSelected, new Vector3(0, modulo * 180f, 0), new Vector3(0, 0, 50f * modulo));
                     }
@@ -296,36 +242,66 @@ public class MapGenerator : MonoBehaviour {
         BuildDoorsAndWalls(roomSelected);
     }
 
+    private void LinkTwoRooms(Transform roomA, Transform roomB)
+    {
+        RoomBase roomBehaviourA = roomA.GetComponent<RoomBase>();
+        RoomBase roomBehaviourB = roomB.GetComponent<RoomBase>();
+
+        float horizontalDiff = roomA.transform.position.x - roomB.transform.position.x;
+        float verticalDiff = roomA.transform.position.z - roomB.transform.position.z;
+
+        if (horizontalDiff != 0)
+        {
+            roomBehaviourA.RoomWest = horizontalDiff == 100 ? roomB : roomBehaviourA.RoomWest;
+            roomBehaviourA.RoomEast = horizontalDiff == -100 ? roomB : roomBehaviourA.RoomEast;
+
+            roomBehaviourB.RoomEast = horizontalDiff == 100 ? roomA : roomBehaviourB.RoomEast;
+            roomBehaviourB.RoomWest = horizontalDiff == -100 ? roomA : roomBehaviourB.RoomWest;
+        }
+
+        if (verticalDiff != 0)
+        {
+            roomBehaviourA.RoomSouth = verticalDiff == 100 ? roomB : roomBehaviourA.RoomSouth;
+            roomBehaviourA.RoomNorth = verticalDiff == -100 ? roomB : roomBehaviourA.RoomNorth;
+
+            roomBehaviourB.RoomNorth = verticalDiff == 100 ? roomA : roomBehaviourB.RoomNorth;
+            roomBehaviourB.RoomSouth = verticalDiff == -100 ? roomA : roomBehaviourB.RoomSouth;
+        }
+    }
+
     private void BuildDoorsAndWalls(Transform room)
     {
         RoomBehaviour roomBehaviour = room.GetComponent<RoomBehaviour>();
-        Quaternion rotation;
         Transform objInstance;
-        Transform newObj;
 
-        rotation = Quaternion.identity;
         objInstance = roomBehaviour.RoomNorth == null ? wall : door;
-        newObj = Instantiate(objInstance, room.position + new Vector3(0,0,25), rotation) as Transform;
-        newObj.position += objInstance.position;
-        newObj.parent = room;
+        BuildLateralObjects(objInstance, room, new Vector3(0, 0, 0), new Vector3(0, 0, 25));
 
-        rotation.eulerAngles = new Vector3(0,180,0);
         objInstance = roomBehaviour.RoomSouth == null ? wall : door;
-        newObj = Instantiate(objInstance, room.position + new Vector3(0, 0, -25), rotation) as Transform;
-        newObj.position += objInstance.position;
-        newObj.parent = room;
+        BuildLateralObjects(objInstance, room, new Vector3(0, 180, 0), new Vector3(0, 0, -25));
 
-        rotation.eulerAngles = new Vector3(0, 90, 0);
         objInstance = roomBehaviour.RoomEast == null ? wall : door;
-        newObj = Instantiate(objInstance, room.position + new Vector3(25, 0, 0), rotation) as Transform;
-        newObj.position += objInstance.position;
-        newObj.parent = room;
+        BuildLateralObjects(objInstance, room, new Vector3(0, 90, 0), new Vector3(25, 0, 0));
 
-        rotation.eulerAngles = new Vector3(0, -90, 0);
         objInstance = roomBehaviour.RoomWest == null ? wall : door;
-        newObj = Instantiate(objInstance, room.position + new Vector3(-25, 0, 0), rotation) as Transform;
-        newObj.position += objInstance.position;
-        newObj.parent = room;
+        BuildLateralObjects(objInstance, room, new Vector3(0, -90, 0), new Vector3(-25, 0, 0));
+    }
+
+    private void BuildLateralObjects(Transform obj, Transform parent, Vector3 eulerRotation, Vector3 addedPosition)
+    {
+        Quaternion rotation = Quaternion.identity;
+        rotation.eulerAngles = eulerRotation;
+        Transform newObj = Instantiate(obj, parent.position + addedPosition, rotation) as Transform;
+        newObj.position += obj.position;
+        newObj.parent = parent;
+    }
+
+    private void AddCorridor(Transform parent, Vector3 eulerRotation, Vector3 addedPosition)
+    {
+        Quaternion rotation = Quaternion.identity;
+        rotation.eulerAngles = eulerRotation;
+        Transform newCorridor = Instantiate(corridor, parent.position + addedPosition, rotation) as Transform;
+        newCorridor.parent = parent;
     }
 
     private Transform GetAdjacentInnerRoom(Transform boarderRoom)
@@ -343,29 +319,7 @@ public class MapGenerator : MonoBehaviour {
         }
 
         Transform nextRoom = roomTable[CenterOnGrid(boarderRoom.position.x) + moduloX, CenterOnGrid(boarderRoom.position.z) + moduloZ];
-        if (moduloX == -1 || moduloX == 1)
-        {
-            if (moduloX == -1)
-            {
-                nextRoom.GetComponent<RoomBehaviour>().RoomEast = boarderRoom;
-            }
-            if (moduloX == 1)
-            {
-                nextRoom.GetComponent<RoomBehaviour>().RoomWest = boarderRoom;
-            }
-        }
-
-        if (moduloZ == -1 || moduloZ == 1)
-        {
-            if (moduloZ == -1)
-            {
-                nextRoom.GetComponent<RoomBehaviour>().RoomNorth = boarderRoom;
-            }
-            if (moduloZ == 1)
-            {
-                nextRoom.GetComponent<RoomBehaviour>().RoomSouth = boarderRoom;
-            }
-        }
+        LinkTwoRooms(boarderRoom, nextRoom);
 
         return nextRoom;
     }
@@ -383,14 +337,6 @@ public class MapGenerator : MonoBehaviour {
                 }
             }
         }
-    }
-
-    private void AddCorridor(Transform parent, Vector3 eulerRotation, Vector3 addedPosition)
-    {
-        Quaternion rotation = Quaternion.identity;
-        rotation.eulerAngles = eulerRotation;
-        Transform newCorridor = Instantiate(corridor, parent.position + addedPosition, rotation) as Transform;
-        newCorridor.parent = parent;
     }
 
     private int CenterOnGrid(float position)
