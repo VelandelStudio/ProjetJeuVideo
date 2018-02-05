@@ -13,6 +13,7 @@ public class RoomBehaviour : RoomBase
     public bool RoomSelectedByShortpath = false;
     public bool RoomSelectedByExternalAdd = false;
 
+    private ChallengeBase _challengeRoom;
     private bool _playerAreInside;
 
     /** PlayerAreInside, public bool Property
@@ -43,6 +44,8 @@ public class RoomBehaviour : RoomBase
     {
         GetComponentInParent<DungeonManager>().AttributeNewRoom(this);
         Theme theme = new Theme();
+
+        preWarmChallenge();
         InitiateMonster();
     }
 
@@ -81,6 +84,17 @@ public class RoomBehaviour : RoomBase
     private void Update()
     {
         monster.RemoveAll(Monster => Monster.GetComponent<EntityLivingBase>().IsDead);
+
+        if (_challengeRoom.isSucces)
+        {
+            Debug.Log("YOU IS BOGOSS : this is Succes");
+        }
+    }
+
+    protected void preWarmChallenge()
+    {
+        gameObject.AddComponent<TestRoomChallenge>();
+        _challengeRoom = GetComponent<TestRoomChallenge>();
     }
 
     /** Theme, private inner class
