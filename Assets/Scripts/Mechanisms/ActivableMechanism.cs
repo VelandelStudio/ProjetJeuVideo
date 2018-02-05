@@ -35,5 +35,5 @@ public abstract class ActivableMechanism : Mechanism {
 	/** ActivateInterractable, public override abstract void 
 	 * The behaviour of the ActivableMechanism will be set in the child script.
 	 **/
-	public override abstract void ActivateInterractable();
+	public override abstract void ActivateInterractable(Collider other);
 }

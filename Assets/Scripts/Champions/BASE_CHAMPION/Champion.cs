@@ -13,6 +13,7 @@ using System.IO;
  **/
 public abstract class Champion : MonoBehaviour
 {
+    public bool ChampionDestroyable = true;
     protected PassiveBase passiveBase;
     protected List<Spell> spells = new List<Spell>();
     protected AutoAttackBase autoAttack;
@@ -105,11 +106,14 @@ public abstract class Champion : MonoBehaviour
         }
     }
 
+    /** DestroyChampion, public void
+     * This Method is used to Destroy the champion and set the Player back to its summoner state
+     **/
     public void DestroyChampion()
     {
-        GameObject normalPlayer = (GameObject) Resources.Load("Player/Summoner");
+        GameObject normalPlayer = (GameObject)Resources.Load("Player/Summoner");
         spellBar.SetChildrenActives(false);
-        Instantiate(normalPlayer,transform.position, transform.rotation);
+        Instantiate(normalPlayer, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

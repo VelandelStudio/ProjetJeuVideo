@@ -53,7 +53,7 @@ public class GateOpener : ActivableMechanism
      * It detects if the mechanism as not been activated yet
      * When it's activated it put down the lever and call OpenDoor() Method
      **/
-    public override void ActivateInterractable()
+    public override void ActivateInterractable(Collider other)
     {
         foreach (Animator anim in animHandlers)
         {

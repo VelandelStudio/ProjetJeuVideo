@@ -22,10 +22,9 @@ public class SummoningArea : MonoBehaviour {
         if(other.tag == "Player")
         {
             Champion champion = other.GetComponent<Champion>();
-            if(champion)
+            if(champion && champion.ChampionDestroyable)
             {
                 champion.DestroyChampion();
-                dungeonLauncher.DeactivateDungeonLauncher();
             }
             championLoaded = false;
             dungeonLauncher.DeactivateDungeonLauncher();

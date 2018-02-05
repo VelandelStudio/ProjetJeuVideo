@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /** RoomBehaviour, public Class
@@ -44,6 +43,7 @@ public class RoomBehaviour : RoomBase
     {
         GetComponentInParent<DungeonManager>().AttributeNewRoom(this);
         Theme theme = new Theme();
+        InitiateMonster();
     }
 
     /// <summary>
@@ -54,7 +54,10 @@ public class RoomBehaviour : RoomBase
     /// </summary>
     public void InitiateRoom()
     {
-        InitiateMonster();
+        for (int i = 0; i < monster.Count; i++)
+        {
+            monster[i].SetActive(true);
+        }
     }
 
     /// <summary>
@@ -66,7 +69,9 @@ public class RoomBehaviour : RoomBase
     {
         for (int i = 0; i < monster.Count; i++)
         {
-            monster[i] = Instantiate(monster[i], transform.position + Vector3.up * 2f, transform.rotation, transform);
+            monster[i] = Instantiate(monster[i], transform.position + Vector3.up * 2f, transform.rotation);
+            monster[i].transform.parent = transform;
+            monster[i].SetActive(false);
         }
     }
 

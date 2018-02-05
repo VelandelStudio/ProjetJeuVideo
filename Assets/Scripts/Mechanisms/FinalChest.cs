@@ -10,11 +10,12 @@ public class FinalChest : ActivableMechanism
 {
 	/** ActivateInterractable, public override void 
 	 * Handles the behaviour of the chest when it is activated.
+     * We Set the Exit portal activable.
 	 * Currently, displays a Debug.Log and Detroy the gameObject
 	 **/
-	public override void ActivateInterractable()
+	public override void ActivateInterractable(Collider other)
 	{
-		Debug.Log("The chest is open !");
+		GetComponentInParent<DungeonExit>().SetActivable();
 		Destroy(gameObject);
 	}
 }

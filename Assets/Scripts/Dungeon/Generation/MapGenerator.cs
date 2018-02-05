@@ -261,7 +261,6 @@ public class MapGenerator : MonoBehaviour
     private void BuildExternalRoom(int i, int j, Transform roomSelected, int maxRand)
     {
         int rand = 0;
-        RoomBehaviour selectRoomBehaviour = roomSelected.GetComponent<RoomBehaviour>();
         for (int modulo = -1; modulo <= 1; modulo += 2)
         {
             if ((i > 0 && modulo == -1) || (i < roomTable.GetLength(0) - 1 && modulo == 1))
