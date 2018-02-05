@@ -33,11 +33,12 @@ public abstract class Mechanism : MonoBehaviour, IInterractable
 	protected abstract void AttributeMechanismObject();
 	
 	/** ActivateInterractable, public abstract void
+     * @param : Collider
      * This method should  be override in child scripts 
 	 * This method is used to tell to the mechanism that is it activated by a ActivableMechanismDetector.
-	 * You shoudl override here the behaviour of your mechanism when it is activated.
+	 * You should override here the behaviour of your mechanism when it is activated.
 	 **/
-	public abstract void ActivateInterractable();
+	public abstract void ActivateInterractable(Collider other);
 	
 	/** DisplayTextOfInterractable, public virtual void
 	 * Used to display elements on the screen when we are close enough to the mechanism

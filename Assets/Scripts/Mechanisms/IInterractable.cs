@@ -1,4 +1,6 @@
-﻿/** IInterractable Interface
+﻿using UnityEngine;
+
+/** IInterractable Interface
  * This Interface was created to make a gameObject interractable.
  * Currently, the Interfac contains 3 methods and 1 property.
  * The property is used to tell if the interractable is Activable or not.
@@ -8,7 +10,7 @@ public interface IInterractable {
 	
 	bool IsActivable{get;}
 
-    void ActivateInterractable();
+    void ActivateInterractable(Collider other);
     void DisplayTextOfInterractable();
     void CancelTextOfInterractable();
 }

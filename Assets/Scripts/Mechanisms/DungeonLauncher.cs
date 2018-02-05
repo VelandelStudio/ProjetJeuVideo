@@ -5,15 +5,14 @@
  * This Mecanism allows the player to launch a dunjon.
  * This Script should only be attached to the DungeonLauncher Prefab.
  **/
-public class DungeonLauncher : MechanismBase
+public class DungeonLauncher : ActivableMechanism
 {
     [SerializeField]private GameObject Dungeon;
     /** Override Start Method
      * Adding the operations to get and build the MapGenerator with a Seed for a random Dungeon Shape
      */
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         isActivable = false;
     }
 
@@ -43,33 +42,17 @@ public class DungeonLauncher : MechanismBase
      * After activation it launches the dunjon and then Destroyes itself to provide multiple launches.
      * Warning ! Only the script will be Destroyed, not the GameObject
      */
-    public override void ActivateInterractable()
+    public override void ActivateInterractable(Collider other)
     {
-        if (!isActivated && isActivable)
+        if (isActivable)
         {
             Debug.Log("Launching new Dunjon");
-
-            // Generation du dungeon
-            Instantiate(Dungeon);
-
-            // Placement of the Player
-            SpawnPos();
-
+            Champion champion = other.gameObject.GetComponentInParent<Champion>();
+            if (champion)
+            {
+                champion.ChampionDestroyable = false;
+                Instantiate(Dungeon);
+            }
         }
-    }
-
-    /** SpawnPos Method
-     * This method will get the transform position of a random room in the MapGenerator
-     * The center of this room is the spawn position of the player and will teleport this one inside.
-     * Then the room is removed from the RoomsList
-     */
-    private void SpawnPos()
-    {
-        //int rand = Random.Range(0, generator.rooms.Count);
-
-        //Transform spawnRoom = generator.rooms[rand].transform;
-        //generator.rooms.RemoveAt(rand);
-
-        //player.transform.position = spawnRoom.position;
     }
 }

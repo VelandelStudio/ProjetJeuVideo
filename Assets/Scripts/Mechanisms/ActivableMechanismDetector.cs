@@ -89,7 +89,7 @@ public class ActivableMechanismDetector : MonoBehaviour
 		{
 			if (Input.GetKeyDown(InputsProperties.Activate) && !CursorBehaviour.CursorIsVisible)
 			{
-				interractable.ActivateInterractable();
+				interractable.ActivateInterractable(other);
 			}
 		}
 	}
