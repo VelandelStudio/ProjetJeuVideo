@@ -66,11 +66,6 @@ public class GateOpener : ActivableMechanism
             Debug.Log("Hello");
         }
 
-        if (transform.parent.tag == "EndRoom")
-        {
-            GetComponentInParent<DungeonManager>().Instance.EndDungeon();
-        }
-
         OpenDoor();
         InitializerRoomTrigger intializerRoomTrigger = GetComponentInChildren<InitializerRoomTrigger>();
         if (intializerRoomTrigger)
