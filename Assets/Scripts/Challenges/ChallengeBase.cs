@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
 using System.IO;
 
-public abstract class ChallengeBase : MonoBehaviour
+public abstract class ChallengeBase : MonoBehaviour, IDisplayable
 {
     protected ChallengeData challengeData;
     protected RoomBehaviour roomBehavior;
 
     public bool isSucces = false;
 
-    protected virtual void Start()
+    public string Name { get; protected set; }
+    public string[] OtherValues { get; protected set; }
+    public string[] Description { get; protected set; }
+    public bool IsLoaded { get; protected set; }
+
+    protected virtual void Awake()
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, "ChallengeData.json");
         if (File.Exists(filePath))
@@ -35,21 +40,31 @@ public abstract class ChallengeBase : MonoBehaviour
         }
 
         roomBehavior = GetComponent<RoomBehaviour>();
+
+        Name = challengeData.Name;
+        Description = challengeData.Description;
+        OtherValues = challengeData.OtherValues;
     }
 
     public abstract bool ConditionToSucced();
 
+    public abstract void GiveReward();
+
     protected virtual void Update()
     {
-        if (ConditionToSucced() && !isSucces)
+        if (!isSucces && ConditionToSucced())
         {
             isSucces = true;
+
+            Debug.Log("YOU IS BOGOSS : this is Succes");
+            GiveReward();
+            Destroy(this);
         }
     }
 
-    public void DisplayContent()
+    public string GetDescriptionGUI()
     {
-        // TO DO....
+        return StringHelper.DescriptionBuilder(this);
     }
 
     [System.Serializable]

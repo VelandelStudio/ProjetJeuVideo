@@ -6,8 +6,11 @@ public class TestRoomChallenge : ChallengeBase
 {
     public override bool ConditionToSucced()
     {
-        GetComponentInParent<DungeonManager>().AddChallengeBonus(5);
         return (roomBehavior.IsClean);
     }
 
+    public override void GiveReward()
+    {
+        GetComponentInParent<DungeonManager>().AddChallengeBonus(5);
+    }
 }

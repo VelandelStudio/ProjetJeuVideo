@@ -274,7 +274,7 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
      * that uses only IDisplayable.
      **/
     [System.Serializable]
-    public class WrapperDisplayable : IDisplayable
+    public class WrapperDisplayable : ISpellDisplayable
     {
         public WrapperDisplayable(PassiveData passive, string championName)
         {

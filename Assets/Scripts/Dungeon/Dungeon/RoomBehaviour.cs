@@ -45,7 +45,6 @@ public class RoomBehaviour : RoomBase
         GetComponentInParent<DungeonManager>().AttributeNewRoom(this);
         Theme theme = new Theme();
 
-        preWarmChallenge();
         InitiateMonster();
     }
 
@@ -61,6 +60,10 @@ public class RoomBehaviour : RoomBase
         {
             monster[i].SetActive(true);
         }
+
+        ChallengeBase challenge = PreWarmChallenge();
+
+        GetComponentInParent<DungeonManager>().SetRoomChallenge(challenge.GetDescriptionGUI(), Resources.Load<Sprite>("Images/DefaultSprite"));
     }
 
     /// <summary>
@@ -84,17 +87,13 @@ public class RoomBehaviour : RoomBase
     private void Update()
     {
         monster.RemoveAll(Monster => Monster.GetComponent<EntityLivingBase>().IsDead);
-
-        if (_challengeRoom.isSucces)
-        {
-            Debug.Log("YOU IS BOGOSS : this is Succes");
-        }
     }
 
-    protected void preWarmChallenge()
+    protected ChallengeBase PreWarmChallenge()
     {
         gameObject.AddComponent<TestRoomChallenge>();
-        _challengeRoom = GetComponent<TestRoomChallenge>();
+
+        return _challengeRoom = GetComponent<TestRoomChallenge>();
     }
 
     /** Theme, private inner class

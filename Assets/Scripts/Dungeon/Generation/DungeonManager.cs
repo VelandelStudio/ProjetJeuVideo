@@ -18,6 +18,9 @@ public class DungeonManager : MonoBehaviour
     private float timerDungeon;
     private bool dungeonStarted;
 
+    [SerializeField]
+    private GameObject _roomChallengeGUI;
+
     /** ChallengeBonus, public int property
      * This property is used to get and set the bonus of the final chest.
      * This bonus is upgraded with the challenges succeeded.
@@ -59,8 +62,15 @@ public class DungeonManager : MonoBehaviour
     {
         _mapGenerator = GetComponent<MapGenerator>();
         _mapGenerator.GenerationMap();
+
+        GameObject challenges = GameObject.Find("Challenges");
+        _roomChallengeGUI = Instantiate(_roomChallengeGUI, challenges.transform);
+
         GameObject player = GameObject.FindWithTag("Player");
         player.transform.position = GameObject.FindWithTag("StartRoom").transform.position;
+
+        ChallengeBonus = 0;
+        Debug.Log("ChallengeBonus = " + ChallengeBonus);
     }
 
     /** AttributeNewRoom, public void 
@@ -110,5 +120,12 @@ public class DungeonManager : MonoBehaviour
     public void AddChallengeBonus(int bonus)
     {
         ChallengeBonus += bonus;
+        Debug.Log("ChallengeBonus = " + ChallengeBonus);
+    }
+
+    public void SetRoomChallenge(string text, Sprite image)
+    {
+        _roomChallengeGUI.GetComponentInChildren<Text>().text = text;
+        _roomChallengeGUI.GetComponentInChildren<Image>().sprite = image;
     }
 }
