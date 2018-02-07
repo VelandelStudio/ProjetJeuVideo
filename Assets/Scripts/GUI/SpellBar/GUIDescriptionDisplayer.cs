@@ -38,9 +38,13 @@ public class GUIDescriptionDisplayer : MonoBehaviour
             _imageZone.enabled = true;
             _textZone.enabled = true;
             _textZone.text = displayer.Displayable.GetDescriptionGUI();
-            SetElementSprite(displayer.Displayable.Element);
-            SetTypeSprite(displayer.Displayable.DamagesType);
-            SetTypeAttack(displayer.Displayable.Type);
+            if (displayer.Displayable is ISpellDisplayable)
+            {
+                ISpellDisplayable spellDisplayable = (ISpellDisplayable)displayer.Displayable;
+                SetElementSprite(spellDisplayable.Element);
+                SetTypeSprite(spellDisplayable.DamagesType);
+                SetTypeAttack(spellDisplayable.Type);
+            }
         }
     }
 

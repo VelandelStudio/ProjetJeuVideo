@@ -6,7 +6,8 @@ using UnityEngine;
  * this script is associated with the ArtifactReceptacle prefab
  * It is used to display the ChampionSelection panel
  **/
-public class ArtifactReceptacleMechanism : ActivableMechanism {
+public class ArtifactReceptacleMechanism : ActivableMechanism
+{
     [SerializeField] private GameObject _activableMenus;
 
     /** ActivateInterractable Method
@@ -17,18 +18,11 @@ public class ArtifactReceptacleMechanism : ActivableMechanism {
      */
     public override void ActivateInterractable(Collider other)
     {
-         _activableMenus.SetActive(!_activableMenus.activeSelf);
+        _activableMenus.SetActive(true);
     }
 
-    /** OnTriggerExit, protected void method,
-     * @param : Collider
-     * This trigger is used th close th menu if the player goes too far.
-     **/
-    protected void OnTriggerExit(Collider other)
+    public override void CancelTextOfInterractable()
     {
-        if(other.gameObject.tag == "Player")
-        {
-            _activableMenus.SetActive(false);
-        }
+        _activableMenus.SetActive(false);
     }
 }

@@ -36,7 +36,7 @@ public class InitializerRoomTrigger : MonoBehaviour
 
                 if (gameObject.tag == "EndRoom")
                 {
-                    GetComponentInParent<DungeonManager>().EndDungeon();
+                    GetComponentInParent<DungeonManager>().EndDungeonTimer();
                 } 
 			}
 			

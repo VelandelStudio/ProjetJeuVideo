@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 
 public abstract class ChallengeBase : MonoBehaviour
 {
     protected ChallengeData challengeData;
+    protected RoomBehaviour roomBehavior;
 
     public bool isSucces = false;
 
@@ -36,13 +33,15 @@ public abstract class ChallengeBase : MonoBehaviour
         {
             Debug.LogError("Cannot load challenge data!");
         }
+
+        roomBehavior = GetComponent<RoomBehaviour>();
     }
 
     public abstract bool ConditionToSucced();
 
     protected virtual void Update()
     {
-        if (ConditionToSucced())
+        if (ConditionToSucced() && !isSucces)
         {
             isSucces = true;
         }

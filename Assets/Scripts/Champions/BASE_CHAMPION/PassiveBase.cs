@@ -8,7 +8,7 @@ using System.IO;
  * This class should be the mother class of all Passives of our game.
  * The main goal of this script is to create a passive from its JSON file.
  **/
-public abstract class PassiveBase : MonoBehaviour, IDisplayable
+public abstract class PassiveBase : MonoBehaviour, ISpellDisplayable
 {
 
     /** Fields of PassiveBase
