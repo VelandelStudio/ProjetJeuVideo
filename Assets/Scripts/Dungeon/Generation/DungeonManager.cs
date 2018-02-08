@@ -63,8 +63,8 @@ public class DungeonManager : MonoBehaviour
 
         GameObject player = GameObject.FindWithTag("Player");
         player.transform.position = GameObject.FindWithTag("StartRoom").transform.position;
-        _GUIChallengePanelBehaviour = GameObject.Find("Canvas").GetComponentInChildren<GUIChallengePanelBehaviour>();
-        Debug.Log(_GUIChallengePanelBehaviour);
+        _GUIChallengePanelBehaviour = GameObject.Find("Canvas").GetComponentInChildren<GUIChallengePanelBehaviour>(true);
+
         ChallengeBonus = 0;
         Debug.Log("ChallengeBonus = " + ChallengeBonus);
     }
