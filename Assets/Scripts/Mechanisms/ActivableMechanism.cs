@@ -51,19 +51,14 @@ public abstract class ActivableMechanism : Mechanism
     {
         if (_activating)
         {
-            var lookPos = transform.position - _entityActivator.transform.position;
+            Vector3 lookDir = transform.position - _entityActivator.transform.position;
+            lookDir.y = 0;
+            Quaternion q = Quaternion.LookRotation(lookDir);
+            _entityActivator.transform.rotation = Quaternion.RotateTowards(_entityActivator.transform.rotation, q, Time.deltaTime * 500f);
+            Camera.main.GetComponent<CameraController>().CameraControlled = false;
 
-            lookPos.y = 0;
-            var rotation = Quaternion.LookRotation(lookPos);
-            Debug.Log(rotation.y);
-            Debug.Log(_entityActivator.transform.rotation.y);
-            if (_entityActivator.transform.rotation.y <= rotation.y - 0.01f && _entityActivator.transform.rotation.y >= rotation.y + 0.01f)
-            {
-                Camera.main.GetComponent<CameraController>().CameraControlled = false;
-                _entityActivator.transform.rotation = Quaternion.Slerp(_entityActivator.transform.rotation, rotation, Time.deltaTime * 120f);
-            }
-            else
-            {
+           if (Vector3.Angle(_entityActivator.transform.forward, lookDir) < 10)
+           {
                 Camera.main.GetComponent<CameraController>().CameraControlled = true;
                 _activating = false;
                 ActivateInterractable(_entityActivatorCol);
