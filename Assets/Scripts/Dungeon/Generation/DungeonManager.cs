@@ -9,7 +9,7 @@ using UnityEngine.UI;
  **/
 public class DungeonManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _dungeonTimer;
+    [SerializeField]private GameObject _dungeonTimer;
     private MapGenerator _mapGenerator;
 
     private static DungeonManager instance;
@@ -63,8 +63,10 @@ public class DungeonManager : MonoBehaviour
 
         GameObject player = GameObject.FindWithTag("Player");
         player.transform.position = GameObject.FindWithTag("StartRoom").transform.position;
-        _GUIChallengePanelBehaviour = GameObject.Find("Canvas").GetComponentInChildren<GUIChallengePanelBehaviour>(true);
-
+        GameObject canvas = GameObject.Find("Canvas");
+        _GUIChallengePanelBehaviour = canvas.GetComponentInChildren<GUIChallengePanelBehaviour>(true);
+        _dungeonTimer = Instantiate(_dungeonTimer, canvas.transform);
+        _dungeonTimer.SetActive(false);
         ChallengeBonus = 0;
         Debug.Log("ChallengeBonus = " + ChallengeBonus);
     }
