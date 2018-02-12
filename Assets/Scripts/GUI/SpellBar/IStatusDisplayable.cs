@@ -7,7 +7,7 @@ using UnityEngine;
  * @Extends : IDisplayer
  * Interface that regroups elements that can have a description on the screen, with specific properties foir Status
  **/
-public interface IStatusDisplayable : IDisplayable
+public interface IStatusDisplayable : ISpellDisplayable
 {
     float Duration { get; }
     bool IsTickable { get; }

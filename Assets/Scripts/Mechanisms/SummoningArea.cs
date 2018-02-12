@@ -7,7 +7,8 @@ using UnityEngine;
  * It is use to define areas in the Domain where summoning is allowed.
  * When you leave this area, the player comes back to its Summoner state
  **/
-public class SummoningArea : MonoBehaviour {
+public class SummoningArea : MonoBehaviour
+{
 
     [SerializeField] private DungeonLauncher dungeonLauncher;
     private bool championLoaded = false;
@@ -19,16 +20,21 @@ public class SummoningArea : MonoBehaviour {
      **/
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
             Champion champion = other.GetComponent<Champion>();
-            if(champion)
+            if (champion && champion.ChampionDestroyable)
             {
                 champion.DestroyChampion();
-                dungeonLauncher.DeactivateDungeonLauncher();
             }
             championLoaded = false;
             dungeonLauncher.DeactivateDungeonLauncher();
+            EntityHelper.ClearAllStatus(other.gameObject);
+        }
+
+        if (other.gameObject.GetComponent<IProjectile>() != null)
+        {
+            Destroy(other.gameObject);
         }
     }
 
@@ -39,7 +45,7 @@ public class SummoningArea : MonoBehaviour {
      **/
     private void OnTriggerStay(Collider other)
     {
-        if(!championLoaded && other.tag == "Player" && other.GetComponent<Champion>())
+        if (!championLoaded && other.tag == "Player" && other.GetComponent<Champion>())
         {
             championLoaded = true;
             dungeonLauncher.ActivateDungeonLauncher();

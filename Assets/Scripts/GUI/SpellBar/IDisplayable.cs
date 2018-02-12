@@ -8,15 +8,9 @@ using UnityEngine;
 public interface IDisplayable
 {
     string Name { get; }
-    string Element { get; }
-    string Type { get; }
-    float CoolDownValue { get; }
-    int[] Damages { get; }
-    string[] DamagesType { get; }
+    
     string[] OtherValues { get; }
-    GameObject[] Status { get; }
     string[] Description { get; }
-
     string GetDescriptionGUI();
     bool IsLoaded { get; }
 }

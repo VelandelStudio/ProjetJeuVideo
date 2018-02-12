@@ -9,7 +9,7 @@ using System.IO;
  * This abstract class is the mother class of all AutoAttack in our game. 
  * This class handles the behaviour the CD of all AutoAttacks. It also contains the AutoAttack method launched by the Classe.
  **/
-public abstract class AutoAttackBase : MonoBehaviour, IDisplayable
+public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 {
 
     #region Fields

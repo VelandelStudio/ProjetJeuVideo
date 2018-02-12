@@ -78,7 +78,6 @@ public class GameObjectDetector : MonoBehaviour
                 {
                     if (IsElligibleForTransparency(cameraHit))
                     {
-						Debug.Log(cameraHit.transform.gameObject);
                         SetBehaviorOfObjectsBehind(cameraHit);
                     }
                 }

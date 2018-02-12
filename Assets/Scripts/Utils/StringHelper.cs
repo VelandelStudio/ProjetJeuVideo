@@ -31,9 +31,13 @@ public static class StringHelper
         }
 
         /*string resources = FormateResources(displayable.ResourceValue, displayable.ResourceType); */
-        if (displayable.CoolDownValue != 0)
+        if (displayable is ISpellDisplayable)
         {
-            cooldown = FormateCoolDown(SecToMinConverter(displayable.CoolDownValue));
+            ISpellDisplayable spellDisplayable = (ISpellDisplayable)displayable;
+            if (spellDisplayable.CoolDownValue != 0)
+            {
+                cooldown = FormateCoolDown(SecToMinConverter(spellDisplayable.CoolDownValue));
+            }
         }
 
         description = FormateDescription(displayable, displayable.Description);
@@ -80,7 +84,11 @@ public static class StringHelper
 
                 if (matches[i].Value.Contains("Damages"))
                 {
-                    color = displayable.DamagesType[arrayIndex] == "m" ? "cyan" : "maroon";
+                    if(displayable is ISpellDisplayable)
+                    {
+                        ISpellDisplayable spellDisplayable = (ISpellDisplayable) displayable;
+                        color = spellDisplayable.DamagesType[arrayIndex] == "m" ? "cyan" : "maroon";
+                    }
                 }
 
                 description = description.Replace("{" + matches[i].Value + "}", "<b><color=" + color + ">" + GetArrayNameFromString(displayable, matches[i].Value).GetValue(arrayIndex) + "</color></b>");
@@ -172,12 +180,19 @@ public static class StringHelper
     {
         if (seconds < 60)
         {
-            return seconds + " sec.";
+            return string.Format("{0:0} sec.", seconds);
         }
         else
         {
             return string.Format("{0:##.#} min.", (seconds / 60.0));
         }
+    }
+
+    public static string FormateFloatToClock(float seconds)
+    {
+        string secondsFormate = string.Format("{0:00}", seconds % 60);
+        string minutesFormate = string.Format("{0:00}", seconds / 120);
+        return minutesFormate + ":" + secondsFormate;
     }
 
     /** GetDisplayableType, public static string

@@ -1,0 +1,11 @@
+[
+	{
+		"ScriptName":"TestRoomChallenge",
+		"Name":"Test Kill Monster",
+		"OtherValues":[],
+		"Description":
+		[
+			"Kill the Monster in the Scene"
+		]
+	}
+]
