@@ -48,8 +48,8 @@
 		"Status":["VelocityStatus"],
 		"Description":
 		[
-			"Escape from enemy when you shit your pants",
-			"Apply <<Status[0]>> ",
+			"Escape from enemy when you shit your pants\n",
+			"Apply <<Status[0]>> "
 		]
 	},
 	{
