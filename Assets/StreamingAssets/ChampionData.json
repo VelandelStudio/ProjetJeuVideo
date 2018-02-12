@@ -37,6 +37,18 @@
 		],
 		"Tags":["Melee","Physical","MonoTarget","DPS"]
 	},
+		{
+		"Name":"SummonerNeutral",
+		"Passive":"PassiveSummonerNeutral",
+		"AutoAttack":"AutoAttackSummonerNeutral",
+		"ActiveSpells":["Escape", "PetMono", "PetAOE", "PetSupport"],
+		"Element":"",
+		"Description":
+		[
+			"This is a description of the SummonerNeutral"
+		],
+		"Tags":["Ranged","Magical","DPS","Monotarget","MultiTarget","Heal"]
+	},
 	{
 		"Name":"Test",
 		"Passive":"PassiveTest",

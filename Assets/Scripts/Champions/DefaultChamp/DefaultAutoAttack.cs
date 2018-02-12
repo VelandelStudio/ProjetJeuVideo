@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AutoAttackDefault : AutoAttackBase
+public class DefaultAutoAttack : AutoAttackBase
 {
 
     protected override void Start()
