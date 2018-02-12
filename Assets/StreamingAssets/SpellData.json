@@ -35,6 +35,24 @@
 		]
 	},
 	{
+		"ScriptName":"EscapeSpell",
+		"Name":"Escape",
+		"Element":"none",
+		"Type":"",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["VelocityStatus"],
+		"Description":
+		[
+			"Escape from enemy when you shit your pants",
+			"Apply <<Status[0]>> ",
+		]
+	},
+	{
 		"ScriptName":"FireBallSpell",
 		"Name":"Fire Ball",
 		"Element":"Fire",

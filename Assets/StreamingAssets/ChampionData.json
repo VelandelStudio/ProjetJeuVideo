@@ -41,7 +41,7 @@
 		"Name":"SummonerNeutral",
 		"Passive":"PassiveSummonerNeutral",
 		"AutoAttack":"AutoAttackSummonerNeutral",
-		"ActiveSpells":["Escape", "PetMono", "PetAOE", "PetSupport"],
+		"ActiveSpells":["EscapeSpell", "PetMonoSpell", "PetAOESpell", "PetSupportSpell"],
 		"Element":"",
 		"Description":
 		[
