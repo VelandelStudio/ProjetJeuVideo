@@ -13,23 +13,23 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     /** Fields of Spell
      * The Spell class contains a lot of differents fields.
      * Here, you can find fin every component of the SpellData that can be found in the JSON file associated to the spell.
-     * All public fields that are set from the SpellDefinition in the Awake method should be used by other scripts.
+     * All public fields that are set from the _spellData in the Awake method should be used by other scripts.
      * The spellInUse field is use to tell when a spell is starting and when it is ending. For example, a Charge spell has a real duration in time.
      * The CurrentCD field is used to know how much time ypu have to wait until the next use of the spell.
      * The SpellGCD field is used to set a GlobalCooldown to all Spells. Is a Spell is under GCD, the field IsUnderGCD is true.
      **/
     #region Fields
-    public SpellData SpellDefinition { get; protected set; }
-    public string Name { get; protected set; }
-    public string Element { get; protected set; }
-    public string Type { get; protected set; }
-    public float CoolDownValue { get; protected set; }
-    public int[] Damages { get; protected set; }
-    public string[] DamagesType { get; protected set; }
-    public string[] OtherValues { get; protected set; }
-    public GameObject[] Status { get; protected set; }
-    public string[] Description { get; protected set; }
-    public int NumberOfStacks { get; protected set; }
+    public SpellData _spellData { get; protected set; }
+    public string Name { get { return _spellData.Name; } protected set { } }
+    public string Element { get { return _spellData.Element; } protected set { } }
+    public string Type { get { return _spellData.Type; } protected set { } }
+    public float CoolDownValue { get { return _spellData.CoolDownValue; } protected set { } }
+    public int[] Damages { get { return _spellData.Damages; } protected set { } }
+    public string[] DamagesType { get { return _spellData.DamagesType; } protected set { } }
+    public string[] OtherValues { get { return _spellData.OtherValues; } protected set { } }
+    public GameObject[] Status { get { return _spellData.Status; } protected set { } }
+    public string[] Description { get { return _spellData.Description; } protected set { } }
+    public int NumberOfStacks { get { return _spellData.NumberOfStacks; } protected set { } }
 
     public bool HasGCD;
 
@@ -74,40 +74,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     protected virtual void Awake()
     {
         champion = GetComponentInParent<Champion>();
-
-        LoadSpellData("SpellData.json");
-        if (_isLoaded)
-        {
-            Name = SpellDefinition.Name;
-            Element = SpellDefinition.Element;
-            Type = SpellDefinition.Type;
-            CoolDownValue = SpellDefinition.CoolDownValue;
-            HasGCD = SpellDefinition.HasGCD;
-            Damages = SpellDefinition.Damages;
-            DamagesType = SpellDefinition.DamagesType;
-            OtherValues = SpellDefinition.OtherValues;
-            NumberOfStacks = SpellDefinition.NumberOfStacks;
-            Description = SpellDefinition.Description;
-
-            if (SpellDefinition.Status.Length > 0 && SpellDefinition.Status[0] != "")
-            {
-                Status = new GameObject[SpellDefinition.Status.Length];
-                for (int i = 0; i < SpellDefinition.Status.Length; i++)
-                {
-                    Status[i] = LoadResource(SpellDefinition.Status[i]);
-                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
-                    {
-                        Debug.Log(SpellDefinition.Status[i] + " can not be loaded. "
-                                 + "Please Ensure that the Status Name is correct in the SpellData.json file, "
-                                 + "or that this Status exists as a Prefab with the same Script Name associated to it, "
-                                 + "or that the Status Name is correct in the StatusData.json file. "
-                                 + "DefaultStatus substitued");
-                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
-                        Status[i].GetComponent<StatusBase>().PreWarm();
-                    }
-                }
-            }
-        }
+        _spellData = new SpellData(this.GetType().ToString());
     }
 
     /** Start protected virtual void Method,
@@ -116,16 +83,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
 	 **/
     protected virtual void Start()
     {
-        if (!_isLoaded)
-        {
-            champion.ReplaceByDefaultDisplayable(this);
-            Debug.Log("Error when loading the json data of : " + this.GetType().Name + ". Please, check your SpellData.Json. DefaultSpell was substitued.");
-        }
-        else
-        {
-            DisplaySpellCreation(this);
-        }
-
+        DisplaySpellCreation(this);
         CurrentCD = 0;
     }
 
@@ -224,40 +182,12 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
         return StringHelper.DescriptionBuilder(this);
     }
 
-    /** LoadSpellData, protected void
-	 * @Params : string
-	 * Loads the JSON SpellDefinition associated to the spell.
-	 * If the loading is a success, then _isLoaded = true.
-	 **/
-    protected void LoadSpellData(string json)
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, json);
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            SpellData[] data = JsonHelper.getJsonArray<SpellData>(jsonFile);
-            foreach (SpellData spell in data)
-            {
-                if (spell.ScriptName == this.GetType().ToString())
-                {
-                    SpellDefinition = spell;
-                    _isLoaded = true;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
-        }
-    }
-
     /** ApplyStatus, protected virtual GameObject
      * @Params : GameObject, Transform
      * @Returns: GameObject
      * This method should be called by spells that are able to apply a Status on their targets.
      * The first param (GameObject status) should be a GameObject that has a StatusBase Script attached. 
-     * Most of the time, this gameObject is contained in the SpellDefinition.Status Table, and the Transform is the target one.
+     * Most of the time, this gameObject is contained in the _spellData.Status Table, and the Transform is the target one.
      * The method will instantiate a new Status and attach to it the status that is already attached on the first parameter.
      * When we instantiate an object, the StatusBase element if reseted, so we need to attach this instance of the StatusBase because of previous modifications,
      * such as damages or CDReduction of the Status of the player. 
@@ -287,29 +217,6 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
 
         spellInUse = false;
         IsUnderGCD = false;
-    }
-    #endregion
-
-    #region Serializable Classes
-    /** SpellData public Serializable class
-	 * This class war created to be at the service of the Spell class
-	 * This class contains all elements to construct a spell from the JSON file.
-	 **/
-    [System.Serializable]
-    public class SpellData
-    {
-        public string ScriptName;
-        public string Name;
-        public string Element;
-        public string Type;
-        public float CoolDownValue;
-        public bool HasGCD;
-        public int[] Damages;
-        public string[] DamagesType;
-        public string[] OtherValues;
-        public int NumberOfStacks;
-        public string[] Status;
-        public string[] Description;
     }
     #endregion
 }
