@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SummonerNeutral : Champion {
+public class SummonerMono : Champion
+{
     protected override void Start()
     {
         base.Start();

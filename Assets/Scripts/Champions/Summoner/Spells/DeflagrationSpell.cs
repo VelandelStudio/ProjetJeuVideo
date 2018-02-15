@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EscapeSpell : Spell {
-
+public class DeflagrationSpell : Spell
+{
     public override void LaunchSpell()
     {
-        // change current position of the player and pet then apply status "velocity" to them
         base.LaunchSpell();
         if (IsSpellLauncheable())
         {
+            // make damages in an area and apply status "touched" on target hit (it burns !!!!!!)
             Debug.Log("sort lancé");
             base.OnSpellLaunched();
         }

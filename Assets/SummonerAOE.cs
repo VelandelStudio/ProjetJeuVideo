@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SummonerNeutral : Champion {
+public class SummonerAOE : Champion {
     protected override void Start()
     {
         base.Start();

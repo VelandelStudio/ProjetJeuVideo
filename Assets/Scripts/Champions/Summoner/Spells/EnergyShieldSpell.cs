@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EscapeSpell : Spell {
+public class EnergyShieldSpell : Spell
+{
 
     public override void LaunchSpell()
     {
-        // change current position of the player and pet then apply status "velocity" to them
+        // restore hp and increase defense of the player for a limited time then explode and make damages to monster around the player
         base.LaunchSpell();
         if (IsSpellLauncheable())
         {

@@ -49,7 +49,154 @@
 		"Description":
 		[
 			"Escape from enemy when you shit your pants\n",
-			"Apply <<Status[0]>> "
+			"Applies <<Status[0]>> "
+		]
+	},
+		
+	{
+		"ScriptName":"NeutralFormSpell",
+		"Name":"NeutralForm",
+		"Element":"none",
+		"Type":"",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":[],
+		"Description":
+		[
+			"Return to the summoner to his Neutral form."
+		]
+	},
+	{
+		"ScriptName":"DeflagrationSpell",
+		"Name":"Deflagration",
+		"Element":"Fire",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[10],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["TouchStatus"],
+		"Description":
+		[
+			"Inflicts {Damages[0]} to all the monster in the area of the Deflagration\n",
+			"Applies <<Status[0]>> to monster hit by the Deflagration"
+		]
+	},
+	{
+		"ScriptName":"AnnihilationSpell",
+		"Name":"Annihilation",
+		"Element":"Fire",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[100],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["StaticStatus"],
+		"Description":
+		[
+			"Autodestruction of the Pet in a big 'BOUM!'\n",
+			"Applies <<Status[0]>> to the Pet before the explosion\n",
+			"Inflicts {Damages[0]} to all the monster in the area of the explosion\n",
+			"Force the summoner back to his NeutralForm"
+		]
+	},
+		{
+		"ScriptName":"SwitchTargetSpell",
+		"Name":"SwitchTarget",
+		"Element":"none",
+		"Type":"",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":[],
+		"Description":
+		[
+			"Change the target of the Pet"
+		]
+	},
+	{
+		"ScriptName":"ArpoonSpell",
+		"Name":"Arpoon",
+		"Element":"",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["FearStatus"],
+		"Description":
+		[
+			"Aim and grab the target toward the player\n",
+			"Applies <<Status[0]>> to the Monster grab after it reached the player"
+		]
+	},
+	{
+		"ScriptName":"EnergyShieldSpell",
+		"Name":"EnergyShield",
+		"Element":"",
+		"Type":"",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[5],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["ProtectedStatus"],
+		"Description":
+		[
+			"Protect the player with an energy shield\n",
+			"The shield applies <<Status[0]>> to the the player\n",
+			"The shield Inflicts {Damages[0]} to all the monster around the player when it breaks"
+		]
+	},
+	{
+		"ScriptName":"LightningSpell",
+		"Name":"Lightning",
+		"Element":"Storm",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[5],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["MonoStackStatus"],
+		"Description":
+		[
+			"Cast a quick ray that damage one target\n",
+			" applies <<Status[0]>> (stacks) to the the player"
+		]
+	},
+		{
+		"ScriptName":"ThunderstormSpell",
+		"Name":"Thunderstorm",
+		"Element":"Storm",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[50],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["MonoStackStatus"],
+		"Description":
+		[
+			"Cast big Thunderstorm on one enemy\n",
+			"Deals damages depending on the stacks on the player\n",
+			"Remove <<Status[0]>> (stacks) of the the player"
 		]
 	},
 	{

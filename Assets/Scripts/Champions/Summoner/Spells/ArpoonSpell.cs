@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EscapeSpell : Spell {
+public class ArpoonSpell : Spell
+{
 
     public override void LaunchSpell()
     {
-        // change current position of the player and pet then apply status "velocity" to them
         base.LaunchSpell();
         if (IsSpellLauncheable())
         {
+            // apply force to target toward the player until reached then stun it
             Debug.Log("sort lancé");
             base.OnSpellLaunched();
         }
