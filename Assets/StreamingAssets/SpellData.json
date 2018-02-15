@@ -252,6 +252,57 @@
 		]
 	},
 	{
+		"ScriptName":"PetAOESpell",
+		"Name":"Pet AOE",
+		"Element":"",
+		"Type":"",
+		"CoolDownValue":1.0,
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Invocation of the AOE pet."
+		]
+	},
+	{
+		"ScriptName":"PetMonoSpell",
+		"Name":"Pet Mono",
+		"Element":"",
+		"Type":"",
+		"CoolDownValue":1.0,
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Invocation of the monocible pet."
+		]
+	},
+	{
+		"ScriptName":"PetSupportSpell",
+		"Name":"Pet Support",
+		"Element":"",
+		"Type":"",
+		"CoolDownValue":1.0,
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Invocation of the support pet."
+		]
+	},
+	{
 		"ScriptName":"SolarBurnSpell",
 		"Name":"Solar Burn",
 		"Type":"Ranged",
