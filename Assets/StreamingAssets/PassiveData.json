@@ -44,5 +44,65 @@
 		[
 			"When activated by the <<Coup d'bambou>>, the Wind Spirit applies <<Status[0]>> to you or an ally, in {OtherValues[0]} radius units."
 		]
+	},
+	{
+		"ScriptName":"PassiveSummonerNeutral",
+		"Name":"Soul Mate",
+		"Element":"",
+		"Type":"",
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[""],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"When activated by summoning a pet <<PassiveSummonerNeutral>> change and become an another passive depend on the pet , the Soul Mate applies <<Status[0]>> to you, in {OtherValues[0]} radius units."
+		]
+	},
+	{
+		"ScriptName":"PassiveSummonerPetMono",
+		"Name":"Mono Soul Mate",
+		"Element":"",
+		"Type":"",
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[""],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"When activated by summoning a pet Mono dps <<PetMonoSpell>>, the Soul Mate applies <<Status[0]>> to you, in {OtherValues[0]} radius units."
+		]
+	},
+	{
+		"ScriptName":"PassiveSummonerPetAOE",
+		"Name":"AOE Soul Mate",
+		"Element":"",
+		"Type":"",
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[""],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"When activated by summoning a pet AOE dps <<PetAOESpell>>, the Soul Mate applies <<Status[0]>> to you, in {OtherValues[0]} radius units."
+		]
+	},
+	{
+		"ScriptName":"PassiveSummonerPetSupport",
+		"Name":"Support Soul Mate",
+		"Element":"",
+		"Type":"",
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[""],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"When activated by summoning a pet support <<PetSupportSpell>>, the Soul Mate applies <<Status[0]>> to you, in {OtherValues[0]} radius units."
+		]
 	}
 ]
