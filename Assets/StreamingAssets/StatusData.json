@@ -36,6 +36,24 @@
 		]
 	},
 	{
+		"ScriptName":"TouchStatus",
+		"Name":"Touch",
+		"Element":"none",
+		"Duration":20,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Status applied on an enemy monster when he's touch with DeflagrationSpell."
+		]
+	},
+	{
 		"ScriptName":"FavorOfFireStatus",
 		"Name":"Favor of Fire",
 		"Element":"Fire",
