@@ -41,6 +41,7 @@ ModelImporter:
     2300014: Island
     2300016: map_MeshPart0
     2300018: map_MeshPart1
+    2300020: map
     3300000: FloatingRock1
     3300002: FloatingRock2
     3300004: FloatingRock3
@@ -51,6 +52,7 @@ ModelImporter:
     3300014: Island
     3300016: map_MeshPart0
     3300018: map_MeshPart1
+    3300020: map
     4300000: map_MeshPart0
     4300002: map_MeshPart1
     4300004: Island
@@ -61,6 +63,7 @@ ModelImporter:
     4300014: FloatingRock5
     4300016: FloatingRock6
     4300018: FloatingRock7
+    4300020: map
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -119,6 +122,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
