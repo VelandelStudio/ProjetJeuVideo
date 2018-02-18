@@ -1,8 +1,5 @@
 using UnityEngine;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 
 /** Spell abstract class.
  * This abstract class is the mother class of all spells in our game. 
@@ -30,36 +27,23 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     public GameObject[] Status { get { return _spellData.Status; } protected set { } }
     public string[] Description { get { return _spellData.Description; } protected set { } }
     public int NumberOfStacks { get { return _spellData.NumberOfStacks; } protected set { } }
+    public bool IsLoaded { get { return _spellData.IsLoaded; } protected set { } }
 
     public bool HasGCD;
-
-    private bool _isLoaded = false;
-    public bool IsLoaded { get; protected set; }
 
     protected bool spellInUse = false;
     protected Champion champion;
 
-    public float CurrentCD
-    {
-        get;
-        protected set;
-    }
+    public float CurrentCD { get; protected set;}
 
     protected float spellGCD = 1f;
+
     public float SpellGCD
-    {
-        get
-        {
-            return spellGCD;
-        }
-        protected set { }
+    { get {return spellGCD;}
+      protected set { }
     }
 
-    public bool IsUnderGCD
-    {
-        get;
-        protected set;
-    }
+    public bool IsUnderGCD {get; protected set;}
     #endregion
 
     #region Functionnal Methods

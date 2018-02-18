@@ -10,22 +10,20 @@ using System.IO;
  * This class handles the behaviour the CD of all AutoAttacks. It also contains the AutoAttack method launched by the Classe.
  **/
 public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
-{
-
+{ 
     #region Fields
-    public AutoAttackData AutoAttackDefinition { get; protected set; }
-    public string Name { get; protected set; }
-    public string Element { get; protected set; }
-    public string Type { get; protected set; }
-    public float CoolDownValue { get; protected set; }
-    public int[] Damages { get; protected set; }
-    public string[] DamagesType { get; protected set; }
-    public string[] OtherValues { get; protected set; }
-    public GameObject[] Status { get; protected set; }
-    public string[] Description { get; protected set; }
+    public AutoAttackData _autoAttackData { get; protected set; }
+    public string Name { get { return _autoAttackData.Name; } protected set { } }
+    public string Element { get { return _autoAttackData.Element; } protected set { } }
+    public string Type { get { return _autoAttackData.Type; } protected set { } }
+    public float CoolDownValue { get { return _autoAttackData.CoolDownValue; } protected set { } }
+    public int[] Damages { get { return _autoAttackData.Damages; } protected set { } }
+    public string[] DamagesType { get { return _autoAttackData.DamagesType; } protected set { } }
+    public string[] OtherValues { get { return _autoAttackData.OtherValues; } protected set { } }
+    public GameObject[] Status { get { return _autoAttackData.Status; } protected set { } }
+    public string[] Description { get { return _autoAttackData.Description; } protected set { } }
+    public bool IsLoaded { get { return _autoAttackData.IsLoaded; } protected set { } }
 
-    private bool _isLoaded = false;
-    public bool IsLoaded { get; protected set; }
 
     public float CurrentCD;
     protected Champion champion;
@@ -43,37 +41,7 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
     protected void Awake()
     {
         champion = GetComponentInParent<Champion>();
-
-        LoadAutoAttackData("AutoAttackData.json");
-        if (_isLoaded)
-        {
-            Name = AutoAttackDefinition.Name;
-            Element = AutoAttackDefinition.Element;
-            Type = AutoAttackDefinition.Type;
-            CoolDownValue = AutoAttackDefinition.CoolDownValue;
-            Damages = AutoAttackDefinition.Damages;
-            DamagesType = AutoAttackDefinition.DamagesType;
-            OtherValues = AutoAttackDefinition.OtherValues;
-
-            if (AutoAttackDefinition.Status.Length > 0 && AutoAttackDefinition.Status[0] != "")
-            {
-                Status = new GameObject[AutoAttackDefinition.Status.Length];
-                for (int i = 0; i < AutoAttackDefinition.Status.Length; i++)
-                {
-                    Status[i] = LoadResource(AutoAttackDefinition.Status[i]);
-                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
-                    {
-                        Debug.Log(AutoAttackDefinition.Status[i] + " can not be loaded. "
-                                 + "Please Ensure that the Status Name is correct in the SpellData.json file "
-                                 + "or that this Status exists as a Prefab with the same Script Name associated to it. "
-                                 + "DefaultStatus substitued");
-                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
-                        Status[i].GetComponent<StatusBase>().PreWarm();
-                    }
-                }
-            }
-            Description = AutoAttackDefinition.Description;
-        }
+        _autoAttackData = new AutoAttackData(GetType().ToString());
     }
 
     /** Start protected virtual void Method,
@@ -82,12 +50,6 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 	 **/
     protected virtual void Start()
     {
-        if (!_isLoaded)
-        {
-            champion.ReplaceByDefaultDisplayable(this);
-            Debug.Log("Error when loading the json data of : " + this.GetType().Name + ". Please, check your AutoAttackData.Json. DefaultAutoAttack was substitued.");
-        }
-
         CurrentCD = 0;
     }
 
@@ -140,61 +102,11 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
         return StringHelper.DescriptionBuilder(this);
     }
 
-    /** LoadAutoAttackData, protected void Method
-	 * This Method is launched by the Awake one. Once launched, we try to locate a JSON File associated to this AutoAttack.
-	 * If we find the AutoAttack in the file, then we build the AutoAttack from the elements indise the JSON and _isLoaded = true.
-	 **/
-    protected void LoadAutoAttackData(string json)
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, json);
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            AutoAttackData[] data = JsonHelper.getJsonArray<AutoAttackData>(jsonFile);
-            foreach (AutoAttackData autoAttack in data)
-            {
-                if (autoAttack.ScriptName == this.GetType().ToString())
-                {
-                    AutoAttackDefinition = autoAttack;
-                    _isLoaded = true;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError("Cannot load Auto-attack data!");
-        }
-    }
-
     /** ApplyEffect, protected void method
      *  This method is usually called by a prefab attach to th character who autoAttack to apply Damages and Effects
      *  In the mother Abstract class the method is empty in the case of nothing is apply to a prefab
      **/
-    public virtual void ApplyEffect(EntityLivingBase hit)
-    {
+    public virtual void ApplyEffect(EntityLivingBase hit) { }
 
-    }
-
-    #endregion
-
-    #region Serializable Classes
-    /** AutoAttackData, public Serializable class
-	 * This Serializable Class is used to get all elements we need to construct an AutoAttack from a Json File.
-	 **/
-    [System.Serializable]
-    public class AutoAttackData
-    {
-        public string ScriptName;
-        public string Name;
-        public string Element;
-        public string Type;
-        public float CoolDownValue;
-        public int[] Damages;
-        public string[] DamagesType;
-        public string[] OtherValues;
-        public string[] Status;
-        public string[] Description;
-    }
     #endregion
 }

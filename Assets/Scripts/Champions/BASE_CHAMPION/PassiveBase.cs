@@ -10,30 +10,27 @@ using System.IO;
  **/
 public abstract class PassiveBase : MonoBehaviour, ISpellDisplayable
 {
-
     /** Fields of PassiveBase
      * The Passive base is constructed with a PassiveData that comes from the JSON File
      * Other fields are public field initialized in the Awake Method with the values of the JSON.
      * We should always work with these public fields and never with the raw data of the JSON.
      **/
     #region Fields  	
-    public PassiveData PassiveDefinition { get; protected set; }
-    public string Name { get; protected set; }
-    public string Element { get; protected set; }
-    public string Type { get; protected set; }
-    public float CoolDownValue { get; protected set; }
-    public int[] Damages { get; protected set; }
-    public string[] DamagesType { get; protected set; }
-    public string[] OtherValues { get; protected set; }
-    public GameObject[] Status { get; protected set; }
-    public string[] Description { get; protected set; }
-
-    private bool _isLoaded = false;
-    public bool IsLoaded { get; protected set; }
+    public PassiveData _passiveData { get; protected set; }
+    public string Name { get { return _passiveData.Name; } protected set { } }
+    public string Element { get { return _passiveData.Element; } protected set { } }
+    public string Type { get { return _passiveData.Type; } protected set { } }
+    public float CoolDownValue { get { return _passiveData.CoolDownValue; } protected set { } }
+    public int[] Damages { get { return _passiveData.Damages; } protected set { } }
+    public string[] DamagesType { get { return _passiveData.DamagesType; } protected set { } }
+    public string[] OtherValues { get { return _passiveData.OtherValues; } protected set { } }
+    public GameObject[] Status { get { return _passiveData.Status; } protected set { } }
+    public string[] Description { get { return _passiveData.Description; } protected set { } }
+    public int NumberOfStacks { get { return _passiveData.NumberOfStacks; } protected set { } }
+    public bool IsLoaded { get { return _passiveData.IsLoaded; } protected set { } }
 
     protected Champion champion;
 
-    public int NumberOfStacks;
     #endregion
 
     #region Functional methods
@@ -47,79 +44,7 @@ public abstract class PassiveBase : MonoBehaviour, ISpellDisplayable
     protected void Awake()
     {
         champion = GetComponentInParent<Champion>();
-
-        LoadSpellData("PassiveData.json");
-        if (_isLoaded)
-        {
-            NumberOfStacks = PassiveDefinition.NumberOfStacks;
-            Description = PassiveDefinition.Description;
-            Name = PassiveDefinition.Name;
-            Element = PassiveDefinition.Element;
-            Type = PassiveDefinition.Type;
-            Damages = PassiveDefinition.Damages;
-            DamagesType = PassiveDefinition.DamagesType;
-            OtherValues = PassiveDefinition.OtherValues;
-            NumberOfStacks = PassiveDefinition.NumberOfStacks;
-            Description = PassiveDefinition.Description;
-
-            if (PassiveDefinition.Status.Length > 0 && PassiveDefinition.Status[0] != "")
-            {
-                Status = new GameObject[PassiveDefinition.Status.Length];
-                for (int i = 0; i < PassiveDefinition.Status.Length; i++)
-                {
-                    Status[i] = LoadResource(PassiveDefinition.Status[i]);
-                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
-                    {
-                        Debug.Log(PassiveDefinition.Status[i] + " can not be loaded. "
-                                 + "Please Ensure that the Status Name is correct in the SpellData.json file "
-                                 + "or that this Status exists as a Prefab with the same Script Name associated to it. "
-                                 + "DefaultStatus substitued");
-                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
-                        Status[i].GetComponent<StatusBase>().PreWarm();
-                    }
-                }
-            }
-        }
-    }
-
-    /** Start protected virtual void Method,
-	 * Before everything, we check if the Passive was correctly loaded from the JSON file. If it is not the case, we notify the Champion class to replace the broken Passive by a DefaultPassive.
-	 **/
-    protected virtual void Start()
-    {
-        if (!_isLoaded)
-        {
-            champion.ReplaceByDefaultDisplayable(this);
-            Debug.Log("Error when loading the json data of : " + this.GetType().Name + ". Please, check your PassiveData.Json. DefaultPassive was substitued.");
-        }
-    }
-
-    /** LoadSpellData, protected void
-	 * @Params : string
-	 * Loads the JSON PassiveData associated to the Passive.
-	 * If the loading is a success, then _isLoaded = true.
-	 **/
-    protected void LoadSpellData(string json)
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, json);
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            PassiveData[] data = JsonHelper.getJsonArray<PassiveData>(jsonFile);
-            foreach (PassiveData passive in data)
-            {
-                if (passive.ScriptName == this.GetType().ToString())
-                {
-                    PassiveDefinition = passive;
-                    _isLoaded = true;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
-        }
+        _passiveData = new PassiveData(GetType().ToString());
     }
 
     /** LoadResource, protected virtual GameObject Method
@@ -158,27 +83,6 @@ public abstract class PassiveBase : MonoBehaviour, ISpellDisplayable
         StatusBase statusInst = objInst.GetComponent<StatusBase>();
         statusInst.StartStatus(status.GetComponent<StatusBase>());
         return objInst;
-    }
-    #endregion
-
-    #region Serializable Classes
-    /** PassiveData public Serializable class
-	 * This class was created to be at the service of the PassiveBase class
-	 * This class contains all elements to construct a Passive from the JSON file.
-	 **/
-    [System.Serializable]
-    public class PassiveData
-    {
-        public string ScriptName;
-        public string Name;
-        public string Element;
-        public string Type;
-        public int[] Damages;
-        public string[] DamagesType;
-        public string[] OtherValues;
-        public int NumberOfStacks;
-        public string[] Status;
-        public string[] Description;
     }
     #endregion
 }

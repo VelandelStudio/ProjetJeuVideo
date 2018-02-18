@@ -3,51 +3,37 @@ using System.IO;
 
 public class SpellData : Datas, ISpellDisplayable
 {
-
     public string Element { get; protected set; }
     public string Type { get; protected set; }
     public float CoolDownValue { get; protected set; }
     public int[] Damages { get; protected set; }
     public string[] DamagesType { get; protected set; }
-    public string[] OtherValues { get; protected set; }
     public GameObject[] Status { get; protected set; }
-    public string[] Description { get; protected set; }
     public int NumberOfStacks { get; protected set; }
 
     public bool HasGCD;
 
     private DataSpellLoader _dataSpellLoader;
 
-    public SpellData(string spellName)
+    public SpellData(string spellName) : base(spellName)
     {
         LoadSpellData(spellName, "SpellData.json");
-        if (_isLoaded)
+        ScriptName = _dataSpellLoader.ScriptName;
+        Name = _dataSpellLoader.Name;
+        Element = _dataSpellLoader.Element;
+        Type = _dataSpellLoader.Type;
+        CoolDownValue = _dataSpellLoader.CoolDownValue;
+        HasGCD = _dataSpellLoader.HasGCD;
+        Damages = _dataSpellLoader.Damages;
+        DamagesType = _dataSpellLoader.DamagesType;
+        OtherValues = _dataSpellLoader.OtherValues;
+        NumberOfStacks = _dataSpellLoader.NumberOfStacks;
+        Description = _dataSpellLoader.Description;
+
+        if (_dataSpellLoader.Status.Length > 0 && _dataSpellLoader.Status[0] != "")
         {
-            Name = _dataSpellLoader.Name;
-            Element = _dataSpellLoader.Element;
-            Type = _dataSpellLoader.Type;
-            CoolDownValue = _dataSpellLoader.CoolDownValue;
-            HasGCD = _dataSpellLoader.HasGCD;
-            Damages = _dataSpellLoader.Damages;
-            DamagesType = _dataSpellLoader.DamagesType;
-            OtherValues = _dataSpellLoader.OtherValues;
-            NumberOfStacks = _dataSpellLoader.NumberOfStacks;
-            Description = _dataSpellLoader.Description;
-
-            if (_dataSpellLoader.Status.Length > 0 && _dataSpellLoader.Status[0] != "")
-            {
-                Status = AttributeStatus(_dataSpellLoader.Status);
-            }
+            Status = AttributeStatus(_dataSpellLoader.Status);
         }
-    }
-
-    /**GetDescriptionGUI, public string Method
-	 * Return the description of our spell built by the DescriptionBuilder of the StringHelper static class.
-	 * This method allows to get a dynamic and colored description on the screen.
-	 **/
-    public string GetDescriptionGUI()
-    {
-        return StringHelper.DescriptionBuilder(this);
     }
 
     /** LoadSpellData, protected void
@@ -71,10 +57,17 @@ public class SpellData : Datas, ISpellDisplayable
                     break;
                 }
             }
+
+            if (!_isLoaded)
+            {
+                string defaultElement = "DefaultSpell";
+                DisplayErroDefault(spellName, json, defaultElement);
+                LoadSpellData(defaultElement, json);
+            }
         }
         else
         {
-            Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
+            Debug.LogError("Cannot find data on : " + json);
         }
     }
 }
