@@ -33,7 +33,7 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
+  m_DefaultReflectionResolution: 2048
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: e09ba2354a480e8459da742e38f9b954,
+    type: 2}
   m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
@@ -164,15 +165,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4010391230997128, guid: b2d1d3cea9ddeaf4eb1574ba3276806f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -83
+      value: -65.7
       objectReference: {fileID: 0}
     - target: {fileID: 4010391230997128, guid: b2d1d3cea9ddeaf4eb1574ba3276806f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 256.15
+      value: 257.13
       objectReference: {fileID: 0}
     - target: {fileID: 4010391230997128, guid: b2d1d3cea9ddeaf4eb1574ba3276806f, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -82.2
+      value: -56.9
       objectReference: {fileID: 0}
     - target: {fileID: 4010391230997128, guid: b2d1d3cea9ddeaf4eb1574ba3276806f, type: 2}
       propertyPath: m_LocalRotation.x
@@ -195,6 +196,21 @@ Prefab:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114687720130427394, guid: b2d1d3cea9ddeaf4eb1574ba3276806f,
+        type: 2}
+      propertyPath: _activableMenus
+      value: 
+      objectReference: {fileID: 1640942156}
+    - target: {fileID: 114257317354576348, guid: b2d1d3cea9ddeaf4eb1574ba3276806f,
+        type: 2}
+      propertyPath: _activableMenus
+      value: 
+      objectReference: {fileID: 1640942156}
+    - target: {fileID: 114799268483685384, guid: b2d1d3cea9ddeaf4eb1574ba3276806f,
+        type: 2}
+      propertyPath: _activableMenus
+      value: 
+      objectReference: {fileID: 1640942156}
+    - target: {fileID: 114742987816010286, guid: b2d1d3cea9ddeaf4eb1574ba3276806f,
         type: 2}
       propertyPath: _activableMenus
       value: 
