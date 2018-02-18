@@ -11,8 +11,8 @@ public class PassiveSummonerPetAOE : PassiveBase {
 
         if(dist<=float.Parse(OtherValues[0]) && GetComponentInChildren<DeflagrationSpell>().TargetsTouched.Count>0)
         {
-            //ApplyStatus(GetComponent<DeflagrationSpell>().Status[0], GetComponentInChildren<AllyMonster>().transform);
-            ApplyStatus(GetComponent<DeflagrationSpell>().Status[0], transform);
+           // ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[0], GetComponentInChildren<AllyMonster>().transform);
+            ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[0], transform);
         }
     }
 }

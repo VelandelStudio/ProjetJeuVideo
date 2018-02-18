@@ -38,7 +38,7 @@
 	{
 		"ScriptName":"TouchStatus",
 		"Name":"Touch",
-		"Element":"none",
+		"Element":"",
 		"Duration":20,
 		"IsTickable":false,
 		"TicksIntervals":[],
@@ -56,8 +56,8 @@
 	{
 		"ScriptName":"DefenseBoostStatus",
 		"Name":"DefenseBoost",
-		"Element":"none",
-		"Duration":20,
+		"Element":"",
+		"Duration":3,
 		"IsTickable":false,
 		"TicksIntervals":[],
 		"TickStarts":[],
@@ -69,7 +69,7 @@
 		"Description":
 		[
 			"Status applied on the player and the pet that boost their defense.\n",
-			"His status is applied when the player in near the pet and if there are enemy monster with <<Touch>>.\n",
+			"His status is applied when the player in near the pet and if there are enemy monster with <<TouchStatus>>.\n",
 			"The defense boost value increase with the number of enemy monster 'touched'"
 		]
 	},
