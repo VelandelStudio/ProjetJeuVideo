@@ -99,7 +99,7 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["StaticStatus"],
+		"Status":[""],
 		"Description":
 		[
 			"Autodestruction of the Pet in a big 'BOUM!'\n",

@@ -55,7 +55,8 @@ public class DeflagrationSpell : Spell
                     }
                     else
                     {
-                        ApplyStatus(GetComponent<DeflagrationSpell>().Status[0], col.transform);
+                        GameObject obj= ApplyStatus(GetComponent<DeflagrationSpell>().Status[0], col.transform);
+                        TargetsTouched.Add(obj.GetComponent<TouchStatus>());
                     }
                 }
             }

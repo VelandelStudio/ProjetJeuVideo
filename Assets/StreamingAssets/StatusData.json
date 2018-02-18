@@ -54,6 +54,26 @@
 		]
 	},
 	{
+		"ScriptName":"DefenseBoostStatus",
+		"Name":"DefenseBoost",
+		"Element":"none",
+		"Duration":20,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Status applied on the player and the pet that boost their defense.\n",
+			"His status is applied when the player in near the pet and if there are enemy monster with <<Touch>>.\n",
+			"The defense boost value increase with the number of enemy monster 'touched'"
+		]
+	},
+	{
 		"ScriptName":"FavorOfFireStatus",
 		"Name":"Favor of Fire",
 		"Element":"Fire",
