@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.IO;
 
+/** PassiveData public class
+ * @extends : Datas,
+ * @implements : ISpellDisplayable
+ * This Data class is specific to Passives. We handle here every method to correctly launch a Passive from the JSON file.
+ **/
 public class PassiveData : Datas, ISpellDisplayable
 {
     public string Element { get; protected set; }
@@ -13,6 +18,11 @@ public class PassiveData : Datas, ISpellDisplayable
 
     private DataPassiveLoader _dataPassiveLoader;
 
+    /** PassiveData, public constructor
+	 * @param : string 
+	 * This Constructor is designed to get a Passive name as a parameter and load this one from the Json
+	 * Once loading is done, we attribute each variable to the corresponding property.
+	 **/
     public PassiveData(string passiveName) : base(passiveName)
     {
         LoadPassiveData(passiveName, "PassiveData.json");
@@ -32,11 +42,10 @@ public class PassiveData : Datas, ISpellDisplayable
         }
     }
 
-    /** LoadSpellData, protected void
-      * @Params : string
-      * Loads the JSON _dataSpellLoader associated to the spell.
-      * If the loading is a success, then _isLoaded = true.
-      **/
+    /** LoadPassiveData, protected void Method
+    * This Method is launched by the contructor. Once launched, we try to locate a JSON File associated to this Passive.
+    * If we find the Passive in the file, then we build the Passive from the elements inside the JSON and _isLoaded = true.
+    **/
     protected void LoadPassiveData(string passiveName, string json)
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, json);

@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.IO;
 
+/** Datas public class
+ * @implements : Displayable
+ * This Data class is the mother class to all Datas elements that need to be loaded from a Json file.
+ **/
 public class Datas : IDisplayable
 {
     public string ScriptName { get; protected set; }
@@ -13,8 +17,17 @@ public class Datas : IDisplayable
 
     private DataBaseLoader _dataBaseLoader;
 
+    /** Datas, public constructor
+	 * @param string
+	 * Empty constructors overrided by daughter classes.
+	 **/
     public Datas(string dataName) { }
-    
+
+    /** Datas, public constructor
+	 * @param string, string
+	 * Constructor used by basic Datas. These datas only contains a simple name with a dynamic description with OtherValues
+	 * No damages, or types should be added in these kind of Datas.
+	 **/
     public Datas(string dataName, string json)
     {
         LoadBaseData(dataName, json);
@@ -22,8 +35,14 @@ public class Datas : IDisplayable
         Name = _dataBaseLoader.Name;
         OtherValues = _dataBaseLoader.OtherValues;
         Description = _dataBaseLoader.Description;
-   }   
+    }
 
+    /** LoadBaseData, protected void Method
+	* @param : string, string
+    * This Method is launched by the contructor. Once launched, we try to locate a JSON File associated to this Data.
+    * If we find the Data in the file, then we build the Data from the elements inside the JSON and _isLoaded = true.
+	* if we are not able to load the Data from the json, then we can not load a Default element because we do not know what kind of element will be passed as argument.
+    **/
     private void LoadBaseData(string dataName, string json)
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, json);
@@ -52,7 +71,7 @@ public class Datas : IDisplayable
         }
     }
 
-    /** LoadResource, protected virtual GameObject Method
+    /** LoadStatus, protected GameObject Method
 	 * @param : string,
 	 * @return : GameObject
 	 * This method is used to load a GameObject prefab inside the champion folder.
@@ -62,6 +81,12 @@ public class Datas : IDisplayable
         return (GameObject)Resources.Load("Status/" + prefabName);
     }
 
+    /** AttributeStatus, protected GameObject[] Method
+	 * @param : string[]
+	 * @return : GameObject[]
+	 * This method is used to scan an array of StatusName and returns an array of the GameObjetc Status corresponding.
+	 * Because this method is good as fuck, it is also able to prewarm the Status and bring you a hot coffee with sugar, spoon and speculos.
+	 **/
     protected GameObject[] AttributeStatus(string[] array)
     {
         GameObject[] status = new GameObject[array.Length];
@@ -91,6 +116,10 @@ public class Datas : IDisplayable
         return StringHelper.DescriptionBuilder(this);
     }
 
+    /** DisplayErrorDefault, public void Method
+	 * @param : string, string, string
+	 * Display on the screen the error associated to the Failed loading.
+	 **/
     public void DisplayErroDefault(string elementError, string jsonFileName, string defaultClass)
     {
         Debug.Log("The element " + elementError + " could not be loaded. "
@@ -98,7 +127,7 @@ public class Datas : IDisplayable
         + defaultClass + " added instead.");
     }
 
-
+    #region Serializable Classes
     [System.Serializable]
     protected class DataBaseLoader
     {
@@ -108,9 +137,8 @@ public class Datas : IDisplayable
         public string[] Description;
     }
 
-    #region Serializable Classes
     /** SpellData public Serializable class
-    * This class war created to be at the service of the Spell class
+    * This class war created to be at the service of the SpellData class
     * This class contains all elements to construct a spell from the JSON file.
     **/
     [System.Serializable]
@@ -131,7 +159,7 @@ public class Datas : IDisplayable
     }
 
     /** PassiveData public Serializable class
-	 * This class was created to be at the service of the PassiveBase class
+	 * This class was created to be at the service of the PassiveData class
 	 * This class contains all elements to construct a Passive from the JSON file.
 	 **/
     [System.Serializable]
@@ -150,7 +178,7 @@ public class Datas : IDisplayable
     }
 
     /** AutoAttackData, public Serializable class
-     * This Serializable Class is used to get all elements we need to construct an AutoAttack from a Json File.
+     * This Serializable Class is used to get all elements we need to construct an AutoAttackData from a Json File.
      **/
     [System.Serializable]
     public class DataAutoAttackLoader

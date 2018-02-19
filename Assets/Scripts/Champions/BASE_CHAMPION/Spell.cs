@@ -3,7 +3,7 @@ using System.Collections;
 
 /** Spell abstract class.
  * This abstract class is the mother class of all spells in our game. 
- * This class handles the behaviour the CD of all spells. It also contains the LaunchSpell method launched by the Classe.
+ * This class handles the behaviour the CD of all spells. It also contains the LaunchSpell method launched by the Champion.
  **/
 public abstract class Spell : MonoBehaviour, ISpellDisplayable
 {
@@ -34,26 +34,23 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     protected bool spellInUse = false;
     protected Champion champion;
 
-    public float CurrentCD { get; protected set;}
+    public float CurrentCD { get; protected set; }
 
     protected float spellGCD = 1f;
 
     public float SpellGCD
-    { get {return spellGCD;}
-      protected set { }
+    {
+        get { return spellGCD; }
+        protected set { }
     }
 
-    public bool IsUnderGCD {get; protected set;}
+    public bool IsUnderGCD { get; protected set; }
     #endregion
 
     #region Functionnal Methods
 
     /** Awake protected virtual void Method,
-	 * The Awake method is used to create the Spell from the JSON file and attribute every variables.
-     * You should notice that the Status table contains Status GameObject with an instance of StatusBase attached to it.
-     * We try to pre-warm the StatusBase attached in order to display descriptions and maybe modify the instance.
-	 * If we do not find a Status prefab that correspond to the information in the SpellData.json file or if we are not able to pre-warm the Status, 
-	 * then, the Status is substitued by a DefaultStatus.
+	 * The Awake method is used to create an instance of a SpellData which is responsible of the JSON Loading.
 	 **/
     protected virtual void Awake()
     {
@@ -62,12 +59,10 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     }
 
     /** Start protected virtual void Method,
-	 * Before everything, we check if the Spell was correctly loaded from the JSON file. If it is not the case, we notify the Champion class to replace the broken spell by a DefaultSpell.
-	 * If the loading was a success, we display it on the screen and initialize the CD of the spell.
+	 * We initialize the CD of the spell.
 	 **/
     protected virtual void Start()
     {
-        DisplaySpellCreation(this);
         CurrentCD = 0;
     }
 
@@ -135,15 +130,6 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     public void DisplaySpellNotLauncheable()
     {
         Debug.Log(this.GetType().ToString() + " is not available for the moment.");
-    }
-
-    /** DisplaySpellCreation protected void Method,
-	 * This displays in the logs a message when the spell is created at the start of a Classe.
-	 * This method is a tool for in-dev feature so far.
-	 **/
-    protected void DisplaySpellCreation(Spell spell)
-    {
-        Debug.Log(spell.GetType().ToString() + " created.");
     }
 
     /** AvailableForGUI public virtual bool Method,

@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.IO;
 
 /** AutoAttackBase abstract class.
+ * @implements : ISpellDisplayable, 
  * This abstract class is the mother class of all AutoAttack in our game. 
- * This class handles the behaviour the CD of all AutoAttacks. It also contains the AutoAttack method launched by the Classe.
+ * This class handles the behaviour of the CD of all AutoAttacks. 
+ * It also contains the AutoAttack method launched by the Champion.
  **/
 public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
-{ 
+{
     #region Fields
     public AutoAttackData _autoAttackData { get; protected set; }
     public string Name { get { return _autoAttackData.Name; } protected set { } }
@@ -32,11 +34,7 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
     #region Functionnal Methods
 
     /** Awake protected virtual void Method,
-	 * The Awake method is used to create the AutoAttackBase from the JSON file and attribute every variables.
-     * You should notice that the Status table contains Status GameObject with an instance of StatusBase attached to it.
-     * We try to pre-warm the StatusBase attached in order to display descriptions and maybe modify the instance.
-	 * If we do not find a Status prefab that correspond to the information in the AutoAttackData.json file or if we are not able to pre-warm the Status, 
-	 * then, the Status is substitued by a DefaultStatus.
+	 * The Awake method is used to create an instance of AutoAttackData which is responsible of the JSON Loading.
 	 **/
     protected void Awake()
     {
@@ -45,8 +43,7 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
     }
 
     /** Start protected virtual void Method,
-	 * Before everything, we check if the AutoAttack was correctly loaded from the JSON file. If it is not the case, we notify the Champion class to replace the broken AutoAttack by a DefaultAutoAttack.
-	 * Then, we initialize the CD of the spell.
+	 * Initialize the CD of the spell.
 	 **/
     protected virtual void Start()
     {

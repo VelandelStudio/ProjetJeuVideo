@@ -26,20 +26,16 @@ public abstract class Champion : MonoBehaviour
         protected set { }
     }
 
-    /// <summary>
-    /// The Awake methos is here to construct the class, attributing the spells passive and auto-attack.
-	/// First at all, we try to read the ChampionData.json file.After that, we collect every ChampionData declared in the JSON file.
-    /// Then, we parse the Array of ChampionData and try to find the one corresponding to the Champion name.
-    /// If we find one, we construct the class. If we do not, we Load the DefaultChampion.
-    /// </summary>
+    /** Awake, privat void Method,
+	 * Instanciate a new ChampionData. 
+	 **/
     private void Awake()
     {
         championData = new ChampionData(GetType().ToString());
     }
 
-    /** Start protected virtual void Method.
-     * From the Awake Method
-	 * These elements are constructed in three separated methods.
+    /** Start, protected virtual void Method.
+     * In the Start Method, we build the champion by attrubuting to hit the correct AutoAttack, Passive and Spells.
 	 **/
     protected virtual void Start()
     {

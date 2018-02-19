@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.IO;
 
+/** SpellData public class
+ * @extends : Datas,
+ * @implements : ISpellDisplayable
+ * This Data class is specific to Spells. We handle here every method to correctly launch a Spells from the JSON file.
+ **/
 public class SpellData : Datas, ISpellDisplayable
 {
     public string Element { get; protected set; }
@@ -15,6 +20,11 @@ public class SpellData : Datas, ISpellDisplayable
 
     private DataSpellLoader _dataSpellLoader;
 
+    /** SpellData, public constructor
+	 * @param : string 
+	 * This Constructor is designed to get a Spell name as a parameter and load this one from the Json
+	 * Once loading is done, we attribute each variable to the corresponding property.
+	 **/
     public SpellData(string spellName) : base(spellName)
     {
         LoadSpellData(spellName, "SpellData.json");
@@ -36,11 +46,10 @@ public class SpellData : Datas, ISpellDisplayable
         }
     }
 
-    /** LoadSpellData, protected void
-	 * @Params : string
-	 * Loads the JSON _dataSpellLoader associated to the spell.
-	 * If the loading is a success, then _isLoaded = true.
-	 **/
+    /** LoadSpellData, protected void Method
+    * This Method is launched by the contructor. Once launched, we try to locate a JSON File associated to this Spell.
+    * If we find the Spell in the file, then we build the Spell from the elements inside the JSON and _isLoaded = true.
+    **/
     protected void LoadSpellData(string spellName, string json)
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, json);
@@ -67,7 +76,7 @@ public class SpellData : Datas, ISpellDisplayable
         }
         else
         {
-            Debug.LogError("Cannot find data on : " + json);
+            Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
         }
     }
 }
