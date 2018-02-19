@@ -65,7 +65,7 @@
 	},
 	{
 		"Name":"SummonerAOE",
-		"Passive":"PassiveSummonerAOE",
+		"Passive":"PassiveSummonerPetAOE",
 		"AutoAttack":"AutoAttackSummonerAOE",
 		"ActiveSpells":["NeutralFormSpell", "DeflagrationSpell", "AnnihilationSpell", "SwitchTargetSpell"],
 		"Element":"Fire",
