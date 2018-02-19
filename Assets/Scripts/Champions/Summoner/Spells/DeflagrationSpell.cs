@@ -55,8 +55,8 @@ public class DeflagrationSpell : Spell
                     }
                     else
                     {
-                        GameObject obj= ApplyStatus(GetComponent<DeflagrationSpell>().Status[0], col.transform);
-                        TargetsTouched.Add(obj.GetComponent<TouchStatus>());
+                        GameObject obj= ApplyStatus(GetComponent<DeflagrationSpell>().Status[0], col.transform); // applying status to the Enemy Monster touched by the spell
+                        TargetsTouched.Add(obj.GetComponent<TouchStatus>()); // update the list of EnemyMonster with "TouchStatus"
                     }
                 }
             }
