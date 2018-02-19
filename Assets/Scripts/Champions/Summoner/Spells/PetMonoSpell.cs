@@ -17,16 +17,30 @@ public class PetMonoSpell : Spell {
             base.Start();
         }
 
-        public override void LaunchSpell()
-        {
+    public int count = 0;
 
+    public override void LaunchSpell()
+        {
             base.LaunchSpell();
             if (IsSpellLauncheable())
             {
-                Debug.Log("sort lancé");
+            count++;
+           // GameObject CameraPlayer= (GameObject)Resources.Load("SummonerNeutra/Camera");
+
+            Debug.Log("sort lancé");
                 // Invoke("Ally_monster", 2);           
                 Instantiate(PetMonster, new Vector3(-75, 270, -75), Quaternion.identity);
                 base.OnSpellLaunched();
-            }
+               
+             }
+      
+    }
+
+    protected override void Update()
+    {
+        if (this.count == 2)
+        {
+            Destroy(PetMonster, 3f);
         }
     }
+}

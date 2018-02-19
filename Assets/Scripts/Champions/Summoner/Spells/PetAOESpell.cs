@@ -15,6 +15,7 @@ public class PetAOESpell : Spell {
         PetMonsterAOE = LoadResource("PetMonsterAOE");
         base.Start();
     }
+    public int count = 0;
 
     public override void LaunchSpell()
     {
@@ -33,9 +34,17 @@ public class PetAOESpell : Spell {
      * @return : GameObject
      * This method is used to load a GameObject prefab inside the champion folder.
      */
-  /*  protected virtual GameObject LoadResource(string prefabName)
+    /*  protected virtual GameObject LoadResource(string prefabName)
+      {
+          return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
+      }*/
+
+    protected override void Update()
     {
-        return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
-    }*/
+        if (count == 2)
+        {
+            Destroy(PetMonsterAOE);
+        }
+    }
 }
 

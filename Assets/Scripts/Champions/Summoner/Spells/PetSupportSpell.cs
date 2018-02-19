@@ -15,6 +15,7 @@ public class PetSupportSpell : Spell {
         PetMonsterSupp = LoadResource("PetMonsterSupp");
         base.Start();
     }
+    public int count = 0;
 
     public override void LaunchSpell()
     {
@@ -26,6 +27,13 @@ public class PetSupportSpell : Spell {
             // Invoke("Ally_monster", 2);           
             Instantiate(PetMonsterSupp, new Vector3(-75, 270, -75), Quaternion.identity);
             base.OnSpellLaunched();
+        }
+    }
+    protected override void Update()
+    {
+        if (count == 2)
+        {
+            Destroy(PetMonsterSupp);
         }
     }
 }
