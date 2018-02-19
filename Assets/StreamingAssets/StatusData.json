@@ -36,6 +36,24 @@
 		]
 	},
 	{
+		"ScriptName":"HarpoonedStatus",
+		"Name":"Harpooned Status",
+		"Element":"none",
+		"Duration":3,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"HarpoonedStatus."
+		]
+	},
+	{
 		"ScriptName":"TouchStatus",
 		"Name":"Touch",
 		"Element":"none",
