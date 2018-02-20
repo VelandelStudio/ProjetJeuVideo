@@ -16,6 +16,7 @@ public class PetAOESpell : Spell {
         base.Start();
     }
     public int count = 0;
+    public Vector3 pospet;
 
     public override void LaunchSpell()
     {
@@ -24,8 +25,9 @@ public class PetAOESpell : Spell {
         if (IsSpellLauncheable())
         {
             Debug.Log("sort lancé");
-           // Invoke("Ally_monster", 2);           
-           Instantiate(PetMonsterAOE, new Vector3(-75, 275, -75), Quaternion.identity);
+            // Invoke("Ally_monster", 2);
+            pospet = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z + 2);
+            Instantiate(PetMonsterAOE, pospet, Quaternion.identity);
             base.OnSpellLaunched();       
         }
     }
@@ -39,12 +41,12 @@ public class PetAOESpell : Spell {
           return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
       }*/
 
-    protected override void Update()
+   /* protected override void Update()
     {
         if (count == 2)
         {
             Destroy(PetMonsterAOE);
         }
-    }
+    }*/
 }
 
