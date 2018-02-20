@@ -10,19 +10,25 @@ using UnityEngine;
 public class Floater : MonoBehaviour
 {
 
-    [SerializeField] private float degreesPerSecond = 15.0f;
-    [SerializeField] private float amplitude = 0.5f;
-    [SerializeField] private float frequency = 1f;
+    [SerializeField] private float degreesPerSecond;
+    [SerializeField] private float amplitude;
+    [SerializeField] private float frequency;
+
+    [SerializeField] private bool floatOnStart = true;
+    [SerializeField] private float verticalAdd;
+    [SerializeField] private Vector3 targetRotation;
+
 
     Vector3 posOffset = new Vector3();
     Vector3 tempPos = new Vector3();
-
+    private Vector3 startFloatingPos;
     /** Start private void method
 	 * We get the original position of the object.
 	 **/
     private void Start()
     {
         posOffset = transform.position;
+        startFloatingPos = posOffset + new Vector3(0f,verticalAdd,0f);
     }
 
     /** Update, private void method 
@@ -30,6 +36,16 @@ public class Floater : MonoBehaviour
 	 **/
     private void Update()
     {
+        if(!floatOnStart)
+        {
+            if (transform.position.y < startFloatingPos.y)
+            {
+                posOffset.y += 1f * Time.deltaTime;
+                transform.position = posOffset;
+                return;
+            }
+        }
+
         transform.Rotate(new Vector3(0f, Time.deltaTime * degreesPerSecond, 0f));
 
         tempPos = posOffset;
