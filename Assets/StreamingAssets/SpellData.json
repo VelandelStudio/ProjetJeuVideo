@@ -126,8 +126,8 @@
 		]
 	},
 	{
-		"ScriptName":"ArpoonSpell",
-		"Name":"Arpoon",
+		"ScriptName":"HarpoonSpell",
+		"Name":"Harpoon",
 		"Element":"",
 		"Type":"Ranged",
 		"CoolDownValue":1,
@@ -136,7 +136,7 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["FearStatus"],
+		"Status":["HarpoonedStatus"],
 		"Description":
 		[
 			"Aim and grab the target toward the player\n",

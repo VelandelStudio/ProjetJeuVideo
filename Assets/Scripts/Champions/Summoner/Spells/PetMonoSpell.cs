@@ -38,7 +38,7 @@ public class PetMonoSpell : Spell {
 
     protected override void Update()
     {
-        if (this.count == 2)
+        if (this.count == 4)
         {
             Destroy(PetMonster, 3f);
         }
