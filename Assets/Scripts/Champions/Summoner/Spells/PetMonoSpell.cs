@@ -6,7 +6,7 @@ public class PetMonoSpell : Spell {
 
 
     private GameObject PetMonster = (GameObject)Resources.Load("SummonerNeutral/PetMonster");
-    private GameObject SummonerNeutral = (GameObject)Resources.Load("Champion/SummonerNeutral");
+   // private GameObject SummonerNeutral = (GameObject)Resources.Load("Champion/SummonerNeutral");
 
     /// <summary>
     /// Override Start method
@@ -32,8 +32,14 @@ public class PetMonoSpell : Spell {
                 // Invoke("Ally_monster", 2);           
                 Instantiate(PetMonster, pospet, Quaternion.identity);
                 base.OnSpellLaunched();
-               
-             }
+            //change de forme 
+            GameObject oldChampion = Camera.main.transform.parent.gameObject;
+            GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerMono");
+            Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
+            Destroy(oldChampion.gameObject);
+            gameObject.SetActive(false);
+
+        }
       
     }
 /*
