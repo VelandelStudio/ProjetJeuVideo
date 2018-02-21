@@ -57,28 +57,14 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
      **/
     private void LoadAutoAttackData(string autoAttack)
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "AutoAttackData.json");
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            AutoAttackData[] data = JsonHelper.getJsonArray<AutoAttackData>(jsonFile);
-            foreach (AutoAttackData autoAttackData in data)
-            {
-                if (autoAttackData.ScriptName == autoAttack)
-                {
-                    _autoAttackDefinition = autoAttackData;
-                    Sprite spriteAutoAttack = Resources.Load<Sprite>("Images/Champions/" + _championName + "/" + _autoAttackDefinition.ScriptName);
-                    Sprite spriteElement = Resources.Load<Sprite>("Images/Elements/" + _autoAttackDefinition.Element);
-                    Sprite spriteType = Resources.Load<Sprite>("Images/Types/" + StringHelper.GetDisplayableType(_autoAttackDefinition.DamagesType));
-                    Sprite typeAttack = Resources.Load<Sprite>("Images/Types/" + _autoAttackDefinition.Type);
+        _autoAttackDefinition = new AutoAttackData(autoAttack);
+        Sprite spriteAutoAttack = Resources.Load<Sprite>("Images/Champions/" + _championName + "/" + _autoAttackDefinition.ScriptName);
+        Sprite spriteElement = Resources.Load<Sprite>("Images/Elements/" + _autoAttackDefinition.Element);
+        Sprite spriteType = Resources.Load<Sprite>("Images/Types/" + StringHelper.GetDisplayableType(_autoAttackDefinition.DamagesType));
+        Sprite typeAttack = Resources.Load<Sprite>("Images/Types/" + _autoAttackDefinition.Type);
 
-                    SetSpritesToImages(AutoAttackField, spriteAutoAttack, spriteElement, spriteType,typeAttack);
-                    WrapperDisplayable wrapper = new WrapperDisplayable(_autoAttackDefinition, _championName);
-                    SetDescriptionsToTexts(AutoAttackField, wrapper.GetDescriptionGUI());
-                    break;
-                }
-            }
-        }
+        SetSpritesToImages(AutoAttackField, spriteAutoAttack, spriteElement, spriteType,typeAttack);
+        SetDescriptionsToTexts(AutoAttackField, _autoAttackDefinition.GetDescriptionGUI());
     }
 
     /** LoadPassiveData, private void Method
@@ -87,29 +73,14 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
      **/
     private void LoadPassiveData(string passive)
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "PassiveData.json");
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            PassiveData[] data = JsonHelper.getJsonArray<PassiveData>(jsonFile);
-            foreach (PassiveData passiveData in data)
-            {
-                if (passiveData.ScriptName == passive)
-                {
-                    _passiveDefinition = passiveData;
-                    Sprite spritePassive = Resources.Load<Sprite>("Images/Champions/" + _championName + "/" + _passiveDefinition.ScriptName);
-                    Sprite spriteElement = null;
-                    Sprite spriteType = Resources.Load<Sprite>("Images/Types/" + StringHelper.GetDisplayableType(_passiveDefinition.DamagesType));
-                    Sprite typeAttack = Resources.Load<Sprite>("Images/Types/" + _passiveDefinition.Type);
+        _passiveDefinition = new PassiveData(passive);
+        Sprite spritePassive = Resources.Load<Sprite>("Images/Champions/" + _championName + "/" + _passiveDefinition.ScriptName);
+        Sprite spriteElement = null;
+        Sprite spriteType = Resources.Load<Sprite>("Images/Types/" + StringHelper.GetDisplayableType(_passiveDefinition.DamagesType));
+        Sprite typeAttack = Resources.Load<Sprite>("Images/Types/" + _passiveDefinition.Type);
 
-                    SetSpritesToImages(PassiveField, spritePassive, spriteElement, spriteType, typeAttack);
-                    WrapperDisplayable wrapper = new WrapperDisplayable(_passiveDefinition, _championName);
-                    SetDescriptionsToTexts(PassiveField, wrapper.GetDescriptionGUI());
-                    break;
-                }
-            }
-        }
-
+        SetSpritesToImages(PassiveField, spritePassive, spriteElement, spriteType, typeAttack);
+        SetDescriptionsToTexts(PassiveField, _passiveDefinition.GetDescriptionGUI());
     }
 
     /** LoadPassiveData, private void Method
@@ -119,29 +90,15 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
     private void LoadSpellData(string[] spells)
     {
         _spellDefinition = new SpellData[spells.Length];
-        string filePath = Path.Combine(Application.streamingAssetsPath, "SpellData.json");
-        if (File.Exists(filePath))
+        for (int i = 0; i < spells.Length; i++)
         {
-            string jsonFile = File.ReadAllText(filePath);
-            SpellData[] data = JsonHelper.getJsonArray<SpellData>(jsonFile);
-            foreach (SpellData spell in data)
-            {
-                for (int i = 0; i < spells.Length; i++)
-                {
-                    if (spell.ScriptName == spells[i])
-                    {
-                        _spellDefinition[i] = spell;
-                        Sprite spriteSpell = Resources.Load<Sprite>("Images/Champions/" + _championName + "/" + _spellDefinition[i].ScriptName);
-                        Sprite spriteElement = Resources.Load<Sprite>("Images/Elements/" + _spellDefinition[i].Element);
-                        Sprite spriteType = Resources.Load<Sprite>("Images/Types/" + StringHelper.GetDisplayableType(_spellDefinition[i].DamagesType));
-                        Sprite typeAttack = Resources.Load<Sprite>("Images/Types/" + _spellDefinition[i].Type);
-                        SetSpritesToImages(SpellFields[i], spriteSpell, spriteElement, spriteType, typeAttack);
-                        WrapperDisplayable wrapper = new WrapperDisplayable(_spellDefinition[i], _championName);
-                        SetDescriptionsToTexts(SpellFields[i], wrapper.GetDescriptionGUI());
-                        break;
-                    }
-                }
-            }
+            _spellDefinition[i] = new SpellData(spells[i]);
+            Sprite spriteSpell = Resources.Load<Sprite>("Images/Champions/" + _championName + "/" + _spellDefinition[i].ScriptName);
+            Sprite spriteElement = Resources.Load<Sprite>("Images/Elements/" + _spellDefinition[i].Element);
+            Sprite spriteType = Resources.Load<Sprite>("Images/Types/" + StringHelper.GetDisplayableType(_spellDefinition[i].DamagesType));
+            Sprite typeAttack = Resources.Load<Sprite>("Images/Types/" + _spellDefinition[i].Type);
+            SetSpritesToImages(SpellFields[i], spriteSpell, spriteElement, spriteType, typeAttack);
+            SetDescriptionsToTexts(SpellFields[i], _spellDefinition[i].GetDescriptionGUI());
         }
     }
 
@@ -207,184 +164,6 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
         {
             tagObj.GetComponent<Image>().sprite =  Resources.Load<Sprite>("Images/Types/" + tags[i]);
             Instantiate(tagObj, tagBar.transform);
-        }
-    }
-
-    /** SpellData public Serializable class
-	 * This class war created to be at the service of the Spell class
-	 * This class contains all elements to construct a spell from the JSON file.
-	 **/
-    [System.Serializable]
-    public class SpellData
-    {
-        public string ScriptName;
-        public string Name;
-        public string Type;
-        public string Element;
-        public float CoolDownValue;
-        public bool HasGCD;
-        public int[] Damages;
-        public string[] DamagesType;
-        public string[] OtherValues;
-        public int NumberOfStacks;
-        public string[] Status;
-        public string[] Description;
-    }
-
-    /** PassiveData public Serializable class
- * This class was created to be at the service of the PassiveBase class
- * This class contains all elements to construct a Passive from the JSON file.
- **/
-    [System.Serializable]
-    public class PassiveData
-    {
-        public string ScriptName;
-        public string Name;
-        public string Type;
-        public int[] Damages;
-        public string[] DamagesType;
-        public string[] OtherValues;
-        public int NumberOfStacks;
-        public string[] Status;
-        public string[] Description;
-    }
-
-    /** AutoAttackData, public Serializable class
-     * This Serializable Class is used to get all elements we need to construct an AutoAttack from a Json File.
-     **/
-    [System.Serializable]
-    public class AutoAttackData
-    {
-        public string ScriptName;
-        public string Name;
-        public string Element;
-        public string Type;
-        public float CoolDownValue;
-        public int[] Damages;
-        public string[] DamagesType;
-        public string[] OtherValues;
-        public string[] Status;
-        public string[] Description;
-    }
-
-    /** WrapperDisplayable, public Serializable class
-     * This Serializable Class is used to get all elements we need to construct an WrapperDisplayable from a Data.
-     * This Wrapper is used to make the datas of this class feat with a Displayable element. It is like a Fake Displayable class.
-     * When transformed to a IDisplayabl element, we can use the FormateDescription method inside the StringHelper static class
-     * that uses only IDisplayable.
-     **/
-    [System.Serializable]
-    public class WrapperDisplayable : ISpellDisplayable
-    {
-        public WrapperDisplayable(PassiveData passive, string championName)
-        {
-
-            NumberOfStacks = passive.NumberOfStacks;
-            Description = passive.Description;
-            Name = passive.Name;
-            Type = passive.Type;
-            Damages = passive.Damages;
-            DamagesType = passive.DamagesType;
-            OtherValues = passive.OtherValues;
-            NumberOfStacks = passive.NumberOfStacks;
-            Description = passive.Description;
-
-            if (passive.Status.Length > 0 && passive.Status[0] != "")
-            {
-                Status = new GameObject[passive.Status.Length];
-                for (int i = 0; i < passive.Status.Length; i++)
-                {
-                    Status[i] = (GameObject)Resources.Load(championName + "/" + passive.Status[i]);
-                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
-                    {
-                        Debug.Log(passive.Status[i] + " can not be loaded. "
-                                 + "Please Ensure that the Status Name is correct in the SpellData.json file "
-                                 + "or that this Status exists as a Prefab with the same Script Name associated to it. "
-                                 + "DefaultStatus substitued");
-                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
-                        Status[i].GetComponent<StatusBase>().PreWarm();
-                    }
-                }
-            }
-        }
-
-        public WrapperDisplayable(AutoAttackData autoAttack, string championName)
-        {
-            Name = autoAttack.Name;
-            Element = autoAttack.Element;
-            Type = autoAttack.Type;
-            CoolDownValue = autoAttack.CoolDownValue;
-            Damages = autoAttack.Damages;
-            DamagesType = autoAttack.DamagesType;
-            OtherValues = autoAttack.OtherValues;
-            Description = autoAttack.Description;
-            if (autoAttack.Status.Length > 0 && autoAttack.Status[0] != "")
-            {
-                Status = new GameObject[autoAttack.Status.Length];
-                for (int i = 0; i < autoAttack.Status.Length; i++)
-                {
-                    Status[i] = (GameObject)Resources.Load(championName + "/" + autoAttack.Status[i]);
-                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
-                    {
-                        Debug.Log(autoAttack.Status[i] + " can not be loaded. "
-                                 + "Please Ensure that the Status Name is correct in the SpellData.json file "
-                                 + "or that this Status exists as a Prefab with the same Script Name associated to it. "
-                                 + "DefaultStatus substitued");
-                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
-                        Status[i].GetComponent<StatusBase>().PreWarm();
-                    }
-                }
-            }
-            
-        }
-
-        public WrapperDisplayable(SpellData spellData, string championName)
-        {
-            Name = spellData.Name;
-            Element = spellData.Element;
-            Type = spellData.Type;
-            CoolDownValue = spellData.CoolDownValue;
-            Damages = spellData.Damages;
-            DamagesType = spellData.DamagesType;
-            OtherValues = spellData.OtherValues;
-            NumberOfStacks = spellData.NumberOfStacks;
-            Description = spellData.Description;
-
-            if (spellData.Status.Length > 0 && spellData.Status[0] != "")
-            {
-                Status = new GameObject[spellData.Status.Length];
-                for (int i = 0; i < spellData.Status.Length; i++)
-                {
-                    Status[i] = (GameObject)Resources.Load(championName + "/" + spellData.Status[i]);
-                    if (Status[i] == null || !Status[i].GetComponent<StatusBase>().PreWarm())
-                    {
-                        Debug.Log(spellData.Status[i] + " can not be loaded. "
-                                 + "Please Ensure that the Status Name is correct in the SpellData.json file, "
-                                 + "or that this Status exists as a Prefab with the same Script Name associated to it, "
-                                 + "or that the Status Name is correct in the StatusData.json file. "
-                                 + "DefaultStatus substitued");
-                        Status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
-                        Status[i].GetComponent<StatusBase>().PreWarm();
-                    }
-                }
-            }
-        }
-
-        public string Name { get; protected set; }
-        public string Element { get; protected set; }
-        public string Type { get; protected set; }
-        public float CoolDownValue { get; protected set; }
-        public int[] Damages { get; protected set; }
-        public string[] DamagesType { get; protected set; }
-        public string[] OtherValues { get; protected set; }
-        public GameObject[] Status { get; protected set; }
-        public string[] Description { get; protected set; }
-        public int NumberOfStacks { get; protected set; }
-
-        public bool IsLoaded { get; set; }
-        public string GetDescriptionGUI()
-        {
-            return StringHelper.DescriptionBuilder(this);
         }
     }
 }

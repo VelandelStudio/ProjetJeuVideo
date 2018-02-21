@@ -26,42 +26,16 @@ public abstract class Champion : MonoBehaviour
         protected set { }
     }
 
-    /// <summary>
-    /// The Awake methos is here to construct the class, attributing the spells passive and auto-attack.
-	/// First at all, we try to read the ChampionData.json file.After that, we collect every ChampionData declared in the JSON file.
-    /// Then, we parse the Array of ChampionData and try to find the one corresponding to the Champion name.
-    /// If we find one, we construct the class. If we do not, we Load the DefaultChampion.
-    /// </summary>
+    /** Awake, privat void Method,
+	 * Instanciate a new ChampionData. 
+	 **/
     private void Awake()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "ChampionData.json");
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            ChampionData[] data = JsonHelper.getJsonArray<ChampionData>(jsonFile);
-            foreach (ChampionData character in data)
-            {
-                if (character.Name == GetType().ToString())
-                {
-                    championData = character;
-                    break;
-                }
-            }
-
-            if (championData == null)
-            {
-                LoadDeafaultChamp();
-            }
-        }
-        else
-        {
-            Debug.LogError("Cannot load game data!");
-        }
+        championData = new ChampionData(GetType().ToString());
     }
 
-    /** Start protected virtual void Method.
-     * From the Awake Method
-	 * These elements are constructed in three separated methods.
+    /** Start, protected virtual void Method.
+     * In the Start Method, we build the champion by attrubuting to hit the correct AutoAttack, Passive and Spells.
 	 **/
     protected virtual void Start()
     {
@@ -226,79 +200,5 @@ public abstract class Champion : MonoBehaviour
             GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + i).GetComponent<GUISpellDisplayer>();
             spellDisplayer.AttributeDisplayable(spellToAdd);
         }
-    }
-
-    /** LoadDeafaultChamp, protected void method
-	 * This method should always be launched from the Awake one, when the ChampionData could not be loaded.
-	 * As the Awake method, we just parse the Champion.json file in order to substitute a broken to champion to a Default one.
-	 * This method is used for dev' so far.
-	 **/
-    protected void LoadDeafaultChamp()
-    {
-        Debug.Log("Champion could not be created. Please check the ChampionData.json file. A DefaultChampion is created.");
-        string filePath = Path.Combine(Application.streamingAssetsPath, "ChampionData.json");
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            ChampionData[] data = JsonHelper.getJsonArray<ChampionData>(jsonFile);
-            foreach (ChampionData character in data)
-            {
-                if (character.Name == "DefaultChampion")
-                {
-                    championData = character;
-                    break;
-                }
-            }
-        }
-    }
-
-    /** ReplaceByDefaultDisplayable public void Method
-	 * @param : IDisplayable
-	 * This method should be called by Displayables (Spells, AutoAttacks and Passives) when they are not able to load their own descriptions.
-	 * When launched, this methods checks which script called her and substitute the Displayable element by a Default one. In that way, if something went wrong during the loadind,
-	 * You van not have a broken champion. Please note that the method substitute the GUI element also.
-	 **/
-    public void ReplaceByDefaultDisplayable(IDisplayable brokenDisplayable)
-    {
-        if (brokenDisplayable is Spell)
-        {
-            Spell defaultSpell = (Spell)gameObject.AddComponent(Type.GetType("DefaultSpell"));
-            int i = spells.IndexOf((Spell)brokenDisplayable);
-            spells[i] = defaultSpell;
-            GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + (i + 1)).GetComponent<GUISpellDisplayer>();
-            spellDisplayer.AttributeDisplayable(defaultSpell);
-        }
-
-        if (brokenDisplayable is PassiveBase)
-        {
-            passiveBase = (PassiveBase)gameObject.AddComponent(Type.GetType("DefaultPassive"));
-            GUIPassiveDisplayer passiveDisplayer = GameObject.Find("Passive").GetComponent<GUIPassiveDisplayer>();
-            passiveDisplayer.AttributeDisplayable(passiveBase);
-        }
-
-        if (brokenDisplayable is AutoAttackBase)
-        {
-            autoAttack = (AutoAttackBase)gameObject.AddComponent(Type.GetType("DefaultAutoAttack"));
-            GUIAutoAttackDisplayer autoAttackDisplayer = GameObject.Find("AutoAttack").GetComponent<GUIAutoAttackDisplayer>();
-            autoAttackDisplayer.AttributeDisplayable(autoAttack);
-        }
-
-        Destroy((Behaviour)brokenDisplayable);
-    }
-
-    /** ChampionData protected Serializable class.
-	 * This class were designed to be at the service of the Champion class.
-	 * It is used as a JSON Object to stock every variables read from the JSON file.
-	 **/
-    [System.Serializable]
-    protected class ChampionData
-    {
-        public string Name;
-        public string Passive;
-        public string AutoAttack;
-        public string[] ActiveSpells;
-        public string Element;
-        public string[] Description;
-        public string[] Tags;
     }
 }
