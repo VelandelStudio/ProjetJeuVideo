@@ -99,12 +99,13 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":[""],
+		"Status":["WaitForTheBoomStatus","CountDownBeforetheBoomStatus"],
 		"Description":
 		[
 			"Autodestruction of the Pet in a big 'BOUM!'\n",
-			"Applies <<Status[0]>> to the Pet before the explosion\n",
-			"Inflicts {Damages[0]} to all the monster in the area of the explosion\n",
+			"Applies <<Status[0]>> to the Player before the explosion\n",
+			"Applies <<Status[1]>> to the Pet before the explosion\n",
+			"Inflicts {Damages[0]} to all living things in the area of the explosion\n",
 			"Force the summoner back to his NeutralForm"
 		]
 	},
