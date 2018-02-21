@@ -5,6 +5,7 @@ using UnityEngine;
 public class PetAOESpell : Spell {
 
     private GameObject PetMonsterAOE;
+    private GameObject SummonerNeutral = (GameObject)Resources.Load("Champion/SummonerNeutral");
 
     /// <summary>
     /// Override Start method
