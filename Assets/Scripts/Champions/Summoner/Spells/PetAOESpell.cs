@@ -25,21 +25,12 @@ public class PetAOESpell : Spell {
         if (IsSpellLauncheable())
         {
             Debug.Log("sort lancé");
-            // Invoke("Ally_monster", 2);
             pospet = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z + 2);
             Instantiate(PetMonsterAOE, pospet, Quaternion.identity);
             base.OnSpellLaunched();       
         }
     }
-    /* LoadResource, protected virtual GameObject Method
-     * @param : string,
-     * @return : GameObject
-     * This method is used to load a GameObject prefab inside the champion folder.
-     */
-    /*  protected virtual GameObject LoadResource(string prefabName)
-      {
-          return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
-      }*/
+   
 
    /* protected override void Update()
     {

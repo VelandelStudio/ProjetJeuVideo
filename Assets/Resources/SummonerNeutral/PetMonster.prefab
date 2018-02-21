@@ -77,7 +77,6 @@ GameObject:
   - component: {fileID: 195516396079151418}
   - component: {fileID: 114026629454602616}
   - component: {fileID: 54938606922812278}
-  - component: {fileID: 114896121893921782}
   m_Layer: 0
   m_Name: PetMonster
   m_TagString: Untagged
@@ -407,19 +406,6 @@ MonoBehaviour:
   _regenHpPerSec: 3
   _HPMax: 100
   maxDistanceTarget: 0
---- !u!114 &114896121893921782
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1994602178144200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a933a821ac927634b88ebcb86cc088ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HasGCD: 0
-  count: 0
 --- !u!135 &135482871376457182
 SphereCollider:
   m_ObjectHideFlags: 1
