@@ -36,8 +36,8 @@
 		]
 	},
 	{
-		"ScriptName":"HarpoonedStatus",
-		"Name":"Harpooned Status",
+		"ScriptName":"HarpoonedStunStatus",
+		"Name":"Harpooned Stun Status",
 		"Element":"none",
 		"Duration":3,
 		"IsTickable":false,
@@ -50,7 +50,25 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			"HarpoonedStatus."
+			"HarpoonedStunStatus."
+		]
+	},
+	{
+		"ScriptName":"HarpoonedDebuffStatus",
+		"Name":"Harpooned Debuff Status",
+		"Element":"none",
+		"Duration":30,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"HarpoonedDebuffStatus."
 		]
 	},
 	{

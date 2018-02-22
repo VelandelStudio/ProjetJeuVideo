@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 198637329620200498}
   - component: {fileID: 199884654447084346}
   m_Layer: 0
-  m_Name: HarpoonedStatus
+  m_Name: HarpoonedStunStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
