@@ -12,6 +12,12 @@ public class NeutralFormSpell : Spell
             //load GameObject(SummonerNeutral)
             Debug.Log("sort lancé");
             base.OnSpellLaunched();
+            //change de forme 
+            GameObject oldChampion = Camera.main.transform.parent.gameObject;
+            GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerNeutral");
+            Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
+            Destroy(oldChampion.gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
