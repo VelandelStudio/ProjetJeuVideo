@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HarpoonedStatus : StatusBase, IDebuff
+public class HarpoonedStunStatus : StatusBase, IDebuff
 {
     private EntityLivingBase _entity;
     private EnemyMonster _scriptParent;
     private float _timer;
-    
-    protected override void Start ()
+
+    protected override void Start()
     {
 
         base.Start();
@@ -22,19 +22,20 @@ public class HarpoonedStatus : StatusBase, IDebuff
 
     public void Update()
     {
-        if (_timer == Duration)
+        
+        if (_timer == base.Duration)
         {
-            Debug.Log("Timer : " + _timer + ", Duration : " + Duration);
             _scriptParent.enabled = true;
+           // Destroy(gameObject);
         }
 
-        Mathf.Clamp(_timer + Time.deltaTime, 0, Duration);
+        _timer = Mathf.Clamp(_timer + Time.deltaTime, 0, base.Duration);
     }
 
     public override void OnStatusApplied()
     {
         Debug.Log("HarpoonedStatus Created !");
-        
+
     }
 
     public override void StatusTickBehaviour()

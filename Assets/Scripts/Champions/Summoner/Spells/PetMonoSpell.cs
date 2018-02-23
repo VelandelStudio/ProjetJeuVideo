@@ -29,18 +29,23 @@ public class PetMonoSpell : Spell {
            //pospet=SummonerNeutral.transform.position;
             pospet = new Vector3(transform.position.x+2, transform.position.y, transform.position.z+2);
             Debug.Log("sort lancé");
-                // Invoke("Ally_monster", 2);           
-                Instantiate(PetMonster, pospet, Quaternion.identity);
+            // Invoke("Ally_monster", 2);           
+            Instantiate(PetMonster, pospet, Quaternion.identity);
                 base.OnSpellLaunched();
             //change de forme 
             GameObject oldChampion = Camera.main.transform.parent.gameObject;
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerMono");
-            Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
+            newChampionObj=Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
             Destroy(oldChampion.gameObject);
-            gameObject.SetActive(false);
+           // gameObject.SetActive(false);
 
         }
       
+    }
+
+    public void Destruc(GameObject PetMonster)
+    {
+        Destroy(PetMonster.gameObject);
     }
 /*
     protected override void Update()

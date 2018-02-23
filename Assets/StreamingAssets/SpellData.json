@@ -79,12 +79,12 @@
 		"HasGCD":true,
 		"Damages":[10],
 		"DamagesType":["m"],
-		"OtherValues":[],
+		"OtherValues":["5"],
 		"NumberOfStacks":0,
 		"Status":["TouchStatus"],
 		"Description":
 		[
-			"Inflicts {Damages[0]} to all the monster in the area of the Deflagration\n",
+			"Inflicts {Damages[0]} to all the monster in the area ({OtherValues[0]}) of the Deflagration\n",
 			"Applies <<Status[0]>> to monster hit by the Deflagration"
 		]
 	},
@@ -97,7 +97,7 @@
 		"HasGCD":true,
 		"Damages":[100],
 		"DamagesType":["m"],
-		"OtherValues":[],
+		"OtherValues":["8"],
 		"NumberOfStacks":0,
 		"Status":["WaitForTheBoomStatus","CountDownBeforetheBoomStatus"],
 		"Description":
@@ -105,7 +105,7 @@
 			"Autodestruction of the Pet in a big 'BOUM!'\n",
 			"Applies <<Status[0]>> to the Player before the explosion\n",
 			"Applies <<Status[1]>> to the Pet before the explosion\n",
-			"Inflicts {Damages[0]} to all living things in the area of the explosion\n",
+			"Inflicts {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion\n",
 			"Force the summoner back to his NeutralForm"
 		]
 	},

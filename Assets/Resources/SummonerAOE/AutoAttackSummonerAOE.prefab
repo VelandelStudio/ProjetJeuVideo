@@ -23,9 +23,9 @@ GameObject:
   - component: {fileID: 135611157146903726}
   - component: {fileID: 23143508380134060}
   - component: {fileID: 54032812691295996}
-  - component: {fileID: 114777498150817790}
+  - component: {fileID: 114510530083725998}
   m_Layer: 0
-  m_Name: AutoAttackSummonerNeutral
+  m_Name: AutoAttackSummonerAOE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 8d0df38d86d7c874a89399f2e9e2156a, type: 2}
+  - {fileID: 2100000, guid: 67b78e4d30529fa45819ee3b881843c2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,7 +100,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114777498150817790
+--- !u!114 &114510530083725998
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1740908759724746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df6221b1c3ba4c14e965241f3f6e2880, type: 3}
+  m_Script: {fileID: 11500000, guid: cfb92a16e8c95314e943b872cf2f6a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!135 &135611157146903726
