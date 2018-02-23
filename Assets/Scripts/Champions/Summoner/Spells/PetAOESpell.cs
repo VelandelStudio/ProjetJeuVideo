@@ -33,9 +33,9 @@ public class PetAOESpell : Spell {
             pospet = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z + 2);
             Instantiate(PetMonsterAOE, pospet, Quaternion.identity, newChampionObj.transform);
 
-
             Destroy(oldChampion.gameObject);
             base.OnSpellLaunched();
+
         }
     }
 
