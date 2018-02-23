@@ -9,8 +9,7 @@ public class AutoAttackSummonerAOE : AutoAttackBase
     private Camera _cameraPlayer;
     private Transform _launcherTransform;
 
-    
-	protected override void Start ()
+    protected override void Start ()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>(); // instatiate player camera in a variable
         _throwable = LoadResource("AutoAttackSummonerAOE"); //  // instatiate player the resource to throw
@@ -30,7 +29,7 @@ public class AutoAttackSummonerAOE : AutoAttackBase
 
     public void OnAttackHit(EntityLivingBase eHit)
     {
-        eHit.DamageFor(Damages[0]);
+        eHit.DamageFor(Damages[0]); // apply damages to the "primary target"
         Debug.Log("damages to target");
 
         Collider[] cols = Physics.OverlapSphere(eHit.transform.position, float.Parse(OtherValues[0])); // Create an OverlapSphere that recup the list of the EnemyMonster colliders that triggered it.
