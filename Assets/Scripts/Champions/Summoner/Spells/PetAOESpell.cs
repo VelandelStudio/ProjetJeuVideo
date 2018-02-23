@@ -30,10 +30,11 @@ public class PetAOESpell : Spell {
             //gameObject.SetActive(false);
 
             Debug.Log("sort lancé");
-            pospet = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z + 2);
-            Instantiate(PetMonsterAOE, pospet, Quaternion.identity, newChampionObj.transform);
-
+            pospet = new Vector3(transform.position.x + 2, transform.position.y + 2, transform.position.z + 2);
+            PetMonsterAOE = Instantiate(PetMonsterAOE, pospet, Quaternion.identity);
             Destroy(oldChampion.gameObject);
+
+            PetMonsterAOE.GetComponent<PetSpell>().Target = newChampionObj.gameObject;
             base.OnSpellLaunched();
 
         }
