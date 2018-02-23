@@ -25,11 +25,9 @@ public class PetAOESpell : Spell {
         {
             GameObject oldChampion = Camera.main.transform.parent.gameObject;
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerAOE");
-<<<<<<< HEAD
+
             newChampionObj=Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
             Destroy(oldChampion.gameObject);
-           
-=======
             newChampionObj=Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation); // newChampionObj becomes GameObject in the scene not in the prefab !!!!!
            
             //gameObject.SetActive(false);
@@ -38,10 +36,9 @@ public class PetAOESpell : Spell {
             pospet = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z + 2);
             Instantiate(PetMonsterAOE, pospet, Quaternion.identity, newChampionObj.transform);
 
-
             Destroy(oldChampion.gameObject);
             base.OnSpellLaunched();
->>>>>>> b39b5003a40313e22830028c39d2b0e9c2831ea7
+
         }
     }
 
