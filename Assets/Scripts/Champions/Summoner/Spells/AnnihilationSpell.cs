@@ -40,7 +40,7 @@ public class AnnihilationSpell : Spell
 
             if (ReadyToExplose)
             {
-                Collider[] cols = Physics.OverlapSphere(GetComponentInChildren<AllyMonster>().transform.position, 5f); // Create an OverlapSphere that recup the list of the EnemyMonster colliders that triggered it.
+                Collider[] cols = Physics.OverlapSphere(GetComponentInChildren<AllyMonster>().transform.position, float.Parse(OtherValues[0])); // Create an OverlapSphere that recup the list of the EnemyMonster colliders that triggered it.
 
                 /* for each collider (capsule collider only) triggered, damages and TouchStatus are applied */
                 foreach (Collider col in cols)

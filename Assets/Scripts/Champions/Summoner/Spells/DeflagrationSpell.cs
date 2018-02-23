@@ -36,7 +36,7 @@ public class DeflagrationSpell : Spell
                 return;
             }
            
-            Collider[] cols = Physics.OverlapSphere(hit.point, 5f); // Create an OverlapSphere that recup the list of the EnemyMonster colliders that triggered it.
+            Collider[] cols = Physics.OverlapSphere(hit.point,float.Parse(OtherValues[0])); // Create an OverlapSphere that recup the list of the EnemyMonster colliders that triggered it.
 
             /* for each EnemyMonster collider (capsule collider only) triggered, damages and TouchStatus are applied */
             foreach (Collider col in cols) 
