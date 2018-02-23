@@ -20,24 +20,31 @@ public class PetAOESpell : Spell {
 
     public override void LaunchSpell()
     {
-
         base.LaunchSpell();
         if (IsSpellLauncheable())
         {
+            GameObject oldChampion = Camera.main.transform.parent.gameObject;
+            GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerAOE");
+            newChampionObj=Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation); // newChampionObj becomes GameObject in the scene not in the prefab !!!!!
+           
+            //gameObject.SetActive(false);
+
             Debug.Log("sort lancé");
             pospet = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z + 2);
-            Instantiate(PetMonsterAOE, pospet, Quaternion.identity);
-            base.OnSpellLaunched();       
+            Instantiate(PetMonsterAOE, pospet, Quaternion.identity, newChampionObj.transform);
+
+
+            Destroy(oldChampion.gameObject);
+            base.OnSpellLaunched();
         }
     }
-   
 
-   /* protected override void Update()
-    {
-        if (count == 2)
-        {
-            Destroy(PetMonsterAOE);
-        }
-    }*/
+    /* protected override void Update()
+     {
+         if (count == 2)
+         {
+             Destroy(PetMonsterAOE);
+         }
+     }*/
 }
 

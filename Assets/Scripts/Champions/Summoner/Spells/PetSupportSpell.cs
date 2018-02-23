@@ -42,7 +42,7 @@ public class PetSupportSpell : Spell {
         base.Update();
         PetMonsterSupp.transform.position = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 2);
         // PetMonsterSupp.transform.position = SummonerNeutral.transform.position;
-        MonsterMove();
+        //MonsterMove();
 
     }
     /// <summary>
@@ -88,14 +88,14 @@ public class PetSupportSpell : Spell {
     /// Is called to give movement to the monster
     /// as an Ally it will automatically move juste behing the player
     /// </summary>
-    public override void MonsterMove()
+    /*public override void MonsterMove()
     {
         if (SummonerNeutral != null && _follow)
         {
             Vector3 destination = SummonerNeutral.transform.position - new Vector3(2.5f, 0, 2.5f);
             _agent.SetDestination(destination);
         }
-    }
+    }*/
     
 }
 
