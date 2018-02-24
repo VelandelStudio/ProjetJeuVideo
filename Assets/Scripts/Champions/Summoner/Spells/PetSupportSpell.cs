@@ -5,9 +5,10 @@ using UnityEngine.AI;
 
 public class PetSupportSpell : Spell {
 
-    private GameObject PetMonsterSupp;
+    private GameObject _pet;
+    private GameObject _target;
+    public Vector3 _posPet;
     private GameObject SummonerNeutral = (GameObject)Resources.Load("Champion/SummonerNeutral");
-    private GameObject PetMonster;
 
 
     /// <summary>
@@ -16,8 +17,8 @@ public class PetSupportSpell : Spell {
     /// </summary>
     protected override void Start()
     {
-    
-        PetMonsterSupp = LoadResource("PetMonsterSupp");
+
+        _pet = LoadResource("PetMonsterSupp");
         base.Start();
     }
     public Vector3 pospet;
@@ -29,17 +30,40 @@ public class PetSupportSpell : Spell {
         if (IsSpellLauncheable())
         {
         
-            Debug.Log("sort lancé");
-            pospet = new Vector3(transform.position.x + 2, transform.position.y, transform.position.z + 2);
-            Instantiate(PetMonsterSupp, pospet, Quaternion.identity);
-            //Pet = true;
-            base.OnSpellLaunched();
-            //change de forme 
             GameObject oldChampion = Camera.main.transform.parent.gameObject;
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerSupport");
-            newChampionObj=Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
+            newChampionObj = Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation); // newChampionObj becomes GameObject in the scene not in the prefab !!!!!
+            
+
+            _posPet = new Vector3(transform.position.x + 2, transform.position.y + 1, transform.position.z + 2);
+            _target = newChampionObj;
+
+            if (GetComponent<SummonerInterface>().Pet != null)
+            {
+                _posPet = GetComponent<SummonerInterface>().Pet.transform.position;
+
+                if (GetComponent<SummonerInterface>().Pet.GetComponent<PetSummoner>().Target != gameObject)
+                {
+                    _target = GetComponent<SummonerInterface>().Pet.GetComponent<PetSummoner>().Target;
+                }
+
+                Destroy(GetComponent<SummonerInterface>().Pet);
+                Debug.Log("Destroy");
+            }
+
             Destroy(oldChampion.gameObject);
-          
+            //gameObject.SetActive(false);
+
+            Debug.Log("sort lancé");
+            _pet = Instantiate(_pet, _posPet, Quaternion.identity);
+
+            _pet.GetComponent<PetSummoner>().Target = _target;
+            _pet.GetComponent<PetSummoner>().Summoner = newChampionObj;
+
+            newChampionObj.GetComponent<SummonerInterface>().Pet = _pet;
+
+            base.OnSpellLaunched();
+
         }
     }
     /*protected override void Update()

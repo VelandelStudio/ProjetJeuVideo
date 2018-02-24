@@ -41,8 +41,8 @@ GameObject:
   - component: {fileID: 23397787248912536}
   - component: {fileID: 135045128095207642}
   - component: {fileID: 195353128798501784}
-  - component: {fileID: 114188980043136256}
   - component: {fileID: 54162832388719426}
+  - component: {fileID: 114744515109795828}
   m_Layer: 0
   m_Name: PetMonsterAOE
   m_TagString: Untagged
@@ -391,7 +391,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &114188980043136256
+--- !u!114 &114744515109795828
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -399,13 +399,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1358747144128470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e2605c65769fa43b9305b37c76402b, type: 3}
+  m_Script: {fileID: 11500000, guid: 560877b40b8b04b4fae085fe0d071c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HP: 10
+  _HP: 0
   _regenHpPerSec: 3
-  _HPMax: 100
-  maxDistanceTarget: 0
+  _HPMax: 0
+  _target: {fileID: 0}
 --- !u!135 &135045128095207642
 SphereCollider:
   m_ObjectHideFlags: 1

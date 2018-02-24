@@ -75,10 +75,10 @@ GameObject:
   - component: {fileID: 23015811351579366}
   - component: {fileID: 135571697833264982}
   - component: {fileID: 195516396079151418}
-  - component: {fileID: 114026629454602616}
   - component: {fileID: 54938606922812278}
+  - component: {fileID: 114734107085617294}
   m_Layer: 0
-  m_Name: PetMonster
+  m_Name: PetMonsterMono
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -391,7 +391,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &114026629454602616
+--- !u!114 &114734107085617294
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -399,13 +399,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1994602178144200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e2605c65769fa43b9305b37c76402b, type: 3}
+  m_Script: {fileID: 11500000, guid: 560877b40b8b04b4fae085fe0d071c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _HP: 10
   _regenHpPerSec: 3
   _HPMax: 100
-  maxDistanceTarget: 0
+  _target: {fileID: 0}
 --- !u!135 &135482871376457182
 SphereCollider:
   m_ObjectHideFlags: 1

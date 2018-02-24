@@ -137,7 +137,7 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["HarpoonedStatus"],
+		"Status":["HarpoonedStunStatus", "HarpoonedDebuffStatus"],
 		"Description":
 		[
 			"Aim and grab the target toward the player\n",
