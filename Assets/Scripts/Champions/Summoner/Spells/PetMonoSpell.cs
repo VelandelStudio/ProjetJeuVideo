@@ -18,7 +18,7 @@ public class PetMonoSpell : Spell
     /// </summary>
     protected override void Start()
     {
-        _pet = LoadResource("PetMonsterMono");
+        _pet = LoadResource("ElementalMono");
         base.Start();
     }
 
