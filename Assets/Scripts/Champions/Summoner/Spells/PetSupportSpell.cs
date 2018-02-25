@@ -18,7 +18,7 @@ public class PetSupportSpell : Spell {
     protected override void Start()
     {
 
-        _pet = LoadResource("PetMonsterSupp");
+        _pet = LoadResource("ElementalSupport");
         base.Start();
     }
     public Vector3 pospet;

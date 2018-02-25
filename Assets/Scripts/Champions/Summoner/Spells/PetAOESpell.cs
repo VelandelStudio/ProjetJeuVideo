@@ -17,7 +17,7 @@ public class PetAOESpell : Spell
     protected override void Start()
     {
         
-        _pet = LoadResource("PetMonsterAOE");
+        _pet = LoadResource("ElementalAoe");
         base.Start();
     }
 
