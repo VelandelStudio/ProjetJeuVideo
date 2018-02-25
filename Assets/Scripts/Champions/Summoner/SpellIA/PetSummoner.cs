@@ -50,10 +50,10 @@ public class PetSummoner : EntityLivingBase
             }
         }
 
-        if (!_summoner.GetComponent<EntityLivingBase>().IsAlive)
-        {
-            base.InstantKill();
-        }
+        //if (!_summoner.GetComponent<EntityLivingBase>().IsAlive)
+        //{
+        //    base.InstantKill();
+        //}
 
         base.Update();
 	}
