@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class DefenseBoostStatus : StatusBase, IBuff
 {
-    /* status that boost the defense, it's applied on the summonerAOE and his PET by the PassiveSummonerPetAOE */ 
-    public override void OnStatusApplied()
+    protected override void Start()
     {
+        base.Start();
+        transform.localPosition += new Vector3(0f, transform.parent.lossyScale.y * 2f, 0f);
+    }
+
+    /* status that boost the defense, it's applied on the summonerAOE and his PET by the PassiveSummonerPetAOE */
+    public override void OnStatusApplied()
+    { 
         int defenseBase = 10;
         int nbEnemyMonsterTouched = GetComponentInParent<DeflagrationSpell>().TargetsTouched.Count; // count of the number of EnemyMonster entities with TouchStatus 
         int defenseIncreased = defenseBase + nbEnemyMonsterTouched*int.Parse(OtherValues[0]); // Increased the defense boost 
