@@ -62,6 +62,7 @@ public class HarpoonSpell : Spell
         _posEnd = transform;
         _monsterIsGrabbed = true;
 
+        ApplyStatus(Status[1], entityHit.transform);
         ApplyStatus(Status[0], entityHit.transform);
     }
 }

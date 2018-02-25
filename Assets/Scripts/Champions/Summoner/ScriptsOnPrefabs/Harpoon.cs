@@ -5,11 +5,8 @@ using UnityEngine;
 
 public class Harpoon : LinearProjectile
 {
-
     private HarpoonSpell _parentSpell;
-    private Animator _anim;
     private BoxCollider _collider;
-
 
     public override void ApplyEffect(Collider collision)
     {

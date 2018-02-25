@@ -6,14 +6,15 @@ public class HarpoonedDebuffStatus : StatusBase, IDebuff
 {
     private EntityLivingBase _entity;
     private EnemyMonster _scriptParent;
-    private float _timer;
 
-    
+
     protected override void Start()
     {
 
         base.Start();
-        
+
+        Debug.Log("HarpoonedDebuffStatus Created !");
+        _scriptParent = GetComponentInParent<EnemyMonster>();
     }
     
 

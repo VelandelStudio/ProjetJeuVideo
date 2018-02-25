@@ -19,6 +19,7 @@ public abstract class Champion : MonoBehaviour
     protected AutoAttackBase autoAttack;
     protected ChampionData championData;
 
+    protected Animator anim;
     protected SpellBarBehaviour spellBar;
     public string Name
     {
@@ -71,6 +72,8 @@ public abstract class Champion : MonoBehaviour
         AttributePassiveToClass();
         AttributeAutoAttackToClass();
         AttributeSpellsToClass();
+
+        anim = GetComponent<Animator>();
     }
 
     /** Update protected virtual void Method.
@@ -136,6 +139,9 @@ public abstract class Champion : MonoBehaviour
         Spell spell = spells[spellIndex];
         if (spell.IsSpellLauncheable())
         {
+            anim.SetTrigger("ChampionAction");
+            anim.SetTrigger("Spell" + (spellIndex+1));
+
             spell.LaunchSpell();
             if (spell.HasGCD)
             {

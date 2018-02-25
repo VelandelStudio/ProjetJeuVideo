@@ -93,8 +93,8 @@ GameObject:
   - component: {fileID: 23846519746039158}
   - component: {fileID: 135540761968340384}
   - component: {fileID: 195829992393577766}
-  - component: {fileID: 114054970967370334}
   - component: {fileID: 54158830348646560}
+  - component: {fileID: 114024117341579136}
   m_Layer: 0
   m_Name: PetMonsterSupp
   m_TagString: Untagged
@@ -391,7 +391,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &114054970967370334
+--- !u!114 &114024117341579136
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -399,13 +399,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1905166155099780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e2605c65769fa43b9305b37c76402b, type: 3}
+  m_Script: {fileID: 11500000, guid: 560877b40b8b04b4fae085fe0d071c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HP: 10
+  _HP: -1
   _regenHpPerSec: 3
   _HPMax: 100
-  maxDistanceTarget: 0
+  _target: {fileID: 0}
 --- !u!135 &135476652599300668
 SphereCollider:
   m_ObjectHideFlags: 1

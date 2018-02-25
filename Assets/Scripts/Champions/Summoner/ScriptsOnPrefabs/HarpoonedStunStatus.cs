@@ -13,7 +13,7 @@ public class HarpoonedStunStatus : StatusBase, IDebuff
 
         base.Start();
 
-        Debug.Log("HarpoonedStatus Created !");
+        Debug.Log("HarpoonedStunStatus Created !");
         _scriptParent = GetComponentInParent<EnemyMonster>();
         _scriptParent.enabled = false;
 
@@ -26,7 +26,6 @@ public class HarpoonedStunStatus : StatusBase, IDebuff
         if (_timer == base.Duration)
         {
             _scriptParent.enabled = true;
-           // Destroy(gameObject);
         }
 
         _timer = Mathf.Clamp(_timer + Time.deltaTime, 0, base.Duration);
@@ -34,7 +33,7 @@ public class HarpoonedStunStatus : StatusBase, IDebuff
 
     public override void OnStatusApplied()
     {
-        Debug.Log("HarpoonedStatus Created !");
+        Debug.Log("HarpoonedStunStatus Created !");
 
     }
 
