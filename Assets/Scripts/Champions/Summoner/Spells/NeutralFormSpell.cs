@@ -16,12 +16,12 @@ public class NeutralFormSpell : Spell
     private System.Type _type;
     public Vector3 _posPet;
 
-    /**LaunchSpell, public override void method
+    /** LaunchSpell, public override void method
      * When launched this NeutralFormSpell we instantiate the SummonerNeutral champion in the oldChampion's position.
      * We check if the oldChampion have a pet associated and in this case we duplicate this pet and destroy the old one.
      * The old pet's target is checked in order to give the newChampionObj as target at the new pet if oldChampion was the old pet's target.
      * In other case we give the current old pet's target at the new pet.
-     * **/
+     **/
     public override void LaunchSpell()
     {
         base.LaunchSpell();

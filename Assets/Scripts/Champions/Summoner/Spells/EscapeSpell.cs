@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/** EscapeSpell, public class
+ * @extends : Spell
+ * This scrit is associated with the SummonerNeutral.
+ * It allow to the pet to come back to the summoner and apply a status on. 
+ **/
 public class EscapeSpell : Spell {
 
     private GameObject _summoner;
     private GameObject _pet;
     private bool _spellIsUsed;
 
+
+    /** Start, protected override void
+     * Start get the summoner's gameObject and pet's gameObject and initialize the _spellIsUsed variable.
+     **/
     protected override void Start()
     {
         _summoner = gameObject;
@@ -18,6 +27,9 @@ public class EscapeSpell : Spell {
         base.Start();
     }
 
+    /**Update, protected override void method
+     * Each frame the game checks if the pet is in range to apply the status and if the spell is not already used. 
+     **/
     protected override void Update()
     {
 
@@ -30,9 +42,12 @@ public class EscapeSpell : Spell {
         base.Update();
     }
 
+    /** LauchSpell, public override void method
+     * This method is called when the player launch his spell and allows to switch the target to summoner and changes _spellIsUsed to true
+     **/
     public override void LaunchSpell()
     {
-        // change current position of the player and pet then apply status "velocity" to them
+        
         base.LaunchSpell();
         if (IsSpellLauncheable())
         {
@@ -45,6 +60,9 @@ public class EscapeSpell : Spell {
         }
     }
 
+    /** ApplayEffect, public void method
+     * This method is called when the distance between summoner and pet is lower than the distance define in the Update method. 
+     **/
     public void ApplyEffect (GameObject gameObject)
     {
         ApplyStatus(Status[0], gameObject.transform);
