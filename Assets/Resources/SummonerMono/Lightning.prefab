@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 199120375282311740}
   - component: {fileID: 114404154689516586}
   m_Layer: 0
-  m_Name: FireBall
+  m_Name: Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
