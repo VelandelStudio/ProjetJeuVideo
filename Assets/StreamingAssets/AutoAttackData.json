@@ -60,5 +60,37 @@
 		[
 			"Launch a small power ball that inflicts that {Damages[0]} damages to target."
 		]
+	},
+	{
+		"ScriptName":"AutoAttackSummonerAOE",
+		"Name":"Explosing ball",
+		"Type":"Ranged",
+		"Element":"fire",
+		"CoolDownValue":"1.2f",
+		"Damages":[7],
+		"DamagesType":["m"],
+		"OtherValues":["2.5"],
+		"Status":[""],
+		"Description":
+		[
+			"Launch a explosing ball that inflicts that {Damages[0]} damages to target.\n",
+			" the ball exploses at the impact applying {Damages[0]*0.5} damages to the enemy monsters surronding the target by {OtherValues}."
+		]
+	},
+	{
+		"ScriptName":"AutoAttackSummonerSupport",
+		"Name":"Slowing ball",
+		"Type":"Ranged",
+		"Element":"ice",
+		"CoolDownValue":"1.2f",
+		"Damages":[7],
+		"DamagesType":["m"],
+		"OtherValues":[""],
+		"Status":["SlowStatus"],
+		"Description":
+		[
+			"Launch a small ice ball that inflicts that {Damages[0]} damages to target.\n",
+			" the ball apply <<Status[0]>> at the impact, slowing down the target by decreasing his speed points."
+		]
 	}
 ]

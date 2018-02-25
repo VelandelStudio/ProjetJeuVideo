@@ -36,9 +36,45 @@
 		]
 	},
 	{
+		"ScriptName":"HarpoonedStunStatus",
+		"Name":"Harpooned Stun Status",
+		"Element":"none",
+		"Duration":3,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"HarpoonedStunStatus."
+		]
+	},
+	{
+		"ScriptName":"HarpoonedDebuffStatus",
+		"Name":"Harpooned Debuff Status",
+		"Element":"none",
+		"Duration":30,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"HarpoonedDebuffStatus."
+		]
+	},
+	{
 		"ScriptName":"TouchStatus",
 		"Name":"Touch",
-		"Element":"none",
+		"Element":"",
 		"Duration":20,
 		"IsTickable":false,
 		"TicksIntervals":[],
@@ -51,6 +87,80 @@
 		"Description":
 		[
 			"Status applied on an enemy monster when he's touch with DeflagrationSpell."
+		]
+	},
+  {
+    "ScriptName": "WaitForTheBoomStatus",
+    "Name": "Wait For The Boom",
+    "Element": "none",
+    "Duration": 5,
+    "IsTickable": false,
+    "TicksIntervals": [],
+    "TickStarts": [],
+    "Damages": [],
+    "DamagesType": [],
+    "OtherValues": [],
+    "IsStackable": false,
+    "NumberOfStacks": 0,
+    "Description": [
+      "the pet is waiting for his explosion, and the summoner can't change his form"
+    ]
+  },
+  {
+    "ScriptName": "CountDownBeforeTheBoomStatus",
+    "Name": "Countdown Before TheBoom",
+    "Element": "none",
+    "Duration": 5,
+    "IsTickable": false,
+    "TicksIntervals": [],
+    "TickStarts": [],
+    "Damages": [],
+    "DamagesType": [],
+    "OtherValues": [],
+    "IsStackable": false,
+    "NumberOfStacks": 0,
+    "Description": [
+      "Countdown for the explosion of the pet "
+    ]
+  },
+
+  {
+		"ScriptName":"DefenseBoostStatus",
+		"Name":"DefenseBoost",
+		"Element":"",
+		"Duration":3,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":["10"],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Status applied on the player and the pet that boost their defense.\n",
+			"His status is applied when the player in near the pet and if there are enemy monster with <<TouchStatus>>.\n",
+			"The defense boost value increase with the number of enemy monster 'touched' ({OtherValues[0]}*nb_enemy_touched)"
+		]
+	},
+	{
+		"ScriptName":"SlowStatus",
+		"Name":"Slow",
+		"Element":"ice",
+		"Duration":3,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":["0.5"],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Status applied on the enemy monster hit by the AutoAttackSummonerSupport.\n",
+			"His status decrease the moving speed of the monster hit and slow it down by {OtherValues[0]}"
 		]
 	},
 	{

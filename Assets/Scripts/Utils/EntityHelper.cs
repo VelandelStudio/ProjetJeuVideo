@@ -20,4 +20,12 @@ public static class EntityHelper
             status[i].DestroyStatus();
         }
     }
+
+   public static  GameObject ApplyStatus(GameObject inst, GameObject recev, GameObject Status)
+    {
+        GameObject objInst = GameObject.Instantiate(Status, recev.transform);
+        StatusBase statusInst = objInst.GetComponent<StatusBase>();
+        statusInst.StartStatus(Status.GetComponent<StatusBase>());
+        return objInst;
+    }
 }

@@ -65,7 +65,7 @@
 	},
 	{
 		"Name":"SummonerAOE",
-		"Passive":"PassiveSummonerAOE",
+		"Passive":"PassiveSummonerPetAOE",
 		"AutoAttack":"AutoAttackSummonerAOE",
 		"ActiveSpells":["NeutralFormSpell", "DeflagrationSpell", "AnnihilationSpell", "SwitchTargetSpell"],
 		"Element":"Fire",
@@ -82,7 +82,7 @@
 		"Name":"SummonerSupport",
 		"Passive":"PassiveSummonerSupport",
 		"AutoAttack":"AutoAttackSummonerSupport",
-		"ActiveSpells":["NeutralFormSpell", "ArpoonSpell", "EnergyShieldSpell", "SwitchTargetSpell"],
+		"ActiveSpells":["NeutralFormSpell", "HarpoonSpell", "EnergyShieldSpell", "SwitchTargetSpell"],
 		"Element":"Nature",
 		"Description":
 		[

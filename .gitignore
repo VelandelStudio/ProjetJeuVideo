@@ -30,3 +30,5 @@ sysinfo.txt
 *.asset binary
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+Assets/Scripts/Champions/Summoner/Spells/ArpoonSpell.cs
+Assets/Scripts/Champions/Summoner/Spells/ArpoonSpell.cs
