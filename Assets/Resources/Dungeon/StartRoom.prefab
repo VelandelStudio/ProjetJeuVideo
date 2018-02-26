@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 33282127977697220}
   - component: {fileID: 64048634572390010}
   - component: {fileID: 23203533710060724}
+  - component: {fileID: 114893962982917792}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Floor
@@ -1336,9 +1337,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &64509628567967308
@@ -1350,9 +1351,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &65322952773200284
@@ -1585,3 +1586,14 @@ MonoBehaviour:
   RoomSouth: {fileID: 0}
   RoomEast: {fileID: 0}
   RoomWest: {fileID: 0}
+--- !u!114 &114893962982917792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1149192957672382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84e593d767084b489573ea2c26e1a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
