@@ -100,7 +100,7 @@ public class Datas : IDisplayable
                          + "or that this Status exists as a Prefab with the same Script Name associated to it, "
                          + "or that the Status Name is correct in the StatusData.json file. "
                          + "DefaultStatus substitued");
-                status[i] = (GameObject)Resources.Load("Default/DefaultStatus");
+                status[i] = LoadStatus("DefaultStatus");
                 status[i].GetComponent<StatusBase>().PreWarm();
             }
         }

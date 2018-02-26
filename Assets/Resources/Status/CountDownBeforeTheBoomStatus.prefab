@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4294503480044444}
-  - component: {fileID: 114676984158577242}
+  - component: {fileID: 114990062233938942}
   m_Layer: 0
-  m_Name: SlowStatus
+  m_Name: CountDownBeforeTheBoomStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114676984158577242
+--- !u!114 &114990062233938942
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,6 +48,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1765302245068580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d5b5f461f25f74bacf4ae7ca369495, type: 3}
+  m_Script: {fileID: 11500000, guid: dfef4adfa53534e6da36fae0ada78ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStackable: 0
+  NumberOfStacks: 0

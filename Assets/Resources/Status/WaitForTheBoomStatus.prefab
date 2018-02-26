@@ -51,3 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc86269390644d04989e87d08ce3671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStackable: 0
+  NumberOfStacks: 0
