@@ -90,6 +90,7 @@ public abstract class Champion : MonoBehaviour
     {
         GameObject normalPlayer = (GameObject)Resources.Load("Player/Summoner");
         spellBar.SetChildrenActives(false);
+        Camera.main.transform.parent = null;
         Instantiate(normalPlayer, transform.position, transform.rotation);
         Destroy(gameObject);
     }
@@ -113,7 +114,6 @@ public abstract class Champion : MonoBehaviour
         Spell spell = spells[spellIndex];
         if (spell.IsSpellLauncheable())
         {
-            anim.SetTrigger("ChampionAction");
             anim.SetTrigger("Spell" + (spellIndex+1));
 
             spell.LaunchSpell();

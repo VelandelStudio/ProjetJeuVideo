@@ -8,7 +8,8 @@
 public class CameraController : MonoBehaviour
 {
 
-    [SerializeField] private Transform _target;					//The player transform.
+    private Transform _target;                  //The player transform.
+
     public bool CameraControlled;        //Boolean to enable/Disable when another script is controlling the camera.
 
     //Speed and sensitivity of the Camera.
@@ -29,6 +30,10 @@ public class CameraController : MonoBehaviour
     public float X { get; private set; }
     public float Y { get; private set; }
 
+    public Transform playerFollowed
+    {
+        get { return _target; }
+    }
     /** Start, private void
 	 * This Method get the eulerAgnles of the transform Target (player).
 	 * Then it sets the x and y values to the camera's one.
@@ -39,6 +44,12 @@ public class CameraController : MonoBehaviour
         X = angles.y;
         Y = angles.x;
         CameraControlled = true;
+    }
+
+    public void AttributChampionToFollow(Transform champion)
+    {
+        _target = champion;
+        transform.parent = _target;
     }
 
     /** LateUpdate, private void
@@ -81,11 +92,11 @@ public class CameraController : MonoBehaviour
     private void HandleCameraTransform()
     {
         Y = ClampAngle(Y, _xMinLimit, _xMaxLimit);
-        transform.rotation = Quaternion.Euler(Y, transform.parent.eulerAngles.y, 0);
+        transform.rotation = Quaternion.Euler(Y, transform.eulerAngles.y, 0);
         transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -_distance) + _target.position;
 
-        /*
-        Y = ClampAngle(Y, _xMinLimit, _xMaxLimit);
+
+        /*Y = ClampAngle(Y, _xMinLimit, _xMaxLimit);
         transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse Y"), Vector3.right);
         transform.position = transform.rotation * new Vector3(0.0f, 2.0f, -_distance) + _target.position;
         */
