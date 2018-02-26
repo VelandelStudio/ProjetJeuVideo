@@ -8,50 +8,23 @@ using System.IO;
  **/
 public abstract class ChallengeBase : MonoBehaviour, IDisplayable
 {
-    protected ChallengeData challengeData;
+    protected Datas challengeData;
     protected RoomBehaviour roomBehavior;
 
     public bool isSucces = false;
 
-    public string Name { get; protected set; }
-    public string[] OtherValues { get; protected set; }
-    public string[] Description { get; protected set; }
-    public bool IsLoaded { get; protected set; }
-    
+    public string Name { get { return challengeData.Name; } protected set { } }
+    public string[] OtherValues { get { return challengeData.OtherValues; } protected set { } }
+    public string[] Description { get { return challengeData.Description; } protected set { } }
+    public bool IsLoaded { get { return challengeData.IsLoaded; } protected set { } }
+
     /** Awake, protected virtual void
      * We use this method to load the challenge itself from a json file.
      **/
     protected virtual void Awake()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "ChallengeData.json");
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-            ChallengeData[] data = JsonHelper.getJsonArray<ChallengeData>(jsonFile);
-            foreach (ChallengeData challenge in data)
-            {
-                if (challenge.ScriptName == GetType().ToString())
-                {
-                    challengeData = challenge;
-                    break;
-                }
-            }
-
-            if (data == null)
-            {
-                // Nothing for the moment
-            }
-        }
-        else
-        {
-            Debug.LogError("Cannot load challenge data!");
-        }
-
+        challengeData = new Datas(GetType().ToString(), "ChallengeData.json");
         roomBehavior = GetComponent<RoomBehaviour>();
-
-        Name = challengeData.Name;
-        Description = challengeData.Description;
-        OtherValues = challengeData.OtherValues;
     }
 
     /** ConditionToSucced, public abstract bool
@@ -86,17 +59,5 @@ public abstract class ChallengeBase : MonoBehaviour, IDisplayable
     public string GetDescriptionGUI()
     {
         return StringHelper.DescriptionBuilder(this);
-    }
-    
-    /** ChallengeData, protected inner class
-     * This inner class was made to serve ChallengeBase only. We use this class as a support to load JSON datas of Challenges.
-     **/
-    [System.Serializable]
-    protected class ChallengeData
-    {
-        public string ScriptName;
-        public string Name;
-        public string[] OtherValues;
-        public string[] Description;
     }
 }
