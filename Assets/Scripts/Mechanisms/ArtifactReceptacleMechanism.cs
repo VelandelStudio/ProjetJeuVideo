@@ -37,6 +37,11 @@ public class ArtifactReceptacleMechanism : ActivableMechanism
      */
     public override void ActivateInterractable(Collider other)
     {
+        if(_artifactInstance)
+        {
+            Destroy(_artifactInstance);
+        }
+
         _artifactInstance = Instantiate(_artifact, transform);
         _activableMenus.SetActive(true);
         Color color = new Color(1f, 1f, 1f, 1f);

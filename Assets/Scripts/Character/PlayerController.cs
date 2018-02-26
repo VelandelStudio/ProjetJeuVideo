@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
 	**/
     private void Start()
     {
+        Camera.main.GetComponent<CameraController>().AttributChampionToFollow(transform);
         _anim = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
         SetupAnimator();
@@ -89,7 +90,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _lastHorizontalInput = Mathf.Lerp(_lastHorizontalInput,0,0.1f);
+            _lastHorizontalInput = Mathf.Lerp(_lastHorizontalInput, 0, 0.1f);
             _lastVerticalInput = Mathf.Lerp(_lastVerticalInput, 0, 0.1f);
             Animate(_lastVerticalInput, _lastHorizontalInput);
         }
@@ -143,7 +144,7 @@ public class PlayerController : MonoBehaviour
             _gravityVector.y = Movement.JumpSpeed;
         }
     }
-    
+
     /** ApplyMovemement : private void method
 	 * Applys all the movements to the player. 
          * In this method we threat two cases separately that depends if the player has his cursor visible or no not.

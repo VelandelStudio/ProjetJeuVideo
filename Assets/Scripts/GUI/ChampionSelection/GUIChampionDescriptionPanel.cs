@@ -109,8 +109,9 @@ public class GUIChampionDescriptionPanel : MonoBehaviour {
      **/
     public void InvokeChampion()
     {
-        GameObject oldChampion = Camera.main.transform.parent.gameObject;
+        GameObject oldChampion = Camera.main.GetComponent<CameraController>().playerFollowed.gameObject;
         GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + _championName);
+        Camera.main.transform.parent = null;
         Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
         Destroy(oldChampion.gameObject);
         gameObject.SetActive(false);
