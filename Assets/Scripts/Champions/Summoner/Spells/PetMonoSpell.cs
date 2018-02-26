@@ -32,6 +32,7 @@ public class PetMonoSpell : Spell
 
             GameObject oldChampion = Camera.main.transform.parent.gameObject;
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerMono");
+            Camera.main.transform.parent = null;
             newChampionObj = Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
             
 

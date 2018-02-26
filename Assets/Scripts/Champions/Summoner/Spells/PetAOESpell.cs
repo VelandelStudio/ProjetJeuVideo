@@ -28,6 +28,7 @@ public class PetAOESpell : Spell
         {
             GameObject oldChampion = Camera.main.transform.parent.gameObject;
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerAOE");
+            Camera.main.transform.parent = null;
             newChampionObj = Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation); // newChampionObj becomes GameObject in the scene not in the prefab !!!!!
             
 
