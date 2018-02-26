@@ -29,6 +29,7 @@ public class NeutralFormSpell : Spell
         {
             GameObject oldChampion = Camera.main.transform.parent.gameObject;
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerNeutral");
+            Camera.main.transform.parent = null;
             newChampionObj = Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
 
             _petOld = oldChampion.GetComponent<SummonerInterface>().Pet;
