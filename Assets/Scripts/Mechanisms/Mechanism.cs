@@ -45,10 +45,14 @@ public abstract class Mechanism : MonoBehaviour, IInterractable
 	 **/
     public virtual void DisplayTextOfInterractable() { }
 
+
+    public virtual void CancelTextOfInterractable() { }
     /** CancelTextOfInterractable, public virtual void
 	 * Used to disable elements on the screen when we are not close enough to the mechanism
 	 **/
-    public virtual void CancelTextOfInterractable() { }
+    public virtual void CancelTextOfInterractable(Collider other) { }
+
+
 
     public abstract void OnActivation(Collider other);
 }

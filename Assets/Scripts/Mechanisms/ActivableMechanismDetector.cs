@@ -74,7 +74,7 @@ public class ActivableMechanismDetector : MonoBehaviour
     {
         if (other.tag == "Player" && interractable.IsActivable)
         {
-            interractable.CancelTextOfInterractable();
+            interractable.CancelTextOfInterractable(other);
         }
     }
 
