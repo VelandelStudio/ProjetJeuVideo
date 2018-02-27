@@ -48,7 +48,6 @@ public class PetAOESpell : Spell
                 Debug.Log("Destroy");
             }
 
-
             //gameObject.SetActive(false);
             Destroy(oldChampion.gameObject);
             Debug.Log("sort lancé");
