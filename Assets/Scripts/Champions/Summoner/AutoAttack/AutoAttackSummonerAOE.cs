@@ -29,19 +29,21 @@ public class AutoAttackSummonerAOE : AutoAttackBase
 
     public void OnAttackHit(EntityLivingBase eHit)
     {
-        eHit.DamageFor(Damages[0]); // apply damages to the "primary target"
-        Debug.Log("damages to target");
+        //if (eHit.GetComponent<EnemyMonster>()) // If you want to protect the EntityLivingBase GameObject other than EnemyMonster from the auto attack and status
+       // {
+            eHit.DamageFor(Damages[0]); // apply damages to the "primary target"
+            Debug.Log("damages to target");
 
-        Collider[] cols = Physics.OverlapSphere(eHit.transform.position, float.Parse(OtherValues[0])); // Create an OverlapSphere that recup the list of the EnemyMonster colliders that triggered it.
-        /* apply half of the auto attackt damages to every monsters surrounding the target (2f range)  */
-        foreach (Collider col in cols)
-        {
-            if (col.gameObject.GetComponent<EnemyMonster>() && !col.isTrigger && col.gameObject.GetComponent<EnemyMonster>() != eHit) // if the collider is not a trigger and is owned by an EnemyMonster and is not the primary target (already hit) 
+            Collider[] cols = Physics.OverlapSphere(eHit.transform.position, float.Parse(OtherValues[0])); // Create an OverlapSphere that recup the list of the EnemyMonster colliders that triggered it.
+                                                                                                           /* apply half of the auto attackt damages to every monsters surrounding the target (2f range)  */
+            foreach (Collider col in cols)
             {
-                col.gameObject.GetComponent<EnemyMonster>().DamageFor(System.Convert.ToInt32(Damages[0] * 0.5)); // apply half of damages
-                Debug.Log("explosion damages !!!!!");
+                if (col.gameObject.GetComponent<EnemyMonster>() && !col.isTrigger && col.gameObject.GetComponent<EnemyMonster>() != eHit) // if the collider is not a trigger and is owned by an EnemyMonster and is not the primary target (already hit) 
+                {
+                    col.gameObject.GetComponent<EnemyMonster>().DamageFor(System.Convert.ToInt32(Damages[0] * 0.5)); // apply half of damages
+                    Debug.Log("explosion damages !!!!!");
+                }
             }
-        }
+       // }
     }
-
 }
