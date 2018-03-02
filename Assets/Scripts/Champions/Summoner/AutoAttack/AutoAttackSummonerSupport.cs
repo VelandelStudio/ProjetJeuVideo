@@ -36,21 +36,25 @@ public class AutoAttackSummonerSupport : AutoAttackBase
 
     public void OnAttackHit(EntityLivingBase eHit)
     {
-        eHit.DamageFor(Damages[0]); // apply damages to target
-        Debug.Log("damages to target");
+        //if (eHit.GetComponent<EnemyMonster>()) // If you want to protect the EntityLivingBase GameObject other than EnemyMonster from the auto attack and status
+        //{
+            eHit.DamageFor(Damages[0]); // apply damages to target
+            Debug.Log("damages to target");
 
-        /* Apply SlowStatus to  target */
-        SlowStatus slow = eHit.gameObject.GetComponentInChildren<SlowStatus>();
-        if (slow != null) // if already with SlowStatus => reset the status else apply the status
-        {
-            slow.ResetStatus();
-            Debug.Log("Status reset on target");
-        }
-        else
-        {
-            GameObject obj = ApplyStatus(GetComponent<AutoAttackSummonerSupport>().Status[0], eHit.transform); // applying status to the Enemy Monster touched by the spell
-            TargetsSlowed.Add(obj.GetComponent<SlowStatus>()); // update the list of EnemyMonster with "TouchStatus"
-        }
+            /* Apply SlowStatus to  target */
+            SlowStatus slow = eHit.gameObject.GetComponentInChildren<SlowStatus>();
+            if (slow != null) // if already with SlowStatus => reset the status else apply the status
+            {
+                slow.ResetStatus();
+                Debug.Log("Status reset on target");
+            }
+            else
+            {
+                GameObject obj = ApplyStatus(GetComponent<AutoAttackSummonerSupport>().Status[0], eHit.transform); // applying status to the Enemy Monster touched by the spell
+                TargetsSlowed.Add(obj.GetComponent<SlowStatus>()); // update the list of EnemyMonster with "TouchStatus"
+            }
+       // }
+
     }
 
     protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
