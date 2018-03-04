@@ -9,6 +9,8 @@ public class PetAOESpell : Spell
     private GameObject _target;
     public Vector3 _posPet;
 
+    private GameObject _swapAOEPS;
+
     //public int count = 0;
     /// <summary>
     /// Override Start method
@@ -16,7 +18,7 @@ public class PetAOESpell : Spell
     /// </summary>
     protected override void Start()
     {
-        
+        _swapAOEPS = (GameObject)Resources.Load("ParticleSystems/SummonerAOEInvoke/SwapSummonerAOEPS");
         _pet = LoadResource("ElementalAoe");
         base.Start();
     }
@@ -30,7 +32,8 @@ public class PetAOESpell : Spell
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerAOE");
             Camera.main.transform.parent = null;
             newChampionObj = Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation); // newChampionObj becomes GameObject in the scene not in the prefab !!!!!
-            
+            Instantiate(_swapAOEPS, newChampionObj.transform.position, newChampionObj.transform.rotation, newChampionObj.transform);
+
 
             _posPet = new Vector3(transform.position.x + 2, transform.position.y + 1, transform.position.z + 2);
             _target = newChampionObj;
