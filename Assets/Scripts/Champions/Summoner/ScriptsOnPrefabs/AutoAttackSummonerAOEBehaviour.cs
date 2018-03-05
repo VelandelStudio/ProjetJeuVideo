@@ -5,6 +5,7 @@ using UnityEngine;
 public class AutoAttackSummonerAOEBehaviour : LinearProjectile
 {
 
+    [SerializeField] private GameObject _explosionTouchPS;
 
     /// <summary>
     /// ApplyEffect method -> implementation of the abstract method in LinearProjectile mother Class
@@ -14,6 +15,8 @@ public class AutoAttackSummonerAOEBehaviour : LinearProjectile
     /// <param name="col">>is the collider touch by the projectile</param>
     public override void ApplyEffect(Collider col)
     {
+        _explosionTouchPS.transform.parent = null;
+        _explosionTouchPS.SetActive(true);
         launcher.GetComponent<AutoAttackSummonerAOE>().OnAttackHit(eHit);
     }
 
