@@ -14,8 +14,15 @@ public class NeutralFormSpell : Spell
     private GameObject _petNew;
     private GameObject _petOld;
     private System.Type _type;
-    public Vector3 _posPet;
 
+    public Vector3 _posPet;
+    private GameObject _swapNeutralPS;
+
+    protected override void Start()
+    {
+        _swapNeutralPS = (GameObject)Resources.Load("ParticleSystems/SummonerNeutralInvoke/SwapSummonerNeutralPS");
+        base.Start();
+    }
     /** LaunchSpell, public override void method
      * When launched this NeutralFormSpell we instantiate the SummonerNeutral champion in the oldChampion's position.
      * We check if the oldChampion have a pet associated and in this case we duplicate this pet and destroy the old one.
@@ -31,6 +38,7 @@ public class NeutralFormSpell : Spell
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerNeutral");
             Camera.main.transform.parent = null;
             newChampionObj = Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation);
+            Instantiate(_swapNeutralPS, newChampionObj.transform.position, newChampionObj.transform.rotation, newChampionObj.transform);
 
             _petOld = oldChampion.GetComponent<SummonerInterface>().Pet;
             _posPet = new Vector3(transform.position.x + 2, transform.position.y + 1, transform.position.z + 2);
