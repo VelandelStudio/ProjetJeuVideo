@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 {
     private Animator _anim;
     private CharacterController _characterController;
+    public bool _isFighting;
     private bool _jumping;
     private bool _resetGravity;
     private float _gravity;
@@ -94,6 +95,16 @@ public class PlayerController : MonoBehaviour
             _lastVerticalInput = Mathf.Lerp(_lastVerticalInput, 0, 0.1f);
             Animate(_lastVerticalInput, _lastHorizontalInput);
         }
+
+        if (_isFighting)
+        {
+            _anim.SetBool("IsFighting", true);
+        }
+        else
+        {
+            _anim.SetBool("IsFighting", false);
+        }
+
     }
 
     /** Update : public void method
