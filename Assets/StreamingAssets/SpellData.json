@@ -171,14 +171,15 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["MonoStackStatus"],
+		"Status":["MonoStackStatus", "LightningStatus"],
 		"Description":
 		[
 			"Cast a quick ray that damage one target\n",
-			" applies <<Status[0]>> (stacks) to the the player"
+			" applies <<Status[0]>> (stacks) to the the player",
+			"Applies <<Status[1]>> to monster hit by the Lightning"
 		]
 	 },
-		{
+	 {
 		"ScriptName":"ThunderstormSpell",
 		"Name":"Thunderstorm",
 		"Element":"Storm",
