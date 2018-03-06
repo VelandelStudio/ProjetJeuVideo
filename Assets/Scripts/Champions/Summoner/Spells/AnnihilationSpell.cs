@@ -23,7 +23,7 @@ public class AnnihilationSpell : Spell
         if (IsSpellLauncheable())
         {
          
-            if (GetComponent<PetSummoner>().IsAlive) //if the PetAOE is alive then the spell is cast
+            if (GetComponent<SummonerInterface>().Pet!=null) //if the PetAOE is alive then the spell is cast
             {
                 base.LaunchSpell();
                 Debug.Log("sort lancé");
@@ -36,7 +36,7 @@ public class AnnihilationSpell : Spell
 
 
             ApplyStatus(GetComponent<AnnihilationSpell>().Status[0], transform); // WaitForTheBoomStatus is applied to the player
-            ApplyStatus(GetComponent<AnnihilationSpell>().Status[1], GetComponentInChildren<SummonerInterface>().Pet.transform); // CountDownBeforetheBoomStatus is applied to the Pe
+            ApplyStatus(GetComponent<AnnihilationSpell>().Status[1], GetComponentInChildren<SummonerInterface>().Pet.transform); // CountDownBeforetheBoomStatus is applied to the Pet
 
             base.OnSpellLaunched();
 

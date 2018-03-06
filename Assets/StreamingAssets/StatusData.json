@@ -97,14 +97,18 @@
 		"IsTickable": false,
 		"TicksIntervals": [],
 		"TickStarts": [],
-		"Damages": [],
-		"DamagesType": [],
-		"OtherValues": [],
+		"Damages": [20],
+		"DamagesType": ["m"],
+		"OtherValues": ["8"],
 		"IsStackable": false,
 		"NumberOfStacks": 0,
 		"Description":
 		[
-			 "the pet is waiting for his explosion, and the summoner can't change his form"
+			"Countdown for the explosion of the pet \n",
+			"The player cannot change form with this status applied on him\n",
+			"Inflicts {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion and kick them out from the Pet\n",
+			"Destroy the Pet\n",
+			"Force the summoner back to his NeutralForm"
 		]
 	},
 	{
@@ -115,16 +119,14 @@
 		"IsTickable": false,
 		"TicksIntervals": [],
 		"TickStarts": [],
-		"Damages": [100],
-		"DamagesType": ["m"],
-		"OtherValues": ["8"],
+		"Damages": [],
+		"DamagesType": [],
+		"OtherValues": [],
 		"IsStackable": false,
 		"NumberOfStacks": 0,
 		"Description":
 		[
-			"Countdown for the explosion of the pet \n",
-			"Inflicts {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion\n",
-			"Force the summoner back to his NeutralForm"
+			"the pet is waiting for his explosion, and the summoner can't change his form"
 		]
 	},
 	{
