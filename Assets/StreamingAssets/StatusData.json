@@ -72,6 +72,24 @@
 		]
 	},
 	{
+		"ScriptName":"LightningStatus",
+		"Name":"LightningStatus",
+		"Element":"none",
+		"Duration":2,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"LightningStatus."
+		]
+	},
+	{
 		"ScriptName":"TouchStatus",
 		"Name":"Touch",
 		"Element":"",
