@@ -95,9 +95,9 @@
 		"Type":"Ranged",
 		"CoolDownValue":1,
 		"HasGCD":true,
-		"Damages":[100],
-		"DamagesType":["m"],
-		"OtherValues":["8"],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
 		"NumberOfStacks":0,
 		"Status":["WaitForTheBoomStatus","CountDownBeforetheBoomStatus"],
 		"Description":
@@ -105,8 +105,7 @@
 			"Autodestruction of the Pet in a big 'BOUM!'\n",
 			"Applies <<Status[0]>> to the Player before the explosion\n",
 			"Applies <<Status[1]>> to the Pet before the explosion\n",
-			"Inflicts {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion\n",
-			"Force the summoner back to his NeutralForm"
+
 		]
 	},
 		{

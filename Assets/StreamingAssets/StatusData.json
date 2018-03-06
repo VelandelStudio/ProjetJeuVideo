@@ -114,13 +114,15 @@
     "IsTickable": false,
     "TicksIntervals": [],
     "TickStarts": [],
-    "Damages": [],
-    "DamagesType": [],
-    "OtherValues": [],
+    "Damages": [100],
+    "DamagesType": ["m"],
+    "OtherValues": ["8"],
     "IsStackable": false,
     "NumberOfStacks": 0,
     "Description": [
       "Countdown for the explosion of the pet "
+      "Inflicts {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion\n",
+      "Force the summoner back to his NeutralForm"
     ]
   },
 

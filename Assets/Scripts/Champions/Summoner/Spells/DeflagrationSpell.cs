@@ -20,6 +20,7 @@ public class DeflagrationSpell : Spell
     }
 
     public override void LaunchSpell()
+
     {
         if (IsSpellLauncheable())
         {
