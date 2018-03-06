@@ -89,44 +89,45 @@
 			"Status applied on an enemy monster when he's touch with DeflagrationSpell."
 		]
 	},
-  {
-    "ScriptName": "WaitForTheBoomStatus",
-    "Name": "Wait For The Boom",
-    "Element": "none",
-    "Duration": 5,
-    "IsTickable": false,
-    "TicksIntervals": [],
-    "TickStarts": [],
-    "Damages": [],
-    "DamagesType": [],
-    "OtherValues": [],
-    "IsStackable": false,
-    "NumberOfStacks": 0,
-    "Description": [
-      "the pet is waiting for his explosion, and the summoner can't change his form"
-    ]
-  },
-  {
-    "ScriptName": "CountDownBeforeTheBoomStatus",
-    "Name": "Countdown Before TheBoom",
-    "Element": "none",
-    "Duration": 5,
-    "IsTickable": false,
-    "TicksIntervals": [],
-    "TickStarts": [],
-    "Damages": [100],
-    "DamagesType": ["m"],
-    "OtherValues": ["8"],
-    "IsStackable": false,
-    "NumberOfStacks": 0,
-    "Description": [
-      "Countdown for the explosion of the pet "
-      "Inflicts {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion\n",
-      "Force the summoner back to his NeutralForm"
-    ]
-  },
-
-  {
+	{
+		"ScriptName": "WaitForTheBoomStatus",
+		"Name": "Wait For The Boom",
+		"Element": "none",
+		"Duration": 5,
+		"IsTickable": false,
+		"TicksIntervals": [],
+		"TickStarts": [],
+		"Damages": [],
+		"DamagesType": [],
+		"OtherValues": [],
+		"IsStackable": false,
+		"NumberOfStacks": 0,
+		"Description":
+		[
+			 "the pet is waiting for his explosion, and the summoner can't change his form"
+		]
+	},
+	{
+		"ScriptName": "CountDownBeforeTheBoomStatus",
+		"Name": "Countdown Before TheBoom",
+		"Element": "none",
+		"Duration": 5,
+		"IsTickable": false,
+		"TicksIntervals": [],
+		"TickStarts": [],
+		"Damages": [100],
+		"DamagesType": ["m"],
+		"OtherValues": ["8"],
+		"IsStackable": false,
+		"NumberOfStacks": 0,
+		"Description":
+		[
+			"Countdown for the explosion of the pet \n",
+			"Inflicts {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion\n",
+			"Force the summoner back to his NeutralForm"
+		]
+	},
+	{
 		"ScriptName":"DefenseBoostStatus",
 		"Name":"DefenseBoost",
 		"Element":"",

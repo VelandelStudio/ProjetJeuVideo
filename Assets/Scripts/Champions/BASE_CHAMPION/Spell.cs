@@ -14,6 +14,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
      * The spellInUse field is use to tell when a spell is starting and when it is ending. For example, a Charge spell has a real duration in time.
      * The CurrentCD field is used to know how much time ypu have to wait until the next use of the spell.
      * The SpellGCD field is used to set a GlobalCooldown to all Spells. Is a Spell is under GCD, the field IsUnderGCD is true.
+     * The IsSpellUsable field is used to determine if you can use a spell or not (stun or special condition on a spell etc ...)
      **/
     #region Fields
     public SpellData _spellData { get; protected set; }
@@ -45,6 +46,12 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     }
 
     public bool IsUnderGCD { get; protected set; }
+
+    public bool IsSpellUsable
+    {
+        get { return IsSpellUsable; }
+        protected set { }
+    }
     #endregion
 
     #region Functionnal Methods

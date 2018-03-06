@@ -23,7 +23,7 @@ public class AnnihilationSpell : Spell
         if (IsSpellLauncheable())
         {
          
-            if (GetComponentInChildren<AllyMonster>().IsAlive) //if the PetAOE is alive then the spell is cast
+            if (GetComponent<PetSummoner>().IsAlive) //if the PetAOE is alive then the spell is cast
             {
                 base.LaunchSpell();
                 Debug.Log("sort lancé");
