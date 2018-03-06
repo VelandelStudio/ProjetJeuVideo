@@ -71,6 +71,15 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
         return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
     }
 
+    /** ReduceCurrentCooldown, public void Method
+	 * @param : float
+	 * Reduce the current CD with a float. Usefull for cooldown reduction items
+	 **/
+    public void ReduceCurrentCooldown(float f)
+    {
+        CurrentCD = Mathf.Clamp(CurrentCD - f, 0, CoolDownValue);
+    }
+
     /** AutoAttackIsReady protected bool Method,
 	 * This returns if the auto-attack is launchea&ble or not. In this script, we only check if the auto-attack is under Cooldown or not.
 	 **/

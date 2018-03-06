@@ -172,6 +172,15 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     }
     #endregion
 
+    /** ReduceCurrentCooldown, public void Method
+	 * @param : float
+	 * Reduce the current CD with a float. Usefull for cooldown reduction items
+	 **/
+    public void ReduceCurrentCooldown(float f)
+    {
+        CurrentCD = Mathf.Clamp(CurrentCD - f, 0, CoolDownValue);
+    }
+
     #region Ienumerators and Coroutines
     /** LaunchGCD, public virtual IEnumerator Method
 	 * This Method should be launched by other scripts in order to activate the Global Cooldown of the spell.

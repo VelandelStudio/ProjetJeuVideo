@@ -9,7 +9,7 @@ public class PetSupportSpell : Spell {
     private GameObject _target;
     public Vector3 _posPet;
     private GameObject SummonerNeutral = (GameObject)Resources.Load("Champion/SummonerNeutral");
-
+    private GameObject _swapSupportPS;
 
     /// <summary>
     /// Override Start method
@@ -17,7 +17,7 @@ public class PetSupportSpell : Spell {
     /// </summary>
     protected override void Start()
     {
-
+        _swapSupportPS = (GameObject)Resources.Load("ParticleSystems/SummonerSupportInvoke/SwapSummonerSupportPS");
         _pet = LoadResource("ElementalSupport");
         base.Start();
     }
@@ -25,7 +25,6 @@ public class PetSupportSpell : Spell {
 
     public override void LaunchSpell()
     {
-
         base.LaunchSpell();
         if (IsSpellLauncheable())
         {
@@ -34,7 +33,7 @@ public class PetSupportSpell : Spell {
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerSupport");
             Camera.main.transform.parent = null;
             newChampionObj = Instantiate(newChampionObj, oldChampion.transform.position, oldChampion.transform.rotation); // newChampionObj becomes GameObject in the scene not in the prefab !!!!!
-            
+            Instantiate(_swapSupportPS, newChampionObj.transform.position, newChampionObj.transform.rotation, newChampionObj.transform);
 
             _posPet = new Vector3(transform.position.x + 2, transform.position.y + 1, transform.position.z + 2);
             _target = newChampionObj;
