@@ -79,7 +79,7 @@
 		"IsTickable":false,
 		"TicksIntervals":[],
 		"TickStarts":[],
-		"Damages":[],
+		"Damages":[10],
 		"DamagesType":[],
 		"OtherValues":[],
 		"IsStackable":false,

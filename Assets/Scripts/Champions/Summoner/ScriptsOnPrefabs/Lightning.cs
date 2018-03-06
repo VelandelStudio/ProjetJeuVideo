@@ -19,8 +19,6 @@ public class Lightning : LinearProjectile
         }
     }
 
-
-
     public override void AttributeSpeedAndRange()
     {
         SpellRange = 20;
