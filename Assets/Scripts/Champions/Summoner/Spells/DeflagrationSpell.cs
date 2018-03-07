@@ -61,6 +61,7 @@ public class DeflagrationSpell : Spell
                     }
                 }
             }
+            Debug.Log(TargetsTouched.Count+" target touched");
             base.OnSpellLaunched(); // cooldown
         }
     }

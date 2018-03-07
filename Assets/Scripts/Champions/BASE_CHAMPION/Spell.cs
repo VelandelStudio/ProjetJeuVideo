@@ -47,11 +47,14 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
 
     public bool IsUnderGCD { get; protected set; }
 
+    private bool _IsSpellUsable =true;
+
     public bool IsSpellUsable
     {
-        get { return IsSpellUsable; }
-        protected set { }
+        get { return _IsSpellUsable; }
+        set { _IsSpellUsable = value; }
     }
+
     #endregion
 
     #region Functionnal Methods
@@ -119,7 +122,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
 	 **/
     public virtual bool IsSpellLauncheable()
     {
-        return (CurrentCD == 0);
+        return (CurrentCD == 0) && IsSpellUsable;
     }
 
     /** IsSpellInUse public bool Method,
