@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,5 +50,7 @@ public class LightningSpell : Spell
             Debug.Log("le status : " + Status[1]);
             Debug.Log("statut nouveau");
         }
+
+        gameObject.GetComponent<PassiveSummonerPetMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
     }
 }

@@ -92,5 +92,21 @@
 			"Launch a small ice ball that inflicts that {Damages[0]} damages to target.\n",
 			" the ball apply <<Status[0]>> at the impact, slowing down the target by decreasing his speed points."
 		]
+	},
+	{
+		"ScriptName":"AutoAttackSummonerMono",
+		"Name":"Je sais pas",
+		"Type":"Ranged",
+		"Element":"",
+		"CoolDownValue":"1.2f",
+		"Damages":[7],
+		"DamagesType":["m"],
+		"OtherValues":["1"],
+		"Status":[""],
+		"Description":
+		[
+			"Launch a /// that inflicts that {Damages[0]} damages to target.\n",
+			" the /// apply <<OtherValues[0]>> stack of Voltage."
+		]
 	}
 ]

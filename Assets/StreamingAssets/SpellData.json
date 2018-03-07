@@ -169,7 +169,7 @@
 		"HasGCD":true,
 		"Damages":[5],
 		"DamagesType":["m"],
-		"OtherValues":[],
+		"OtherValues":[2],
 		"NumberOfStacks":0,
 		"Status":["MonoStackStatus", "LightningStatus"],
 		"Description":
