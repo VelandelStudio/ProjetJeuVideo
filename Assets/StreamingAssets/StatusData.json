@@ -79,7 +79,7 @@
 		"IsTickable":false,
 		"TicksIntervals":[],
 		"TickStarts":[],
-		"Damages":[],
+		"Damages":[10],
 		"DamagesType":[],
 		"OtherValues":[],
 		"IsStackable":false,
@@ -115,7 +115,7 @@
 		"IsTickable": false,
 		"TicksIntervals": [],
 		"TickStarts": [],
-		"Damages": [20],
+		"Damages": [2],
 		"DamagesType": ["m"],
 		"OtherValues": ["8"],
 		"IsStackable": false,
@@ -124,8 +124,7 @@
 		[
 			"Countdown for the explosion of the pet \n",
 			"The player cannot change form with this status applied on him\n",
-			"Inflicts {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion and kick them out from the Pet\n",
-			"Destroy the Pet\n",
+			"The Pet EXPLOSE dealing {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion and kick them out from the Pet\n",
 			"Force the summoner back to his NeutralForm"
 		]
 	},
@@ -167,6 +166,25 @@
 			"The defense boost value increase with the number of enemy monster 'touched' ({OtherValues[0]}*nb_enemy_touched)"
 		]
 	},
+  {
+    "ScriptName": "RegenerationStatus",
+    "Name": "Regeneration",
+    "Element": "",
+    "Duration": 3,
+    "IsTickable": false,
+    "TicksIntervals": [],
+    "TickStarts": [],
+    "Damages": [],
+    "DamagesType": [],
+    "OtherValues": [ "10","3"],
+    "IsStackable": false,
+    "NumberOfStacks": 0,
+    "Description": 
+    [
+      "Status applied on the player and the pet , increase the life point of the player(({OtherValues[0]} ans the regeneration of the pet({OtherValues[1]}\n",
+      "His status is applied when the player in near the pet"
+    ]
+  },
 	{
 		"ScriptName":"SlowStatus",
 		"Name":"Slow",
