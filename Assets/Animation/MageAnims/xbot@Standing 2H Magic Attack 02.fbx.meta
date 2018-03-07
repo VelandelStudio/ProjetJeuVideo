@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 2aa884bc5dc92384a80be111ac347c86
-timeCreated: 1520288801
+guid: 1fc1b49c2c49bca41b0ee79e1d14382b
+timeCreated: 1520368749
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -141,7 +141,7 @@ ModelImporter:
     400130: mixamorig:Spine1
     400132: mixamorig:Spine2
     400134: //RootNode
-    7400000: Standing Walk Right
+    7400000: Standing 2H Magic Attack 02
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -178,18 +178,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Standing Walk Right
+      name: Standing 2H Magic Attack 02
       takeName: mixamo.com
-      firstFrame: 0
-      lastFrame: 71
+      firstFrame: 66
+      lastFrame: 158
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
