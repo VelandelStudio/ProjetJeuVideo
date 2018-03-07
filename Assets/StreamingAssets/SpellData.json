@@ -92,7 +92,7 @@
 		"Name":"Annihilation",
 		"Element":"Fire",
 		"Type":"Ranged",
-		"CoolDownValue":1,
+		"CoolDownValue":5,
 		"HasGCD":true,
 		"Damages":[],
 		"DamagesType":[],
@@ -102,8 +102,8 @@
 		"Description":
 		[
 			"Autodestruction of the Pet in a big 'BOUM!'\n",
-			"Applies <<Status[0]>> to the Player before the explosion\n",
-			"Applies <<Status[1]>> to the Pet before the explosion"
+			"Applies <<Status[0]>> to the Player before the EXPLOSION\n",
+			"Applies <<Status[1]>> to the Pet before the EXPLOSION"
 		]
 	 },
 	 {
