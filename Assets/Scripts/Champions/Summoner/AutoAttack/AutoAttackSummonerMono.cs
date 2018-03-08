@@ -9,7 +9,6 @@ public class AutoAttackSummonerMono : AutoAttackBase
     private GameObject _throwable;
     private Camera _cameraPlayer;
     private Transform _launcherTransform;
-    private GameObject _SummonerMono;
 
     /** Start : protected override void Method
     
@@ -19,7 +18,6 @@ public class AutoAttackSummonerMono : AutoAttackBase
         _cameraPlayer = this.GetComponentInChildren<Camera>();
         _throwable = LoadResource("AutoAttackSummonerMono");
         _launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
-        _SummonerMono = gameObject;
 
         base.Start();
     }
@@ -27,7 +25,7 @@ public class AutoAttackSummonerMono : AutoAttackBase
     /** AutoAttack : public override void Method
 	 
 	 **/
-    public override void AutoAttack()
+    public override void AutoAttack ()
     {
         if (AutoAttackIsReady())
         {
@@ -43,7 +41,7 @@ public class AutoAttackSummonerMono : AutoAttackBase
     {
 
         eHit.DamageFor(Damages[0]);
-        gameObject.GetComponent<PassiveSummonerPetMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
+       gameObject.GetComponent<PassiveSummonerMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
     }
 
 }

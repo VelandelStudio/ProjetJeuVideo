@@ -106,7 +106,7 @@
 		"Description":
 		[
 			"Launch a /// that inflicts that {Damages[0]} damages to target.\n",
-			" the /// apply <<OtherValues[0]>> stack of Voltage."
+			" the /// apply  {OtherValues[0]} stack of Voltage."
 		]
 	}
 ]
