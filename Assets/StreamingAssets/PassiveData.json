@@ -98,9 +98,9 @@
 		"Type":"",
 		"Damages":[],
 		"DamagesType":[],
-		"OtherValues":[""],
+		"OtherValues":["10"],
 		"NumberOfStacks":0,
-		"Status":[""],
+		"Status":["RegenerationStatus"],
 		"Description":
 		[
 			"When activated by summoning a pet support <<PetSupportSpell>>, the Soul Mate applies <<Status[0]>> to you, in {OtherValues[0]} radius units."

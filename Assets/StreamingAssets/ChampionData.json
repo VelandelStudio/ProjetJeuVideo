@@ -52,7 +52,7 @@
 	{
 		"Name":"SummonerMono",
 		"Passive":"PassiveSummonerMono",
-		"AutoAttack":"AutoAttackSummonerMono",
+		"AutoAttack":"AutoAttackSummonerPetMono",
 		"ActiveSpells":["NeutralFormSpell", "LightningSpell", "ThunderstormSpell", "SwitchTargetSpell"],
 		"Element":"Storm",
 		"Description":
@@ -80,7 +80,7 @@
 	},
 	{
 		"Name":"SummonerSupport",
-		"Passive":"PassiveSummonerSupport",
+		"Passive":"PassiveSummonerPetSupport",
 		"AutoAttack":"AutoAttackSummonerSupport",
 		"ActiveSpells":["NeutralFormSpell", "HarpoonSpell", "EnergyShieldSpell", "SwitchTargetSpell"],
 		"Element":"Nature",

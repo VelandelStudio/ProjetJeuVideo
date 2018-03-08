@@ -37,7 +37,7 @@ public class PassiveSummonerPetMono : PassiveBase
     {
         if (_summonerIsInRange)
         {
-            _voltage.GetComponent<VoltageStatus>./*nom methode*/(value);
+           // _voltage.GetComponent<VoltageStatus>./*nom methode*/(value);
         }
     }
 }

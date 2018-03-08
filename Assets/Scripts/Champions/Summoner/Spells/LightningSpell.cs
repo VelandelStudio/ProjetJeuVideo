@@ -55,6 +55,6 @@ public class LightningSpell : Spell
         gameObject.GetComponent<PassiveSummonerPetMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
 =======
         }**/
->>>>>>> b9c2175e771d8b68cb15a7553bfa8fcef969b919
+//>>>>>>> b9c2175e771d8b68cb15a7553bfa8fcef969b919
     }
 }

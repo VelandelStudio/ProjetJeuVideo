@@ -8,8 +8,9 @@ public class PetSupportSpell : Spell {
     private GameObject _pet;
     private GameObject _target;
     public Vector3 _posPet;
-    private GameObject SummonerNeutral = (GameObject)Resources.Load("Champion/SummonerNeutral");
+    //private GameObject SummonerNeutral = (GameObject)Resources.Load("Champion/SummonerNeutral");
     private GameObject _swapSupportPS;
+
 
     /// <summary>
     /// Override Start method
@@ -19,13 +20,16 @@ public class PetSupportSpell : Spell {
     {
         _swapSupportPS = (GameObject)Resources.Load("ParticleSystems/SummonerSupportInvoke/SwapSummonerSupportPS");
         _pet = LoadResource("ElementalSupport");
+
         base.Start();
     }
-    public Vector3 pospet;
+    //public Vector3 pospet;
 
     public override void LaunchSpell()
     {
+        
         base.LaunchSpell();
+        
         if (IsSpellLauncheable())
         {
         
@@ -66,13 +70,13 @@ public class PetSupportSpell : Spell {
 
         }
     }
-    /*protected override void Update()
+    protected override void Update()
     {
 
         base.Update();
-        PetMonsterSupp.transform.position = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 2);
+        //PetMonsterSupp.transform.position = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 2);
         // PetMonsterSupp.transform.position = SummonerNeutral.transform.position;
         //MonsterMove();
     
-}*/
+    }
 }
