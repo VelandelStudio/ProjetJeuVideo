@@ -12,7 +12,6 @@ public class PetSummoner : EntityLivingBase
     private GameObject _summoner;
     private float _autoAttackTimer;
     private float _autoAttackCD = 3.0f;
-
     public GameObject _target;
    
     void Start ()
@@ -21,6 +20,7 @@ public class PetSummoner : EntityLivingBase
         _posPet = transform;
         _autoAttackTimer = 0.0f;
         nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        InitializeLivingEntity(1000, 1000);
     }
 	
 	protected override void Update ()
