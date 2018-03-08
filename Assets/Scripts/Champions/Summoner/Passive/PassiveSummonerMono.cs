@@ -44,7 +44,7 @@ public class PassiveSummonerMono : PassiveBase
     {
         if (_summonerIsInRange && _voltage != null)
         {
-            _voltage.GetComponent<VoltageStatus>().AddStacks(value);
+           // _voltage.GetComponent<VoltageStatus>().AddStacks(value);
         }
     }
     

@@ -7,7 +7,8 @@ using UnityEngine;
  * This scrit is associated with the SummonerNeutral.
  * It allow to the pet to come back to the summoner and apply a status on. 
  **/
-public class EscapeSpell : Spell {
+public class EscapeSpell : Spell
+{
 
     private GameObject _summoner;
     private GameObject _pet;
@@ -33,7 +34,7 @@ public class EscapeSpell : Spell {
     protected override void Update()
     {
 
-        if (Vector3.Distance(_pet.transform.position, _summoner.transform.position) < 5.0f && _spellIsUsed == true)
+        if (_pet != null && Vector3.Distance(_pet.transform.position, _summoner.transform.position) < 5.0f && _spellIsUsed == true)
         {
             ApplyEffect(_summoner);
             _spellIsUsed = false;
@@ -47,23 +48,25 @@ public class EscapeSpell : Spell {
      **/
     public override void LaunchSpell()
     {
-        
-        base.LaunchSpell();
-        if (IsSpellLauncheable())
+        if (_pet != null)
         {
-            _pet.GetComponent<PetSummoner>().Target = _summoner;
-            _spellIsUsed= true;
-            
 
-            Debug.Log("sort lancé");
-            base.OnSpellLaunched();
+            base.LaunchSpell();
+            if (IsSpellLauncheable())
+            {
+                _pet.GetComponent<PetSummoner>().Target = _summoner;
+                _spellIsUsed = true;
+
+                Debug.Log("sort lancé");
+                base.OnSpellLaunched();
+            }
         }
     }
 
     /** ApplayEffect, public void method
      * This method is called when the distance between summoner and pet is lower than the distance define in the Update method. 
      **/
-    public void ApplyEffect (GameObject gameObject)
+    public void ApplyEffect(GameObject gameObject)
     {
         ApplyStatus(Status[0], gameObject.transform);
     }
