@@ -108,6 +108,24 @@
 		]
 	},
 	{
+		"ScriptName":"VoltageStatus",
+		"Name":"Voltage",
+		"Element":"",
+		"Duration":20,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Status for stacks."
+		]
+	},
+	{
 		"ScriptName": "WaitForTheBoomStatus",
 		"Name": "Wait For The Boom",
 		"Element": "none",
