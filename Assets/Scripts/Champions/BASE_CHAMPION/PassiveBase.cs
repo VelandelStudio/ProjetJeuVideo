@@ -19,7 +19,19 @@ public abstract class PassiveBase : MonoBehaviour, ISpellDisplayable
     public string Element { get { return _passiveData.Element; } protected set { } }
     public string Type { get { return _passiveData.Type; } protected set { } }
     public float CoolDownValue { get { return _passiveData.CoolDownValue; } protected set { } }
-    public int[] Damages { get { return _passiveData.Damages; } protected set { } }
+    public int[] Damages
+    {
+        get
+        {
+            int[] DamagesCalc = new int[_passiveData.Damages.Length];
+            for (int i = 0; i < DamagesCalc.Length; i++)
+            {
+                DamagesCalc[i] = (int)(_passiveData.Damages[i] * characteristics.DamageFactor);
+            }
+            return DamagesCalc;
+        }
+        protected set { }
+    }
     public string[] DamagesType { get { return _passiveData.DamagesType; } protected set { } }
     public string[] OtherValues { get { return _passiveData.OtherValues; } protected set { } }
     public GameObject[] Status { get { return _passiveData.Status; } protected set { } }
@@ -28,6 +40,7 @@ public abstract class PassiveBase : MonoBehaviour, ISpellDisplayable
     public bool IsLoaded { get { return _passiveData.IsLoaded; } protected set { } }
 
     protected Champion champion;
+    protected Characteristics characteristics;
 
     #endregion
 
@@ -39,6 +52,11 @@ public abstract class PassiveBase : MonoBehaviour, ISpellDisplayable
     {
         champion = GetComponentInParent<Champion>();
         _passiveData = new PassiveData(GetType().ToString());
+    }
+
+    protected virtual void Start()
+    {
+        characteristics = GetComponent<Characteristics>();
     }
 
     /** LoadResource, protected virtual GameObject Method
@@ -73,10 +91,7 @@ public abstract class PassiveBase : MonoBehaviour, ISpellDisplayable
      **/
     protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
     {
-        GameObject objInst = Instantiate(status, tr);
-        StatusBase statusInst = objInst.GetComponent<StatusBase>();
-        statusInst.StartStatus(status.GetComponent<StatusBase>());
-        return objInst;
+        return EntityHelper.ApplyStatus(gameObject, tr.gameObject, status);
     }
     #endregion
 }

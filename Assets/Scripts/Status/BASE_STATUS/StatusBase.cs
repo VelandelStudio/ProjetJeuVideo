@@ -16,7 +16,25 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     public string Element { get; protected set; }
     public string Type { get; protected set; }
     public float CoolDownValue { get; protected set; }
-    public int[] Damages { get; protected set; }
+    public int[] Damages
+    {
+        get
+        {
+            if (!characteristics)
+            {
+                return StatusDefinition.Damages;
+            }
+
+            int[] DamagesCalc = new int[StatusDefinition.Damages.Length];
+            for (int i = 0; i < DamagesCalc.Length; i++)
+            {
+                DamagesCalc[i] = (int)(StatusDefinition.Damages[i] * characteristics.DamageFactor);
+            }
+            return DamagesCalc;
+        }
+        protected set { }
+    }
+
     public string[] DamagesType { get; protected set; }
     public string[] OtherValues { get; protected set; }
     public GameObject[] Status { get; protected set; }
@@ -31,6 +49,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
 
     public bool IsStackable;
     public int NumberOfStacks;
+    protected Characteristics characteristics;
 
     public float CurrentTimer
     {
@@ -77,6 +96,11 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         return _isLoaded;
     }
 
+    public void AttributeCharacteristics(Characteristics characteristics)
+    {
+        this.characteristics = characteristics;
+    }
+
     /** StartStatus, public virtual void 
      * @params : StatusBase
      * This method is called by other scripts (mainly spells)
@@ -115,6 +139,9 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
                 }
             }
         }
+        PreWarm();
+
+        /* Avec le sprint du Characteristics, cette section ne sera peut etre plus necessaire... A surveiller. 
 
         Name = status.Name;
         Element = status.Element;
@@ -123,12 +150,13 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         TicksIntervals = status.TicksIntervals;
         TickStarts = status.TickStarts;
         Damages = status.Damages;
+        Debug.Log(status.Damages[0]);
         DamagesType = status.DamagesType;
         OtherValues = status.OtherValues;
         IsStackable = status.IsStackable;
         NumberOfStacks = status.NumberOfStacks;
         Description = status.Description;
-
+        */
         if (transform.parent.gameObject.tag == "Player")
         {
             statusSection = GameObject.Find("StatusSection");

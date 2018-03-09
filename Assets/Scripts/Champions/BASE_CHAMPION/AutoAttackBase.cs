@@ -19,7 +19,19 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
     public string Element { get { return _autoAttackData.Element; } protected set { } }
     public string Type { get { return _autoAttackData.Type; } protected set { } }
     public float CoolDownValue { get { return _autoAttackData.CoolDownValue; } protected set { } }
-    public int[] Damages { get { return _autoAttackData.Damages; } protected set { } }
+    public int[] Damages
+    {
+        get
+        {
+            int[] DamagesCalc = new int[_autoAttackData.Damages.Length];
+            for (int i = 0; i < DamagesCalc.Length; i++)
+            {
+                DamagesCalc[i] = (int)(_autoAttackData.Damages[i] * characteristics.DamageFactor);
+            }
+            return DamagesCalc;
+        }
+        protected set { }
+    }
     public string[] DamagesType { get { return _autoAttackData.DamagesType; } protected set { } }
     public string[] OtherValues { get { return _autoAttackData.OtherValues; } protected set { } }
     public GameObject[] Status { get { return _autoAttackData.Status; } protected set { } }
@@ -29,6 +41,8 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 
     public float CurrentCD;
     protected Champion champion;
+    protected Characteristics characteristics;
+
     #endregion
 
     #region Functionnal Methods
@@ -47,6 +61,7 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 	 **/
     protected virtual void Start()
     {
+        characteristics = GetComponent<Characteristics>();
         CurrentCD = 0;
     }
 
@@ -114,5 +129,9 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
      **/
     public virtual void ApplyEffect(EntityLivingBase hit) { }
 
+    protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
+    {
+        return EntityHelper.ApplyStatus(gameObject, tr.gameObject, status);
+    }
     #endregion
 }

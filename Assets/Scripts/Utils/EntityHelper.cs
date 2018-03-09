@@ -21,11 +21,17 @@ public static class EntityHelper
         }
     }
 
-   public static  GameObject ApplyStatus(GameObject inst, GameObject recev, GameObject Status)
-    {
-        GameObject objInst = GameObject.Instantiate(Status, recev.transform);
+   public static GameObject ApplyStatus(GameObject inst, GameObject recev, GameObject status)
+   {
+        StatusBase statusPrewarmed = status.GetComponent<StatusBase>();
+        GameObject objInst = GameObject.Instantiate(status, recev.transform);
         StatusBase statusInst = objInst.GetComponent<StatusBase>();
-        statusInst.StartStatus(Status.GetComponent<StatusBase>());
+        statusInst.AttributeCharacteristics(inst.GetComponent<Characteristics>());
+
+        statusInst.StartStatus(statusPrewarmed);
+        Debug.Log(statusInst.Damages);
+
+
         return objInst;
-    }
+   }
 }

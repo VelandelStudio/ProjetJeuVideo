@@ -1062,6 +1062,7 @@ GameObject:
   - component: {fileID: 114054078496460424}
   - component: {fileID: 114981389069871528}
   - component: {fileID: 114963573230172878}
+  - component: {fileID: 114145557807237054}
   m_Layer: 0
   m_Name: SummonerAOE
   m_TagString: Player
@@ -2168,6 +2169,18 @@ MonoBehaviour:
     MovementSpeed: 5
     JumpSpeed: 3
     JumpTime: 0.5
+    MoveSpeedFactor: 1
+--- !u!114 &114145557807237054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1980793917507602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a72e608d2e8f643ad1037df2935597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114963573230172878
 MonoBehaviour:
   m_ObjectHideFlags: 1

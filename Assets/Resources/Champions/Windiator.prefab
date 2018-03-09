@@ -735,6 +735,7 @@ GameObject:
   - component: {fileID: 114390234870113136}
   - component: {fileID: 114309443635036254}
   - component: {fileID: 114379350437909680}
+  - component: {fileID: 114129130074268476}
   m_Layer: 0
   m_Name: Windiator
   m_TagString: Player
@@ -2381,6 +2382,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114129130074268476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1642302712905158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a72e608d2e8f643ad1037df2935597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114309443635036254
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2428,6 +2440,7 @@ MonoBehaviour:
     MovementSpeed: 5
     JumpSpeed: 3
     JumpTime: 0.5
+    MoveSpeedFactor: 1
 --- !u!114 &114552661161204502
 MonoBehaviour:
   m_ObjectHideFlags: 1

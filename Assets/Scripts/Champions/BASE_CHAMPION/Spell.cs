@@ -22,7 +22,19 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     public string Element { get { return _spellData.Element; } protected set { } }
     public string Type { get { return _spellData.Type; } protected set { } }
     public float CoolDownValue { get { return _spellData.CoolDownValue; } protected set { } }
-    public int[] Damages { get { return _spellData.Damages; } protected set { } }
+    public int[] Damages
+    {
+        get
+        {
+            int[] DamagesCalc = new int[_spellData.Damages.Length];
+            for (int i = 0; i < DamagesCalc.Length; i++)
+            {
+                DamagesCalc[i] = (int)(_spellData.Damages[i] * characteristics.DamageFactor);
+            }
+            return DamagesCalc;
+        }
+        protected set { }
+    }
     public string[] DamagesType { get { return _spellData.DamagesType; } protected set { } }
     public string[] OtherValues { get { return _spellData.OtherValues; } protected set { } }
     public GameObject[] Status { get { return _spellData.Status; } protected set { } }
@@ -36,7 +48,6 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     protected Champion champion;
 
     public float CurrentCD { get; protected set; }
-
     protected float spellGCD = 1f;
 
     public float SpellGCD
@@ -48,13 +59,13 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     public bool IsUnderGCD { get; protected set; }
 
     private bool _IsSpellUsable =true;
-
     public bool IsSpellUsable
     {
         get { return _IsSpellUsable; }
         set { _IsSpellUsable = value; }
     }
 
+    protected Characteristics characteristics;
     #endregion
 
     #region Functionnal Methods
@@ -73,6 +84,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
 	 **/
     protected virtual void Start()
     {
+        characteristics = GetComponent<Characteristics>();
         CurrentCD = 0;
     }
 
@@ -175,10 +187,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
      **/
     protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
     {
-        GameObject objInst = Instantiate(status, tr);
-        StatusBase statusInst = objInst.GetComponent<StatusBase>();
-        statusInst.StartStatus(status.GetComponent<StatusBase>());
-        return objInst;
+        return EntityHelper.ApplyStatus(gameObject, tr.gameObject, status);
     }
     #endregion
 

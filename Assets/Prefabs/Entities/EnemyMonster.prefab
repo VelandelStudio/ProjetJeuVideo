@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 195266831226733952}
   - component: {fileID: 114838379982565682}
   - component: {fileID: 54506892580661356}
+  - component: {fileID: 114974419410848926}
   m_Layer: 0
   m_Name: EnemyMonster
   m_TagString: Monster
@@ -335,6 +336,17 @@ MonoBehaviour:
   maxDistanceTarget: 20
   range: 5
   attackCD: 3
+--- !u!114 &114974419410848926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1059397386712724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a72e608d2e8f643ad1037df2935597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135267300386641218
 SphereCollider:
   m_ObjectHideFlags: 1

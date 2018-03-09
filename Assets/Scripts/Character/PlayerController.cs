@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private float _lastHorizontalInput;
     private float _lastVerticalInput;
 
-
+    private Characteristics _characteristics;
     [SerializeField] public AnimationSettings Animations;
     [SerializeField] public PhysicsSettings Physics;
     [SerializeField] public MovementSettings Movement;
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         public float MovementSpeed = 5f;
         public float JumpSpeed = 3f;
         public float JumpTime = 0.5f;
+        public float MoveSpeedFactor = 1.0f;
     }
 
     /** Start : private void method
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
         Camera.main.GetComponent<CameraController>().AttributChampionToFollow(transform);
         _anim = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
+        _characteristics = GetComponent<Characteristics>();
         SetupAnimator();
     }
 
@@ -147,10 +149,16 @@ public class PlayerController : MonoBehaviour
 
     /** ApplyMovemement : private void method
 	 * Applys all the movements to the player. 
-         * In this method we threat two cases separately that depends if the player has his cursor visible or no not.
+     * In this method we threat two cases separately that depends if the player has his cursor visible or no not.
 	**/
     private void ApplyMovemement()
     {
+
+        if (_characteristics)
+        {
+            Movement.MoveSpeedFactor = _characteristics.MovementSpeedFactor;
+        }
+
         if (CursorBehaviour.CursorIsVisible)
         {
             _moveDirection = Vector3.zero;
@@ -161,14 +169,16 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetAxis("Vertical") < 0)
             {
-                _moveDirection = Movement.MovementSpeed / 4 * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                _moveDirection = (Movement.MovementSpeed * Movement.MoveSpeedFactor) / 4 * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             }
             else
             {
-                _moveDirection = Movement.MovementSpeed * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                _moveDirection = transform.TransformDirection(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             }
+            _moveDirection.Normalize();
+
             _moveDirection.y = _gravityVector.y;
-            _characterController.Move(_moveDirection * Time.deltaTime);
+            _characterController.Move((Movement.MovementSpeed * Movement.MoveSpeedFactor) * _moveDirection * Time.deltaTime);
         }
     }
 

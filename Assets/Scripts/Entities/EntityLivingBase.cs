@@ -7,6 +7,8 @@ using System.Collections;
  * Please note that all of these methos can be called ONLY if the entity is living (i.e. IsDead = false).
  **/
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Characteristics))]
+
 public abstract class EntityLivingBase : MonoBehaviour
 {
     [SerializeField] private int _HP;
@@ -15,7 +17,7 @@ public abstract class EntityLivingBase : MonoBehaviour
     public bool IsDead { get { return _HP <= 0; } }
     public bool IsAlive { get { return !IsDead; } }
     private bool _startDespawn;
-
+    protected Characteristics characteristics;
     /** Awake, protected virtual void
 	 * First of all, we are checking that all LivingEntities that are not players have a Rigidbody that fits with the game rules. Which are.
 	 * Living Entities must have a rigidbody which uses gravity and is not kinematic.
@@ -54,6 +56,7 @@ public abstract class EntityLivingBase : MonoBehaviour
                          + "Seuls les roations en X et Z ont été Freeze. Merci de corriger le prefab.");
             }
         }
+        characteristics = GetComponent<Characteristics>();
     }
 
     /** InitializeLivingEntity public method.
@@ -76,7 +79,7 @@ public abstract class EntityLivingBase : MonoBehaviour
     {
         if (IsAlive)
         {
-            _HP -= amount;
+            _HP -= (int)(amount - characteristics.Defense);
             if (IsDead)
             {
                 EntityDies();

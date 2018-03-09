@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 135087432797364588}
   - component: {fileID: 54395666689256560}
   - component: {fileID: 114250769093113064}
+  - component: {fileID: 114637149135060632}
   m_Layer: 0
   m_Name: ElementalMono
   m_TagString: Untagged
@@ -163,6 +164,17 @@ MonoBehaviour:
   _regenHpPerSec: 3
   _HPMax: 0
   _target: {fileID: 0}
+--- !u!114 &114637149135060632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1275200777211498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a72e608d2e8f643ad1037df2935597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135087432797364588
 SphereCollider:
   m_ObjectHideFlags: 1
