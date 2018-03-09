@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class WaitForTheBoomStatus : StatusBase, IBuff {
 
-
+    [SerializeField] protected GameObject waitForTheBoomPS;
+    [SerializeField] protected GameObject boomPS;
 
     public override void OnStatusApplied()
     {
-        
+        boomPS.GetComponent<ParticleSystem>().Stop(true);
+
+        ParticleSystem[] mainTab = waitForTheBoomPS.GetComponentsInChildren<ParticleSystem>();
+        for (int i = 0; i < mainTab.Length; i++)
+        {
+            mainTab[i].Stop();
+            var main = mainTab[i].main;
+            main.duration = Duration;
+        }
+        waitForTheBoomPS.GetComponent<ParticleSystem>().Play(true);
         Debug.Log("WaitForTheBoomStatus applied ! be careful the explosion is near !!!!");
         /* adding a rigibody to the Player to apply explosion force on him */
         //GameObject Player = transform.parent.gameObject; //Instanciation of the Player in a variable
@@ -16,6 +26,14 @@ public class WaitForTheBoomStatus : StatusBase, IBuff {
         //PlayerRigidBody.mass = 1;
 
         GetComponentInParent<NeutralFormSpell>().IsSpellUsable = false;
+    }
+
+    public override void DestroyStatus()
+    {
+        boomPS.GetComponent<ParticleSystem>().Play(true);
+        boomPS.transform.parent = null;
+        Destroy(boomPS, 1f);
+        base.DestroyStatus();
     }
 
     public override void StatusTickBehaviour()

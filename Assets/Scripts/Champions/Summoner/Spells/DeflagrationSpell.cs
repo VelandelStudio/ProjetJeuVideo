@@ -6,10 +6,13 @@ public class DeflagrationSpell : Spell
 {
     private Camera _cameraPlayer; // variable that will contain the player camera 
     public List<TouchStatus> TargetsTouched = new List<TouchStatus>(); //List of all targets with a TouchStatus.
+    private GameObject deflagrationPS;
+
 
     protected override void Start()
     {
-        _cameraPlayer = this.GetComponentInChildren<Camera>(); // get player camera object
+        _cameraPlayer = GetComponentInChildren<Camera>(); // get player camera object
+        deflagrationPS = LoadResource("DeflagrationPS");
         base.Start();
     }
 
@@ -29,6 +32,7 @@ public class DeflagrationSpell : Spell
             bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
             if (hasFoundHitPoint)
             {
+                Instantiate(deflagrationPS, hit.point, Quaternion.identity);
                 base.LaunchSpell(); 
                 Debug.Log("sort lancé");
             }
