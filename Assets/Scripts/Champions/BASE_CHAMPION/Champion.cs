@@ -64,7 +64,6 @@ public abstract class Champion : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            anim.SetTrigger("AutoAttack");
             AutoAttack();
         }
 

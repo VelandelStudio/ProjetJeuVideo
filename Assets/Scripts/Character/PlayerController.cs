@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
             Animate(_lastVerticalInput, _lastHorizontalInput);
         }
 
-        if (_isFighting)
+      /*  if (_isFighting)
         {
             _anim.SetBool("IsFighting", true);
         }
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
         {
             _anim.SetBool("IsFighting", false);
         }
-
+        */
     }
 
     /** Update : public void method
@@ -117,8 +117,8 @@ public class PlayerController : MonoBehaviour
     {
         _anim.SetFloat(Animations.VerticalVelocityFloat, forward);
         _anim.SetFloat(Animations.HorizontalVelocityFloat, strafe);
-        _anim.SetBool(Animations.GroundedBool, _characterController.isGrounded);
-        _anim.SetBool(Animations.JumpBool, _jumping);
+        //_anim.SetBool(Animations.GroundedBool, _characterController.isGrounded);
+        //_anim.SetBool(Animations.JumpBool, _jumping);
     }
 
     /** ApplyGravity : private void method
@@ -189,7 +189,7 @@ public class PlayerController : MonoBehaviour
             _moveDirection.Normalize();
 
             _moveDirection.y = _gravityVector.y;
-            _characterController.Move((Movement.MovementSpeed * Movement.MoveSpeedFactor) * _moveDirection * Time.deltaTime);
+           //_characterController.Move((Movement.MovementSpeed * Movement.MoveSpeedFactor) * _moveDirection * Time.deltaTime);
         }
     }
 
