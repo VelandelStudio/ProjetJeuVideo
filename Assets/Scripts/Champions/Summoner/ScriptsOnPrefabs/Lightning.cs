@@ -7,11 +7,15 @@ using UnityEngine;
  **/
 public class Lightning : LinearProjectile
 {
- 
+    protected override void Start()
+    {
+        base.Start();
+        GetComponentInChildren<ParticleSystem>().transform.parent = null;
+    }
+
     public override void ApplyEffect(Collider col)
     {
         EntityLivingBase entityHit = col.gameObject.GetComponent<EntityLivingBase>();
-
         if (entityHit != null && entityHit.gameObject.tag != "Player")
         {
             launcher.GetComponent<LightningSpell>().ApplyEffectOnHit(entityHit);
