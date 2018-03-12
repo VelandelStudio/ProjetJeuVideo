@@ -69,7 +69,7 @@
 		"DamagesType":[],
 		"OtherValues":[""],
 		"NumberOfStacks":0,
-		"Status":["DefaultStatus"],
+		"Status":["VoltageStatus"],
 		"Description":
 		[
 			"When activated by summoning a pet Mono dps <<PetMonoSpell>>, the Soul Mate applies <<Status[0]>> to you, in {OtherValues[0]} radius units."

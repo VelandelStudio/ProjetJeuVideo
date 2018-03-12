@@ -38,6 +38,8 @@ public class LightningSpell : Spell
     public void ApplyEffectOnHit(EntityLivingBase entityHit)
     {
         entityHit.DamageFor(Damages[0]);
+        GetComponentInChildren<VoltageStatus>().AddStacks(2);
+
         /**LightningStatus lightningStatus = entityHit.GetComponentInChildren<LightningStatus>();
         if (lightningStatus != null)
         {
