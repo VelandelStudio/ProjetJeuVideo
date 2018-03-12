@@ -51,7 +51,7 @@ public class DungeonLauncher : ActivableMechanism
             if (champion)
             {
                 champion.ChampionDestroyable = false;
-                Dungeon = Instantiate(Dungeon);
+                Instantiate(Dungeon);
             }
         }
     }
