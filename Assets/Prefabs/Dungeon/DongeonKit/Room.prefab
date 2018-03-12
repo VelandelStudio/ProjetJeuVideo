@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 33611975070929776}
   - component: {fileID: 64784525182701474}
   - component: {fileID: 23703421486712944}
+  - component: {fileID: 114909138746420584}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Floor
@@ -112,6 +113,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -127,6 +129,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -151,9 +154,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &65287291881389172
@@ -190,5 +193,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e2b61ea42d3e7f479ce8a73e4337bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RoomNorth: {fileID: 0}
+  RoomSouth: {fileID: 0}
+  RoomEast: {fileID: 0}
+  RoomWest: {fileID: 0}
   monster:
   - {fileID: 1059397386712724, guid: 2a205edbe41f97748a362d50c72ccfce, type: 2}
+  RoomSelectedByShortpath: 0
+  RoomSelectedByExternalAdd: 0
+--- !u!114 &114909138746420584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1474677916002930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84e593d767084b489573ea2c26e1a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

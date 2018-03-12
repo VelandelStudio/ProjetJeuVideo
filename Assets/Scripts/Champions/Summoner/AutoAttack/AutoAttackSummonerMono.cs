@@ -39,9 +39,9 @@ public class AutoAttackSummonerMono : AutoAttackBase
     **/
     public void OnAttackHit(EntityLivingBase eHit)
     {
-
         eHit.DamageFor(Damages[0]);
-       //gameObject.GetComponent<PassiveSummonerMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
+        GetComponentInChildren<VoltageStatus>().AddStacks(Int32.Parse(OtherValues[0]));
+        //gameObject.GetComponent<PassiveSummonerMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
     }
 
 }

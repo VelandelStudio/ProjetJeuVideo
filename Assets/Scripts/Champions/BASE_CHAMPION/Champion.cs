@@ -73,10 +73,12 @@ public abstract class Champion : MonoBehaviour
         }
         if (Input.GetKeyDown(InputsProperties.ActiveSpell2))
         {
+            anim.SetTrigger("Spell2");
             LaunchSpell(1);
         }
         if (Input.GetKeyDown(InputsProperties.ActiveSpell3))
         {
+            anim.SetTrigger("Spell3");
             LaunchSpell(2);
         }
         if (Input.GetKeyDown(InputsProperties.ActiveSpell4))

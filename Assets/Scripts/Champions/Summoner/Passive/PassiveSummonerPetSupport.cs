@@ -19,7 +19,7 @@ public class PassiveSummonerPetSupport : PassiveBase {
                 ApplyStatus(GetComponent<PassiveSummonerPetSupport>().Status[0], transform);
             }
             // TODO regen for the pet 
-            /*else if (dist <= float.Parse(OtherValues[0]) && Player has stack of summonerMono form){
+            /*if (dist <= float.Parse(OtherValues[0]) && Player has stack of summonerMono form){
              * 
              * ApplyStatus(GetComponent<PassiveSummonerPetSupport>().Status[1], transform); // Status[1] HardRegenStatus not created yet
              * 

@@ -14,7 +14,11 @@ public class AutoAttackSummonerMonoBehaviour : LinearProjectile
     /// <param name="col">>is the collider touch by the projectile</param>
     public override void ApplyEffect(Collider col)
     {
-        launcher.GetComponent<AutoAttackSummonerMono>().OnAttackHit(eHit);
+        EntityLivingBase entityHit = col.gameObject.GetComponent<EntityLivingBase>();
+        if (entityHit != null && entityHit.gameObject.tag == "Monster")
+        {
+            launcher.GetComponent<AutoAttackSummonerMono>().OnAttackHit(entityHit);
+        }
     }
 
     /** AttributeSpeedAndRange, public override void,
