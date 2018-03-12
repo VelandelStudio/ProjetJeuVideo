@@ -203,6 +203,24 @@
       "His status is applied when the player in near the pet"
     ]
   },
+  {
+    "ScriptName": "ShieldDecreaseDamageStatus",
+    "Name": "DecreaseDamage",
+    "Element": "",
+    "Duration": 15,
+    "IsTickable": false,
+    "TicksIntervals": [],
+    "TickStarts": [],
+    "Damages": [],
+    "DamagesType": [],
+    "OtherValues": ["50"],
+    "IsStackable": false,
+    "NumberOfStacks": 0,
+    "Description": 
+    [
+      "Status applied on the player, decrease the damages dealt on the player{OtherValues[0]}"
+    ]
+  },
 	{
 		"ScriptName":"SlowStatus",
 		"Name":"Slow",

@@ -152,7 +152,7 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["ProtectedStatus"],
+		"Status":["ProtectedStatus", "ShieldDecreaseDamageStatus", "RegenerationStatus"],
 		"Description":
 		[
 			"Protect the player with an energy shield\n",

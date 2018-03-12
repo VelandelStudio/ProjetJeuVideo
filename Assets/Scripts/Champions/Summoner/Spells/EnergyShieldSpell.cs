@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class EnergyShieldSpell : Spell
 {
-    private GameObject SummonerSupport = (GameObject)Resources.Load("Champion/SummonerSupport");
-    private GameObject _monBouclier = (GameObject)Resources.Load("SummonerSupport/Bouclier");
+    private Camera _cameraPlayer; // variable that will contain the player camera 
 
+    // private GameObject _summoner;
+    // private ShieldDecreaseDamageStatus decreaseDamageStatus;
 
     protected override void Start()
     {
-        _monBouclier = LoadResource("Bouclier");
+        _cameraPlayer = GetComponentInChildren<Camera>(); // get player camera object
+
         base.Start();
     }
 
-    public Vector3 posShield;
 
     public override void LaunchSpell()
     
@@ -23,13 +24,13 @@ public class EnergyShieldSpell : Spell
         base.LaunchSpell();
         if (IsSpellLauncheable())
         {
-             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerSupport");
-    
-            posShield = new Vector3(transform.position.x+1 , transform.position.y+1, transform.position.z+1 );
-
-            _monBouclier = Instantiate(_monBouclier, posShield, Quaternion.identity); 
+            ApplyStatus(GetComponent<EnergyShieldSpell>().Status[1], transform);
+           // ApplyStatus(GetComponent<EnergyShieldSpell>().Status[2], transform);
             Debug.Log("sort lancé");
             base.OnSpellLaunched();
         }
+
     }
+ 
+     
 }
