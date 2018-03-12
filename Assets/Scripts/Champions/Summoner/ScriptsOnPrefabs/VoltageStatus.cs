@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VoltageStatus : StatusBase, IBuff {
-
+public class VoltageStatus : StatusBase, IBuff
+{
 
     public int numberOfStacks;
     
