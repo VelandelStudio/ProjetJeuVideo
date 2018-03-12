@@ -10,14 +10,12 @@ public class PassiveSummonerMono : PassiveBase
 
     private void Start()
     {
-         _voltage = GetComponentInChildren< VoltageStatus>();
-        Debug.Log("Valeur de Voltage : " + _voltage);
+         _voltage = GetComponentInChildren<VoltageStatus>();
 
          if (_voltage == null)
          {
             ApplyStatus(Status[0], transform);
          }
-
     }
 
     private void Update()

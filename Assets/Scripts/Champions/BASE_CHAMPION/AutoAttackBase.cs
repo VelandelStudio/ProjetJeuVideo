@@ -42,6 +42,7 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
     public float CurrentCD;
     protected Champion champion;
     protected Characteristics characteristics;
+    protected Animator anim;
 
     #endregion
 
@@ -61,6 +62,7 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 	 **/
     protected virtual void Start()
     {
+        anim = GetComponent<Animator>();
         characteristics = GetComponent<Characteristics>();
         CurrentCD = 0;
     }
@@ -111,7 +113,11 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 	 **/
     public virtual void AutoAttack()
     {
-        CurrentCD = CoolDownValue;
+        if (AutoAttackIsReady())
+        {
+            anim.SetTrigger("AutoAttack");
+            CurrentCD = CoolDownValue;
+        }
     }
 
     /** GetDescriptionGUI, public string Method

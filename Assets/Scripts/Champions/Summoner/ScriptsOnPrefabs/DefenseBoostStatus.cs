@@ -4,32 +4,39 @@ using UnityEngine;
 
 public class DefenseBoostStatus : StatusBase, IBuff
 {
+    private float DefenseToAdd;
+    private float DefenseAdded=0;
+
     protected override void Start()
     {
         base.Start();
         transform.localPosition += new Vector3(0f, transform.parent.lossyScale.y * 2f, 0f);
     }
 
-
-
     /* status that boost the defense, it's applied on the summonerAOE and his PET by the PassiveSummonerPetAOE */
     public override void OnStatusApplied()
     {
-        int nbEnemyMonsterTouched;
-        int defenseBase = 10;
+        DefenseToAdd = (float)System.Math.Round(double.Parse(OtherValues[0]), 1); // Defense to add each time the status is called
+        DefenseAdded += DefenseToAdd; //
+        // value of defense to increase depending of the number of monsters with TouchStatus
         if (transform.parent.tag == "Player")
         {
-            //Debug.Log("Summoner : " + GetComponentInParent<DeflagrationSpell>().TargetsTouched.Count);
-            nbEnemyMonsterTouched = GetComponentInParent<DeflagrationSpell>().TargetsTouched.Count; // count of the number of EnemyMonster entities with TouchStatus 
+            characteristics.Defense += DefenseToAdd;
+            Debug.Log("Player DefenseToAdd: " + DefenseToAdd);
+            Debug.Log("Summoner characteristics.Defense : " +characteristics.Defense);
         }
         else
         {
-            //Debug.Log("PET : "+GetComponentInParent<PetSummoner>().Summoner.GetComponent<DeflagrationSpell>().TargetsTouched.Count);
-             nbEnemyMonsterTouched = GetComponentInParent<PetSummoner>().Summoner.GetComponent<DeflagrationSpell>().TargetsTouched.Count; // count of the number of EnemyMonster entities with TouchStatus 
+            characteristics.Defense += DefenseToAdd;
+            Debug.Log("Pet DefenseToAdd: " + DefenseToAdd);
+            Debug.Log("Pet characteristics.Defense : " + characteristics.Defense);
         }
-           
-        int defenseIncreased = defenseBase + nbEnemyMonsterTouched*int.Parse(OtherValues[0]); // Increased the defense boost 
-        Debug.Log("DefenseBoostStatus applied = Défense augmentée de "+defenseBase+" à "+ defenseIncreased);
+ 
+    }
+
+    private void OnDestroy()
+    {
+        characteristics.Defense -= DefenseAdded;
     }
 
     public override void StatusTickBehaviour()
@@ -37,3 +44,5 @@ public class DefenseBoostStatus : StatusBase, IBuff
         throw new System.NotImplementedException();
     }
 }
+
+

@@ -29,8 +29,6 @@ public static class EntityHelper
         statusInst.AttributeCharacteristics(inst.GetComponent<Characteristics>());
 
         statusInst.StartStatus(statusPrewarmed);
-        Debug.Log(statusInst.Damages);
-
 
         return objInst;
    }
