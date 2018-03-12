@@ -174,7 +174,7 @@
 		"TickStarts":[],
 		"Damages":[],
 		"DamagesType":[],
-		"OtherValues":["10"],
+		"OtherValues":["0.4"],
 		"IsStackable":false,
 		"NumberOfStacks":0,
 		"Description":
