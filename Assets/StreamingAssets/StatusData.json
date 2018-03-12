@@ -111,7 +111,7 @@
 		"ScriptName":"VoltageStatus",
 		"Name":"Voltage",
 		"Element":"",
-		"Duration":20,
+		"Duration": 200,
 		"IsTickable":false,
 		"TicksIntervals":[],
 		"TickStarts":[],
