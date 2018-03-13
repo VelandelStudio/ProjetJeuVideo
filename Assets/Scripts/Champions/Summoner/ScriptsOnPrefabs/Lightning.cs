@@ -19,7 +19,7 @@ public class Lightning : LinearProjectile
         if (entityHit != null && entityHit.gameObject.tag == "Monster")
         {
             launcher.GetComponent<LightningSpell>().ApplyEffectOnHit(entityHit);
-            Debug.Log("Target Touched by Lightning Projectile");
+            //Debug.Log("Target Touched by Lightning Projectile");
         }
     }
 

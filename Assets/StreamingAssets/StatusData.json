@@ -72,42 +72,6 @@
 		]
 	},
 	{
-		"ScriptName":"LightningStatus",
-		"Name":"Lightning Status",
-		"Element":"none",
-		"Duration":2,
-		"IsTickable":false,
-		"TicksIntervals":[],
-		"TickStarts":[],
-		"Damages":[10],
-		"DamagesType":[],
-		"OtherValues":[],
-		"IsStackable":false,
-		"NumberOfStacks":0,
-		"Description":
-		[
-			"LightningStatus."
-		]
-	},
-	{
-		"ScriptName": "ThunderStormStatus",
-		"Name": "ThunderStorm Status",
-		"Element": "none",
-		"Duration": 2,
-		"IsTickable": false,
-		"TicksIntervals": [],
-		"TickStarts": [],
-		"Damages": [],
-		"DamagesType": ["m"],
-		"OtherValues": ["8"],
-		"IsStackable": false,
-		"NumberOfStacks": 0,
-		"Description":
-		[
-			"Status applied on an enemy monster when he's touch with ThunderStormSpell."
-		]
-	},
-	{
 		"ScriptName":"TouchStatus",
 		"Name":"Touch",
 		"Element":"",

@@ -34,22 +34,5 @@ public class LightningSpell : Spell
     {
         entityHit.DamageFor(Damages[0]);
         GetComponentInChildren<VoltageStatus>().AddStacks(NumberOfStacks);
-
-        /**LightningStatus lightningStatus = entityHit.GetComponentInChildren<LightningStatus>();
-        if (lightningStatus != null)
-        {
-            lightningStatus.ResetStatus();
-            Debug.Log("statut reset");
-        }
-        else
-        {
-            ApplyStatus(Status[1], entityHit.transform);
-            Debug.Log("le status : " + Status[1]);
-            Debug.Log("statut nouveau");
-        }
-
-        gameObject.GetComponent<PassiveSummonerPetMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
-=======
-        }**/
     }
 }

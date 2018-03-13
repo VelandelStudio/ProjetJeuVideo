@@ -190,7 +190,7 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["ThunderStormStatus"],
+		"Status":[],
 		"Description":
 		[
 			"Cast big Thunderstorm on one enemy\n",
