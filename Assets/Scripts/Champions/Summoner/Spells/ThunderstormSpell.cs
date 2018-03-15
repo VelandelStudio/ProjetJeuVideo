@@ -11,7 +11,7 @@ public class ThunderstormSpell : Spell
     protected override void Start()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
-        _thunderStormPS = LoadResource("ThunderStormPS");
+        _thunderStormPS = LoadResource("ThunderStorm");
         base.Start();
     }
 
