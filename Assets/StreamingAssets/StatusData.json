@@ -93,14 +93,14 @@
 		"ScriptName":"VoltageStatus",
 		"Name":"Voltage",
 		"Element":"",
-		"Duration": 200,
+		"Duration": 0,
 		"IsTickable":false,
 		"TicksIntervals":[],
 		"TickStarts":[],
 		"Damages":[],
 		"DamagesType":[],
 		"OtherValues":[],
-		"IsStackable":false,
+		"IsStackable":true,
 		"NumberOfStacks":0,
 		"Description":
 		[

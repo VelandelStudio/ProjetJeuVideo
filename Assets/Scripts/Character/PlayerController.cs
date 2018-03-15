@@ -168,6 +168,7 @@ public class PlayerController : MonoBehaviour
         if (_characteristics)
         {
             Movement.MoveSpeedFactor = _characteristics.MovementSpeedFactor;
+            _anim.SetFloat("MovementSpeed", Movement.MoveSpeedFactor);
         }
 
         if (CursorBehaviour.CursorIsVisible)

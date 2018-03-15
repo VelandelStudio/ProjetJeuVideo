@@ -82,7 +82,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         {
             Name = StatusDefinition.Name;
             Element = StatusDefinition.Element;
-            Duration = StatusDefinition.Duration;
+            Duration = StatusDefinition.Duration == 0 ? Mathf.Infinity : StatusDefinition.Duration;
             IsTickable = StatusDefinition.IsTickable;
             TicksIntervals = StatusDefinition.TicksIntervals;
             TickStarts = StatusDefinition.TickStarts;
@@ -173,7 +173,10 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
             InvokeRepeating("StatusTickBehaviour", TickStarts[0], TicksIntervals[0]);
         }
 
-        Invoke("DestroyStatus", Duration);
+        if (Duration != Mathf.Infinity)
+        {
+            Invoke("DestroyStatus", Duration);
+        }
     }
 
     /** OnStatusApplied public abstract void
@@ -202,7 +205,11 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
 
         OnStatusApplied();
         CancelInvoke("DestroyStatus");
-        Invoke("DestroyStatus", Duration);
+
+        if (Duration != Mathf.Infinity)
+        {
+            Invoke("DestroyStatus", Duration);
+        }
 
         if (IsTickable)
         {
