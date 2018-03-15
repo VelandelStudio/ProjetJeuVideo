@@ -5,28 +5,41 @@ using UnityEngine;
 public class ThunderstormSpell : Spell
 {
     private Camera _cameraPlayer;
-    private GameObject _throwable;
-    private Transform _launcherTransform;
+    private GameObject _thunderStormPS;
     private int stacks;
 
     protected override void Start()
     {
         _cameraPlayer = this.GetComponentInChildren<Camera>();
-        _throwable = LoadResource("ThunderStorm");
-        _launcherTransform = PosHelper.GetRightHandTransformOfPlayer(transform);
-
+        _thunderStormPS = LoadResource("ThunderStormPS");
         base.Start();
     }
 
     public override void LaunchSpell()
     {
-        base.LaunchSpell();
         if (IsSpellLauncheable())
         {
-            //apply damages on one target depending of the player stacks 
-            Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
-            Debug.Log("sort lancé");
-            base.OnSpellLaunched();
+            RaycastHit hit; // raycast object for aiming the spell with the mouse
+
+            /* if the raycast touch something launch the spell else return without cooldown */
+            bool hasFoundHitPoint = Physics.Raycast(PosHelper.GetOriginOfDetector(transform), _cameraPlayer.transform.forward, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+            if (hasFoundHitPoint)
+            {
+                Instantiate(_thunderStormPS, hit.point, Quaternion.identity);
+                base.LaunchSpell();
+                Debug.Log("sort lancé");
+            }
+            else
+            {
+                return;
+            }
+
+            EntityLivingBase entityHit = hit.collider.gameObject.GetComponent<EntityLivingBase>();
+            if (entityHit != null && entityHit.gameObject.tag == "Monster")
+            {
+                ApplyEffectOnHit(entityHit);
+                //Debug.Log("Target Touched by ThunderStorm Raycast");
+            }
         }
     }
 
@@ -51,20 +64,5 @@ public class ThunderstormSpell : Spell
         }
 
         GetComponentInChildren<VoltageStatus>().RemoteStacks();
-
-        ThunderStormStatus thunderStormStatus = entityHit.GetComponentInChildren<ThunderStormStatus>();
-
-        if (thunderStormStatus != null)
-        {
-            thunderStormStatus.ResetStatus();
-            Debug.Log("ThunderStormStatus successfully reset");
-        }
-        else
-        {
-            ApplyStatus(Status[0], entityHit.transform);
-            Debug.Log("ThunderStormStatus successfully applied : "  + Status[0]);
-        }
-
-        //gameObject.GetComponent<PassiveSummonerPetMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
     }
 }

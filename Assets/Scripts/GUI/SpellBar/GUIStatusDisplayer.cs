@@ -15,6 +15,9 @@ public class GUIStatusDisplayer : MonoBehaviour, IDisplayer
     [SerializeField] private Text _CDText;
     [SerializeField] private Outline _outline;
 
+    [SerializeField] private GameObject _stacksSection;
+    private Text _stacksNumber;
+
     private float _duration;
 
     public IDisplayable Displayable
@@ -39,7 +42,16 @@ public class GUIStatusDisplayer : MonoBehaviour, IDisplayer
         _status = (StatusBase)displayable;
         _duration = _status.Duration;
         _CDImage.fillAmount = 0;
-        _CDText.text = ((int)_status.Duration + 1).ToString();
+
+        if (_duration != Mathf.Infinity)
+        {
+            _CDText.text = ((int)_status.Duration + 1).ToString();
+        }
+        else
+        {
+            _CDText.gameObject.SetActive(false);
+        }
+
         if (_status is IBuff)
         {
             _outline.effectColor = Color.green;
@@ -48,6 +60,9 @@ public class GUIStatusDisplayer : MonoBehaviour, IDisplayer
         {
             _outline.effectColor = Color.red;
         }
+
+        _stacksNumber = _stacksSection.GetComponentInChildren<Text>();
+        _stacksSection.SetActive(_status.IsStackable);
 
         _StatusImage.sprite = Resources.Load<Sprite>("Images/Status/" + _status.GetType());
         if (!_StatusImage.sprite)
@@ -96,7 +111,9 @@ public class GUIStatusDisplayer : MonoBehaviour, IDisplayer
 
         _duration -= Time.deltaTime;
         _CDText.text = ((int)_duration + 1).ToString();
-        _CDImage.fillAmount = 1 - _duration / _status.Duration;
+        _stacksNumber.text = _status.NumberOfStacks.ToString();
+
+        _CDImage.fillAmount = _status.Duration == Mathf.Infinity ? 0 : 1 - _duration / _status.Duration;
     }
 
     /** MouseEnter, public void Method
