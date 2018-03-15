@@ -161,12 +161,12 @@
 		"NumberOfStacks": 0,
 		"Description":
 		[
-			"the pet is waiting for his explosion, and the summoner can't change his form"
+			"the pet is waiting for his explosion, and can't move"
 		]
 	},
 	{
-		"ScriptName":"DefenseBoostStatus",
-		"Name":"DefenseBoost",
+		"ScriptName":"DefenseBoostPlayerStatus",
+		"Name":"DefenseBoostPlayer",
 		"Element":"",
 		"Duration":3,
 		"IsTickable":false,
@@ -179,30 +179,50 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			"Status applied on the player and the pet that boost their defense.\n",
+			"Status applied on the player that boost his defense.\n",
 			"His status is applied when the player in near the pet and if there are enemy monster with <<TouchStatus>>.\n",
 			"The defense boost value increase with the number of enemy monster 'touched' ({OtherValues[0]}*nb_enemy_touched)"
 		]
 	},
-  {
-    "ScriptName": "RegenerationStatus",
-    "Name": "Regeneration",
-    "Element": "",
-    "Duration": 3,
-    "IsTickable": false,
-    "TicksIntervals": [],
-    "TickStarts": [],
-    "Damages": [],
-    "DamagesType": [],
-    "OtherValues": [ "10","3"],
-    "IsStackable": false,
-    "NumberOfStacks": 0,
-    "Description": 
-    [
-      "Status applied on the player and the pet , increase the life point of the player(({OtherValues[0]} ans the regeneration of the pet({OtherValues[1]}\n",
-      "His status is applied when the player in near the pet"
-    ]
-  },
+	{
+		"ScriptName":"DefenseBoostPetStatus",
+		"Name":"DefenseBoostPet",
+		"Element":"",
+		"Duration":3,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":["0.4"],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"Status applied on the pet that boost his defense.\n",
+			"His status is applied when the player in near the pet and if there are enemy monster with <<TouchStatus>>.\n",
+			"The defense boost value increase with the number of enemy monster 'touched' ({OtherValues[0]}*nb_enemy_touched)"
+		]
+	},
+	{
+		"ScriptName": "RegenerationStatus",
+		"Name": "Regeneration",
+		"Element": "",
+		"Duration": 3,
+		"IsTickable": false,
+		"TicksIntervals": [],
+		"TickStarts": [],
+		"Damages": [],
+		"DamagesType": [],
+		"OtherValues": [ "10","3"],
+		"IsStackable": false,
+		"NumberOfStacks": 0,
+		"Description": 
+		[
+			"Status applied on the player and the pet , increase the life point of the player(({OtherValues[0]} ans the regeneration of the pet({OtherValues[1]}\n",
+			"His status is applied when the player in near the pet"
+		]
+	},
 	{
 		"ScriptName":"SlowStatus",
 		"Name":"Slow",

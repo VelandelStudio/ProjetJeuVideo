@@ -84,7 +84,7 @@
 		"DamagesType":[],
 		"OtherValues":["10"],
 		"NumberOfStacks":0,
-		"Status":["DefenseBoostStatus"],
+		"Status":["DefenseBoostPlayerStatus","DefenseBoostPetStatus"],
 		"Description":
 		[
 			"When activated by summoning a pet AOE dps <<PetAOESpell>>\n",

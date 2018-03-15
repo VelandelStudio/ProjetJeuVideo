@@ -21,15 +21,16 @@ public class DefenseBoostStatus : StatusBase, IBuff
         // value of defense to increase depending of the number of monsters with TouchStatus
         if (transform.parent.tag == "Player")
         {
-            characteristics.Defense += DefenseToAdd;
+            this.characteristics.Defense += DefenseToAdd;
             Debug.Log("Player DefenseToAdd: " + DefenseToAdd);
             Debug.Log("Summoner characteristics.Defense : " +characteristics.Defense);
         }
         else
         {
-            characteristics.Defense += DefenseToAdd;
+            Debug.Log("Pet characteristics.Defense avant boost : " + characteristics.Defense);
+            this.characteristics.Defense += DefenseToAdd;
             Debug.Log("Pet DefenseToAdd: " + DefenseToAdd);
-            Debug.Log("Pet characteristics.Defense : " + characteristics.Defense);
+            Debug.Log("Pet characteristics.Defense après boost :" + characteristics.Defense);
         }
  
     }

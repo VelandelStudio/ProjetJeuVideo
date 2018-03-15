@@ -27,15 +27,18 @@ public class PassiveSummonerPetAOE : PassiveBase {
             dist = Vector3.Distance(GetComponent<SummonerInterface>().Pet.transform.position, transform.position); // process the distance between the SummonerAOE and his Pet
 
             /* if the SummonerAOE (Player) is in a certain range of his Pet apply DefenseBoostStatus to the Player and the Pet */
-            if (dist <= float.Parse(OtherValues[0]) && nbEnemyMonsterTouched >0 && !FindObjectOfType<DefenseBoostStatus>())
+            if (dist <= float.Parse(OtherValues[0]) && nbEnemyMonsterTouched >0 && !FindObjectOfType<DefenseBoostPlayerStatus>())
             {
-                ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[0], transform); // Apply DefenseBoostStatus to Player
-                ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[0], GetComponent<SummonerInterface>().Pet.transform); //Problem with the GUi the Pet being children of the his Summoner it shoud not be a problem now !
+                ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[0], transform); // Apply DefenseBoostPlayerStatus  the Player
+            }
+            if (dist <= float.Parse(OtherValues[0]) && nbEnemyMonsterTouched > 0 && !FindObjectOfType<DefenseBoostPetStatus>())
+            {
+                ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[1], GetComponent<SummonerInterface>().Pet.transform); //  Apply DefenseBoostPetStatus  the Pet
             }
             // if Player has SummonerMono stack apply DamageBoostStatus (not created yet)
             /* if (dist <= float.Parse(OtherValues[0]) && Player has stack of summonerMono form){
              * 
-             * ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[1], transform); // Status[1] DamageBoostStatus not created yet
+             * ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[2], transform); // Status[2] DamageBoostStatus not created yet
              * 
              }*/
         }
@@ -50,16 +53,18 @@ public class PassiveSummonerPetAOE : PassiveBase {
             dist = Vector3.Distance(GetComponent<SummonerInterface>().Pet.transform.position, transform.position); // process the distance between the SummonerAOE and his Pet
 
             /* if the SummonerAOE (Player) is in a certain range of his Pet apply DefenseBoostStatus to the Player and the Pet */
-            if (dist <= float.Parse(OtherValues[0]) && nbEnemyMonsterTouched > 0)
+            if (dist <= float.Parse(OtherValues[0]) && nbEnemyMonsterTouched > 0 && !FindObjectOfType<DefenseBoostPlayerStatus>())
             {
-                //Debug.Log(!FindObjectOfType<DefenseBoostStatus>());
-                ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[0], transform); // Apply DefenseBoostStatus to Player
-                ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[0], GetComponent<SummonerInterface>().Pet.transform); //Problem with the GUi the Pet being children of the his Summoner it shoud not be a problem now !
+                ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[0], transform); // Apply DefenseBoostPlayerStatus  the Player
+            }
+            if (dist <= float.Parse(OtherValues[0]) && nbEnemyMonsterTouched > 0 && !FindObjectOfType<DefenseBoostPetStatus>())
+            {
+                ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[1], GetComponent<SummonerInterface>().Pet.transform); //  Apply DefenseBoostPetStatus  the Pet
             }
             // if Player has SummonerMono stack apply DamageBoostStatus (not created yet)
             /* if (dist <= float.Parse(OtherValues[0]) && Player has stack of summonerMono form){
              * 
-             * ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[1], transform); // Status[1] DamageBoostStatus not created yet
+             * ApplyStatus(GetComponent<PassiveSummonerPetAOE>().Status[2], transform); // Status[2] DamageBoostStatus not created yet
              * 
              }*/
         }
