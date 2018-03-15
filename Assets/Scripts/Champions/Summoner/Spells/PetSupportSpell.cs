@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PetSupportSpell : Spell {
+/** PetSupportSpell, public class
+ * @extends : spell
+ * This spell is associated with the Neutral's form of the summoner.
+ * This spell allows the summoner to go to the SupportForm. 
+ **/
+public class PetSupportSpell : Spell
+{
 
     private GameObject _pet;
     private GameObject _target;
@@ -25,14 +31,20 @@ public class PetSupportSpell : Spell {
     }
     //public Vector3 pospet;
 
+
+    /** LaunchSpell, public override void method
+    * When launched this PetMonoSpell we instantiate the SummonerSupport champion in the oldChampion's position and we instantiate the PetAOE in the old pet's position.
+    * The default target of the new pet is the newChampionObj but if the target of the old pet was another gameObject, this one becomes the target of the new pet.
+    * Finally we destroy the old champion and the old pet.
+    **/
     public override void LaunchSpell()
     {
-        
+
         base.LaunchSpell();
-        
+
         if (IsSpellLauncheable())
         {
-        
+
             GameObject oldChampion = Camera.main.transform.parent.gameObject;
             GameObject newChampionObj = (GameObject)Resources.Load("Champions/" + "SummonerSupport");
             Camera.main.transform.parent = null;
@@ -77,6 +89,6 @@ public class PetSupportSpell : Spell {
         //PetMonsterSupp.transform.position = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 2);
         // PetMonsterSupp.transform.position = SummonerNeutral.transform.position;
         //MonsterMove();
-    
+
     }
 }

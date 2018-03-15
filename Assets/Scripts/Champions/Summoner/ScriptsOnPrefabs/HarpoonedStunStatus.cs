@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/** HarpoonedStunStatus, public class
+ * @extends StatusBase
+ * This script allows to stun the monster hited.
+ **/
 public class HarpoonedStunStatus : StatusBase, IDebuff
 {
     private EntityLivingBase _entity;
     private EnemyMonster _scriptParent;
     private float _timer;
 
+
+    /** Start, protected override void method
+     * Disable the script of the parent gameObject.
+     **/
     protected override void Start()
     {
 
@@ -20,6 +29,9 @@ public class HarpoonedStunStatus : StatusBase, IDebuff
         _timer = 0;
     }
 
+    /** Update, protected override void method
+     * Enables the script of the Monster when the timer equals to duration.
+     **/
     public void Update()
     {
         

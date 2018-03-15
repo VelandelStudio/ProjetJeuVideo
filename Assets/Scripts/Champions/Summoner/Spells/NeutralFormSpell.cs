@@ -5,7 +5,7 @@ using UnityEngine;
 /** NeutralFormSpell, public class
  * @extends : spell
  * This spell is associated with the Mono, AOE and support forms of the summoner.
- * This spell allow theses forms to back to NeutralForm. 
+ * This spell allows theses forms to back to NeutralForm. 
  **/
 
 public class NeutralFormSpell : Spell
