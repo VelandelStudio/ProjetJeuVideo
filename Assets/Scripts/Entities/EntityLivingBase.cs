@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 /** EntityLivingBase Abstract Class
- * This abstract class should ALWAYS be extended by classes which represents living entities.
- * At the moment it is able to handle HP Based behaviour such as damage, heals and death of the entity.
- * This class always need a collider to correctly apply damage.
- * Please note that all of these methos can be called ONLY if the entity is living (i.e. IsDead = false).
- **/
+* This abstract class should ALWAYS be extended by classes which represents living entities.
+* At the moment it is able to handle HP Based behaviour such as damage, heals and death of the entity.
+* This class always need a collider to correctly apply damage.
+* Please note that all of these methos can be called ONLY if the entity is living (i.e. IsDead = false).
+**/
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Characteristics))]
 
@@ -14,6 +15,8 @@ public abstract class EntityLivingBase : MonoBehaviour
     [SerializeField] private int _HP;
     [SerializeField] private int _regenHpPerSec = 3;
     [SerializeField] private int _HPMax;
+    public Transform damageTransform;
+    public GameObject damagePrefab;
     public bool IsDead { get { return _HP <= 0; } }
     public bool IsAlive { get { return !IsDead; } }
     private bool _startDespawn;
@@ -77,6 +80,8 @@ public abstract class EntityLivingBase : MonoBehaviour
      **/
     public void DamageFor(int amount)
     {
+        Debug.Log("Amount = " + amount);
+
         if (IsAlive)
         {
             _HP -= (int)(amount - characteristics.Defense);
@@ -85,6 +90,10 @@ public abstract class EntityLivingBase : MonoBehaviour
                 EntityDies();
             }
         }
+
+        GameObject damagePopup = Instantiate(damagePrefab, damageTransform.position, damageTransform.rotation, damageTransform);
+        damagePopup.GetComponentInChildren<Text>().text = amount.ToString();
+        Destroy(damagePopup, 1f);
     }
 
     /** HealFor public method.

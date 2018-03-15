@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/** PetMonoSpell, public class
+ * @extends : spell
+ * This spell is associated with the Neutral's form of the summoner.
+ * This spell allows the summoner to go to the MonoForm. 
+ **/
 public class PetMonoSpell : Spell
 {
 
@@ -25,8 +30,13 @@ public class PetMonoSpell : Spell
         base.Start();
     }
 
-    // public int count = 0;
+    public int count = 0;
 
+    /** LaunchSpell, public override void method
+    * When launched this PetMonoSpell we instantiate the SummonerMono champion in the oldChampion's position and we instantiate the PetAOE in the old pet's position.
+    * The default target of the new pet is the newChampionObj but if the target of the old pet was another gameObject, this one becomes the target of the new pet.
+    * Finally we destroy the old champion and the old pet.
+    **/
     public override void LaunchSpell()
     {
         base.LaunchSpell();
@@ -56,9 +66,9 @@ public class PetMonoSpell : Spell
                 Debug.Log("Destroy");
             }
 
-            //pospet=SummonerNeutral.transform.position;
+            
             Debug.Log("sort lancé");
-            // Invoke("Ally_monster", 2);           
+            
             _pet = Instantiate(_pet, _posPet, Quaternion.identity);
             _pet.GetComponent<PetSummoner>().Target = _target;
             _pet.GetComponent<PetSummoner>().Summoner = newChampionObj;
@@ -66,24 +76,8 @@ public class PetMonoSpell : Spell
 
             Destroy(oldChampion.gameObject);
             base.OnSpellLaunched();
-            //change de forme 
-            //Destroy(oldChampion.gameObject);
-            // gameObject.SetActive(false);
 
         }
 
     }
-
-    public void Destruc(GameObject PetMonster)
-    {
-        Destroy(PetMonster.gameObject);
-    }
-    /*
-        protected override void Update()
-        {
-             if (this.count == 4)
-            {
-                Destroy(PetMonster, 3f);
-            }
-        }*/
 }

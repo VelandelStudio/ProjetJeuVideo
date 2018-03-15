@@ -152,7 +152,7 @@
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["ProtectedStatus"],
+		"Status":["ProtectedStatus", "ShieldDecreaseDamageStatus", "RegenerationStatus"],
 		"Description":
 		[
 			"Protect the player with an energy shield\n",
@@ -170,13 +170,13 @@
 		"Damages":[5],
 		"DamagesType":["m"],
 		"OtherValues":[2],
-		"NumberOfStacks":0,
-		"Status":["MonoStackStatus", "LightningStatus"],
+		"NumberOfStacks":2,
+		"Status":[],
 		"Description":
 		[
 			"Cast a quick ray that damage one target\n",
-			" applies <<Status[0]>> (stacks) to the the player",
-			"Applies <<Status[1]>> to monster hit by the Lightning"
+			"Applies {Damages[0]} damages to monster hit by the Lightning\n",
+			"Applies {NumberOfStacks} stacks of VoltageStatus when a monster is hit by the Lightning\n"
 		]
 	 },
 	 {
@@ -186,16 +186,16 @@
 		"Type":"Ranged",
 		"CoolDownValue":1,
 		"HasGCD":true,
-		"Damages":[50],
+		"Damages":[5,10,20,40],
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["MonoStackStatus"],
+		"Status":[],
 		"Description":
 		[
 			"Cast big Thunderstorm on one enemy\n",
 			"Deals damages depending on the stacks on the player\n",
-			"Remove <<Status[0]>> (stacks) of the the player"
+			"Remove all accumulated stacks of the the player"
 		]
 	 },
 	 {

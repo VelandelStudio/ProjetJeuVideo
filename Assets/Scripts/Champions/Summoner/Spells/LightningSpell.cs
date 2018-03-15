@@ -23,38 +23,16 @@ public class LightningSpell : Spell
         base.LaunchSpell();
         if (IsSpellLauncheable())
         {
-            //apply damages on one target (short cooldown) and apply 2 stacks
-
-            base.LaunchSpell();
-            if (IsSpellLauncheable())
-            {
-                Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
-                Debug.Log("sort lancé");
-                base.OnSpellLaunched();
-            }
+           //apply damages on one target (short cooldown) and apply 2 stacks
+           Instantiate(_throwable, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
+           Debug.Log("sort lancé");
+           base.OnSpellLaunched();
         }
     }
 
     public void ApplyEffectOnHit(EntityLivingBase entityHit)
     {
         entityHit.DamageFor(Damages[0]);
-        GetComponentInChildren<VoltageStatus>().AddStacks(2);
-
-        /**LightningStatus lightningStatus = entityHit.GetComponentInChildren<LightningStatus>();
-        if (lightningStatus != null)
-        {
-            lightningStatus.ResetStatus();
-            Debug.Log("statut reset");
-        }
-        else
-        {
-            ApplyStatus(Status[1], entityHit.transform);
-            Debug.Log("le status : " + Status[1]);
-            Debug.Log("statut nouveau");
-        }
-
-        gameObject.GetComponent<PassiveSummonerPetMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
-=======
-        }**/
+        GetComponentInChildren<VoltageStatus>().AddStacks(NumberOfStacks);
     }
 }

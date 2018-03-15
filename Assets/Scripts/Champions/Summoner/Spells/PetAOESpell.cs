@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/** PetAOESpell, public class
+ * @extends : spell
+ * This spell is associated with the Neutral's form of the summoner.
+ * This spell allows the summoner to go to the AOEForm. 
+ **/
 public class PetAOESpell : Spell
 {
 
@@ -23,6 +28,11 @@ public class PetAOESpell : Spell
         base.Start();
     }
 
+    /** LaunchSpell, public override void method
+   * When launched this PetMonoSpell we instantiate the SummonerAOE champion in the oldChampion's position and we instantiate the PetAOE in the old pet's position.
+   * The default target of the new pet is the newChampionObj but if the target of the old pet was another gameObject, this one becomes the target of the new pet.
+   * Finally we destroy the old champion and the old pet.
+   **/
     public override void LaunchSpell()
     {
         base.LaunchSpell();

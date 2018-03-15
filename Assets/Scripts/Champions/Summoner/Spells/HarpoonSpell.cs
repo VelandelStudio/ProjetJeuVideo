@@ -57,7 +57,7 @@ public class HarpoonSpell : Spell
     {
         if (IsSpellLauncheable())
         {
-            Instantiate(_harpoon, transform.position + (transform.forward * 1f) + (transform.up * 1.5f), transform.rotation, this.transform);
+            Instantiate(_harpoon, _launcherTransform.position + _cameraPlayer.transform.forward * 2, _launcherTransform.rotation, this.transform);
 
             Debug.Log("sort lancé");
             base.OnSpellLaunched();

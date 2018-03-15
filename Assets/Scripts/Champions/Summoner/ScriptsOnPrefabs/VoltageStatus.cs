@@ -2,34 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VoltageStatus : StatusBase, IBuff {
-
-
-    public int numberOfStacks;
-    
-    // Use this for initialization
-	public void Start () {
-        numberOfStacks = 0;
-	}
-	
-	// Update is called once per frame
-	public void Update () {
- 
-    }
-
+public class VoltageStatus : StatusBase, IBuff
+{
     public void AddStacks(int number)
     {
-        numberOfStacks += number;
+        NumberOfStacks += number;
     }
 
     public void RemoteStacks()
     {
-        numberOfStacks = 0;
+        NumberOfStacks = 0;
     }
 
     public int GetNumberOfStacks()
     {
-        return numberOfStacks;
+        return NumberOfStacks;
     }
 
     public override void OnStatusApplied()
@@ -37,8 +24,5 @@ public class VoltageStatus : StatusBase, IBuff {
         Debug.Log("VoltageStatus successfully applied");
     }
 
-    public override void StatusTickBehaviour()
-    {
-        
-    }
+    public override void StatusTickBehaviour() {}
 }
