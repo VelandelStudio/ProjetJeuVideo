@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4447417441629828}
   - component: {fileID: 198377119467768100}
   - component: {fileID: 199458860875108464}
-  - component: {fileID: 114184257521218504}
+  - component: {fileID: 114667040297831320}
   m_Layer: 0
   m_Name: ThunderStormPS
   m_TagString: Untagged
@@ -102,7 +102,7 @@ Transform:
   m_Father: {fileID: 4447417441629828}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114184257521218504
+--- !u!114 &114667040297831320
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -110,9 +110,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1877011576695330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 29014cd42b6d273408e0ceefd336c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDuration: 2
+  maxDuration: 3
 --- !u!198 &198306341837264398
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -173,7 +175,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1329330625
+  randomSeed: -1196003552
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3621,7 +3623,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -844649549
+  randomSeed: 1564352091
   InitialModule:
     serializedVersion: 3
     enabled: 1
