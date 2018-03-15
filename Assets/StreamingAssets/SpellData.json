@@ -176,7 +176,7 @@
 		[
 			"Cast a quick ray that damage one target\n",
 			"Applies {Damages[0]} to monster hit by the Lightning\n",
-			"Applies {NumberOfStacks[0]} stacks of VoltageStatus when a monster is hit by the Lightning\n"
+			"Applies {NumberOfStacks} stacks of VoltageStatus when a monster is hit by the Lightning\n"
 		]
 	 },
 	 {
