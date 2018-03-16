@@ -7,7 +7,7 @@ public class CountDownBeforeTheBoomStatus : StatusBase, IBuff
   
     public override void OnStatusApplied()
     {
-            Debug.Log("CountDownBeforeTheBoomStatus applied ! be careful the explosion is near get the fu***ing out of here !!!! the Pet will explose soon and can't move");
+        GetComponentInParent<Characteristics>().MovementSpeedFactor = 0; // Pet can't move before THE EXPLOSION 
     }
 
     public override void StatusTickBehaviour()
