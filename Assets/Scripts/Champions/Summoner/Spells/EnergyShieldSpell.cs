@@ -25,7 +25,8 @@ public class EnergyShieldSpell : Spell
         if (IsSpellLauncheable())
         {
             ApplyStatus(GetComponent<EnergyShieldSpell>().Status[1], transform);
-           // ApplyStatus(GetComponent<EnergyShieldSpell>().Status[2], transform);
+            Debug.Log(" Dammage dealt to the player reduced by" + int.Parse(OtherValues[0]));  // % dammage reduction
+            // ApplyStatus(GetComponent<EnergyShieldSpell>().Status[2], transform);
             Debug.Log("sort lancé");
             base.OnSpellLaunched();
         }
