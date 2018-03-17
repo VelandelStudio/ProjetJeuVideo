@@ -63,7 +63,7 @@
 		"TickStarts":[],
 		"Damages":[],
 		"DamagesType":[],
-		"OtherValues":[],
+		"OtherValues":[3],
 		"IsStackable":false,
 		"NumberOfStacks":0,
 		"Description":
@@ -382,6 +382,24 @@
 		"Description":
 		[
 			"You have the spirit of the storm, all your cooldown are reduced by {OtherValues[0]}% during {Duration} seconds."
+		]
+	},
+	{
+		"ScriptName":"VelocityStatus",
+		"Name":"Velocity Status",
+		"Element":"none",
+		"Duration":10,
+		"IsTickable":false,
+		"TicksIntervals":[],
+		"TickStarts":[],
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[0.30],
+		"IsStackable":false,
+		"NumberOfStacks":0,
+		"Description":
+		[
+			"They see me rolling..."
 		]
 	}
 ]

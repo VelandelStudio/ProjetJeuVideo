@@ -64,7 +64,7 @@ public class EscapeSpell : Spell
     }
 
     /** ApplayEffect, public void method
-     * This method is called when the distance between summoner and pet is lower than the distance define in the Update method. 
+     * This method is called when the distance between summoner and pet is lower than the distance defined in the Update method. 
      **/
     public void ApplyEffect(GameObject gameObject)
     {

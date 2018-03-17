@@ -43,7 +43,7 @@ public class PetSummoner : EntityLivingBase
         var rotation = Quaternion.LookRotation(lookPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10);
 
-        if (Vector3.Distance(_posPet.position, _posTarget.position) > 2.0f)
+        if (Vector3.Distance(_posPet.position, _posTarget.position) > 3.0f)
         {
             _posPet.transform.position = Vector3.Lerp(_posPet.position, _posTarget.position, Time.deltaTime);
             //nav.SetDestination(_target.transform.position);

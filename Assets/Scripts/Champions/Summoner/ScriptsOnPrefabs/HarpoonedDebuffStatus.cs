@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class HarpoonedDebuffStatus : StatusBase, IDebuff
 {
-    private EntityLivingBase _entity;
-    private EnemyMonster _scriptParent;
+    private Characteristics _entityCharacteristics;
+    private float _defenseDebuff;
 
-
-    protected override void Start()
-    {
-
-        base.Start();
-
-        Debug.Log("HarpoonedDebuffStatus Created !");
-        _scriptParent = GetComponentInParent<EnemyMonster>();
-    }
-    
 
     public override void OnStatusApplied()
     {
-        Debug.Log("HarpoonedStatus Created !");
+        Debug.Log("Defense :  " + GetComponentInParent<EntityLivingBase>().GetComponent<Characteristics>().Defense);
+        GetComponentInParent<EntityLivingBase>().GetComponent<Characteristics>().Defense -= float.Parse(OtherValues[0]);
+        Debug.Log("Defense :  " + GetComponentInParent<EntityLivingBase>().GetComponent<Characteristics>().Defense);
+    }
 
+    public override void DestroyStatus()
+    {
+        GetComponentInParent<EntityLivingBase>().GetComponent<Characteristics>().Defense += float.Parse(OtherValues[0]);
+        Debug.Log("Defense :  " + GetComponentInParent<EntityLivingBase>().GetComponent<Characteristics>().Defense);
+
+        base.DestroyStatus();
     }
 
     public override void StatusTickBehaviour()

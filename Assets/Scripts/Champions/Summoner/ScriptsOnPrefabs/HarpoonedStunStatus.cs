@@ -11,12 +11,21 @@ public class HarpoonedStunStatus : StatusBase, IDebuff
 {
     private EntityLivingBase _entity;
     private EnemyMonster _scriptParent;
-    private float _timer;
+   // private float _timer;
 
+
+
+    public override void OnStatusApplied()
+    {
+        Debug.Log("HarpoonedStunStatus Created !");
+        _scriptParent = GetComponentInParent<EnemyMonster>();
+        _scriptParent.enabled = false;
+    }
 
     /** Start, protected override void method
      * Disable the script of the parent gameObject.
      **/
+    /*
     protected override void Start()
     {
 
@@ -28,10 +37,11 @@ public class HarpoonedStunStatus : StatusBase, IDebuff
 
         _timer = 0;
     }
-
+    */
     /** Update, protected override void method
      * Enables the script of the Monster when the timer equals to duration.
      **/
+     /*
     public void Update()
     {
         
@@ -42,11 +52,13 @@ public class HarpoonedStunStatus : StatusBase, IDebuff
 
         _timer = Mathf.Clamp(_timer + Time.deltaTime, 0, base.Duration);
     }
+    */
 
-    public override void OnStatusApplied()
+    public override void DestroyStatus()
     {
-        Debug.Log("HarpoonedStunStatus Created !");
+        _scriptParent.enabled = true;
 
+        base.DestroyStatus();
     }
 
     public override void StatusTickBehaviour()
