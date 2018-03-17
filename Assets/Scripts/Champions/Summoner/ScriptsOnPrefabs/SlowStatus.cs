@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class SlowStatus : StatusBase, IBuff
 {
-    /* status that boost the defense, it's applied on the summonerAOE and his PET by the PassiveSummonerPetAOE */
+    private float MoveSpeedToDecreased;
+
+    /* status that decrease the movespeed of the target hit by the SummonerSupport's auto attack  */
     public override void OnStatusApplied()
     {
-        int SpeedBase = 10;
-        int SpeedDecreased = System.Convert.ToInt32(SpeedBase *float.Parse(OtherValues[0])); // decrease the speed of the target
-        Debug.Log("slowStatus applied = vitesse diminuée de " + SpeedBase + " à " + SpeedDecreased);
+        MoveSpeedToDecreased = (float.Parse(OtherValues[0]));
+        GetComponentInParent<Characteristics>().MovementSpeedFactor -= MoveSpeedToDecreased; // decrease the speed of the target
+        Debug.Log("slowStatus applied = vitesse du monstre: " + GetComponentInParent<Characteristics>().MovementSpeedFactor);
     }
 
     public override void StatusTickBehaviour()
     {
         throw new System.NotImplementedException();
     }
+
+    private void OnDestroy()
+    {
+        GetComponentInParent<Characteristics>().MovementSpeedFactor += MoveSpeedToDecreased; // return the speed of the target
+        Debug.Log("slowStatus destroyed = vitesse du monstre: " + GetComponentInParent<Characteristics>().MovementSpeedFactor);
+    }
+    
 }
 

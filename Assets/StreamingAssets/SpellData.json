@@ -146,13 +146,13 @@
 		"Name":"EnergyShield",
 		"Element":"",
 		"Type":"",
-		"CoolDownValue":1,
+		"CoolDownValue":3,
 		"HasGCD":true,
 		"Damages":[5],
 		"DamagesType":["m"],
 		"OtherValues":[],
 		"NumberOfStacks":0,
-		"Status":["ProtectedStatus", "ShieldDecreaseDamageStatus", "RegenerationStatus"],
+		"Status":["ProtectedStatus"],
 		"Description":
 		[
 			"Protect the player with an energy shield\n",
