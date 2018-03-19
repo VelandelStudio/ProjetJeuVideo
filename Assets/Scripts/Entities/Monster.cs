@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Represents the abstract Class of Monster
@@ -9,88 +10,88 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public abstract class Monster : EntityLivingBase, IMonster
 {
-    //Save the target of monster as a GameObject.
-    private GameObject _target;
+    protected GameObject _target;
+    protected NavMeshAgent _agent;
+    protected Vector3 originalPosition;
+    protected Quaternion originalRotation;
+    [SerializeField] protected float RangeOfAttack;
+    [SerializeField] protected float attackCD;
+    protected float nextAttackTimer;
 
-    /// <summary>
-    /// The maximum distance of target before reset target
-    /// </summary>
-    [SerializeField] private double maxDistanceTarget;
-
-    /// <summary>
-    /// Called when [trigger enter].
-    /// </summary>
-    /// <param name="other">The collider of another object.</param>
-    private void OnTriggerEnter(Collider other)
+    protected override void Start()
     {
-        // Only some collider can be a target.
+        _agent = GetComponent<NavMeshAgent>();
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
         if (other.tag != "Player")
         {
             return;
         }
-
         Target = other.gameObject;
-        OnTargetSelected();
     }
 
-    /// <summary>
-    /// Gets a value indicating whether this instance has detected a player.
-    /// </summary>
-    /// <value>
-    ///   <c>true</c> if this instance has detected a player; otherwise, <c>false</c>.
-    /// </value>
     public bool IsPlayerDetected
     {
-        get
-        {
-            return !(_target == null);
-        }
+        get { return (!_target); }
     }
 
-    /// <summary>
-    /// Resets the target.
-    /// There is no target.
-    /// </summary>
-    private void ResetTarget()
+    public GameObject Target
+    {
+        get { return _target; }
+        set { _target = value; }
+    }
+
+    public void ResetTarget()
     {
         Target = null;
         OnLoseTarget();
     }
 
-    /// <summary>
-    /// Gets or sets the target.
-    /// </summary>
-    /// <value>
-    /// The target.
-    /// </value>
-    public GameObject Target
+    protected override void Update()
     {
-        get
+        base.Update();
+        if(IsDead)
         {
-            return _target;
+            return;
         }
-        set
+
+        if (Target)
         {
-            _target = value;
+            MonsterMove();
+            if (DistanceToTarget <= RangeOfAttack && nextAttackTimer == 0f)
+            {
+                ActionMonster();
+            }
+        }
+        else
+        {
+            if (transform.position != originalPosition)
+            {
+                OnLoseTarget();
+            }
+        }
+
+        if (nextAttackTimer != 0f)
+        {
+            nextAttackTimer -= Time.deltaTime;
+            nextAttackTimer = Mathf.Clamp(nextAttackTimer, 0f, nextAttackTimer);
         }
     }
 
-    /// <summary>
-    /// Abstract method. 
-    /// Called when [target selected].
-    /// </summary>
-    public abstract void OnTargetSelected();
+    protected virtual void OnLoseTarget()
+    {
+        var lookPos = originalPosition - transform.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10);
 
-    /// <summary>
-    /// Abstract method.
-    /// Called when [lose target].
-    /// </summary>
-    public abstract void OnLoseTarget();
+        _agent.SetDestination(originalPosition);
+    }
 
-    /// <summary>
-    /// When the target is acquiered, this method calcul the distance
-    /// between itself and the target.
-    /// </summary>
     public double DistanceToTarget
     {
         get
@@ -100,29 +101,28 @@ public abstract class Monster : EntityLivingBase, IMonster
                 return Vector3.Distance(transform.position, Target.transform.position);
             }
 
-            return Mathf.Infinity;
+            return 0f;
         }
     }
 
-    /// <summary>
-    /// Updates this instance.
-    /// </summary>
-    protected override void Update()
+    protected virtual void ActionMonster()
     {
-        base.Update();
-
-        if (IsPlayerDetected && DistanceToTarget > maxDistanceTarget)
-        {
-            Debug.Log("Hello");
-            ResetTarget();
-        }
+        nextAttackTimer = attackCD;
+        MonsterAutoAttack();
     }
 
     // Implements IMonster...
+    public virtual void MonsterMove()
+    {
+        var lookPos = Target.transform.position - transform.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10);
 
-    public virtual void MonsterMove() { }
+        Vector3 destination = Target.transform.position;
+        _agent.SetDestination(destination);
+    }
 
     public virtual void MonsterAutoAttack() { }
-
     public virtual void MonsterLaunchSpell() { }
 }

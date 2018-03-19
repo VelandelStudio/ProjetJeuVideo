@@ -113,23 +113,4 @@ public class AllyMonster : Monster, IInterractableEntity
             _agent.SetDestination(destination);
         }
     }
-
-    /// <summary>
-    /// OnLoseTarget method from Monster
-    /// Called when the acquired Target turns NULL
-    /// </summary>
-    public override void OnLoseTarget()
-    {
-        Debug.Log("I lost the target !");
-    }
-
-    /// <summary>
-    /// OnLoseTarget method from Monster
-    /// Called when the Monter Acquiered an new target
-    /// </summary>
-    public override void OnTargetSelected()
-    {
-        Debug.Log("New target acquired !");
-        Debug.Log("Press " + InputsProperties.Activate.ToString() + " and i'll follow you sir");
-    }
 }

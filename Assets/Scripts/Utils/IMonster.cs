@@ -13,8 +13,6 @@ using UnityEngine;
 public interface IMonster {
 
     void MonsterMove();
-
     void MonsterAutoAttack();
-
     void MonsterLaunchSpell();
 }

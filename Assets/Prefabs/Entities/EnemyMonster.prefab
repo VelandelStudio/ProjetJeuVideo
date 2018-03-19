@@ -365,8 +365,7 @@ MonoBehaviour:
   damageTransform: {fileID: 4277583828976368}
   damagePrefab: {fileID: 1351666875254116, guid: 78ed670c943475d4ca7afe7f9a9b4463,
     type: 2}
-  maxDistanceTarget: 20
-  range: 5
+  RangeOfAttack: 3
   attackCD: 3
 --- !u!114 &114974419410848926
 MonoBehaviour:

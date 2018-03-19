@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.AI;
 /** EntityLivingBase Abstract Class
 * This abstract class should ALWAYS be extended by classes which represents living entities.
 * At the moment it is able to handle HP Based behaviour such as damage, heals and death of the entity.
@@ -62,9 +63,11 @@ public abstract class EntityLivingBase : MonoBehaviour
         characteristics = GetComponent<Characteristics>();
     }
 
+    protected virtual void Start() { }
+
     /** InitializeLivingEntity public method.
-     * This method is used when an entity is created. It will set the parameters HP and HPMax of the entity.
-     **/
+    * This method is used when an entity is created. It will set the parameters HP and HPMax of the entity.
+    **/
     public void InitializeLivingEntity(int HP, int HPMax)
     {
         _HP = HP;
@@ -75,9 +78,10 @@ public abstract class EntityLivingBase : MonoBehaviour
 
 
     /** DamageFor public method.
-     * This method is used by other elements to apply Damages on the living Entity.
-     * If the HP value reaches 0, the entity dies.
-     **/
+    * This method is used by other elements to apply Damages on the living Entity.
+    * If the HP value reaches 0, the entity dies.
+    * This method also displays damages on the screen.
+    **/ 
     public void DamageFor(int amount)
     {
         Debug.Log("Amount = " + amount);
@@ -97,9 +101,9 @@ public abstract class EntityLivingBase : MonoBehaviour
     }
 
     /** HealFor public method.
-     * This method is used by other elements to apply heal on the living Entity.
-     * The HP value can't be greater than HPMax
-     **/
+    * This method is used by other elements to apply heal on the living Entity.
+    * The HP value can't be greater than HPMax
+    **/
     public void HealFor(int amount)
     {
         if (IsAlive)
@@ -122,12 +126,10 @@ public abstract class EntityLivingBase : MonoBehaviour
     }
 
     /** Update protected method.
-     * This method only count time ticks. Every seconds, it calls the HealFor Method in order to apply a RegenHpPerSec
-     **/
+    * This method only count time ticks. Every seconds, it calls the HealFor Method in order to apply a RegenHpPerSec
+    **/
     protected virtual void Update()
     {
-        if (IsDead && _startDespawn)
-            gameObject.transform.position = gameObject.transform.position - (Vector3.up * Time.deltaTime);
     }
 
     /** InstantKill public method.
@@ -166,14 +168,18 @@ public abstract class EntityLivingBase : MonoBehaviour
      **/
     protected IEnumerator DespawnEntity()
     {
-        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-        if (rb != null)
-            Destroy(rb);
+        NavMeshAgent navMesh = GetComponent<NavMeshAgent>();
+        navMesh.enabled = false;
+
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        Vector3 force = new Vector3(transform.forward.x * -20, transform.up.y * 10, transform.forward.z * -20);
+        GetComponent<Rigidbody>().AddForceAtPosition(force, transform.position, ForceMode.Impulse);
 
         Collider col = gameObject.GetComponent<Collider>();
         if (col == null)
+        {
             col = gameObject.AddComponent<Collider>();
-
+        }
         col.isTrigger = true;
 
         yield return new WaitForSeconds(5);

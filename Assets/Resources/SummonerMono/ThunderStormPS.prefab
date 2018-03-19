@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 4726762220379406}
   - component: {fileID: 198758537687520196}
   - component: {fileID: 199380584732217988}
-  - component: {fileID: 114526149631798178}
   m_Layer: 0
   m_Name: ThunderStormPS
   m_TagString: Untagged
@@ -73,18 +72,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114526149631798178
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1564396486451668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c0eabc5d47c9b942a45286f28f739eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileHitPS: {fileID: 0}
 --- !u!198 &198592597099981998
 ParticleSystem:
   m_ObjectHideFlags: 1
