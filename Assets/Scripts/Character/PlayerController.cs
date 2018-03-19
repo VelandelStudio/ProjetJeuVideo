@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 {
     private Animator _anim;
     private CharacterController _characterController;
+    public bool _isFighting;
     private bool _jumping;
     private bool _resetGravity;
     private float _gravity;
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private float _lastHorizontalInput;
     private float _lastVerticalInput;
 
-
+    private Characteristics _characteristics;
     [SerializeField] public AnimationSettings Animations;
     [SerializeField] public PhysicsSettings Physics;
     [SerializeField] public MovementSettings Movement;
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
         public float MovementSpeed = 5f;
         public float JumpSpeed = 3f;
         public float JumpTime = 0.5f;
+        public float MoveSpeedFactor = 1.0f;
     }
 
     /** Start : private void method
@@ -59,8 +61,10 @@ public class PlayerController : MonoBehaviour
 	**/
     private void Start()
     {
+        Camera.main.GetComponent<CameraController>().AttributChampionToFollow(transform);
         _anim = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
+        _characteristics = GetComponent<Characteristics>();
         SetupAnimator();
     }
 
@@ -89,10 +93,20 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _lastHorizontalInput = Mathf.Lerp(_lastHorizontalInput,0,0.1f);
+            _lastHorizontalInput = Mathf.Lerp(_lastHorizontalInput, 0, 0.1f);
             _lastVerticalInput = Mathf.Lerp(_lastVerticalInput, 0, 0.1f);
             Animate(_lastVerticalInput, _lastHorizontalInput);
         }
+
+      /*  if (_isFighting)
+        {
+            _anim.SetBool("IsFighting", true);
+        }
+        else
+        {
+            _anim.SetBool("IsFighting", false);
+        }
+        */
     }
 
     /** Update : public void method
@@ -103,8 +117,8 @@ public class PlayerController : MonoBehaviour
     {
         _anim.SetFloat(Animations.VerticalVelocityFloat, forward);
         _anim.SetFloat(Animations.HorizontalVelocityFloat, strafe);
-        _anim.SetBool(Animations.GroundedBool, _characterController.isGrounded);
-        _anim.SetBool(Animations.JumpBool, _jumping);
+        //_anim.SetBool(Animations.GroundedBool, _characterController.isGrounded);
+        //_anim.SetBool(Animations.JumpBool, _jumping);
     }
 
     /** ApplyGravity : private void method
@@ -143,13 +157,20 @@ public class PlayerController : MonoBehaviour
             _gravityVector.y = Movement.JumpSpeed;
         }
     }
-    
+
     /** ApplyMovemement : private void method
 	 * Applys all the movements to the player. 
-         * In this method we threat two cases separately that depends if the player has his cursor visible or no not.
+     * In this method we threat two cases separately that depends if the player has his cursor visible or no not.
 	**/
     private void ApplyMovemement()
     {
+
+        if (_characteristics)
+        {
+            Movement.MoveSpeedFactor = _characteristics.MovementSpeedFactor;
+            _anim.SetFloat("MovementSpeed", Movement.MoveSpeedFactor);
+        }
+
         if (CursorBehaviour.CursorIsVisible)
         {
             _moveDirection = Vector3.zero;
@@ -160,14 +181,16 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetAxis("Vertical") < 0)
             {
-                _moveDirection = Movement.MovementSpeed / 4 * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                _moveDirection = (Movement.MovementSpeed * Movement.MoveSpeedFactor) / 4 * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             }
             else
             {
-                _moveDirection = Movement.MovementSpeed * transform.TransformDirection(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                _moveDirection = transform.TransformDirection(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             }
+            _moveDirection.Normalize();
+
             _moveDirection.y = _gravityVector.y;
-            _characterController.Move(_moveDirection * Time.deltaTime);
+           //_characterController.Move((Movement.MovementSpeed * Movement.MoveSpeedFactor) * _moveDirection * Time.deltaTime);
         }
     }
 

@@ -12,6 +12,13 @@ public class SummoningArea : MonoBehaviour
 
     [SerializeField] private DungeonLauncher dungeonLauncher;
     private bool championLoaded = false;
+    ArtifactReceptacleMechanism[] receptacles;
+
+    private void Start()
+    {
+        receptacles = transform.parent.GetComponentsInChildren<ArtifactReceptacleMechanism>();
+    }
+
     /** OnTriggerExit, private void
      * @param : Collider
      * This method is used to detect if a player leaves the area.
@@ -25,6 +32,13 @@ public class SummoningArea : MonoBehaviour
             Champion champion = other.GetComponent<Champion>();
             if (champion && champion.ChampionDestroyable)
             {
+                for (int i = 0; i < receptacles.Length; i++)
+                {
+                    if (receptacles[i].LinkedChampion && champion == receptacles[i].LinkedChampion)
+                    {
+                        receptacles[i].DestroyArtifactPrefab();
+                    }
+                }
                 champion.DestroyChampion();
             }
             championLoaded = false;

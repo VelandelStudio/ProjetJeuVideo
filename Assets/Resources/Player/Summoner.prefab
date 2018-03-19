@@ -72,27 +72,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1075654472176846
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4436439579724096}
-  - component: {fileID: 20984794268844806}
-  - component: {fileID: 124924722641322212}
-  - component: {fileID: 92889678300878256}
-  - component: {fileID: 81102005911494902}
-  - component: {fileID: 114606634560126874}
-  - component: {fileID: 114924745225135280}
-  m_Layer: 9
-  m_Name: Camera
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1105850614260922
 GameObject:
   m_ObjectHideFlags: 1
@@ -300,7 +279,6 @@ GameObject:
   - component: {fileID: 143652668027644630}
   - component: {fileID: 114015581271129784}
   - component: {fileID: 114755545067787956}
-  - component: {fileID: 114165602220223932}
   m_Layer: 0
   m_Name: Summoner
   m_TagString: Player
@@ -1111,15 +1089,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1285501127524934}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9, y: 0, z: -0.00036561093}
+  m_LocalRotation: {x: -0, y: -0.43774438, z: -0, w: 0.89909947}
+  m_LocalPosition: {x: -74.22, y: 257.06, z: -48.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4693425515116796}
-  - {fileID: 4436439579724096}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -51.920002, z: 0}
 --- !u!4 &4033769075542260
 Transform:
   m_ObjectHideFlags: 1
@@ -1509,19 +1486,6 @@ Transform:
   m_Father: {fileID: 4295243864252900}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4436439579724096
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1075654472176846}
-  m_LocalRotation: {x: 0.15126087, y: -0, z: -0, w: 0.9884939}
-  m_LocalPosition: {x: 0, y: 4.300808, z: -7.035841}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4012413521213490}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 17.400002, y: 0, z: 0}
 --- !u!4 &4436958025770858
 Transform:
   m_ObjectHideFlags: 1
@@ -2145,55 +2109,6 @@ Transform:
   m_Father: {fileID: 4162178907989938}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &20984794268844806
-Camera:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1075654472176846}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: 3
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!81 &81102005911494902
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1075654472176846}
-  m_Enabled: 1
---- !u!92 &92889678300878256
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1075654472176846}
-  m_Enabled: 1
 --- !u!95 &95542241792870928
 Animator:
   serializedVersion: 3
@@ -2223,7 +2138,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: c124a8e0a015c09419361317cc9371a4, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -2239,6 +2154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f48390f6b025e4d962a602732cf4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFighting: 0
   Animations:
     VerticalVelocityFloat: Forward
     HorizontalVelocityFloat: Strafe
@@ -2252,31 +2168,7 @@ MonoBehaviour:
     MovementSpeed: 5
     JumpSpeed: 3
     JumpTime: 0.5
---- !u!114 &114165602220223932
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1285501127524934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb8e6b46a87703c43862938d7e7663cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rayCastMaxRange: 5
---- !u!114 &114606634560126874
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1075654472176846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df0931fe64be22b468765f2257af84ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 4693425515116796}
-  CameraControlled: 0
+    MoveSpeedFactor: 1
 --- !u!114 &114755545067787956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2288,25 +2180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bfa015421a6b246895b50927bd6c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114924745225135280
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1075654472176846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: b2ed7e6cf67ec744db5804b3d7c7cc03, type: 2}
---- !u!124 &124924722641322212
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1075654472176846}
-  m_Enabled: 1
 --- !u!137 &137201329302447142
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

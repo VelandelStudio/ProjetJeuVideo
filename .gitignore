@@ -30,3 +30,10 @@ sysinfo.txt
 *.asset binary
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+Assets/Scripts/Champions/Summoner/Spells/ArpoonSpell.cs
+Assets/Scripts/Champions/Summoner/Spells/ArpoonSpell.cs
+Assets/Resources/Images/Status/Utils.meta
+Assets/Resources/Status/DefenseBoostStatus.prefab
+Assets/Resources/Status/DefenseBoostStatus.prefab.meta
+Assets/Scripts/Champions/Summoner/ScriptsOnPrefabs/DefenseBoostStatus.cs
+Assets/Scripts/Champions/Summoner/ScriptsOnPrefabs/DefenseBoostStatus.cs.meta

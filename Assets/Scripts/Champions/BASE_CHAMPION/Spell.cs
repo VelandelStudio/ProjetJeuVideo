@@ -14,6 +14,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
      * The spellInUse field is use to tell when a spell is starting and when it is ending. For example, a Charge spell has a real duration in time.
      * The CurrentCD field is used to know how much time ypu have to wait until the next use of the spell.
      * The SpellGCD field is used to set a GlobalCooldown to all Spells. Is a Spell is under GCD, the field IsUnderGCD is true.
+     * The IsSpellUsable field is used to determine if you can use a spell or not (stun or special condition on a spell etc ...)
      **/
     #region Fields
     public SpellData _spellData { get; protected set; }
@@ -21,7 +22,19 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     public string Element { get { return _spellData.Element; } protected set { } }
     public string Type { get { return _spellData.Type; } protected set { } }
     public float CoolDownValue { get { return _spellData.CoolDownValue; } protected set { } }
-    public int[] Damages { get { return _spellData.Damages; } protected set { } }
+    public int[] Damages
+    {
+        get
+        {
+            int[] DamagesCalc = new int[_spellData.Damages.Length];
+            for (int i = 0; i < DamagesCalc.Length; i++)
+            {
+                DamagesCalc[i] = (int)(_spellData.Damages[i] * characteristics.DamageFactor);
+            }
+            return DamagesCalc;
+        }
+        protected set { }
+    }
     public string[] DamagesType { get { return _spellData.DamagesType; } protected set { } }
     public string[] OtherValues { get { return _spellData.OtherValues; } protected set { } }
     public GameObject[] Status { get { return _spellData.Status; } protected set { } }
@@ -35,7 +48,6 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     protected Champion champion;
 
     public float CurrentCD { get; protected set; }
-
     protected float spellGCD = 1f;
 
     public float SpellGCD
@@ -45,6 +57,15 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     }
 
     public bool IsUnderGCD { get; protected set; }
+
+    private bool _IsSpellUsable =true;
+    public bool IsSpellUsable
+    {
+        get { return _IsSpellUsable; }
+        set { _IsSpellUsable = value; }
+    }
+
+    protected Characteristics characteristics;
     #endregion
 
     #region Functionnal Methods
@@ -63,6 +84,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
 	 **/
     protected virtual void Start()
     {
+        characteristics = GetComponent<Characteristics>();
         CurrentCD = 0;
     }
 
@@ -112,7 +134,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
 	 **/
     public virtual bool IsSpellLauncheable()
     {
-        return (CurrentCD == 0);
+        return (CurrentCD == 0) && IsSpellUsable;
     }
 
     /** IsSpellInUse public bool Method,
@@ -165,12 +187,18 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
      **/
     protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
     {
-        GameObject objInst = Instantiate(status, tr);
-        StatusBase statusInst = objInst.GetComponent<StatusBase>();
-        statusInst.StartStatus(status.GetComponent<StatusBase>());
-        return objInst;
+        return EntityHelper.ApplyStatus(gameObject, tr.gameObject, status);
     }
     #endregion
+
+    /** ReduceCurrentCooldown, public void Method
+	 * @param : float
+	 * Reduce the current CD with a float. Usefull for cooldown reduction items
+	 **/
+    public void ReduceCurrentCooldown(float f)
+    {
+        CurrentCD = Mathf.Clamp(CurrentCD - f, 0, CoolDownValue);
+    }
 
     #region Ienumerators and Coroutines
     /** LaunchGCD, public virtual IEnumerator Method

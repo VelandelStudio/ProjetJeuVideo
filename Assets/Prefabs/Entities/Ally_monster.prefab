@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 195392889844363568}
   - component: {fileID: 114396008222973392}
   - component: {fileID: 54032761348885048}
+  - component: {fileID: 114878376452802652}
   m_Layer: 0
   m_Name: Ally_monster
   m_TagString: Untagged
@@ -161,7 +162,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1913619159701872}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -200, y: 1, z: -188.66}
+  m_LocalPosition: {x: -77.12816, y: 257.05, z: -62.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4668894442475056}
@@ -402,10 +403,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e2605c65769fa43b9305b37c76402b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HP: 0
+  _HP: 10
   _regenHpPerSec: 3
-  _HPMax: 0
+  _HPMax: 100
   maxDistanceTarget: 0
+--- !u!114 &114878376452802652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1913619159701872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a72e608d2e8f643ad1037df2935597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135910564107169464
 SphereCollider:
   m_ObjectHideFlags: 1

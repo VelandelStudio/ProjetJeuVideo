@@ -34,7 +34,7 @@ public abstract class ActivableMechanism : Mechanism
     /** CancelTextOfInterractable, public override void 
 	 * Does nothing currently but will handle the Behaviour of the GUI.
 	 **/
-    public override void CancelTextOfInterractable() { }
+    public override void CancelTextOfInterractable(Collider other) { }
 
     /** ActivateInterractable, public override abstract void 
 	 * The behaviour of the ActivableMechanism will be set in the child script.
@@ -57,8 +57,8 @@ public abstract class ActivableMechanism : Mechanism
             _entityActivator.transform.rotation = Quaternion.RotateTowards(_entityActivator.transform.rotation, q, Time.deltaTime * 500f);
             Camera.main.GetComponent<CameraController>().CameraControlled = false;
 
-           if (Vector3.Angle(_entityActivator.transform.forward, lookDir) < 10)
-           {
+            if (Vector3.Angle(_entityActivator.transform.forward, lookDir) < 10)
+            {
                 Camera.main.GetComponent<CameraController>().CameraControlled = true;
                 _activating = false;
                 ActivateInterractable(_entityActivatorCol);

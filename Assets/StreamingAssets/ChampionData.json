@@ -37,6 +37,62 @@
 		],
 		"Tags":["Melee","Physical","MonoTarget","DPS"]
 	},
+		{
+		"Name":"SummonerNeutral",
+		"Passive":"PassiveSummonerNeutral",
+		"AutoAttack":"AutoAttackSummonerNeutral",
+		"ActiveSpells":["EscapeSpell", "PetMonoSpell", "PetAOESpell", "PetSupportSpell"],
+		"Element":"",
+		"Description":
+		[
+			"This is a description of the SummonerNeutral"
+		],
+		"Tags":["Ranged","Magical","DPS","Monotarget","MultiTarget","Heal"]
+	},
+	{
+		"Name":"SummonerMono",
+		"Passive":"PassiveSummonerMono",
+		"AutoAttack":"AutoAttackSummonerMono",
+		"ActiveSpells":["NeutralFormSpell", "LightningSpell", "ThunderstormSpell", "SwitchTargetSpell"],
+		"Element":"Storm",
+		"Description":
+		[
+			"DPS Monotarget form of the summoner.\n", 
+			"This form has powerfull and quick spells that deals big damages on ONE target at a time. \n",
+			"Choose the right target and MAKE HIM PAY !!"
+		],
+		"Tags":["Ranged","Magical","DPS","Monotarget"]
+	},
+	{
+		"Name":"SummonerAOE",
+		"Passive":"PassiveSummonerPetAOE",
+		"AutoAttack":"AutoAttackSummonerAOE",
+		"ActiveSpells":["NeutralFormSpell", "DeflagrationSpell", "AnnihilationSpell", "SwitchTargetSpell"],
+		"Element":"Fire",
+		"Description":
+		[
+			"The most destructive (and BADASS) form of the summoner.\n", 
+			"This form has powerfull and dangerous AOE spells that can deal a big amount of damages. \n",
+			"Use theses spells carefully or it will lead you to your doom!\n"
+			
+		],
+		"Tags":["Ranged","Magical","DPS","MultiTarget"]
+	},
+	{
+		"Name":"SummonerSupport",
+		"Passive":"PassiveSummonerPetSupport",
+		"AutoAttack":"AutoAttackSummonerSupport",
+		"ActiveSpells":["NeutralFormSpell", "HarpoonSpell", "EnergyShieldSpell", "SwitchTargetSpell"],
+		"Element":"Nature",
+		"Description":
+		[
+			"The support form of the summoner.\n", 
+			"This form has very effective crowd control spells and some powerfull protection and heal abilities.\n",
+			"With great power comes great responsibility !\n"
+			
+		],
+		"Tags":["Ranged","Magical","Monotarget","MultiTarget","Heal"]
+	},
 	{
 		"Name":"Test",
 		"Passive":"PassiveTest",

@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 135951693685031284}
   - component: {fileID: 54088356299473656}
   - component: {fileID: 114888937386467232}
+  - component: {fileID: 114024959688170484}
   m_Layer: 0
   m_Name: PNJ
   m_TagString: Monster
@@ -317,6 +318,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &114024959688170484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1840519986706502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a72e608d2e8f643ad1037df2935597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114888937386467232
 MonoBehaviour:
   m_ObjectHideFlags: 1

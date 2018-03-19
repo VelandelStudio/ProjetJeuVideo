@@ -26,9 +26,25 @@ GameObject:
   - component: {fileID: 195266831226733952}
   - component: {fileID: 114838379982565682}
   - component: {fileID: 54506892580661356}
+  - component: {fileID: 114974419410848926}
   m_Layer: 0
   m_Name: EnemyMonster
   m_TagString: Monster
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1284429259414290
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4277583828976368}
+  m_Layer: 0
+  m_Name: DamageTransform
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,6 +113,19 @@ Transform:
   m_Father: {fileID: 4914210564111076}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4277583828976368
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1284429259414290}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4914210564111076}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4787776996438834
 Transform:
   m_ObjectHideFlags: 1
@@ -130,12 +159,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1059397386712724}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -27.252693, y: 1.37, z: 10.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4206191736298024}
   - {fileID: 4888246792087006}
   - {fileID: 4787776996438834}
+  - {fileID: 4277583828976368}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -332,9 +362,23 @@ MonoBehaviour:
   _HP: 50
   _regenHpPerSec: 3
   _HPMax: 50
+  damageTransform: {fileID: 4277583828976368}
+  damagePrefab: {fileID: 1351666875254116, guid: 78ed670c943475d4ca7afe7f9a9b4463,
+    type: 2}
   maxDistanceTarget: 20
   range: 5
   attackCD: 3
+--- !u!114 &114974419410848926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1059397386712724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a72e608d2e8f643ad1037df2935597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135267300386641218
 SphereCollider:
   m_ObjectHideFlags: 1

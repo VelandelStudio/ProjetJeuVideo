@@ -16,8 +16,8 @@
 			"Make every Ignite explodes and inflicts {Damages[0]} damages to target.\n",
 			"Every monster taken in the explosion sudden {Damages[1]} damages and has {OtherValues[0]}% of chances to be affected by a new Ignite."
 		]
-	},
-	{
+	 },
+	 {
 		"ScriptName":"DefaultSpell",
 		"Name":"Default Spell",
 		"Element":"none",
@@ -33,8 +33,172 @@
 		[
 			"the DefaultStatus loaded."
 		]
-	},
-	{
+	 },
+	 {
+		"ScriptName":"EscapeSpell",
+		"Name":"Escape",
+		"Element":"none",
+		"Type":"",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["VelocityStatus"],
+		"Description":
+		[
+			"Escape from enemy when you shit your pants\n",
+			"Applies <<Status[0]>> "
+		]
+	 },
+	 {
+		"ScriptName":"NeutralFormSpell",
+		"Name":"NeutralForm",
+		"Element":"none",
+		"Type":"",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":[],
+		"Description":
+		[
+			"Return to the summoner to his Neutral form."
+		]
+	 },
+	 {
+		"ScriptName":"DeflagrationSpell",
+		"Name":"Deflagration",
+		"Element":"Fire",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[10],
+		"DamagesType":["m"],
+		"OtherValues":["5"],
+		"NumberOfStacks":0,
+		"Status":["TouchStatus"],
+		"Description":
+		[
+			"Inflicts {Damages[0]} to all the monster in the area ({OtherValues[0]}) of the Deflagration\n",
+			"Applies <<Status[0]>> to monster hit by the Deflagration"
+		]
+	 },
+	 {
+		"ScriptName":"AnnihilationSpell",
+		"Name":"Annihilation",
+		"Element":"Fire",
+		"Type":"Ranged",
+		"CoolDownValue":5,
+		"HasGCD":true,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["WaitForTheBoomStatus","CountDownBeforetheBoomStatus"],
+		"Description":
+		[
+			"Autodestruction of the Pet in a big 'BOUM!'\n",
+			"Applies <<Status[0]>> to the Player before the EXPLOSION\n",
+			"Applies <<Status[1]>> to the Pet before the EXPLOSION"
+		]
+	 },
+	 {
+		"ScriptName":"SwitchTargetSpell",
+		"Name":"SwitchTarget",
+		"Element":"none",
+		"Type":"",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":[],
+		"Description":
+		[
+			"Change the target of the Pet"
+		]
+	 },
+	 {
+		"ScriptName":"HarpoonSpell",
+		"Name":"Harpoon",
+		"Element":"",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[0],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["HarpoonedStunStatus", "HarpoonedDebuffStatus"],
+		"Description":
+		[
+			"Aim and grab the target toward the player\n",
+			"Applies <<Status[0]>> to the Monster grab after it reached the player"
+		]
+	 },
+	 {
+		"ScriptName":"EnergyShieldSpell",
+		"Name":"EnergyShield",
+		"Element":"",
+		"Type":"",
+		"CoolDownValue":3,
+		"HasGCD":true,
+		"Damages":[5],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":["ProtectedStatus"],
+		"Description":
+		[
+			"Protect the player with an energy shield\n",
+			"The shield applies <<Status[0]>> to the the player\n",
+			"The shield Inflicts {Damages[0]} to all the monster around the player when it breaks"
+		]
+	 },
+	 {
+		"ScriptName":"LightningSpell",
+		"Name":"Lightning",
+		"Element":"Storm",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[5],
+		"DamagesType":["m"],
+		"OtherValues":[2],
+		"NumberOfStacks":2,
+		"Status":[],
+		"Description":
+		[
+			"Cast a quick ray that damage one target\n",
+			"Applies {Damages[0]} damages to monster hit by the Lightning\n",
+			"Applies {NumberOfStacks} stacks of VoltageStatus when a monster is hit by the Lightning\n"
+		]
+	 },
+	 {
+		"ScriptName":"ThunderstormSpell",
+		"Name":"Thunderstorm",
+		"Element":"Storm",
+		"Type":"Ranged",
+		"CoolDownValue":1,
+		"HasGCD":true,
+		"Damages":[5,10,20,40],
+		"DamagesType":["m"],
+		"OtherValues":[],
+		"NumberOfStacks":0,
+		"Status":[],
+		"Description":
+		[
+			"Cast big Thunderstorm on one enemy\n",
+			"Deals damages depending on the stacks on the player\n",
+			"Remove all accumulated stacks of the the player"
+		]
+	 },
+	 {
 		"ScriptName":"FireBallSpell",
 		"Name":"Fire Ball",
 		"Element":"Fire",
@@ -51,8 +215,8 @@
 			"Launch a Fireball in front of the player.\n",
 			"If the Fireball hits a monster,it sudden {Damages[0]} damages and apply <<Status[0]>>"
 		]
-	},
-	{
+	 },
+	 {
 		"ScriptName":"FireBlessingSpell",
 		"Name":"Fire Blessing",
 		"Element":"Fire",
@@ -68,8 +232,8 @@
 		[ 
 			"The Goddess of fire gives you a <<Status[0]>>."
 		]
-	},
-	{
+	 },
+	 {
 		"ScriptName":"GustSpell",
 		"Name":"Gust",
 		"Element":"Storm",
@@ -85,8 +249,59 @@
 		[
 			"Some gust of wind which applies <<Status[0]>> to all allies in an area of {OtherValues[0]} units radius."
 		]
-	},
-	{
+	 },
+	 {
+		"ScriptName":"PetAOESpell",
+		"Name":"Pet AOE",
+		"Element":"",
+		"Type":"",
+		"CoolDownValue":1.0,
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Invocation of the AOE pet."
+		]
+	 },
+	 {
+		"ScriptName":"PetMonoSpell",
+		"Name":"Pet Mono",
+		"Element":"",
+		"Type":"",
+		"CoolDownValue":1.0,
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Invocation of the monocible pet."
+		]
+	 },
+	 {
+		"ScriptName":"PetSupportSpell",
+		"Name":"Pet Support",
+		"Element":"",
+		"Type":"",
+		"CoolDownValue":1.0,
+		"HasGCD":false,
+		"Damages":[],
+		"DamagesType":[],
+		"OtherValues":[30],
+		"NumberOfStacks":0,
+		"Status":[""],
+		"Description":
+		[
+			"Invocation of the support pet."
+		]
+	 },
+	 {
 		"ScriptName":"SolarBurnSpell",
 		"Name":"Solar Burn",
 		"Type":"Ranged",
@@ -105,8 +320,8 @@
 			"Otherwise, every target caught in the explosion sudden {Damages[1]} damages.\n",
 			"Critical hits inflicts 4x more damages instand of 2x."
 		]
-	},
-	{
+	 },
+	 {
 		"ScriptName":"StormWallSpell",
 		"Name":"Storm Wall",
 		"Type":"",
@@ -125,8 +340,8 @@
 			"Ally entities or projectiles that passes through receive a <<Status[0]>>.\n",
 			"Enemy entities or projectiles that passes through receive a <<Status[1]>>."
 		]
-	},
-	{
+	 },
+	 {
 		"ScriptName":"TridentLaunchSpell",
 		"Name":"Trident Launch",
 		"Element":"Storm",
@@ -143,8 +358,8 @@
 			"Launch a trident in front of you that deals {Damages[0]} damages to monsters.\n",
 			"Tridents are stackable to a maximum of {NumberOfStacks}."
 		]
-	},
-	{
+	 },
+	 {
 		"ScriptName":"WindStrikeSpell",
 		"Name":"Wind Strike",
 		"Element":"Storm",
@@ -161,5 +376,5 @@
 			"You empower your weapon with the power of the storms. It allows you to sweep the area in a {OtherValues[0]} unit radius.\n",
 			"Inflicts {Damages[0]} damages and applies <<Status[0]>> to each monster caught in the attack."
 		]
-	}
+	 }
 ]

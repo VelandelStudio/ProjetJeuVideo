@@ -40,6 +40,20 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     protected Rigidbody rb;
     protected Vector3 startVelocity;
 
+    [SerializeField] protected GameObject projectileHitPS;
+
+    /** Awake, protected virtual void
+	 * In this method we try to get ParticleSystem that shoudl be displayed when the projectile hit something.
+	 * If we get it, we immediately stop the particle and disable the GameObject.
+	 **/
+    protected virtual void Awake()
+    {
+        if (projectileHitPS)
+        {
+            projectileHitPS.GetComponent<ParticleSystem>().Stop(true);
+            projectileHitPS.SetActive(false);
+        }
+    }
 
     /// <summary>
     /// Start method from Unity to initialize a ProjectileThe LauncheSpell
@@ -53,7 +67,7 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
         AttributeSpeedAndRange();
 
         launcher = transform.parent;
-        gameObject.tag = launcher.gameObject.tag == "Player" ? "AllyEntity":"EnemyEntity";
+        gameObject.tag = launcher.gameObject.tag == "Player" ? "AllyEntity" : "EnemyEntity";
 
         GetComponent<Collider>().isTrigger = true;
         origin = transform.position;
@@ -88,6 +102,8 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
     /// the idea of a projectile is to check if the type of collision is type of EntityLivingBase
     /// In this case it launches the applyEffect implemented in the child Class
     /// In any type of collision the projectile will be destroyed at the end
+	/// Before being destroyed, we ensure that the ParticleSystem of the ProjectileHit is displayed and detached from the parent
+	/// To not be destroyed at the same time. This particleSystem will be destroyed after 1.5sec 
     /// </summary>
     /// <param name="col">is the collider touch by the projectile</param>
     protected void OnTriggerEnter(Collider col)
@@ -102,6 +118,13 @@ public abstract class LinearProjectile : MonoBehaviour, IProjectile
             }
 
             AdditionalEffects();
+            if (projectileHitPS)
+            {
+                projectileHitPS.SetActive(true);
+                projectileHitPS.GetComponent<ParticleSystem>().Play(true);
+                projectileHitPS.transform.parent = null;
+                Destroy(projectileHitPS, 1.5f);
+            }
             Destroy(gameObject);
         }
     }

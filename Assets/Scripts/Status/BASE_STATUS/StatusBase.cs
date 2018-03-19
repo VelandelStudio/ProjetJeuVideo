@@ -16,7 +16,25 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     public string Element { get; protected set; }
     public string Type { get; protected set; }
     public float CoolDownValue { get; protected set; }
-    public int[] Damages { get; protected set; }
+    public int[] Damages
+    {
+        get
+        {
+            if (!characteristics)
+            {
+                return StatusDefinition.Damages;
+            }
+
+            int[] DamagesCalc = new int[StatusDefinition.Damages.Length];
+            for (int i = 0; i < DamagesCalc.Length; i++)
+            {
+                DamagesCalc[i] = (int)(StatusDefinition.Damages[i] * characteristics.DamageFactor);
+            }
+            return DamagesCalc;
+        }
+        protected set { }
+    }
+
     public string[] DamagesType { get; protected set; }
     public string[] OtherValues { get; protected set; }
     public GameObject[] Status { get; protected set; }
@@ -31,6 +49,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
 
     public bool IsStackable;
     public int NumberOfStacks;
+    protected Characteristics characteristics;
 
     public float CurrentTimer
     {
@@ -63,7 +82,7 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         {
             Name = StatusDefinition.Name;
             Element = StatusDefinition.Element;
-            Duration = StatusDefinition.Duration;
+            Duration = StatusDefinition.Duration == 0 ? Mathf.Infinity : StatusDefinition.Duration;
             IsTickable = StatusDefinition.IsTickable;
             TicksIntervals = StatusDefinition.TicksIntervals;
             TickStarts = StatusDefinition.TickStarts;
@@ -75,6 +94,11 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
             Description = StatusDefinition.Description;
         }
         return _isLoaded;
+    }
+
+    public void AttributeCharacteristics(Characteristics characteristics)
+    {
+        this.characteristics = characteristics;
     }
 
     /** StartStatus, public virtual void 
@@ -115,6 +139,9 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
                 }
             }
         }
+        PreWarm();
+
+        /* Avec le sprint du Characteristics, cette section ne sera peut etre plus necessaire... A surveiller. 
 
         Name = status.Name;
         Element = status.Element;
@@ -123,12 +150,13 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         TicksIntervals = status.TicksIntervals;
         TickStarts = status.TickStarts;
         Damages = status.Damages;
+        Debug.Log(status.Damages[0]);
         DamagesType = status.DamagesType;
         OtherValues = status.OtherValues;
         IsStackable = status.IsStackable;
         NumberOfStacks = status.NumberOfStacks;
         Description = status.Description;
-
+        */
         if (transform.parent.gameObject.tag == "Player")
         {
             statusSection = GameObject.Find("StatusSection");
@@ -145,7 +173,10 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
             InvokeRepeating("StatusTickBehaviour", TickStarts[0], TicksIntervals[0]);
         }
 
-        Invoke("DestroyStatus", Duration);
+        if (Duration != Mathf.Infinity)
+        {
+            Invoke("DestroyStatus", Duration);
+        }
     }
 
     /** OnStatusApplied public abstract void
@@ -174,7 +205,11 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
 
         OnStatusApplied();
         CancelInvoke("DestroyStatus");
-        Invoke("DestroyStatus", Duration);
+
+        if (Duration != Mathf.Infinity)
+        {
+            Invoke("DestroyStatus", Duration);
+        }
 
         if (IsTickable)
         {

@@ -44,8 +44,6 @@ public class RoomBehaviour : RoomBase
     {
         GetComponentInParent<DungeonManager>().AttributeNewRoom(this);
         Theme theme = new Theme();
-
-        InitiateMonster();
     }
 
     /// <summary>
@@ -56,6 +54,8 @@ public class RoomBehaviour : RoomBase
     /// </summary>
     public void InitiateRoom()
     {
+        InitiateMonster();
+
         for (int i = 0; i < monster.Count; i++)
         {
             monster[i].SetActive(true);

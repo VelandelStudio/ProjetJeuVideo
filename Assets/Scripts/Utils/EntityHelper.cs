@@ -20,4 +20,16 @@ public static class EntityHelper
             status[i].DestroyStatus();
         }
     }
+
+   public static GameObject ApplyStatus(GameObject inst, GameObject recev, GameObject status)
+   {
+        StatusBase statusPrewarmed = status.GetComponent<StatusBase>();
+        GameObject objInst = GameObject.Instantiate(status, recev.transform);
+        StatusBase statusInst = objInst.GetComponent<StatusBase>();
+        statusInst.AttributeCharacteristics(inst.GetComponent<Characteristics>());
+
+        statusInst.StartStatus(statusPrewarmed);
+
+        return objInst;
+   }
 }

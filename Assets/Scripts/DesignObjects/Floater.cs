@@ -9,32 +9,74 @@ using UnityEngine;
  **/
 public class Floater : MonoBehaviour
 {
+    [SerializeField] private float degreesPerSecond;
+    [SerializeField] private float amplitude;
+    [SerializeField] private float frequency;
 
-    [SerializeField] private float degreesPerSecond = 15.0f;
-    [SerializeField] private float amplitude = 0.5f;
-    [SerializeField] private float frequency = 1f;
+    [SerializeField] private bool floatOnStart = true;
+    [SerializeField] private float startingTime;
+    [SerializeField] private float verticalAdd;
+    [SerializeField] private Vector3 targetRotation;
 
     Vector3 posOffset = new Vector3();
     Vector3 tempPos = new Vector3();
+    private Vector3 startFloatingPos;
 
     /** Start private void method
 	 * We get the original position of the object.
 	 **/
     private void Start()
     {
-        posOffset = transform.position;
+        posOffset = transform.localPosition;
+        startFloatingPos = posOffset + new Vector3(0f, verticalAdd, 0f);
     }
 
     /** Update, private void method 
 	 * We rotate and move the gameObject every frame.
 	 **/
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.Rotate(new Vector3(0f, Time.deltaTime * degreesPerSecond, 0f));
+        if (floatOnStart && startingTime <= 0)
+        {
+            transform.Rotate(0f, Time.deltaTime * degreesPerSecond, 0f);
+            tempPos = posOffset;
+            tempPos.y += Mathf.Cos(Time.fixedTime * Mathf.PI * frequency) * amplitude;
 
-        tempPos = posOffset;
-        tempPos.y += Mathf.Cos(Time.fixedTime * Mathf.PI * frequency) * amplitude;
-
-        transform.position = tempPos;
+            transform.localPosition = tempPos;
+        }
+        else
+        {
+            GoingUp();
+        }
     }
+
+    private void GoingUp()
+    {
+        if (!floatOnStart && startingTime > 0)
+        {
+            startingTime -= Time.deltaTime;
+        }
+        else
+        {
+            transform.Rotate(new Vector3(Time.deltaTime * targetRotation.x, 0f, Time.deltaTime * targetRotation.z));
+
+            if (transform.localPosition.y < startFloatingPos.y)
+            {
+                posOffset.y += 0.5f * Time.fixedDeltaTime;
+                transform.localPosition = posOffset;
+            }
+            else
+            {
+                tempPos = posOffset;
+                tempPos.y += Mathf.Cos(Time.fixedTime * Mathf.PI * frequency) * amplitude;
+
+                if (tempPos.y > transform.localPosition.y - 0.0005 && tempPos.y < transform.localPosition.y + 0.0005)
+                {
+                    floatOnStart = true;
+                }
+            }
+        }
+    }
+
+
 }

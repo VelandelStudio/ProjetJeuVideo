@@ -19,7 +19,10 @@ public abstract class Champion : MonoBehaviour
     protected AutoAttackBase autoAttack;
     protected ChampionData championData;
 
+    protected Animator anim;
     protected SpellBarBehaviour spellBar;
+    protected float timeSinceLastChampionSwap;
+
     public string Name
     {
         get { return championData.Name; }
@@ -45,6 +48,8 @@ public abstract class Champion : MonoBehaviour
         AttributePassiveToClass();
         AttributeAutoAttackToClass();
         AttributeSpellsToClass();
+
+        anim = GetComponent<Animator>();
     }
 
     /** Update protected virtual void Method.
@@ -68,10 +73,12 @@ public abstract class Champion : MonoBehaviour
         }
         if (Input.GetKeyDown(InputsProperties.ActiveSpell2))
         {
+            anim.SetTrigger("Spell2");
             LaunchSpell(1);
         }
         if (Input.GetKeyDown(InputsProperties.ActiveSpell3))
         {
+            anim.SetTrigger("Spell3");
             LaunchSpell(2);
         }
         if (Input.GetKeyDown(InputsProperties.ActiveSpell4))
@@ -87,6 +94,7 @@ public abstract class Champion : MonoBehaviour
     {
         GameObject normalPlayer = (GameObject)Resources.Load("Player/Summoner");
         spellBar.SetChildrenActives(false);
+        Camera.main.transform.parent = null;
         Instantiate(normalPlayer, transform.position, transform.rotation);
         Destroy(gameObject);
     }
@@ -110,6 +118,8 @@ public abstract class Champion : MonoBehaviour
         Spell spell = spells[spellIndex];
         if (spell.IsSpellLauncheable())
         {
+            anim.SetTrigger("Spell" + (spellIndex + 1));
+
             spell.LaunchSpell();
             if (spell.HasGCD)
             {
@@ -133,10 +143,13 @@ public abstract class Champion : MonoBehaviour
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, we load a DefaultPassive instead.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about the Passive.
+	 * Please note that we always check if the passive we are trying to ttach already exists. If that's the case, we just enable the existant script instead of adding one.
+	 * This features is usefull for champion that has the ability to switch between different forms with differents passives.
 	 **/
     protected virtual void AttributePassiveToClass()
     {
         Type t = Type.GetType(championData.Passive);
+
         if (t == null)
         {
             Debug.Log("The Passive : " + championData.Passive + " can not be loaded. Please cheack the Passive name inside the ChampionData.json file. DefaultPassive substitued.");
@@ -144,7 +157,29 @@ public abstract class Champion : MonoBehaviour
         }
         else
         {
-            passiveBase = (PassiveBase)gameObject.AddComponent(t);
+            bool passiveFound = false;
+            PassiveBase[] passives = GetComponents<PassiveBase>();
+            if (passives.Length > 0)
+            {
+                for (int i = 0; i < passives.Length; i++)
+                {
+                    if (passives[i].GetType() == t)
+                    {
+                        passives[i].enabled = true;
+                        passiveBase = passives[i];
+                        passiveFound = true;
+                    }
+                    else
+                    {
+                        passives[i].enabled = false;
+                    }
+                }
+            }
+
+            if (!passiveFound)
+            {
+                passiveBase = (PassiveBase)gameObject.AddComponent(t);
+            }
         }
         GUIPassiveDisplayer passiveDisplayer = GameObject.Find("Passive").GetComponent<GUIPassiveDisplayer>();
         passiveDisplayer.AttributeDisplayable(passiveBase);
@@ -155,6 +190,8 @@ public abstract class Champion : MonoBehaviour
 	 * Then, it get the script in the scripts library and attach it to the player.
 	 * If the script is not found or mispelled, we load a DefaultAutoAttack instead.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about the AutoAttack.
+	 * Please note that we always check if the autoAttack we are trying to ttach already exists. If that's the case, we just enable the existant script instead of adding one.
+	 * This features is usefull for champion that has the ability to switch between different forms with differents autoAttacks.
 	 **/
     protected virtual void AttributeAutoAttackToClass()
     {
@@ -166,7 +203,31 @@ public abstract class Champion : MonoBehaviour
         }
         else
         {
-            autoAttack = (AutoAttackBase)gameObject.AddComponent(t);
+            bool autoAttackFound = false;
+            AutoAttackBase[] autoAttacks = GetComponents<AutoAttackBase>();
+            if (autoAttacks.Length > 0)
+            {
+                for (int i = 0; i < autoAttacks.Length; i++)
+                {
+                    if (autoAttacks[i].GetType() == t)
+                    {
+                        autoAttacks[i].enabled = true;
+                        autoAttack = autoAttacks[i];
+                        autoAttack.ReduceCurrentCooldown(Time.fixedTime - timeSinceLastChampionSwap);
+
+                        autoAttackFound = true;
+                    }
+                    else
+                    {
+                        autoAttacks[i].enabled = false;
+                    }
+                }
+            }
+
+            if (!autoAttackFound)
+            {
+                autoAttack = (AutoAttackBase)gameObject.AddComponent(t);
+            }
         }
 
         GUIAutoAttackDisplayer autoAttackDisplayer = GameObject.Find("AutoAttack").GetComponent<GUIAutoAttackDisplayer>();
@@ -178,13 +239,18 @@ public abstract class Champion : MonoBehaviour
 	 * Then, it get all of the script in the scripts library and attach it to the player.
 	 * If one of the scripts is not found or mispelled, we load a DefaultSpell instead.
 	 * After that, we call the AttributeDisplayable method to give to the GUI all information in requires to display informations about each spell.
+	 * Please note that we always check if the spell we are trying to ttach already exists. If that's the case, we just enable the existant script instead of adding one.
+	 * This features is usefull for champion that has the ability to switch between different forms with differents spells.
 	 **/
     protected virtual void AttributeSpellsToClass()
     {
+        spells = new List<Spell>();
+        Spell[] spellTab = GetComponents<Spell>();
+
         for (int i = 1; i <= 4; i++)
         {
             string SpellName = championData.ActiveSpells[i - 1];
-            Spell spellToAdd;
+            Spell spellToAdd = null;
 
             if (Type.GetType(SpellName) == null)
             {
@@ -193,12 +259,50 @@ public abstract class Champion : MonoBehaviour
             }
             else
             {
-                spellToAdd = (Spell)gameObject.AddComponent(Type.GetType(SpellName));
+                bool spellFound = false;
+                if (spellTab.Length > 0)
+                {
+                    for (int j = 0; j < spellTab.Length; j++)
+                    {
+                        if (spellTab[j].GetType() == Type.GetType(SpellName))
+                        {
+                            spellTab[j].enabled = true;
+                            spellToAdd = spellTab[j];
+                            spellToAdd.ReduceCurrentCooldown(Time.fixedTime - timeSinceLastChampionSwap);
+                            spellFound = true;
+                        }
+                        else
+                        {
+                            spellTab[j].enabled = spells.Contains(spellTab[j]);
+                        }
+                    }
+                }
+
+                if (!spellFound)
+                {
+                    spellToAdd = (Spell)gameObject.AddComponent(Type.GetType(SpellName));
+                }
             }
 
             spells.Add(spellToAdd);
             GUISpellDisplayer spellDisplayer = GameObject.Find("Spell" + i).GetComponent<GUISpellDisplayer>();
             spellDisplayer.AttributeDisplayable(spellToAdd);
         }
+    }
+
+    /** SwapChampion, oublic virtual void
+	 * @param : string
+	 * Use this method carefully ! 
+	 * You shoudl call this method with champion that has the ability to swap between many forms such as the Summoner.
+	 * This method will not destroy the current champion, it will add spells from another champion to the current one.
+	 * Spells that was previously on the champion will be disabled but not destroyed.
+	 **/
+    public virtual void SwapChampion(string champion)
+    {
+        championData = new ChampionData(champion);
+        AttributePassiveToClass();
+        AttributeAutoAttackToClass();
+        AttributeSpellsToClass();
+        timeSinceLastChampionSwap = Time.fixedTime;
     }
 }

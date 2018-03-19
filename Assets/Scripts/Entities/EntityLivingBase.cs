@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 /** EntityLivingBase Abstract Class
- * This abstract class should ALWAYS be extended by classes which represents living entities.
- * At the moment it is able to handle HP Based behaviour such as damage, heals and death of the entity.
- * This class always need a collider to correctly apply damage.
- * Please note that all of these methos can be called ONLY if the entity is living (i.e. IsDead = false).
- **/
+* This abstract class should ALWAYS be extended by classes which represents living entities.
+* At the moment it is able to handle HP Based behaviour such as damage, heals and death of the entity.
+* This class always need a collider to correctly apply damage.
+* Please note that all of these methos can be called ONLY if the entity is living (i.e. IsDead = false).
+**/
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Characteristics))]
+
 public abstract class EntityLivingBase : MonoBehaviour
 {
     [SerializeField] private int _HP;
     [SerializeField] private int _regenHpPerSec = 3;
     [SerializeField] private int _HPMax;
+    public Transform damageTransform;
+    public GameObject damagePrefab;
     public bool IsDead { get { return _HP <= 0; } }
     public bool IsAlive { get { return !IsDead; } }
     private bool _startDespawn;
-
+    protected Characteristics characteristics;
     /** Awake, protected virtual void
 	 * First of all, we are checking that all LivingEntities that are not players have a Rigidbody that fits with the game rules. Which are.
 	 * Living Entities must have a rigidbody which uses gravity and is not kinematic.
@@ -54,6 +59,7 @@ public abstract class EntityLivingBase : MonoBehaviour
                          + "Seuls les roations en X et Z ont été Freeze. Merci de corriger le prefab.");
             }
         }
+        characteristics = GetComponent<Characteristics>();
     }
 
     /** InitializeLivingEntity public method.
@@ -74,14 +80,20 @@ public abstract class EntityLivingBase : MonoBehaviour
      **/
     public void DamageFor(int amount)
     {
+        Debug.Log("Amount = " + amount);
+
         if (IsAlive)
         {
-            _HP -= amount;
+            _HP -= (int)(amount - characteristics.Defense);
             if (IsDead)
             {
                 EntityDies();
             }
         }
+
+        GameObject damagePopup = Instantiate(damagePrefab, damageTransform.position, damageTransform.rotation, damageTransform);
+        damagePopup.GetComponentInChildren<Text>().text = amount.ToString();
+        Destroy(damagePopup, 1f);
     }
 
     /** HealFor public method.

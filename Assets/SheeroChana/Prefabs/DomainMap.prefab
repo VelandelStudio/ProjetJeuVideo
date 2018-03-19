@@ -807,7 +807,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1444095831297858
 GameObject:
@@ -1634,7 +1634,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1802792014284478
 GameObject:
@@ -1920,7 +1920,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1896554863939856
 GameObject:
@@ -2403,7 +2403,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1894821560253532}
   m_LocalRotation: {x: 0, y: -0.21912134, z: -0, w: 0.97569764}
-  m_LocalPosition: {x: -0.37699997, y: 25.562128, z: 0.07058978}
+  m_LocalPosition: {x: -0.28, y: 25.5, z: -0.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4469458365840514}
@@ -9403,8 +9403,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   degreesPerSecond: 0
-  amplitude: 90
+  amplitude: 10
   frequency: 0.1
+  floatOnStart: 1
+  startingTime: 0
+  verticalAdd: 0
+  targetRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &114529606604088148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9445,8 +9449,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   degreesPerSecond: 0
-  amplitude: 120
+  amplitude: 20
   frequency: 0.02
+  floatOnStart: 1
+  startingTime: 0
+  verticalAdd: 0
+  targetRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &114652917680624954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9461,6 +9469,10 @@ MonoBehaviour:
   degreesPerSecond: 5
   amplitude: 0
   frequency: 1
+  floatOnStart: 1
+  startingTime: 0
+  verticalAdd: 0
+  targetRotation: {x: 0, y: 0, z: 0}
 --- !u!135 &135162045377241158
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -9545,7 +9557,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1702232603
+  randomSeed: -609925357
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9992,7 +10004,7 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
@@ -10010,7 +10022,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 1
     radius:
-      value: 103
+      value: 99
       mode: 0
       spread: 0
       speed:
@@ -10105,7 +10117,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 90
+      scalar: 20
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -16732,7 +16744,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 1
     radius:
-      value: 150
+      value: 155
       mode: 0
       spread: 0
       speed:

@@ -19,7 +19,19 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
     public string Element { get { return _autoAttackData.Element; } protected set { } }
     public string Type { get { return _autoAttackData.Type; } protected set { } }
     public float CoolDownValue { get { return _autoAttackData.CoolDownValue; } protected set { } }
-    public int[] Damages { get { return _autoAttackData.Damages; } protected set { } }
+    public int[] Damages
+    {
+        get
+        {
+            int[] DamagesCalc = new int[_autoAttackData.Damages.Length];
+            for (int i = 0; i < DamagesCalc.Length; i++)
+            {
+                DamagesCalc[i] = (int)(_autoAttackData.Damages[i] * characteristics.DamageFactor);
+            }
+            return DamagesCalc;
+        }
+        protected set { }
+    }
     public string[] DamagesType { get { return _autoAttackData.DamagesType; } protected set { } }
     public string[] OtherValues { get { return _autoAttackData.OtherValues; } protected set { } }
     public GameObject[] Status { get { return _autoAttackData.Status; } protected set { } }
@@ -29,6 +41,9 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 
     public float CurrentCD;
     protected Champion champion;
+    protected Characteristics characteristics;
+    protected Animator anim;
+
     #endregion
 
     #region Functionnal Methods
@@ -47,6 +62,8 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 	 **/
     protected virtual void Start()
     {
+        anim = GetComponent<Animator>();
+        characteristics = GetComponent<Characteristics>();
         CurrentCD = 0;
     }
 
@@ -71,6 +88,15 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
         return (GameObject)Resources.Load(champion.Name + "/" + prefabName);
     }
 
+    /** ReduceCurrentCooldown, public void Method
+	 * @param : float
+	 * Reduce the current CD with a float. Usefull for cooldown reduction items
+	 **/
+    public void ReduceCurrentCooldown(float f)
+    {
+        CurrentCD = Mathf.Clamp(CurrentCD - f, 0, CoolDownValue);
+    }
+
     /** AutoAttackIsReady protected bool Method,
 	 * This returns if the auto-attack is launchea&ble or not. In this script, we only check if the auto-attack is under Cooldown or not.
 	 **/
@@ -87,7 +113,11 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
 	 **/
     public virtual void AutoAttack()
     {
-        CurrentCD = CoolDownValue;
+        if (AutoAttackIsReady())
+        {
+            anim.SetTrigger("AutoAttack");
+            CurrentCD = CoolDownValue;
+        }
     }
 
     /** GetDescriptionGUI, public string Method
@@ -105,5 +135,9 @@ public abstract class AutoAttackBase : MonoBehaviour, ISpellDisplayable
      **/
     public virtual void ApplyEffect(EntityLivingBase hit) { }
 
+    protected virtual GameObject ApplyStatus(GameObject status, Transform tr)
+    {
+        return EntityHelper.ApplyStatus(gameObject, tr.gameObject, status);
+    }
     #endregion
 }
