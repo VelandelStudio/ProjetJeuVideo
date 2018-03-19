@@ -22,6 +22,8 @@ public abstract class EntityLivingBase : MonoBehaviour
     public bool IsAlive { get { return !IsDead; } }
     private bool _startDespawn;
     protected Characteristics characteristics;
+    public Characteristics Characteristics { get { return characteristics; } }
+
     /** Awake, protected virtual void
 	 * First of all, we are checking that all LivingEntities that are not players have a Rigidbody that fits with the game rules. Which are.
 	 * Living Entities must have a rigidbody which uses gravity and is not kinematic.

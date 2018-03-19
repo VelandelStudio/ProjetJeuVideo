@@ -45,10 +45,11 @@ public class FireBallSpell : Spell
 	 * @Params : EntityLivingBase
 	 * When the instance of FireBall hits an entity, this method is launched.
 	 * It applies damage and refresh Ignite on the target.
+     * Needed to use the ApplyDamages from CalculationHelper to apply Damages.
 	**/
     public void ApplyEffectOnHit(EntityLivingBase entityHit)
     {
-        entityHit.DamageFor(Damages[0]);
+        entityHit.DamageFor(CalculationHelper.ApplyDamages(entityChampion, entityHit, Damages[0]));
         IgniteStatus igniteStatus = entityHit.GetComponentInChildren<IgniteStatus>();
         if (igniteStatus != null)
         {

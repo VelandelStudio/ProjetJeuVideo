@@ -1060,6 +1060,7 @@ GameObject:
   - component: {fileID: 95928035785598946}
   - component: {fileID: 143881522752626922}
   - component: {fileID: 114054078496460424}
+  - component: {fileID: 114040184340452866}
   - component: {fileID: 114885058884137242}
   - component: {fileID: 114981389069871528}
   - component: {fileID: 114620994861308162}
@@ -1646,7 +1647,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1980793917507602}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -27.331837, y: -6.269732e-18, z: 1.4118181}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4367138611115322}
@@ -2145,6 +2146,22 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114040184340452866
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1980793917507602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b05707beccb8854e8e174ffb2a4747c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _HP: 500
+  _regenHpPerSec: 3
+  _HPMax: 500
+  damageTransform: {fileID: 0}
+  damagePrefab: {fileID: 0}
 --- !u!114 &114054078496460424
 MonoBehaviour:
   m_ObjectHideFlags: 1
