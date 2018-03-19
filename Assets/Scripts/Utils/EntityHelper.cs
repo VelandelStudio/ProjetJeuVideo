@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /** EntityHelper, public static class
  * This UtilClass is used to contains all static method that can be applied on entities.
@@ -21,15 +22,40 @@ public static class EntityHelper
         }
     }
 
-   public static GameObject ApplyStatus(GameObject inst, GameObject recev, GameObject status)
-   {
-        StatusBase statusPrewarmed = status.GetComponent<StatusBase>();
-        GameObject objInst = GameObject.Instantiate(status, recev.transform);
-        StatusBase statusInst = objInst.GetComponent<StatusBase>();
-        statusInst.AttributeCharacteristics(inst.GetComponent<Characteristics>());
+    public static GameObject ApplyStatus(GameObject launcher, GameObject recev, GameObject statusObj)
+    {
+        StatusBase status = statusObj.GetComponent<StatusBase>();
+        if (!CheckForStatusPresence(recev, status))
+        {
+            statusObj = GameObject.Instantiate(statusObj, recev.transform);
+            status.AttributeCharacteristics(launcher.GetComponent<Characteristics>());
+        }
+        return statusObj;
+    }
 
-        statusInst.StartStatus(statusPrewarmed);
+    public static bool CheckForStatusPresence(GameObject target, StatusBase other)
+    {
+        StatusBase[] statusOnTarget = target.transform.parent.GetComponentsInChildren<StatusBase>(true);
+        for (int i = 0; i < statusOnTarget.Length; i++)
+        {
+            if (statusOnTarget[i].Name == other.Name)
+            {
+                if (target.transform.GetComponentInParent<IProjectile>() != null)
+                {
+                    return true;
+                }
 
-        return objInst;
-   }
+                if (target.transform.parent.gameObject.tag == "Player" && statusOnTarget[i].CurrentTimer > other.Duration - 1f)
+                {
+                    return true;
+                }
+                else
+                {
+                    statusOnTarget[i].RefreshStatus();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -212,5 +212,27 @@ public class Datas : IDisplayable
         public string[] Tags;
     }
 
+    /** ChampionData protected Serializable class.
+ * This class were designed to be at the service of the Champion class.
+ * It is used as a JSON Object to stock every variables read from the JSON file.
+ **/
+    [System.Serializable]
+    protected class DataStatusLoader
+    {
+        public string ScriptName;
+        public string Name;
+        public string Element;
+        public float Duration;
+        public bool IsTickable;
+        public float[] TicksIntervals;
+        public float[] TickStarts;
+        public int[] Damages;
+        public string[] DamagesType;
+        public string[] OtherValues;
+        public bool IsStackable;
+        public int NumberOfStacks;
+        public string[] Description;
+    }
+
     #endregion
 }

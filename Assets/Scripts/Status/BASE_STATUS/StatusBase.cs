@@ -11,45 +11,39 @@ using System.IO;
  **/
 public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
 {
-    public StatusData StatusDefinition { get; protected set; }
-    public string Name { get; protected set; }
-    public string Element { get; protected set; }
-    public string Type { get; protected set; }
-    public float CoolDownValue { get; protected set; }
+    public StatusData _statusData { get; protected set; }
+
+    public string Name { get { return _statusData.Name; } protected set { } }
+    public string Element { get { return _statusData.Element; } protected set { } }
     public int[] Damages
     {
         get
         {
-            if (!characteristics)
+            if (!launcherCharacs)
             {
-                return StatusDefinition.Damages;
+                return _statusData.Damages;
             }
 
-            int[] DamagesCalc = new int[StatusDefinition.Damages.Length];
+            int[] DamagesCalc = new int[_statusData.Damages.Length];
             for (int i = 0; i < DamagesCalc.Length; i++)
             {
-                DamagesCalc[i] = (int)(StatusDefinition.Damages[i] * characteristics.DamageFactor);
+                DamagesCalc[i] = (int)(_statusData.Damages[i] * launcherCharacs.DamageFactor);
             }
             return DamagesCalc;
         }
         protected set { }
     }
 
-    public string[] DamagesType { get; protected set; }
-    public string[] OtherValues { get; protected set; }
-    public GameObject[] Status { get; protected set; }
-    public string[] Description { get; protected set; }
-    public float Duration { get; protected set; }
-    public bool IsTickable { get; protected set; }
-    public float[] TicksIntervals { get; protected set; }
-    public float[] TickStarts { get; protected set; }
-
-    private bool _isLoaded = false;
-    public bool IsLoaded { get; protected set; }
-
-    public bool IsStackable;
-    public int NumberOfStacks;
-    protected Characteristics characteristics;
+    public string[] DamagesType { get { return _statusData.DamagesType; } protected set { } }
+    public string[] OtherValues { get { return _statusData.OtherValues; } protected set { } }
+    public string[] Description { get { return _statusData.Description; } protected set { } }
+    public float Duration { get { return _statusData.Duration; } protected set { } }
+    public bool IsTickable { get { return _statusData.IsTickable; } protected set { } }
+    public float[] TicksIntervals { get { return _statusData.TicksIntervals; } protected set { } }
+    public float[] TickStarts { get { return _statusData.TickStarts; } protected set { } }
+    public bool IsStackable { get { return _statusData.IsStackable; } protected set { } }
+    public int NumberOfStacks { get { return _statusData.NumberOfStacks; } protected set { } }
+    public bool IsLoaded { get { return _statusData.IsLoaded; } protected set { } }
 
     public float CurrentTimer
     {
@@ -60,6 +54,14 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     GameObject statusSection;
     GUIStatusDisplayer statusDisplayer;
 
+    public float CoolDownValue { get { return _statusData.CoolDownValue; } protected set { } }
+    public GameObject[] Status { get { return _statusData.Status; } protected set { } }
+    public string Type { get { return _statusData.Type; } protected set { } }
+
+    protected Characteristics launcherCharacsInstance;
+    protected Characteristics launcherCharacs;
+    protected Characteristics receiverCharacs;
+
     #region Functionnal Methods
     /** Start, protected virtual void
      * Just here to set the local position of the Status to vector3.zero.
@@ -68,6 +70,8 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
     protected virtual void Start()
     {
         transform.localPosition = Vector3.zero;
+        receiverCharacs.GetComponentInParent<Characteristics>();
+        StartStatus();
     }
 
     /** PreWarm, public virtual bool 
@@ -77,28 +81,15 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
      **/
     public virtual bool PreWarm()
     {
-        LoadStatusData("StatusData.json");
-        if (_isLoaded)
-        {
-            Name = StatusDefinition.Name;
-            Element = StatusDefinition.Element;
-            Duration = StatusDefinition.Duration == 0 ? Mathf.Infinity : StatusDefinition.Duration;
-            IsTickable = StatusDefinition.IsTickable;
-            TicksIntervals = StatusDefinition.TicksIntervals;
-            TickStarts = StatusDefinition.TickStarts;
-            Damages = StatusDefinition.Damages;
-            DamagesType = StatusDefinition.DamagesType;
-            OtherValues = StatusDefinition.OtherValues;
-            IsStackable = StatusDefinition.IsStackable;
-            NumberOfStacks = StatusDefinition.NumberOfStacks;
-            Description = StatusDefinition.Description;
-        }
-        return _isLoaded;
+        _statusData = new StatusData(this.GetType().ToString());
+        return _statusData.IsLoaded;
     }
 
     public void AttributeCharacteristics(Characteristics characteristics)
     {
-        this.characteristics = characteristics;
+        launcherCharacsInstance = characteristics;
+        receiverCharacs = new Characteristics();
+        receiverCharacs = launcherCharacsInstance;
     }
 
     /** StartStatus, public virtual void 
@@ -110,60 +101,11 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
 	 * If we detect that the same Status is attached to the GameObject Parent, then we add the Destroy the old Status and add the new one.
 	 * Note that the Old Status will be removed only if it was at least one second on the gameObject
      **/
-    public virtual void StartStatus(StatusBase status)
+    public virtual void StartStatus()
     {
-        if (status == null)
-        {
-            PreWarm();
-        }
-
-        StatusBase[] statusOnTarget = transform.parent.GetComponentsInChildren<StatusBase>(true);
-        for (int i = 0; i < statusOnTarget.Length; i++)
-        {
-            if (statusOnTarget[i].Name == status.Name)
-            {
-                if (transform.GetComponentInParent<IProjectile>() != null)
-                {
-                    Destroy(gameObject);
-                    return;
-                }
-
-                if (transform.parent.gameObject.tag == "Player" && statusOnTarget[i].CurrentTimer > status.Duration - 1f)
-                {
-                    Destroy(gameObject);
-                    return;
-                }
-                else
-                {
-                    statusOnTarget[i].DestroyStatus();
-                }
-            }
-        }
-        PreWarm();
-
-        /* Avec le sprint du Characteristics, cette section ne sera peut etre plus necessaire... A surveiller. 
-
-        Name = status.Name;
-        Element = status.Element;
-        Duration = status.Duration;
-        IsTickable = status.IsTickable;
-        TicksIntervals = status.TicksIntervals;
-        TickStarts = status.TickStarts;
-        Damages = status.Damages;
-        Debug.Log(status.Damages[0]);
-        DamagesType = status.DamagesType;
-        OtherValues = status.OtherValues;
-        IsStackable = status.IsStackable;
-        NumberOfStacks = status.NumberOfStacks;
-        Description = status.Description;
-        */
         if (transform.parent.gameObject.tag == "Player")
         {
-            statusSection = GameObject.Find("StatusSection");
-            GameObject statusGUIInst = (GameObject)Resources.Load("GUI/StatusGUI", typeof(GameObject));
-            statusGUIInst = Instantiate(statusGUIInst, statusSection.transform);
-            statusDisplayer = statusGUIInst.GetComponent<GUIStatusDisplayer>();
-            statusDisplayer.AttributeDisplayable(this);
+            AttributeStatusToPlayerGUI();
         }
 
         OnStatusApplied();
@@ -203,19 +145,19 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
             statusDisplayer.ResetGUIStatus();
         }
 
-        OnStatusApplied();
-        CancelInvoke("DestroyStatus");
-
         if (Duration != Mathf.Infinity)
         {
+            CancelInvoke("DestroyStatus");
             Invoke("DestroyStatus", Duration);
         }
+    }
 
-        if (IsTickable)
-        {
-            CancelInvoke("StatusTickBehaviour");
-            InvokeRepeating("StatusTickBehaviour", TickStarts[0], TicksIntervals[0]);
-        }
+    public virtual void RefreshStatus()
+    {
+        ResetStatus();
+        receiverCharacs = new Characteristics();
+        receiverCharacs = launcherCharacsInstance;
+        OnStatusApplied();
     }
 
     /** DestroyStatus public virtual void
@@ -231,6 +173,15 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         Destroy(gameObject);
     }
 
+    private void AttributeStatusToPlayerGUI()
+    {
+        statusSection = GameObject.Find("StatusSection");
+        GameObject statusGUIInst = (GameObject)Resources.Load("GUI/StatusGUI", typeof(GameObject));
+        statusGUIInst = Instantiate(statusGUIInst, statusSection.transform);
+        statusDisplayer = statusGUIInst.GetComponent<GUIStatusDisplayer>();
+        statusDisplayer.AttributeDisplayable(this);
+    }
+
     /** GetDescriptionGUI, public string method
 	 * return a formated string of the description of the Statusthat will be displayed on the screen.
 	 **/
@@ -239,58 +190,5 @@ public abstract class StatusBase : MonoBehaviour, IStatus, IStatusDisplayable
         return StringHelper.DescriptionBuilder(this);
     }
 
-    #endregion
-
-    /** LoadStatusData, protected void
-	 * @Params : string
-	 * Loads the JSON StatusDefinition associated to the spell.
-	 * If the loading is a success, then _isLoaded = true.
-	 **/
-    protected void LoadStatusData(string json)
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, json);
-        if (File.Exists(filePath))
-        {
-            string jsonFile = File.ReadAllText(filePath);
-
-            StatusData[] data = JsonHelper.getJsonArray<StatusData>(jsonFile);
-            foreach (StatusData status in data)
-            {
-                if (status.ScriptName == this.GetType().ToString())
-                {
-                    StatusDefinition = status;
-                    _isLoaded = true;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError("Cannot load game data on : " + this.GetType().ToString());
-        }
-    }
-
-    #region Serializable Classes
-    /** StatusData public Serializable class
-	 * This class was created to be at the service of the StatusBase class
-	 * This class contains all elements to construct a Status from the JSON file.
-	 **/
-    [System.Serializable]
-    public class StatusData
-    {
-        public string ScriptName;
-        public string Name;
-        public string Element;
-        public float Duration;
-        public bool IsTickable;
-        public float[] TicksIntervals;
-        public float[] TickStarts;
-        public int[] Damages;
-        public string[] DamagesType;
-        public string[] OtherValues;
-        public bool IsStackable;
-        public int NumberOfStacks;
-        public string[] Description;
-    }
     #endregion
 }
