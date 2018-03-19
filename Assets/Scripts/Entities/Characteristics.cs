@@ -9,20 +9,35 @@ using UnityEngine;
  **/
 public class Characteristics : MonoBehaviour
 {
+    private float _power;
+    public float Power { get { return _power; } set { _power = value; } }
 
-    private float defense;
-    public float Defense { get { return defense; } set { defense = value; } }
+    private float _defense;
+    public float Defense { get { return _defense; } set { _defense = value; } }
 
-    private float movementSpeedFactor;
-    public float MovementSpeedFactor { get { return movementSpeedFactor; } set { movementSpeedFactor = value; } }
+    private float _movementSpeedFactor;
+    public float MovementSpeedFactor { get { return _movementSpeedFactor; } set { _movementSpeedFactor = value; } }
 
-    private float damageFactor;
-    public float DamageFactor { get { return damageFactor; } set { damageFactor = value; } }
+    private float _damageFactor;
+    public float DamageFactor { get { return _damageFactor; } set { _damageFactor = value; } }
+
+    private float _defenseFactor;
+    public float DefenseFactor { get { return _defenseFactor; } set { _defenseFactor = value; } }
+
+    private float _critChance;
+    public float CritChance { get { return _critChance; } set { _critChance = value; } }
+
+    private float _coolDownFactor;
+    public float CoolDownFactor { get { return _coolDownFactor; } set { _coolDownFactor = value; } }
 
     private void Start()
     {
-        Defense = 0f;
+        Power = 200f;
+        Defense = 5f;
         MovementSpeedFactor = 1.0f;
         DamageFactor = 1.0f;
+        DefenseFactor = 2.0f;
+        CritChance = 50.0f;
+        CoolDownFactor = 1.0f;
     }
 }

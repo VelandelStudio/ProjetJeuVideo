@@ -66,6 +66,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     }
 
     protected Characteristics characteristics;
+    protected EntityChampion entityChampion;
     #endregion
 
     #region Functionnal Methods
@@ -76,6 +77,7 @@ public abstract class Spell : MonoBehaviour, ISpellDisplayable
     protected virtual void Awake()
     {
         champion = GetComponentInParent<Champion>();
+        entityChampion = GetComponentInParent<EntityChampion>();
         _spellData = new SpellData(this.GetType().ToString());
     }
 
