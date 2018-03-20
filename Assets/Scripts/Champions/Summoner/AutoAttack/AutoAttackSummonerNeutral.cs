@@ -29,8 +29,7 @@ public class AutoAttackSummonerNeutral : AutoAttackBase
 
     /** AutoAttack : public override void Method
 	 * The AutoAttack Method is called by the abstract Class Classe when the player press the key associated to the auto-attack.
-	 * First at alt, we check if the auto-attack is ready, then, we find a target point for our projectile.
-	 * This target can be a HitPoint from a raycast or a point on the line from the player to the Camera.trasnform.forward (i.e. is the raycast does not intercept an entity).
+	 * First at alt, we check if the auto-attack is ready.
 	 * After that, we instantiate a AutoAttackSummonerNeutral, make it look at the target, apply a force to it and launche the particle system associated to the prefab.
 	 * Final, we call the AutoAttack method in the mother class.
 	 **/
