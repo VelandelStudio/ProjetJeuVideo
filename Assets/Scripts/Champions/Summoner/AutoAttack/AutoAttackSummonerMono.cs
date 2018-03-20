@@ -11,7 +11,9 @@ public class AutoAttackSummonerMono : AutoAttackBase
     private Transform _launcherTransform;
 
     /** Start : protected override void Method
-    
+    * First at all, we override the GCD of the mother class.
+    * Then we get the prefab of the AutoAttackSummonerNeutral.
+    * Then, the scripts is looking for the origin point of the instantiation (i.e. the hand of our character).
     **/
     protected override void Start()
     {
@@ -23,7 +25,10 @@ public class AutoAttackSummonerMono : AutoAttackBase
     }
 
     /** AutoAttack : public override void Method
-	 
+	 * The AutoAttack Method is called by the abstract Class Classe when the player press the key associated to the auto-attack.
+	 * First at alt, we check if the auto-attack is ready.
+	 * After that, we instantiate an AutoAttackSummonerNeutral, make it look at the target, apply a force to it and launche the particle system associated to the prefab.
+	 * Final, we call the AutoAttack method in the mother class.
 	 **/
     public override void AutoAttack ()
     {
@@ -41,7 +46,6 @@ public class AutoAttackSummonerMono : AutoAttackBase
     {
         eHit.DamageFor(Damages[0]);
         GetComponentInChildren<VoltageStatus>().AddStacks(Int32.Parse(OtherValues[0]));
-        //gameObject.GetComponent<PassiveSummonerMono>().VoltageStacksEnhancer(Int32.Parse(OtherValues[0]));
     }
 
 }
