@@ -95,7 +95,7 @@
 	},
 	{
 		"ScriptName":"AutoAttackSummonerMono",
-		"Name":"Je sais pas",
+		"Name":"Electricity ball",
 		"Type":"Ranged",
 		"Element":"",
 		"CoolDownValue":"1.2f",
@@ -105,8 +105,8 @@
 		"Status":[""],
 		"Description":
 		[
-			"Launch a /// that inflicts that {Damages[0]} damages to target.\n",
-			" the /// apply  {OtherValues[0]} stack of Voltage."
+			"Launch a electric ball that inflicts that {Damages[0]} damages to target.\n",
+			"The electric ball applies  {OtherValues[0]} stack of Voltage."
 		]
 	}
 ]
