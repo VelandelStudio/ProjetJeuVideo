@@ -72,7 +72,8 @@
 		"Status":["VoltageStatus"],
 		"Description":
 		[
-			"When activated by summoning a pet Mono dps <<PetMonoSpell>>, the Soul Mate applies <<Status[0]>> to you, in {OtherValues[0]} radius units."
+			"When activated by summoning a pet Mono dps via <<PetMonoSpell>>,\n", 
+			"the Soul Mate applies <<Status[0]>> status to you, in {OtherValues[0]} radius units."
 		]
 	},
 	{
@@ -87,8 +88,8 @@
 		"Status":["DefenseBoostPlayerStatus","DefenseBoostPetStatus"],
 		"Description":
 		[
-			"When activated by summoning a pet AOE dps <<PetAOESpell>>\n",
-			"the Soul Mate applies <<Status[0]>> to you and itself, in {OtherValues[0]} radius units."
+			"When activated by summoning a pet AOE dps via <<PetAOESpell>>\n",
+			"the Soul Mate applies <<Status[0]>> and <<Status[1]>> status to you and itself, in {OtherValues[0]} radius units."
 		]
 	},
 	{
@@ -103,7 +104,8 @@
 		"Status":["RegenerationStatus"],
 		"Description":
 		[
-			"When activated by summoning a pet support <<PetSupportSpell>>, the Soul Mate applies <<Status[0]>> to you, in {OtherValues[0]} radius units."
+			"When activated by summoning a pet support via <<PetSupportSpell>>,\n",
+			"the Soul Mate applies <<Status[0]>> status to you, in {OtherValues[0]} radius units."
 		]
 	}
 ]
