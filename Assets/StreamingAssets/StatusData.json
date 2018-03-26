@@ -37,7 +37,7 @@
 	},
 	{
 		"ScriptName":"HarpoonedStunStatus",
-		"Name":"Harpooned Stun Status",
+		"Name":"Harpooned Stun",
 		"Element":"none",
 		"Duration":3,
 		"IsTickable":false,
@@ -55,7 +55,7 @@
 	},
 	{
 		"ScriptName":"HarpoonedDebuffStatus",
-		"Name":"Harpooned Debuff Status",
+		"Name":"Harpooned Debuff",
 		"Element":"none",
 		"Duration":30,
 		"IsTickable":false,
@@ -73,7 +73,7 @@
 	},
 	{
 		"ScriptName":"LightningStatus",
-		"Name":"LightningStatus",
+		"Name":"Lightning",
 		"Element":"none",
 		"Duration":2,
 		"IsTickable":false,
@@ -263,7 +263,7 @@
 	},
 	{
 		"ScriptName":"DecreaseDamageStatus",
-		"Name":"Decrease damage",
+		"Name":"Decrease Damage",
 		"Element":"none",
 		"Duration":10,
 		"IsTickable":false,
@@ -424,7 +424,7 @@
 	},
 	{
 		"ScriptName":"VelocityStatus",
-		"Name":"Velocity Status",
+		"Name":"Velocity",
 		"Element":"none",
 		"Duration":10,
 		"IsTickable":false,

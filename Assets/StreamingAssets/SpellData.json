@@ -138,7 +138,7 @@
 		"Description":
 		[
 			"Aim and grab the target toward the player\n",
-			"Applies <<Status[0]>> and <<Status[1]>> to the Monster grab after it reached the player"
+			"Applies <<Status[0]>> status to the Monster grab after it reached the player"
 		]
 	 },
 	 {
