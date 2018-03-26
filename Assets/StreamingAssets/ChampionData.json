@@ -51,7 +51,7 @@
 	},
 	{
 		"Name":"SummonerMono",
-		"Passive":"PassiveSummonerMono",
+		"Passive":"PassiveSummonerPetMono",
 		"AutoAttack":"AutoAttackSummonerMono",
 		"ActiveSpells":["NeutralFormSpell", "LightningSpell", "ThunderstormSpell", "SwitchTargetSpell"],
 		"Element":"Storm",

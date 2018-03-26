@@ -61,7 +61,7 @@
 		]
 	},
 	{
-		"ScriptName":"PassiveSummonerMono",
+		"ScriptName":"PassiveSummonerPetMono",
 		"Name":"Mono Soul Mate",
 		"Element":"",
 		"Type":"",
@@ -92,7 +92,7 @@
 		]
 	},
 	{
-		"ScriptName":"PassiveSummonerSupport",
+		"ScriptName":"PassiveSummonerPetSupport",
 		"Name":"Support Soul Mate",
 		"Element":"",
 		"Type":"",
