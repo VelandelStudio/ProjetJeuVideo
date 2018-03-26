@@ -18,6 +18,7 @@ public class PassiveSummonerPetMono : PassiveBase
     protected override void Start()
     {
         _voltage = transform.Find("Status/VoltageStatus").gameObject;
+        //_voltage = GetComponentInChildren<VoltageStatus>();
 
         if (_voltage == null)
         {
