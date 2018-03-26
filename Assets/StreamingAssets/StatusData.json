@@ -50,7 +50,7 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			"HarpoonedStunStatus."
+			"Stun the enemy monster when he's touch by HarpoonSpell."
 		]
 	},
 	{
@@ -68,25 +68,7 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			"HarpoonedDebuffStatus."
-		]
-	},
-	{
-		"ScriptName":"LightningStatus",
-		"Name":"Lightning",
-		"Element":"none",
-		"Duration":2,
-		"IsTickable":false,
-		"TicksIntervals":[],
-		"TickStarts":[],
-		"Damages":[10],
-		"DamagesType":[],
-		"OtherValues":[],
-		"IsStackable":false,
-		"NumberOfStacks":0,
-		"Description":
-		[
-			"LightningStatus."
+			"Reduce the armor of the enemy monster when he's touch by HarpoonSpell."
 		]
 	},
 	{
@@ -122,7 +104,7 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			"Status for stacks."
+			"Status applied on the summoner for stacks."
 		]
 	},
 	{
@@ -140,10 +122,10 @@
 		"NumberOfStacks": 0,
 		"Description":
 		[
-			"Countdown for the explosion of the pet \n",
-			"The player cannot change form with this status applied on him\n",
-			"The Pet EXPLOSE dealing {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion and kick them out from the Pet\n",
-			"Force the summoner back to his NeutralForm"
+			"Countdown for the explosion of the pet.\n",
+			"The player cannot change form with this status applied on him.\n",
+			"The Pet EXPLOSE dealing {Damages[0]} to all living things in the area ({OtherValues[0]}) of the explosion and kick them out from the Pet.\n",
+			"Force the summoner back to his NeutralForm."
 		]
 	},
 	{
@@ -161,7 +143,7 @@
 		"NumberOfStacks": 0,
 		"Description":
 		[
-			"the pet is waiting for his explosion, and can't move"
+			"The pet is waiting for his explosion, and can't move"
 		]
 	},
 	{
@@ -181,7 +163,7 @@
 		[
 			"Status applied on the player that boost his defense.\n",
 			"His status is applied when the player in near the pet and if there are enemy monster with <<TouchStatus>>.\n",
-			"The defense boost value increase with the number of enemy monster 'touched' ({OtherValues[0]}*nb_enemy_touched)"
+			"The defense boost value increase with the number of enemy monster 'touched' ({OtherValues[0]}*nb_enemy_touched)."
 		]
 	},
 	{
@@ -201,7 +183,7 @@
 		[
 			"Status applied on the pet that boost his defense.\n",
 			"His status is applied when the player in near the pet and if there are enemy monster with <<TouchStatus>>.\n",
-			"The defense boost value increase with the number of enemy monster 'touched' ({OtherValues[0]}*nb_enemy_touched)"
+			"The defense boost value increase with the number of enemy monster 'touched' ({OtherValues[0]}*nb_enemy_touched)."
 		]
 	},
 	{
@@ -219,8 +201,8 @@
 		"NumberOfStacks": 0,
 		"Description": 
 		[
-			"Status applied on the player and the pet , increase the life point of the player(({OtherValues[0]} ans the regeneration of the pet({OtherValues[1]}\n",
-			"His status is applied when the player in near the pet"
+			"Status applied on the player and the pet , increase the life point of the player ({OtherValues[0]}) and the regeneration of the pet ({OtherValues[1]})\n",
+			"His status is applied when the player in near the pet."
 		]
 	},
 	{
@@ -239,7 +221,7 @@
 		"Description":
 		[
 			"Status applied on the enemy monster hit by the AutoAttackSummonerSupport.\n",
-			"His status decrease the moving speed of the monster hit and slow it down by {OtherValues[0]}"
+			"His status decrease the moving speed of the monster hit and slow it down by {OtherValues[0]}."
 		]
 	},
 	{
@@ -437,7 +419,7 @@
 		"NumberOfStacks":0,
 		"Description":
 		[
-			"They see me rolling..."
+			"Increase the velocity of the summoner by 20%."
 		]
 	}
 ]
